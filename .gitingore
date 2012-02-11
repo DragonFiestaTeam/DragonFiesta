@@ -15,3 +15,12 @@
 *obj/*
 bin
 obj
+
+#builds
+
+*Run/*.pdb
+*Run/*.dll
+*Run/*.exe
+*.vshost
+*Run/*[lL]og*
+*Logs/*
