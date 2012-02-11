@@ -1,5 +1,0 @@
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Zone.exe
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Zone.pdb
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Zone\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Zone\obj\x86\Debug\Zepheus.Zone.exe
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Zone\obj\x86\Debug\Zepheus.Zone.pdb

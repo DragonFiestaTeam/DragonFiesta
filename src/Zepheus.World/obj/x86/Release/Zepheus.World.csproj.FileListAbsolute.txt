@@ -1,5 +1,0 @@
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\obj\x86\Release\ResolveAssemblyReference.cache
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.World.exe
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.World.pdb
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\obj\x86\Release\Zepheus.World.exe
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\obj\x86\Release\Zepheus.World.pdb

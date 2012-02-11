@@ -1,5 +1,0 @@
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Util.dll
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Util.pdb
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Util\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Util\obj\Release\Zepheus.Util.dll
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Util\obj\Release\Zepheus.Util.pdb

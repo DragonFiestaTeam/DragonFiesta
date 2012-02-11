@@ -1,5 +1,0 @@
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.FiestaLib.dll
-C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.FiestaLib.pdb
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.FiestaLib\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.FiestaLib\obj\Debug\Zepheus.FiestaLib.dll
-C:\Users\Gothic\Desktop\rev93\branches\Zepheus.FiestaLib\obj\Debug\Zepheus.FiestaLib.pdb

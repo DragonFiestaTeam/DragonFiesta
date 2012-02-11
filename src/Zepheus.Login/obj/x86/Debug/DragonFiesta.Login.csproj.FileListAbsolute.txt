@@ -1,2 +1,0 @@
-C:\Users\Gothic\Desktop\gitordner\Zepheus.Login\obj\x86\Debug\Zepheus.Login.exe
-C:\Users\Gothic\Desktop\gitordner\Zepheus.Login\obj\x86\Debug\Zepheus.Login.pdb
