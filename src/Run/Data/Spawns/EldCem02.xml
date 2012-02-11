@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ArrayOfSpawnNPCPoint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SpawnNPCPoint>
+    <ID>32</ID>
+    <X>958</X>
+    <Y>674</Y>
+    <Rotation>28</Rotation>
+    <Gate>
+      <ToMap>Linkfield01</ToMap>
+      <ToX>0</ToX>
+      <ToY>0</ToY>
+    </Gate>
+  </SpawnNPCPoint>
+</ArrayOfSpawnNPCPoint>

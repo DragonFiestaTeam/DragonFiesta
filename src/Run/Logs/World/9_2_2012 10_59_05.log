@@ -1,0 +1,150 @@
+[09.02.2012 10:59:05] (Info) 6 InterHandlers loaded.
+[09.02.2012 10:59:05] (Info) 27 Handlers loaded.
+[09.02.2012 10:59:06] (Info) Loaded 1182 bad names.
+[09.02.2012 10:59:06] (Info) DataProvider initialized successfully!
+[09.02.2012 10:59:06] (Info) Listening on port 11000 for zones.
+[09.02.2012 10:59:06] (Info) Connected to server @ localhost:10000
+[09.02.2012 10:59:06] (Info) ClientManager initialized.
+[09.02.2012 10:59:06] (Info) IV data received
+[09.02.2012 10:59:06] (Info) WorldAcceptor ready at 9110
+[09.02.2012 10:59:06] (Info) <3 LoginServer.
+[09.02.2012 10:59:15] (Info) Incoming connection from 85.214.55.189:52491
+[09.02.2012 10:59:15] (Info) IV data received
+[09.02.2012 10:59:15] (Info) Added zone 0 with 64 maps.
+[09.02.2012 10:59:15] (Info) Zone 0 listens @ 85.214.55.189:9210
+[09.02.2012 11:00:52] (Debug) Client connected from 188.96.168.19
+[09.02.2012 11:00:52] (Debug) test authenticated.
+[09.02.2012 11:00:52] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[09.02.2012 11:01:05] (Debug) Client connected from 188.96.168.19
+[09.02.2012 11:01:05] (Debug) test99 authenticated.
+[09.02.2012 11:01:05] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[09.02.2012 11:01:27] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[09.02.2012 11:02:43] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[09.02.2012 11:03:30] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:33] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:36] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:39] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:42] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:45] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:48] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:03:51] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:40] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:43] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:46] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:49] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:52] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:55] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:06:58] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:01] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:04] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:07] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:10] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:13] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:16] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:19] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:22] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:25] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:28] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:31] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:34] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:43] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:46] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:49] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:52] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:55] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:07:58] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:01] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:04] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:07] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:10] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:41] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:44] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:48] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:51] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:54] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:08:57] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:09:00] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:00] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:03] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:06] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:45] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:48] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:51] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:54] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:10:57] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:00] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:03] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:06] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:09] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:12] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:15] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:18] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:21] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:24] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:27] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:30] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:33] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:36] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:39] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:42] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:45] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:48] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:51] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:54] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:11:57] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:00] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:03] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:06] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:09] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:12] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:15] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:18] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:21] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:24] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:27] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:30] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:33] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:36] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:39] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:42] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:45] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:48] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:51] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:54] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:12:57] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:00] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:03] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:06] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:09] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:12] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:15] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:18] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:21] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:24] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:27] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:30] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:43] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:46] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:49] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:52] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:55] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:13:58] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:01] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:04] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:07] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:10] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:13] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:16] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:19] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:22] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:25] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:28] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:31] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:34] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:37] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:40] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:43] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:46] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:49] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:52] (Debug) Unhandled interpacket: Opcode: 0x0098 Length: 16 Data: 74 65 73 74 6D 61 67 65 00 00 00 00 00 00 00 00 
+[09.02.2012 11:14:53] (Error) Disconnected from server.

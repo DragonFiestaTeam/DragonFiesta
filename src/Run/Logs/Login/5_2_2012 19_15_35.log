@@ -1,0 +1,36 @@
+[05.02.2012 19:15:36] (Info) 1 InterHandlers loaded.
+[05.02.2012 19:15:36] (Info) 5 Handlers loaded.
+[05.02.2012 19:15:36] (Info) WorldManager initialized.
+[05.02.2012 19:15:36] (Info) Listening on port 10000
+[05.02.2012 19:15:36] (Info) ClientManager Initialized.
+[05.02.2012 19:15:36] (Info) Accepting clients on port 9010
+[05.02.2012 19:15:37] (Info) Incomming connection from 127.0.0.1:50406
+[05.02.2012 19:15:37] (Info) IV data received
+[05.02.2012 19:15:37] (Info) Assigned world 0!
+[05.02.2012 19:16:27] (Debug) Client connected from 188.96.168.19
+[05.02.2012 19:16:27] (Debug) Client version 2006:6916.
+[05.02.2012 19:16:27] (Debug) test tries to login.
+[05.02.2012 19:16:29] (Debug) test joins world Teva
+[05.02.2012 19:16:29] (Debug) Transferring login client test.
+[05.02.2012 19:16:29] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 19:21:13] (Debug) Client connected from 188.96.168.19
+[05.02.2012 19:21:13] (Debug) Client version 2006:6916.
+[05.02.2012 19:21:14] (Debug) test tries to login.
+[05.02.2012 19:21:15] (Debug) Unhandled packet: 3|24 Opcode: 0x0C18 Length: 1 Data: 00 
+[05.02.2012 19:21:16] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 19:21:22] (Debug) Client connected from 188.96.168.19
+[05.02.2012 19:21:22] (Debug) Client version 2006:6916.
+[05.02.2012 19:21:22] (Debug) test7 tries to login.
+[05.02.2012 19:21:23] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 19:21:30] (Debug) Client connected from 188.96.168.19
+[05.02.2012 19:21:30] (Debug) Client version 2006:6916.
+[05.02.2012 19:21:30] (Debug) test7 tries to login.
+[05.02.2012 19:21:32] (Debug) test7 joins world Teva
+[05.02.2012 19:21:32] (Debug) Transferring login client test7.
+[05.02.2012 19:21:32] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 19:27:27] (Debug) Client connected from 88.77.39.179
+[05.02.2012 19:27:27] (Debug) Client version 2006:6916.
+[05.02.2012 19:27:27] (Debug) Test99 tries to login.
+[05.02.2012 19:27:29] (Debug) test99 joins world Teva
+[05.02.2012 19:27:29] (Debug) Transferring login client test99.
+[05.02.2012 19:27:29] (Debug) 88.77.39.179 Disconnected.

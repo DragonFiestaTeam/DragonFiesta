@@ -1,0 +1,6 @@
+[11.02.2012 15:57:22] (Info) 6 InterHandlers loaded.
+[11.02.2012 15:57:22] (Info) 27 Handlers loaded.
+[11.02.2012 15:57:22] (Info) Loaded 1182 bad names.
+[11.02.2012 15:57:22] (Info) DataProvider initialized successfully!
+[11.02.2012 15:57:22] (Info) Listening on port 11000 for zones.
+[11.02.2012 15:57:23] (Error) Couldn't connect to server @ localhost:10000

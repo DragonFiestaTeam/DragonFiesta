@@ -1,0 +1,11 @@
+[09.02.2012 07:26:39] (Warn) Duplicate interhandler found: GetParty
+[09.02.2012 07:26:40] (Info) 6 InterHandlers loaded.
+[09.02.2012 07:26:40] (Info) 27 Handlers loaded.
+[09.02.2012 07:26:40] (Info) Loaded 1182 bad names.
+[09.02.2012 07:26:40] (Info) DataProvider initialized successfully!
+[09.02.2012 07:26:40] (Info) Listening on port 11000 for zones.
+[09.02.2012 07:26:40] (Info) Connected to server @ localhost:10000
+[09.02.2012 07:26:40] (Info) ClientManager initialized.
+[09.02.2012 07:26:40] (Info) WorldAcceptor ready at 9110
+[09.02.2012 07:26:40] (Info) IV data received
+[09.02.2012 07:26:40] (Info) <3 LoginServer.

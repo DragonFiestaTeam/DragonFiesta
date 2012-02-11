@@ -1,0 +1,43 @@
+[06.02.2012 08:03:27] (Info) 6 InterHandlers loaded.
+[06.02.2012 08:03:27] (Info) 27 Handlers loaded.
+[06.02.2012 08:03:27] (Info) Loaded 1182 bad names.
+[06.02.2012 08:03:27] (Info) DataProvider initialized successfully!
+[06.02.2012 08:03:27] (Info) Listening on port 11000 for zones.
+[06.02.2012 08:03:27] (Info) Connected to server @ localhost:10000
+[06.02.2012 08:03:27] (Info) ClientManager initialized.
+[06.02.2012 08:03:27] (Info) IV data received
+[06.02.2012 08:03:27] (Info) WorldAcceptor ready at 9110
+[06.02.2012 08:03:27] (Info) <3 LoginServer.
+[06.02.2012 08:03:36] (Info) Incoming connection from 85.214.55.189:50919
+[06.02.2012 08:03:36] (Info) IV data received
+[06.02.2012 08:03:36] (Info) Added zone 0 with 64 maps.
+[06.02.2012 08:03:36] (Info) Zone 0 listens @ 85.214.55.189:9210
+[06.02.2012 08:03:44] (Debug) Client connected from 188.96.168.19
+[06.02.2012 08:03:44] (Debug) test authenticated.
+[06.02.2012 08:03:48] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.NullReferenceException: Der Objektverweis wurde nicht auf eine Objektinstanz festgelegt.
+   bei Zepheus.World.Networking.WorldClient.LoadCharacters() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Networking\WorldClient.cs:Zeile 107.
+   bei Zepheus.World.Handlers.Handler3.SendCharacterList(WorldClient client) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler3.cs:Zeile 90.
+   bei Zepheus.World.Handlers.Handler3.TransferKey(WorldClient client, Packet packet) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler3.cs:Zeile 47.
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\HandlerStore.cs:Zeile 55.
+   bei Zepheus.World.Worker.Work() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Worker.cs:Zeile 79.
+[06.02.2012 08:04:28] (Debug) 188.96.168.19 Disconnected.
+[06.02.2012 08:04:34] (Debug) Client connected from 188.96.168.19
+[06.02.2012 08:04:34] (Debug) test authenticated.
+[06.02.2012 08:04:43] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.NullReferenceException: Der Objektverweis wurde nicht auf eine Objektinstanz festgelegt.
+   bei Zepheus.World.Networking.WorldClient.LoadCharacters() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Networking\WorldClient.cs:Zeile 107.
+   bei Zepheus.World.Handlers.Handler3.SendCharacterList(WorldClient client) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler3.cs:Zeile 90.
+   bei Zepheus.World.Handlers.Handler3.TransferKey(WorldClient client, Packet packet) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler3.cs:Zeile 47.
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\HandlerStore.cs:Zeile 55.
+   bei Zepheus.World.Worker.Work() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Worker.cs:Zeile 79.

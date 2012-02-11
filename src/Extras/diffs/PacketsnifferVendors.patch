@@ -1,0 +1,275 @@
+Index: DataForm.cs
+===================================================================
+--- DataForm.cs	(revision 80)
++++ DataForm.cs	(working copy)
+@@ -47,5 +47,10 @@
+         {
+             MainForm.CopyPacketHex(pArgs);
+         }
++
++        private void DataForm_Load(object sender, EventArgs e)
++        {
++
++        }
+     }
+ }
+Index: DataForm.Designer.cs
+===================================================================
+--- DataForm.Designer.cs	(revision 80)
++++ DataForm.Designer.cs	(working copy)
+@@ -65,6 +65,7 @@
+             this.Name = "DataForm";
+             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockBottom;
+             this.Text = "Data";
++            this.Load += new System.EventHandler(this.DataForm_Load);
+             this.ResumeLayout(false);
+ 
+         }
+Index: FiestaStream.cs
+===================================================================
+--- FiestaStream.cs	(revision 80)
++++ FiestaStream.cs	(working copy)
+@@ -2,6 +2,8 @@
+ using System.Collections.Generic;
+ using System.Linq;
+ using System.Text;
++using System.IO;
++using MySql.Data.MySqlClient;
+ 
+ namespace MapleShark
+ {
+@@ -47,12 +49,122 @@
+             mCursor -= (packetLen + HeaderLen);
+             if (mCursor > 0) Buffer.BlockCopy(mBuffer, packetLen + HeaderLen, mBuffer, 0, mCursor); //fix buffer
+             ushort opcode = BitConverter.ToUInt16(packetData, 0);
++            int Type = opcode >> 10;
++            int Header = opcode & 1023;
++            //System.Windows.Forms.MessageBox.Show("Type= " + Type + " Header= " + Header); 
+             Buffer.BlockCopy(packetData, 2, packetData, 0, packetLen - 2); //remove opcode (;
+             Array.Resize(ref packetData, packetLen - 2); //and fix the data array size
++           Int16 npcID = 0;
++           bool INSERT = true;
++               MemoryStream stream = new MemoryStream(packetData);
++                BinaryReader reader = new BinaryReader(stream);
++            if (Type == 15 && Header == 9)
++            {
++                byte count = reader.ReadByte();
++                int unk = reader.ReadInt32();
++                if (INSERT == true)
++                {
++                    for (int i = 1; i < count; i++)
++                    {
++                        
++                       uint ItemID = reader.ReadUInt16();
++                        byte Slot = reader.ReadByte();
++                        runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID + "','" + Slot + "')");
++                    }
++                    uint ItemID2 = reader.ReadUInt16();
++                    runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID2 + "','0')");
++                }
++            }
++            else if (Type == 15 && Header == 11)
++            {
++                byte count = reader.ReadByte();
++                int unk = reader.ReadInt32();
++                if (INSERT == true)
++                {
++                    for (int i = 1; i < count; i++)
++                    {
++                     uint ItemID = reader.ReadUInt16();
++                        byte Slot = reader.ReadByte();
++                        runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID + "','" + Slot + "')");
++                    }
++                    uint ItemID2 = reader.ReadUInt16();
++                    runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID2 + "','0')");
++                }
++            }
++            else if (Type == 15 && Header == 5)
++            {
++                byte count = reader.ReadByte();
++                int unk = reader.ReadInt32();
++                if (INSERT == true)
++                {
++                    for (int i = 1; i < count; i++)
++                    {
++                        uint ItemID = reader.ReadUInt16();
++                        byte Slot = reader.ReadByte();
++                        runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID + "','" + Slot + "')");
++                    }
++                    uint ItemID2 = reader.ReadUInt16();
++                    runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID2 + "','0')");
++                }
++            }
++            else if (Type == 15 && Header == 10)
++            {
++                byte count = reader.ReadByte();
++                int unk = reader.ReadInt32();
++                if (INSERT == true)
++                {
++                    for (int i = 1; i < count; i++)
++                    {
++                      uint ItemID = reader.ReadUInt16();
++                        byte Slot = reader.ReadByte();
++                        runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID + "','" + Slot + "')");
++                    }
++                    uint ItemID2 = reader.ReadUInt16();
++                    runSQL("INSERT INTO Vendors (NPCID,ItemID,InvSlot) VALUES ('" + npcID + "','" + ItemID2 + "','0')");
++                }
++            }
++            else if (Type == 8 && Header == 29)
++            {
++                npcID = 0;
++            }
++            else if (Type == 9 && Header == 1)
++            {
++                npcID = reader.ReadInt16();
++                MySqlConnection conn = new MySqlConnection("Database=Data;Data Source=127.0.0.1;User Id=lol;Password=lol");
++                conn.Open();
++                try
++                {
++                    MySqlCommand mysqlCmd = new MySqlCommand("SELECT * FROM Vendors WHERE NPCID='" + npcID + "'", conn);
++                    MySqlDataReader mysqlReader = mysqlCmd.ExecuteReader();
++                    if (mysqlReader.HasRows)
++                    {
++                        INSERT = false;
++                    }
++                }
++                catch { }
++                conn.Close();
++            }
+             Definition definition = Config.Instance.Definitions.Find(d => d.Build == 1 && d.Outbound == encrypt && d.Opcode == opcode);
+-            return new FiestaPacket(pTransmitted, encrypt, opcode, definition == null ? "" : definition.Name, packetData);
++            return new FiestaPacket(pTransmitted, encrypt, opcode, definition == null ? " Header= " + Header + " Type= " + Type + "" : definition.Name + "Header= " + Header + " Type= " + Type + "", packetData);
+         }
++        public void runSQL(string Syntax)
++        {
++     
++            try
++            {
++                MySqlConnection conn = new MySqlConnection("Database=Data;Data Source=127.0.0.1;User Id=lol;Password=lol");
++                conn.Open();
++                MySqlCommand SqlCmd = new MySqlCommand(Syntax, conn);
++                SqlCmd.ExecuteNonQuery();
++                conn.Close();
+ 
++            }
++            catch (MySqlException ex)
++            {
++                System.Windows.Forms.MessageBox.Show(ex.Message.ToString());
++                
++            }
++        }
+       /*  public MaplePacket Read(DateTime pTransmitted, ushort pBuild)
+         {
+             if (mCursor < 4) return null;
+Index: MapleShark.csproj
+===================================================================
+--- MapleShark.csproj	(revision 80)
++++ MapleShark.csproj	(working copy)
+@@ -3,7 +3,7 @@
+   <PropertyGroup>
+     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+-    <ProductVersion>9.0.30729</ProductVersion>
++    <ProductVersion>9.0.21022</ProductVersion>
+     <SchemaVersion>2.0</SchemaVersion>
+     <ProjectGuid>{01F7E3B6-B831-4D44-8B44-095768212822}</ProjectGuid>
+     <OutputType>WinExe</OutputType>
+@@ -57,6 +57,10 @@
+     <ErrorReport>prompt</ErrorReport>
+   </PropertyGroup>
+   <ItemGroup>
++    <Reference Include="MySql.Data, Version=6.3.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
++      <SpecificVersion>False</SpecificVersion>
++      <HintPath>..\..\MySql.Data.dll</HintPath>
++    </Reference>
+     <Reference Include="System" />
+     <Reference Include="System.Core">
+       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+Index: MapleShark.suo
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: obj/x86/Debug/Alsing.Windows.Forms.SyntaxBox.EditViewControl.resources
+===================================================================
+Cannot display: file marked as a binary type.
+svn:mime-type = application/octet-stream
+Index: OutputForm.cs
+===================================================================
+--- OutputForm.cs	(revision 80)
++++ OutputForm.cs	(working copy)
+@@ -19,5 +19,15 @@
+         }
+ 
+         public void Append(string pOutput) { mTextBox.AppendText(pOutput); }
++
++        private void mTextBox_TextChanged(object sender, EventArgs e)
++        {
++
++        }
++
++        private void OutputForm_Load(object sender, EventArgs e)
++        {
++
++        }
+     }
+ }
+Index: OutputForm.Designer.cs
+===================================================================
+--- OutputForm.Designer.cs	(revision 80)
++++ OutputForm.Designer.cs	(working copy)
+@@ -40,6 +40,7 @@
+             this.mTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+             this.mTextBox.Size = new System.Drawing.Size(392, 376);
+             this.mTextBox.TabIndex = 0;
++            this.mTextBox.TextChanged += new System.EventHandler(this.mTextBox_TextChanged);
+             // 
+             // OutputForm
+             // 
+@@ -59,6 +60,7 @@
+             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.Float;
+             this.ShowInTaskbar = false;
+             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
++            this.Load += new System.EventHandler(this.OutputForm_Load);
+             this.ResumeLayout(false);
+             this.PerformLayout();
+ 
+Index: ScriptForm.cs
+===================================================================
+--- ScriptForm.cs	(revision 80)
++++ ScriptForm.cs	(working copy)
+@@ -20,6 +20,7 @@
+         {
+             mPath = pPath;
+             mPacket = pPacket;
++       
+             InitializeComponent();
+             Text = "Script 0x" + pPacket.Opcode.ToString("X4") + ", " + (pPacket.Outbound ? "Outbound" : "Inbound");
+         }
+Index: StructureForm.cs
+===================================================================
+--- StructureForm.cs	(revision 80)
++++ StructureForm.cs	(working copy)
+@@ -177,5 +177,10 @@
+         {
+             MainForm.CopyPacketHex(pArgs);
+         }
++
++        private void StructureForm_Load(object sender, EventArgs e)
++        {
++
++        }
+     }
+ }
+Index: StructureForm.Designer.cs
+===================================================================
+--- StructureForm.Designer.cs	(revision 80)
++++ StructureForm.Designer.cs	(working copy)
+@@ -58,6 +58,7 @@
+             this.Name = "StructureForm";
+             this.ShowHint = WeifenLuo.WinFormsUI.Docking.DockState.DockTop;
+             this.Text = "Structure";
++            this.Load += new System.EventHandler(this.StructureForm_Load);
+             this.ResumeLayout(false);
+ 
+         }

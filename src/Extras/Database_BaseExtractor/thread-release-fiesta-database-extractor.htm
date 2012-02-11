@@ -1,0 +1,1086 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><!-- start: showthread -->
+
+
+<title>[Release] Fiesta Database Extractor</title>
+<meta name="description" content="I thought it would be usefull to create a full database (QuestData.shn supported!) for Fiesta fansites / Private servers. This tool can convert most of the SHN Files (ressystem) into (My)SQL readable">
+<link rel="canonical" href="http://community.kryptodev.com/thread-release-fiesta-database-extractor">
+<!-- start: headerinclude -->
+<link rel="alternate" type="application/rss+xml" title="Latest Threads (RSS 2.0)" href="http://community.kryptodev.com/syndication.php">
+<link rel="alternate" type="application/atom+xml" title="Latest Threads (Atom 1.0)" href="http://community.kryptodev.com/syndication.php?type=atom1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/prototype.js"></script>
+<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/general.js"></script>
+<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/popup_menu.js"></script>
+<link type="text/css" rel="stylesheet" href="thread-release-fiesta-database-extractor-Dateien/global.css">
+<link type="text/css" rel="stylesheet" href="thread-release-fiesta-database-extractor-Dateien/star_ratings.css">
+<link type="text/css" rel="stylesheet" href="thread-release-fiesta-database-extractor-Dateien/showthread.css">
+
+<script type="text/javascript">
+<!--
+	var cookieDomain = "community.kryptodev.com";
+	var cookiePath = "/";
+	var cookiePrefix = "KDev";
+	var deleteevent_confirm = "Are you sure you want to delete this event?";
+	var removeattach_confirm = "Are you sure you want to remove the selected attachment from this post?";
+	var loading_text = 'Loading. <br />Please Wait..';
+	var saving_changes = 'Saving changes..';
+	var use_xmlhttprequest = "1";
+	var my_post_key = "3e67b2def64d823c9170701cb6cb9257";
+	var imagepath = "images";
+// -->
+</script>
+<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/thx.js"></script>
+<!-- end: headerinclude -->
+<script type="text/javascript">
+<!--
+	var quickdelete_confirm = "Are you sure you want to delete this post?";
+// -->
+</script>
+<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/thread.js"></script>
+</head><body>
+	<!-- start: header -->
+	<div id="container">
+		<a name="top" id="top"></a>
+		<div id="header">
+			<div class="logo"><a href="http://community.kryptodev.com/index.php"><img src="thread-release-fiesta-database-extractor-Dateien/logo.htm" alt="Krypto Development - DMCA This" title="Krypto Development - DMCA This"></a></div>
+			<div class="menu">
+				<ul>
+					<li><a href="http://community.kryptodev.com/search.php"><img src="thread-release-fiesta-database-extractor-Dateien/search.gif" alt="" title="">Search</a></li>
+					<li><a href="http://community.kryptodev.com/memberlist.php"><img src="thread-release-fiesta-database-extractor-Dateien/memberlist.gif" alt="" title="">Member List</a></li>
+					<li><a href="http://community.kryptodev.com/calendar.php"><img src="thread-release-fiesta-database-extractor-Dateien/calendar.gif" alt="" title="">Calendar</a></li>
+					<li><a href="http://community.kryptodev.com/misc.php?action=help"><img src="thread-release-fiesta-database-extractor-Dateien/help.gif" alt="" title="">Help</a></li>
+				</ul>
+			</div>
+			<hr class="hidden">
+			<div id="panel">
+				<!-- start: header_welcomeblock_guest -->
+<script type="text/javascript">
+<!--
+	lang.username = "Username";
+	lang.password = "Password";
+	lang.login = "Login";
+	lang.lost_password = " &mdash; <a href=\"http://community.kryptodev.com/member.php?action=lostpw\">Lost Password?<\/a>";
+	lang.register_url = " &mdash; <a href=\"http://community.kryptodev.com/member.php?action=register\">Register<\/a>";
+	lang.remember_me = "Remember me";
+// -->
+</script>
+
+<span style="float: right;"><strong>Current time:</strong> 12-04-2010, 05:32 PM</span>
+		<span id="quick_login">Hello There, Guest! (<a href="http://community.kryptodev.com/member.php?action=login" onclick="MyBB.quickLogin(); return false;">Login</a> — <a href="http://community.kryptodev.com/member.php?action=register">Register</a>)</span>
+<!-- end: header_welcomeblock_guest -->
+			</div>
+		</div>
+		<hr class="hidden">
+		<br class="clear">
+		<div id="content">
+			
+			
+			
+			
+ <!-- ProfileComments -->
+			<!-- /ProfileComments -->
+			
+			<!-- start: nav -->
+
+<div class="navigation">
+<!-- start: nav_bit -->
+<a href="http://community.kryptodev.com/index.php">Krypto Development - DMCA This</a><!-- start: nav_sep -->
+ / 
+<!-- end: nav_sep -->
+<!-- end: nav_bit --><!-- start: nav_bit -->
+<a href="http://community.kryptodev.com/forum-development-corner">Development Corner</a><!-- start: nav_sep -->
+ / 
+<!-- end: nav_sep -->
+<!-- end: nav_bit --><!-- start: nav_bit -->
+<a href="http://community.kryptodev.com/forum-mmo-development">MMO Development</a><!-- start: nav_sep -->
+ / 
+<!-- end: nav_sep -->
+<!-- end: nav_bit --><!-- start: nav_bit -->
+<a href="http://community.kryptodev.com/forum-fiesta-online">Fiesta Online</a><!-- start: nav_sep -->
+ / 
+<!-- end: nav_sep -->
+<!-- end: nav_bit --><!-- start: nav_bit -->
+<a href="http://community.kryptodev.com/forum-releases-33?page=3">Releases</a> <img src="thread-release-fiesta-database-extractor-Dateien/arrow_down.gif" alt="v" title="" class="pagination_breadcrumb_link" id="breadcrumb_multipage"><!-- start: multipage_breadcrumb -->
+<div id="breadcrumb_multipage_popup" class="pagination pagination_breadcrumb" style="display: none;">
+<!-- start: multipage_prevpage -->
+<a href="http://community.kryptodev.com/forum-releases-33?page=2" class="pagination_previous">« Previous</a>
+<!-- end: multipage_prevpage --><!-- start: multipage_page -->
+<a href="http://community.kryptodev.com/forum-releases-33?page=1" class="pagination_page">1</a>
+<!-- end: multipage_page --><!-- start: multipage_page -->
+<a href="http://community.kryptodev.com/forum-releases-33?page=2" class="pagination_page">2</a>
+<!-- end: multipage_page --><!-- start: multipage_page_link_current -->
+ <a href="http://community.kryptodev.com/forum-releases-33?page=3" class="pagination_current">3</a>
+<!-- end: multipage_page_link_current -->
+</div><br>
+<table class="tborder" border="0" cellpadding="4" cellspacing="1">
+	<thead>
+		<tr> 
+			<td class="thead" align="center" width="100"><strong>Latest news: </strong></td><td class="thead"><strong><marquee direction="left" scrollamount="5">--- <a href="http://community.kryptodev.com/thread-notice">[NOTICE]</a> --- <a href="http://community.kryptodev.com/thread-minecraft-kryptocraft">[Minecraft?] KryptoCraft!</a> --- <a href="http://community.kryptodev.com/thread-info-about-the-new-board">[INFO] About the new board</a> --- <a href="http://community.kryptodev.com/thread-info-about-recent-downtime-talk-thread-nov-4th-2010">[INFO] About recent downtime **talk thread** (Nov.4th/2010)</a> --- <a href="http://community.kryptodev.com/thread-new-section-new-moderator-and-new-smilies">New section, new moderator, and new smilies!</a> --- <a href="http://community.kryptodev.com/thread-new-admin">New Admin</a> --- <a href="http://community.kryptodev.com/thread-more-updates">More updates</a> --- <a href="http://community.kryptodev.com/thread-new-skin-11039">New Skin</a> --- <a href="http://community.kryptodev.com/thread-more-info-on-v4">More info on v4</a> --- <a href="http://community.kryptodev.com/thread-happy-1-year-shoot">Happy 1 year shoot</a> --- </marquee></strong></td>
+		</tr>
+	</thead>
+</table>
+<script type="text/javascript">
+// <!--
+	if(use_xmlhttprequest == "1")
+	{
+		new PopupMenu("breadcrumb_multipage");
+	}
+// -->
+</script>
+<!-- end: multipage_breadcrumb -->
+<!-- end: nav_bit --><!-- start: nav_sep_active -->
+ / 
+<!-- end: nav_sep_active --><!-- start: nav_bit_active -->
+<span class="active">[Release] Fiesta Database Extractor</span>
+<!-- end: nav_bit_active -->
+</div>
+<!-- end: nav -->
+			<br>
+
+<!-- end: header -->
+	
+	<div class="float_left">
+		
+
+	</div>
+	<div class="float_right">
+		<!-- start: showthread_newreply -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266"><img src="thread-release-fiesta-database-extractor-Dateien/newreply.gif" alt="Post Reply" title="Post Reply"></a>&nbsp;
+<!-- end: showthread_newreply -->
+	</div>
+	<!-- start: showthread_ratethread -->
+<div style="margin-top: 6px; padding-right: 10px;" class="float_right">
+		<script type="text/javascript" src="thread-release-fiesta-database-extractor-Dateien/rating.js"></script>
+		<div id="success_rating_8266" style="float: left; padding-top: 2px; padding-right: 10px;">&nbsp;</div>
+		<strong style="float: left; padding-right: 10px;">Thread Rating:</strong>
+		<div class="inline_rating">
+			<ul class="star_rating star_rating_notrated" id="rating_thread_8266">
+				<li style="width: 0%;" class="current_rating" id="current_rating_8266">0 Votes - 0 Average</li>
+				<li><a class="one_star" title="1 star out of 5" href="http://community.kryptodev.com/ratethread.php?tid=8266&amp;rating=1&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">1</a></li>
+				<li><a class="two_stars" title="2 stars out of 5" href="http://community.kryptodev.com/ratethread.php?tid=8266&amp;rating=2&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">2</a></li>
+				<li><a class="three_stars" title="3 stars out of 5" href="http://community.kryptodev.com/ratethread.php?tid=8266&amp;rating=3&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">3</a></li>
+				<li><a class="four_stars" title="4 stars out of 5" href="http://community.kryptodev.com/ratethread.php?tid=8266&amp;rating=4&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">4</a></li>
+				<li><a class="five_stars" title="5 stars out of 5" href="http://community.kryptodev.com/ratethread.php?tid=8266&amp;rating=5&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">5</a></li>
+			</ul>
+		</div>
+</div>
+<!-- end: showthread_ratethread -->
+	<table class="tborder" style="clear: both; border-bottom-width: 0pt;" border="0" cellpadding="4" cellspacing="1">
+		<tbody><tr>
+			<td class="thead" colspan="2">
+				<div style="float: right;">
+					<span class="smalltext"><strong><a href="http://community.kryptodev.com/showthread.php?mode=threaded&amp;tid=8266&amp;pid=50567#pid50567">Threaded Mode</a> | <a href="http://community.kryptodev.com/showthread.php?mode=linear&amp;tid=8266&amp;pid=50567#pid50567">Linear Mode</a></strong></span>
+				</div>
+				<div>
+					<strong>[Release] Fiesta Database Extractor</strong>
+				</div>
+			</td>
+		</tr>
+		
+	</tbody></table>
+	<div id="posts">
+		<!-- start: postbit -->
+
+<a name="pid50567" id="pid50567"></a>
+<table class="tborder" style="border-top-width: 0pt;" id="post_50567" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					04-15-2010, 09:43 AM <span id="edited_by_50567"><!-- start: postbit_editedby -->
+<span class="smalltext">(This post was last modified: 06-13-2010 07:28 AM by <a href="http://community.kryptodev.com/member-csharp">Csharp</a>.)</span>
+
+
+<!-- end: postbit_editedby --></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=50567#pid50567">#1</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-csharp"><b><span style="color: rgb(0, 153, 51);">Csharp</span></b></a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								Moderator<br>
+								<img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><br>
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 619<br>
+	Joined: Jul 2009
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 6 thank(s) in 5 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_50567">
+					I thought it would be usefull to create a full database (QuestData.shn supported!) for Fiesta fansites / Private servers.<br>
+<br>
+This tool can convert most of the SHN Files (ressystem) into (My)SQL 
+readable scripts / insert queries. This way you can use them in PHP.<br>
+<br>
+It allows you to multi-select the SHN Files and will create a .SQL file supported by most of the MySql versions.<br>
+<br>
+Enjoy!~<br>
+<a href="http://www.easy-share.com/1910382064/QuestDatabase.zip" target="_blank">Download</a><br>
+<a href="http://virusscan.jotti.org/en/scanresult/61a4d969b4b1eb00e9bb6e3954e67776ebeef5d0" target="_blank">Scan</a><br>
+<br>
+<span style="font-style: italic;">Screenshot:</span><br>
+<img src="thread-release-fiesta-database-extractor-Dateien/dh2wc5.png" alt="[Image: dh2wc5.png]" border="0">
+				</div>
+				
+				<!-- start: postbit_signature -->
+<hr align="left" width="25%" size="1">
+<a href="http://topofgames.com/index.php?do=votes&amp;amp;id=18901" target="_blank">Support KryptoDev! Vote Now</a>
+<!-- end: postbit_signature -->
+
+				<div class="post_meta" id="post_meta_50567">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=279"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=50567"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx50567" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list50567"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid50582" id="pid50582"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_50582" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					04-15-2010, 03:07 PM <span id="edited_by_50582"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=50582#pid50582">#2</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-shinra">Shinra</a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								KDev Member<br>
+								
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 8<br>
+	Joined: Apr 2010
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 0 thank(s) in 0 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_50582">
+					Thanks such a wonderfull tool! Question! Do you sell your IQuest tool? If so pm me the costs.
+				</div>
+				
+				
+
+				<div class="post_meta" id="post_meta_50582">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=4186"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=50582"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx50582" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list50582"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid50655" id="pid50655"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_50655" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					04-15-2010, 11:24 PM <span id="edited_by_50655"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=50655#pid50655">#3</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-jajaoipil">jajaoipil</a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								KDev Member<br>
+								
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 83<br>
+	Joined: Mar 2010
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 2 thank(s) in 2 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_50655">
+					<blockquote><cite>Shinra;50693 Wrote:</cite>Thanks such a wonderfull tool! Question! Do you sell your IQuest tool? If so pm me the costs.</blockquote>
+<br>
+I was wondering the same thing. Do you sell it? And btw perhaps you 
+noticed this but your shn editor tool link has already been removed from
+ ragezone forums.
+				</div>
+				
+				
+
+				<div class="post_meta" id="post_meta_50655">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=3115"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=50655"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx50655" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list50655"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid50657" id="pid50657"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_50657" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					04-15-2010, 11:31 PM <span id="edited_by_50657"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=50657#pid50657">#4</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-brian4la">brian4la</a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								KDev Member<br>
+								
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 369<br>
+	Joined: Jul 2009
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 0 thank(s) in 0 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_50657">
+					Looks great as always, Csharp. <img src="thread-release-fiesta-database-extractor-Dateien/smile.gif" style="vertical-align: middle;" alt="Smile" title="Smile" border="0"> So, how's the development going, so far?
+				</div>
+				
+				<!-- start: postbit_signature -->
+<hr align="left" width="25%" size="1">
+Goals:&lt;br /&gt;[x] 50 posts&lt;br /&gt;[x] 100 posts&lt;br /&gt;[x] 
+User title enabled (150 posts)&lt;br /&gt;[x] 200 posts [x] 250 posts 
+[x] 5 Thanks [x] 10 Thanks [x] 20 Thanks [x] Owner of v62 server [x] 
+HackRider (KartRider source) [x] KartRider section [x] Become moderator 
+[x] Owner of a well-known server [x] Become well-known on KryptoDEV [ ] 
+Huge release &amp; development after all goals above are completed
+<!-- end: postbit_signature -->
+
+				<div class="post_meta" id="post_meta_50657">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=386"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=50657"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx50657" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list50657"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid50696" id="pid50696"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_50696" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					04-16-2010, 07:05 AM <span id="edited_by_50696"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=50696#pid50696">#5</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-csharp"><b><span style="color: rgb(0, 153, 51);">Csharp</span></b></a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								Moderator<br>
+								<img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><br>
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 619<br>
+	Joined: Jul 2009
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 6 thank(s) in 5 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_50696">
+					<blockquote><cite>brian4la;50760 Wrote:</cite>Looks great as always, Csharp. <img src="thread-release-fiesta-database-extractor-Dateien/smile.gif" style="vertical-align: middle;" alt="Smile" title="Smile" border="0"> So, how's the development going, so far?</blockquote>
+ <br>
+There's isnt much to develop anymore so <img src="thread-release-fiesta-database-extractor-Dateien/smile.gif" style="vertical-align: middle;" alt="Smile" title="Smile" border="0"> kinda not-doing-much atm.
+				</div>
+				
+				<!-- start: postbit_signature -->
+<hr align="left" width="25%" size="1">
+<a href="http://topofgames.com/index.php?do=votes&amp;amp;id=18901" target="_blank">Support KryptoDev! Vote Now</a>
+<!-- end: postbit_signature -->
+
+				<div class="post_meta" id="post_meta_50696">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=279"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=50696"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx50696" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list50696"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid57928" id="pid57928"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_57928" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					06-13-2010, 06:52 AM <span id="edited_by_57928"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=57928#pid57928">#6</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-coody">coody</a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								KDev Member<br>
+								
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 4<br>
+	Joined: Feb 2010
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 0 thank(s) in 0 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_57928">
+					dont downs
+				</div>
+				
+				
+
+				<div class="post_meta" id="post_meta_57928">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=1987"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=57928"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx57928" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list57928"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit --><!-- start: postbit -->
+
+<a name="pid57932" id="pid57932"></a>
+<table class="tborder" style="margin-top: 5px;" id="post_57932" border="0" cellpadding="4" cellspacing="1">
+	<tbody>
+		<tr>
+			<td class="tcat">
+				<div class="float_left smalltext">
+					06-13-2010, 07:28 AM <span id="edited_by_57932"></span>
+				</div>
+				<!-- start: postbit_posturl -->
+<div style="float: right; width: auto; vertical-align: top;"><span class="smalltext"><strong>Post: <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?pid=57932#pid57932">#7</a></strong></span></div>
+<!-- end: postbit_posturl -->
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 ">
+				<table style="width: 100%;" border="0" cellpadding="0" cellspacing="0">
+					<tbody><tr>
+						<td class="post_avatar" style="" width="1">
+							
+						</td>
+						<td class="post_author">
+							<strong><span class="largetext"><a href="http://community.kryptodev.com/member-csharp"><b><span style="color: rgb(0, 153, 51);">Csharp</span></b></a></span></strong> <!-- start: postbit_offline -->
+<img src="thread-release-fiesta-database-extractor-Dateien/buddy_offline.gif" title="Offline" alt="Offline">
+<!-- end: postbit_offline --><br>
+							<span class="smalltext">
+								Moderator<br>
+								<img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><img src="thread-release-fiesta-database-extractor-Dateien/star.gif" alt="*" border="0"><br>
+								
+							</span>
+						</td>
+						<td class="smalltext post_author_info" width="165">
+							<!-- start: postbit_author_user -->
+
+	Posts: 619<br>
+	Joined: Jul 2009
+	
+<!-- end: postbit_author_user --><!-- start: thanks_postbit_count -->
+<div><span class="smalltext">Thanks: 0<br>
+	Given 6 thank(s) in 5 post(s)<br></span></div>
+<!-- end: thanks_postbit_count -->
+						</td>
+					</tr>
+				</tbody></table>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow2 post_content ">
+				<span class="smalltext"><strong>[Release] Fiesta Database Extractor </strong></span>
+
+				<div class="post_body" id="pid_57932">
+					<blockquote><cite>coody;58270 Wrote:</cite>dont downs</blockquote>
+ <br>
+Fixed that.
+				</div>
+				
+				<!-- start: postbit_signature -->
+<hr align="left" width="25%" size="1">
+<a href="http://topofgames.com/index.php?do=votes&amp;amp;id=18901" target="_blank">Support KryptoDev! Vote Now</a>
+<!-- end: postbit_signature -->
+
+				<div class="post_meta" id="post_meta_57932">
+				
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="trow1 post_buttons ">
+				<div class="author_buttons float_left">
+					<!-- start: postbit_find -->
+<a href="http://community.kryptodev.com/search.php?action=finduser&amp;uid=279"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_find.gif" alt="Find all posts by this user" title="Find all posts by this user"></a>
+<!-- end: postbit_find -->
+				</div>
+				<div class="post_management_buttons float_right"><!-- start: postbit_quote -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266&amp;pid=57932"><img src="thread-release-fiesta-database-extractor-Dateien/postbit_quote.gif" alt="Quote this message in a reply" title="Quote this message in a reply"></a>
+<!-- end: postbit_quote -->
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table><!-- start: thanks_postbit_outline -->
+<table id="thx57932" style="display: none; border: 0pt none; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td>
+		<table class="tborder thxdsp_outline" border="0" cellpadding="4" cellspacing="1"><tbody><tr class="trow1 tnx_style"><td valign="top" width="1%" nowrap="nowrap"><img src="thread-release-fiesta-database-extractor-Dateien/rose.gif" align="absmiddle"> &nbsp;<span class="smalltext">Thanks given by:</span></td><td class="trow2 tnx_style" id="thx_list57932"></td></tr></tbody></table>
+		</td></tr></tbody></table>
+<!-- end: thanks_postbit_outline -->
+<!-- end: postbit -->
+	</div>
+	<table class="tborder" style="border-top-width: 0pt;" border="0" cellpadding="4" cellspacing="1">
+		<tbody><tr>
+			<td colspan="2" class="tfoot">
+				<!-- start: showthread_search -->
+	<div class="float_right">
+		<form action="search.php" method="post">
+			<input name="action" value="thread" type="hidden">
+			<input name="tid" value="8266" type="hidden">
+			<input name="keywords" value="Enter Keywords" onfocus="if(this.value == 'Enter Keywords') { this.value = ''; }" onblur="if(this.value=='') { this.value='Enter Keywords'; }" class="textbox" size="25" type="text">
+			<input class="button" value="Search Thread" type="submit">
+		</form>
+	</div>
+<!-- end: showthread_search -->
+				<div>
+					<strong>« <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?action=nextoldest">Next Oldest</a> | <a href="http://community.kryptodev.com/thread-release-fiesta-database-extractor?action=nextnewest">Next Newest</a> »</strong>
+				</div>
+			</td>
+		</tr>
+	</tbody></table>
+	<div class="float_left">
+		
+	</div>
+	<div style="padding-top: 4px;" class="float_right">
+		<!-- start: showthread_newreply -->
+<a href="http://community.kryptodev.com/newreply.php?tid=8266"><img src="thread-release-fiesta-database-extractor-Dateien/newreply.gif" alt="Post Reply" title="Post Reply"></a>&nbsp;
+<!-- end: showthread_newreply -->
+	</div>
+	<br style="clear: both;">
+	
+	
+	
+	<br>
+	<div class="float_left">
+		<ul class="thread_tools">
+			<li class="printable"><a href="http://community.kryptodev.com/printthread.php?tid=8266">View a Printable Version</a></li>
+			<li class="sendthread"><a href="http://community.kryptodev.com/sendthread.php?tid=8266">Send this Thread to a Friend</a></li>
+			<li class="subscription_add"><a href="http://community.kryptodev.com/usercp2.php?action=addsubscription&amp;tid=8266&amp;my_post_key=3e67b2def64d823c9170701cb6cb9257">Subscribe to this thread</a></li>
+		</ul>
+	</div>
+
+	<div class="float_right" style="text-align: right;">
+		
+		<!-- start: forumjump_advanced -->
+<form action="forumdisplay.php" method="get">
+<span class="smalltext"><strong>Forum Jump:</strong></span>
+<select name="fid" onchange="window.location=('forumdisplay.php?fid='+this.options[this.selectedIndex].value)">
+<option value="-1">Please select one:</option>
+<option value="-1">--------------------</option>
+<option value="-4">Private Messages</option>
+<option value="-3">User Control Panel</option>
+<option value="-5">Who's Online</option>
+<option value="-2">Search</option>
+<option value="-1">Forum Home</option>
+<!-- start: forumjump_bit -->
+<option value="4"> The Watchtower</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="15">-- Announcements</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="16">---- Suggestions</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="17">---- Forum Bug Reports</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="18">-- Feedback</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="5"> Development Corner</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="19">-- MMO Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="20">---- Maplestory</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="21">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="22">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="23">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="24">------ Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="25">------ Wz Editing</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="26">-------- Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="27">-------- Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="28">-------- Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="29">---- Minecraft</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="30">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="31">---- Fiesta Online</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="32">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="33" selected="selected">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="34">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="35">------ Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="41">---- KartRider</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="42">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="43">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="44">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="45">------ Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="46">---- Conquer Online</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="47">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="48">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="49">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="50">---- LaTale</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="51">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="52">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="53">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="54">------ Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="55">---- Habbo Hotel</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="56">------ Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="57">------ Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="58">------ Guides</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="59">------ Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="60">---- MMO Dev</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="61">-- Web Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="62">---- Development</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="63">---- Releases</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="64">---- Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="65">-- Programmers Zone</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="66">-- Extra Server Help</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="67">---- Fiesta Online ADs</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="68">---- Minecraft ADs</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="69">---- Maplestory ADs</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="70">---- Server Recruitment</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="108"> KryptoCraft</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="112">-- General chat</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="109">-- Suggestion box</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="110">-- Showcase</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="6"> Warez Land</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="77">-- Entertainment</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="78">---- Movies</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="79">---- Music</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="80">---- Programs</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="81">---- Computer Games</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="82">-- Cyber Life</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="83">---- Templates &amp; Scripts</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="84">---- eBooks</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="85">---- Non-Windows Warez</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="86">---- HTTP/FTP Links Sharing</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="7"> The Bar</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="87">-- Introductions</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="88">-- Off Topic</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="89">---- Debates</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="90">---- Sauna Room</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="91">-- Graphics Zone</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="92">---- Showoff</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="93">---- Tutorials</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="94">---- Graphic Tools</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="95">---- Help/Support</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="96">-- Arts &amp; Entertainment</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="97">---- Anime Central</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="98">---- Gaming Hub</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="99">---- Music Chat</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="100">---- TV &amp; Movies</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="101">-- Technology</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="102">---- Hardware</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="103">-- Misc</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="104">---- neXXXon [18+]</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="105">-- Spamzilla</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="8"> RSS Feeds</option>
+<!-- end: forumjump_bit --><!-- start: forumjump_bit -->
+<option value="106">-- MMO News</option>
+<!-- end: forumjump_bit -->
+</select>
+<!-- start: gobutton -->
+<input class="button" value="Go" type="submit">
+<!-- end: gobutton -->
+</form>
+
+<!-- end: forumjump_advanced -->
+	</div>
+	<br style="clear: both;">
+	
+	<!-- start: footer -->
+<br>
+			<div class="bottommenu">
+				<div class="float_right"></div>
+				<div>
+					<span class="smalltext"><a href="mailto:support@kryptodev.com">Contact Us</a> | <a href="http://www.kryptodev.com/">KryptoDEV - DMCA This</a> | <a href="#top">Return to Top</a> | <a href="#content">Return to Content</a> | <a href="http://community.kryptodev.com/archive/index.php/thread-8266.html">Lite (Archive) Mode</a> | <a href="http://community.kryptodev.com/misc.php?action=syndication">RSS Syndication</a></span>
+				</div>
+			</div>
+			</div>
+		<hr class="hidden">
+			<div id="copyright">
+				<div id="debug"></div>
+				<!-- MyBB is free software developed and maintained by a volunteer community. 
+					 It would be much appreciated by the MyBB Group if you left the full copyright and "powered by" notice intact, 
+					 to show your support for MyBB.  If you choose to remove or modify the copyright below, 
+					 you may be refused support on the MyBB Community Forums.
+					 
+					 This is free software, support us and we'll support you. -->
+Proudly Powered By <a href="http://mybb.com/" target="_blank">MyBB</a><!-- , &copy; 2002-2010 <a href="http://mybb.com/" target="_blank">MyBB Group</a>.--><br>
+				<!-- End powered by -->
+				<br>
+<br class="clear">
+<!-- The following piece of code allows MyBB to run scheduled tasks. DO NOT REMOVE --><!-- End task image code -->
+
+		</div>
+		</div>
+<!-- end: footer -->
+<!-- end: showthread --></body></html>

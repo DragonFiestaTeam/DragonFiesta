@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<ArrayOfSpawnNPCPoint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SpawnNPCPoint>
+    <ID>32</ID>
+    <X>1524</X>
+    <Y>3565</Y>
+    <Rotation>39</Rotation>
+    <Gate>
+      <ToMap>EldPri01</ToMap>
+      <ToX>0</ToX>
+      <ToY>0</ToY>
+    </Gate>
+  </SpawnNPCPoint>
+  <SpawnNPCPoint>
+    <ID>164</ID>
+    <X>2868</X>
+    <Y>6142</Y>
+    <Rotation>24</Rotation>
+  </SpawnNPCPoint>
+</ArrayOfSpawnNPCPoint>

@@ -1,0 +1,10 @@
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.Database.dll
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.Database.pdb
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\MySql.Data.dll
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.InterLib.dll
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.Util.dll
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.InterLib.pdb
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\bin\Release\Zepheus.Util.pdb
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\obj\Release\Zepheus.Database.dll
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Database\obj\Release\Zepheus.Database.pdb

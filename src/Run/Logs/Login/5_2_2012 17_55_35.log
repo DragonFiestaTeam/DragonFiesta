@@ -1,0 +1,32 @@
+[05.02.2012 17:55:35] (Info) 1 InterHandlers loaded.
+[05.02.2012 17:55:35] (Info) 5 Handlers loaded.
+[05.02.2012 17:55:35] (Info) WorldManager initialized.
+[05.02.2012 17:55:35] (Info) Listening on port 10000
+[05.02.2012 17:55:35] (Info) ClientManager Initialized.
+[05.02.2012 17:55:35] (Info) Accepting clients on port 9010
+[05.02.2012 17:55:36] (Info) Incomming connection from 127.0.0.1:50226
+[05.02.2012 17:55:36] (Info) IV data received
+[05.02.2012 17:55:37] (Info) Assigned world 0!
+[05.02.2012 17:56:07] (Debug) Client connected from 188.96.168.19
+[05.02.2012 17:56:07] (Debug) Client version 2006:6916.
+[05.02.2012 17:56:08] (Debug) test tries to login.
+[05.02.2012 17:56:10] (Debug) test joins world Teva
+[05.02.2012 17:56:10] (Debug) Transferring login client test.
+[05.02.2012 17:56:10] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 18:34:57] (Debug) Client connected from 188.96.168.19
+[05.02.2012 18:34:57] (Debug) Client version 2006:6916.
+[05.02.2012 18:34:57] (Debug) test tries to login.
+[05.02.2012 18:36:22] (Debug) test joins world Teva
+[05.02.2012 18:36:22] (Debug) Transferring login client test.
+[05.02.2012 18:36:22] (Debug) 188.96.168.19 Disconnected.
+[05.02.2012 18:37:51] (Debug) Client connected from 88.77.39.179
+[05.02.2012 18:37:51] (Debug) Client version 2006:6916.
+[05.02.2012 18:37:51] (Debug) test99t tries to login.
+[05.02.2012 18:37:51] (Debug) 88.77.39.179 Disconnected.
+[05.02.2012 18:37:59] (Debug) Client connected from 88.77.39.179
+[05.02.2012 18:37:59] (Debug) Client version 2006:6916.
+[05.02.2012 18:37:59] (Debug) test99 tries to login.
+[05.02.2012 18:38:08] (Debug) test99 joins world Teva
+[05.02.2012 18:38:08] (Debug) Transferring login client test99.
+[05.02.2012 18:38:08] (Debug) 88.77.39.179 Disconnected.
+[05.02.2012 18:42:01] (Info) World 0 disconnected.

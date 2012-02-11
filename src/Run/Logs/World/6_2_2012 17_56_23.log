@@ -1,0 +1,58 @@
+[06.02.2012 17:56:23] (Info) 6 InterHandlers loaded.
+[06.02.2012 17:56:23] (Info) 27 Handlers loaded.
+[06.02.2012 17:56:24] (Info) Loaded 1182 bad names.
+[06.02.2012 17:56:24] (Info) DataProvider initialized successfully!
+[06.02.2012 17:56:24] (Info) Listening on port 11000 for zones.
+[06.02.2012 17:56:24] (Info) Connected to server @ localhost:10000
+[06.02.2012 17:56:24] (Info) ClientManager initialized.
+[06.02.2012 17:56:24] (Info) WorldAcceptor ready at 9110
+[06.02.2012 17:56:24] (Info) IV data received
+[06.02.2012 17:56:24] (Info) <3 LoginServer.
+[06.02.2012 17:56:33] (Info) Incoming connection from 85.214.55.189:51211
+[06.02.2012 17:56:33] (Info) IV data received
+[06.02.2012 17:56:33] (Info) Added zone 0 with 64 maps.
+[06.02.2012 17:56:33] (Info) Zone 0 listens @ 85.214.55.189:9210
+[06.02.2012 18:36:46] (Debug) Client connected from 188.96.168.19
+[06.02.2012 18:36:46] (Debug) test authenticated.
+[06.02.2012 18:36:46] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[06.02.2012 18:38:41] (Debug) Client connected from 188.96.168.19
+[06.02.2012 18:38:41] (Debug) test99 authenticated.
+[06.02.2012 18:38:41] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[06.02.2012 18:40:01] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[06.02.2012 18:45:16] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[06.02.2012 18:49:49] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.ArgumentOutOfRangeException: Der Index lag außerhalb des Bereichs. Er muss nicht negativ und kleiner als die Auflistung sein.
+Parametername: index
+   bei System.ThrowHelper.ThrowArgumentOutOfRangeException()
+   bei System.Collections.Generic.List`1.get_Item(Int32 index)
+   bei Zepheus.World.Handlers.Handler14.KickPartyMember(WorldClient client, Packet packet)
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0()
+   bei Zepheus.World.Worker.Work()
+[06.02.2012 18:50:08] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[06.02.2012 18:50:08] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[06.02.2012 18:50:16] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[06.02.2012 18:50:16] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[06.02.2012 18:50:24] (Warn) Trying to register client by name without having Character object.
+[06.02.2012 18:52:12] (Warn) Trying to register client by name without having Character object.
+[06.02.2012 18:52:18] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[06.02.2012 18:54:51] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[06.02.2012 18:56:22] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.ArgumentOutOfRangeException: Der Index lag außerhalb des Bereichs. Er muss nicht negativ und kleiner als die Auflistung sein.
+Parametername: index
+   bei System.ThrowHelper.ThrowArgumentOutOfRangeException()
+   bei System.Collections.Generic.List`1.get_Item(Int32 index)
+   bei Zepheus.World.Handlers.Handler14.KickPartyMember(WorldClient client, Packet packet)
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0()
+   bei Zepheus.World.Worker.Work()
+[06.02.2012 18:57:16] (Debug) 188.96.168.19 Disconnected.
+[06.02.2012 18:57:22] (Debug) 188.96.168.19 Disconnected.

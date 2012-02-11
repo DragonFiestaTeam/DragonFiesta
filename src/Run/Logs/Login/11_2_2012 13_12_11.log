@@ -1,0 +1,11 @@
+[11.02.2012 13:12:11] (Info) 1 InterHandlers loaded.
+[11.02.2012 13:12:11] (Info) 5 Handlers loaded.
+[11.02.2012 13:12:11] (Info) WorldManager initialized.
+[11.02.2012 13:12:11] (Info) Listening on port 10000
+[11.02.2012 13:12:11] (Info) ClientManager Initialized.
+[11.02.2012 13:12:12] (Info) Accepting clients on port 9010
+[11.02.2012 13:12:12] (Info) Incomming connection from 127.0.0.1:54059
+[11.02.2012 13:12:12] (Info) IV data received
+[11.02.2012 13:13:12] (Debug) Client connected from 178.11.252.6
+[11.02.2012 13:13:12] (Debug) Client version 2006:6916.
+[11.02.2012 13:13:12] (Debug) test tries to login.

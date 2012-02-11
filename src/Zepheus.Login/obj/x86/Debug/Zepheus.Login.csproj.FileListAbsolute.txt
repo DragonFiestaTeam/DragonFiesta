@@ -1,0 +1,5 @@
+C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Login.exe
+C:\Users\Gothic\Desktop\rev93\branches\Run\Zepheus.Login.pdb
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Login\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Login\obj\x86\Debug\Zepheus.Login.exe
+C:\Users\Gothic\Desktop\rev93\branches\Zepheus.Login\obj\x86\Debug\Zepheus.Login.pdb

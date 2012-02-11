@@ -1,0 +1,12 @@
+[09.02.2012 20:37:38] (Info) 6 InterHandlers loaded.
+[09.02.2012 20:37:38] (Info) 27 Handlers loaded.
+[09.02.2012 20:37:39] (Info) Loaded 1182 bad names.
+[09.02.2012 20:37:39] (Info) DataProvider initialized successfully!
+[09.02.2012 20:37:39] (Info) Listening on port 11000 for zones.
+[09.02.2012 20:37:39] (Info) IV data received
+[09.02.2012 20:37:39] (Info) Connected to server @ localhost:10000
+[09.02.2012 20:37:39] (Info) ClientManager initialized.
+[09.02.2012 20:37:39] (Info) WorldAcceptor ready at 9110
+[09.02.2012 20:37:39] (Info) <3 LoginServer.
+[09.02.2012 20:37:45] (Error) Disconnected from server.
+[09.02.2012 20:37:48] (Info) Incoming connection from 85.214.55.189:53570

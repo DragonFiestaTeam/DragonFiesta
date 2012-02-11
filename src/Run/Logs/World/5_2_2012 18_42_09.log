@@ -1,0 +1,38 @@
+[05.02.2012 18:42:10] (Info) 6 InterHandlers loaded.
+[05.02.2012 18:42:10] (Info) 27 Handlers loaded.
+[05.02.2012 18:42:10] (Info) Loaded 1182 bad names.
+[05.02.2012 18:42:10] (Info) DataProvider initialized successfully!
+[05.02.2012 18:42:10] (Info) Listening on port 11000 for zones.
+[05.02.2012 18:42:10] (Info) Connected to server @ localhost:10000
+[05.02.2012 18:42:10] (Info) ClientManager initialized.
+[05.02.2012 18:42:10] (Info) IV data received
+[05.02.2012 18:42:10] (Info) WorldAcceptor ready at 9110
+[05.02.2012 18:42:10] (Info) <3 LoginServer.
+[05.02.2012 18:42:19] (Info) Incoming connection from 85.214.55.189:50303
+[05.02.2012 18:42:19] (Info) IV data received
+[05.02.2012 18:42:19] (Info) Added zone 0 with 64 maps.
+[05.02.2012 18:42:19] (Info) Zone 0 listens @ 85.214.55.189:9210
+[05.02.2012 18:43:23] (Debug) Client connected from 188.96.168.19
+[05.02.2012 18:43:23] (Debug) test authenticated.
+[05.02.2012 18:43:23] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 18:44:15] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[05.02.2012 18:46:00] (Debug) Client connected from 88.77.39.179
+[05.02.2012 18:46:00] (Debug) test99 authenticated.
+[05.02.2012 18:46:00] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 18:46:12] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[05.02.2012 18:49:18] (Debug) Client connected from 188.96.168.19
+[05.02.2012 18:49:18] (Debug) test7 authenticated.
+[05.02.2012 18:49:18] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 18:53:00] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[05.02.2012 19:03:35] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[05.02.2012 19:03:35] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 19:03:42] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[05.02.2012 19:03:42] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 19:04:58] (Warn) Trying to register client by name without having Character object.
+[05.02.2012 19:05:02] (Warn) Trying to register client by name without having Character object.
+[05.02.2012 19:05:42] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[05.02.2012 19:05:42] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[05.02.2012 19:06:31] (Warn) Trying to register client by name without having Character object.
+[05.02.2012 19:06:35] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[05.02.2012 19:06:50] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[05.02.2012 19:08:03] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 

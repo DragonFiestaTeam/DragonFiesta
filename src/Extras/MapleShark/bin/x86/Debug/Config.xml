@@ -1,0 +1,6 @@
+﻿<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Interface>Drahtlose Netzwerkverbindung</Interface>
+  <LowPort>9000</LowPort>
+  <HighPort>65535</HighPort>
+  <Definitions />
+</Config>

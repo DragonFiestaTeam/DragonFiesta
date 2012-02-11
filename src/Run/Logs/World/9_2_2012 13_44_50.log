@@ -1,0 +1,14 @@
+[09.02.2012 13:44:51] (Info) 7 InterHandlers loaded.
+[09.02.2012 13:44:51] (Info) 27 Handlers loaded.
+[09.02.2012 13:44:51] (Info) Loaded 1182 bad names.
+[09.02.2012 13:44:51] (Info) DataProvider initialized successfully!
+[09.02.2012 13:44:51] (Info) Listening on port 11000 for zones.
+[09.02.2012 13:44:51] (Info) Connected to server @ localhost:10000
+[09.02.2012 13:44:51] (Info) ClientManager initialized.
+[09.02.2012 13:44:51] (Info) WorldAcceptor ready at 9110
+[09.02.2012 13:44:51] (Info) IV data received
+[09.02.2012 13:44:51] (Info) <3 LoginServer.
+[09.02.2012 13:45:01] (Info) Incoming connection from 85.214.55.189:52698
+[09.02.2012 13:45:01] (Info) IV data received
+[09.02.2012 13:45:01] (Info) Added zone 0 with 64 maps.
+[09.02.2012 13:45:01] (Info) Zone 0 listens @ 85.214.55.189:9210

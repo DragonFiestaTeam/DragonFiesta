@@ -1,0 +1,69 @@
+[08.02.2012 07:14:19] (Info) 6 InterHandlers loaded.
+[08.02.2012 07:14:19] (Info) 27 Handlers loaded.
+[08.02.2012 07:14:20] (Info) Loaded 1182 bad names.
+[08.02.2012 07:14:20] (Info) DataProvider initialized successfully!
+[08.02.2012 07:14:20] (Info) Listening on port 11000 for zones.
+[08.02.2012 07:14:20] (Info) Connected to server @ localhost:10000
+[08.02.2012 07:14:20] (Info) ClientManager initialized.
+[08.02.2012 07:14:20] (Info) WorldAcceptor ready at 9110
+[08.02.2012 07:14:20] (Info) IV data received
+[08.02.2012 07:14:20] (Info) <3 LoginServer.
+[08.02.2012 07:14:29] (Info) Incoming connection from 85.214.55.189:51769
+[08.02.2012 07:14:29] (Info) IV data received
+[08.02.2012 07:14:29] (Info) Added zone 0 with 64 maps.
+[08.02.2012 07:14:29] (Info) Zone 0 listens @ 85.214.55.189:9210
+[08.02.2012 07:15:36] (Debug) Client connected from 188.96.168.19
+[08.02.2012 07:15:36] (Debug) test7 authenticated.
+[08.02.2012 07:15:37] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[08.02.2012 07:17:49] (Debug) Client connected from 188.96.168.19
+[08.02.2012 07:17:49] (Debug) test99 authenticated.
+[08.02.2012 07:17:49] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[08.02.2012 07:18:49] (Debug) Client connected from 188.96.168.19
+[08.02.2012 07:18:49] (Debug) test authenticated.
+[08.02.2012 07:18:49] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[08.02.2012 07:19:10] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[08.02.2012 07:22:27] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[08.02.2012 07:26:17] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[08.02.2012 07:31:51] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.ArgumentNullException: Der Wert darf nicht NULL sein.
+Parametername: source
+   bei System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+   bei Zepheus.World.Data.WorldGuild.GetGuild(Int32 ID) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Data\WorldGuild.cs:Zeile 26.
+   bei Zepheus.World.Handlers.Handler29.GuildNameRequest(WorldClient client, Packet packet) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler29.cs:Zeile 20.
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\HandlerStore.cs:Zeile 55.
+   bei Zepheus.World.Worker.Work() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Worker.cs:Zeile 79.
+[08.02.2012 07:31:53] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.ArgumentNullException: Der Wert darf nicht NULL sein.
+Parametername: source
+   bei System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+   bei Zepheus.World.Data.WorldGuild.GetGuild(Int32 ID) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Data\WorldGuild.cs:Zeile 26.
+   bei Zepheus.World.Handlers.Handler29.GuildNameRequest(WorldClient client, Packet packet) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler29.cs:Zeile 20.
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\HandlerStore.cs:Zeile 55.
+   bei Zepheus.World.Worker.Work() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Worker.cs:Zeile 79.
+[08.02.2012 07:33:38] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[08.02.2012 07:33:38] (Exception) System.Reflection.TargetInvocationException: Ein Aufrufziel hat einen Ausnahmefehler verursacht. ---> System.ArgumentNullException: Der Wert darf nicht NULL sein.
+Parametername: source
+   bei System.Linq.Enumerable.First[TSource](IEnumerable`1 source, Func`2 predicate)
+   bei Zepheus.World.Data.WorldGuild.GetGuild(Int32 ID) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Data\WorldGuild.cs:Zeile 26.
+   bei Zepheus.World.Handlers.Handler29.GuildNameRequest(WorldClient client, Packet packet) in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\Handler29.cs:Zeile 20.
+   --- Ende der internen Ausnahmestapelüberwachung ---
+   bei System.RuntimeMethodHandle._InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, SignatureStruct& sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.RuntimeMethodHandle.InvokeMethodFast(IRuntimeMethodInfo method, Object target, Object[] arguments, Signature sig, MethodAttributes methodAttributes, RuntimeType typeOwner)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture, Boolean skipVisibilityChecks)
+   bei System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   bei System.Reflection.MethodBase.Invoke(Object obj, Object[] parameters)
+   bei Zepheus.World.Handlers.HandlerStore.<>c__DisplayClass1.<GetCallback>b__0() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Handlers\HandlerStore.cs:Zeile 55.
+   bei Zepheus.World.Worker.Work() in C:\Users\Gothic\Desktop\rev93\branches\Zepheus.World\Worker.cs:Zeile 79.
+[08.02.2012 07:33:38] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[08.02.2012 07:34:55] (Warn) Trying to register client by name without having Character object.
+[08.02.2012 07:36:56] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 

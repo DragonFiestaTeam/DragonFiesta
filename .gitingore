@@ -1,0 +1,17 @@
+# .gitignore for DragonFiesta
+
+
+#ignore prev SVN stuff
+*.svn
+.svn/*
+*.svn*
+
+#ignore stuff created by VisualStudio
+*.suo
+*.pdb
+*ReSharper*
+*reSharper*
+*bin/*
+*obj/*
+bin
+obj

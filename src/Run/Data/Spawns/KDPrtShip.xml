@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<ArrayOfSpawnNPCPoint xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SpawnNPCPoint>
+    <ID>103</ID>
+    <X>10443</X>
+    <Y>8712</Y>
+    <Rotation>90</Rotation>
+  </SpawnNPCPoint>
+</ArrayOfSpawnNPCPoint>

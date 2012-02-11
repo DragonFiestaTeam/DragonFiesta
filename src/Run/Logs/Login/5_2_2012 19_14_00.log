@@ -1,0 +1,10 @@
+[05.02.2012 19:14:01] (Info) 1 InterHandlers loaded.
+[05.02.2012 19:14:01] (Info) 5 Handlers loaded.
+[05.02.2012 19:14:01] (Info) WorldManager initialized.
+[05.02.2012 19:14:01] (Info) Listening on port 10000
+[05.02.2012 19:14:01] (Info) ClientManager Initialized.
+[05.02.2012 19:14:01] (Info) Accepting clients on port 9010
+[05.02.2012 19:14:02] (Info) Incomming connection from 127.0.0.1:50360
+[05.02.2012 19:14:02] (Info) IV data received
+[05.02.2012 19:14:02] (Info) Assigned world 0!
+[05.02.2012 19:15:27] (Info) World 0 disconnected.

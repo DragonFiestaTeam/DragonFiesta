@@ -1,0 +1,2234 @@
+[09.02.2012 16:00:03] (Info) 27 command(s) registered.
+[09.02.2012 16:00:03] (Info) 6 InterHandlers loaded.
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:1
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:8
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:43
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:61
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:50
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:64
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 9:65
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:1
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:29
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:30
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:10
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:39
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:42
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:32
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:36
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:25
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:18
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 8:23
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 7:1
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 6:1
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 6:22
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 6:3
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 4:78
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 4:92
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 15:2
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 14:72
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 2:5
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:18
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:3
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:6
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:9
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:21
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:15
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:11
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:7
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 12:23
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 20:7
+[09.02.2012 16:00:03] (Warn) Duplicate handler found: 20:9
+[09.02.2012 16:00:03] (Info) 38 Handlers loaded.
+[09.02.2012 16:00:03] (Info) ClientManager initialized.
+[09.02.2012 16:00:03] (Info) IV data received
+[09.02.2012 16:00:03] (Info) Connected to server @ 85.214.55.189:11000
+[09.02.2012 16:00:03] (Info) Successfully linked with worldserver. [Zone: 0 | Port: 9210]
+[09.02.2012 16:00:03] (Info) Listening at port 9210 for incoming clients.
+[09.02.2012 16:00:03] (Info) Added zone 0 to zonelist. 85.214.55.189:9210
+[09.02.2012 16:00:03] (Warn) No BlockInfo for Map Job2_TimeG
+[09.02.2012 16:00:03] (Warn) No BlockInfo for Map BFGate03
+[09.02.2012 16:00:03] (Warn) No BlockInfo for Map GBHouse
+[09.02.2012 16:00:03] (Info) Loaded 96 maps.
+[09.02.2012 16:00:03] (Debug) Trying to load 25 jobs.
+[09.02.2012 16:00:03] (Debug) Loaded 150 levels for job Archer
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Reaper
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Gambit
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Cleric
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job CleverFighter
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Spectre
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Renegade
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Enchanter
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Fighter
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Gladiator
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Guardian
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job HawkArcher
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job HighCleric
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job HolyKnight
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Trickster
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Knight
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Mage
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Paladin
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Ranger
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Scout
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job SharpShooter
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Warlock
+[09.02.2012 16:00:04] (Debug) Loaded 150 levels for job Warrior
+[09.02.2012 16:00:05] (Debug) Loaded 150 levels for job Wizard
+[09.02.2012 16:00:05] (Debug) Loaded 150 levels for job WizMage
+[09.02.2012 16:00:06] (Warn) Duplicate item found ID: 3228 (Q_Pickaxe).
+[09.02.2012 16:00:06] (Warn) Duplicate item found ID: 3394 (Q_Mud).
+[09.02.2012 16:00:06] (Warn) Duplicate item found ID: 9026 (Q_PergyHorn).
+[09.02.2012 16:00:07] (Warn) Duplicate item found ID: 30105 (LicenseClear).
+[09.02.2012 16:00:07] (Info) Loaded 8753 items.
+[09.02.2012 16:00:08] (Warn) Duplicate mob ID found in MobInfo.shn: 8555.
+[09.02.2012 16:00:08] (Info) Loaded 1965 mobs.
+[09.02.2012 16:00:08] (Info) Loaded 829 DropGroups, with 20244 drops in total.
+[09.02.2012 16:00:09] (Warn) Q_StoneFire was assigned to unknown DropGroup QSItem01.
+[09.02.2012 16:00:09] (Warn) Q_ToyWorze was assigned to unknown DropGroup QSItem02.
+[09.02.2012 16:00:09] (Warn) Q_PhotoOld was assigned to unknown DropGroup QSItem03.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar01 was assigned to unknown DropGroup KingSlimeJellyEar01.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar01 was assigned to unknown DropGroup NaAcc005.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar02 was assigned to unknown DropGroup KingSlimeJellyEar02.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar02 was assigned to unknown DropGroup NaAcc005.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar03 was assigned to unknown DropGroup KingSlimeJellyEar03.
+[09.02.2012 16:00:09] (Warn) KingSlimeJellyEar03 was assigned to unknown DropGroup NaAcc005.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar01 was assigned to unknown DropGroup MaraPirateEar01.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar01 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar02 was assigned to unknown DropGroup MaraPirateEar02.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar02 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar03 was assigned to unknown DropGroup MaraPirateEar03.
+[09.02.2012 16:00:09] (Warn) MaraPirateEar03 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) MaraEar01 was assigned to unknown DropGroup MaraEar01.
+[09.02.2012 16:00:09] (Warn) MaraEar01 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) MaraEar02 was assigned to unknown DropGroup MaraEar02.
+[09.02.2012 16:00:09] (Warn) MaraEar02 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) MaraEar03 was assigned to unknown DropGroup MaraEar03.
+[09.02.2012 16:00:09] (Warn) MaraEar03 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:09] (Warn) FiveColorEar01 was assigned to unknown DropGroup FiveColorEar01.
+[09.02.2012 16:00:09] (Warn) FiveColorEar01 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) FiveColorEar02 was assigned to unknown DropGroup FiveColorEar02.
+[09.02.2012 16:00:09] (Warn) FiveColorEar02 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) FiveColorEar03 was assigned to unknown DropGroup FiveColorEar03.
+[09.02.2012 16:00:09] (Warn) FiveColorEar03 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) GoldEar01 was assigned to unknown DropGroup GoldEar01.
+[09.02.2012 16:00:09] (Warn) GoldEar01 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) GoldEar02 was assigned to unknown DropGroup GoldEar02.
+[09.02.2012 16:00:09] (Warn) GoldEar02 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) GoldEar03 was assigned to unknown DropGroup GoldEar03.
+[09.02.2012 16:00:09] (Warn) GoldEar03 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:09] (Warn) RoboClawEar01 was assigned to unknown DropGroup RoboClawEar01.
+[09.02.2012 16:00:09] (Warn) RoboClawEar01 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:09] (Warn) RoboClawEar03 was assigned to unknown DropGroup RoboClawEar03.
+[09.02.2012 16:00:09] (Warn) RoboClawEar03 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:09] (Warn) RoboClawEar02 was assigned to unknown DropGroup RoboClawEar02.
+[09.02.2012 16:00:09] (Warn) RoboClawEar02 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:09] (Warn) RoboClawEar04 was assigned to unknown DropGroup RoboClawEar04.
+[09.02.2012 16:00:09] (Warn) RoboClawEar04 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:09] (Warn) RoboDarkEar01 was assigned to unknown DropGroup RoboDarkEar01.
+[09.02.2012 16:00:09] (Warn) RoboDarkEar01 was assigned to unknown DropGroup NaAcc035.
+[09.02.2012 16:00:09] (Warn) RoboDarkEar02 was assigned to unknown DropGroup RoboDarkEar02.
+[09.02.2012 16:00:09] (Warn) RoboDarkEar02 was assigned to unknown DropGroup NaAcc035.
+[09.02.2012 16:00:09] (Warn) DragonTearEar01 was assigned to unknown DropGroup DragonTearEar01.
+[09.02.2012 16:00:09] (Warn) DragonTearEar01 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonTearEar02 was assigned to unknown DropGroup DragonTearEar02.
+[09.02.2012 16:00:09] (Warn) DragonTearEar02 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonTearEar03 was assigned to unknown DropGroup DragonTearEar03.
+[09.02.2012 16:00:09] (Warn) DragonTearEar03 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonTearEar04 was assigned to unknown DropGroup DragonTearEar04.
+[09.02.2012 16:00:09] (Warn) DragonTearEar04 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonTearEar05 was assigned to unknown DropGroup DragonTearEar05.
+[09.02.2012 16:00:09] (Warn) DragonTearEar05 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonTearEar06 was assigned to unknown DropGroup DragonTearEar06.
+[09.02.2012 16:00:09] (Warn) DragonTearEar06 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar01 was assigned to unknown DropGroup DragonGuardEar01.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar01 was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar02 was assigned to unknown DropGroup DragonGuardEar02.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar02 was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar03 was assigned to unknown DropGroup DragonGuardEar03.
+[09.02.2012 16:00:09] (Warn) DragonGuardEar03 was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar01 was assigned to unknown DropGroup GoMasterSoulEar01.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar01 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar02 was assigned to unknown DropGroup GoMasterSoulEar02.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar02 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar03 was assigned to unknown DropGroup GoMasterSoulEar03.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar03 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar04 was assigned to unknown DropGroup GoMasterSoulEar04.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar04 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar05 was assigned to unknown DropGroup GoMasterSoulEar05.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar05 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar06 was assigned to unknown DropGroup GoMasterSoulEar06.
+[09.02.2012 16:00:09] (Warn) GoMasterSoulEar06 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar01 was assigned to unknown DropGroup SoulBreatingEar01.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar01 was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar02 was assigned to unknown DropGroup SoulBreatingEar02.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar02 was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar03 was assigned to unknown DropGroup SoulBreatingEar03.
+[09.02.2012 16:00:09] (Warn) SoulBreatingEar03 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarA was assigned to unknown DropGroup KQ_HenisEarA.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarA was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarB was assigned to unknown DropGroup KQ_HenisEarB.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarB was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarC was assigned to unknown DropGroup KQ_HenisEarC.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarC was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarD was assigned to unknown DropGroup KQ_HenisEarD.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarD was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarE was assigned to unknown DropGroup KQ_HenisEarE.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarE was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarF was assigned to unknown DropGroup KQ_HenisEarF.
+[09.02.2012 16:00:09] (Warn) KQ_HenisEarF was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:09] (Warn) KQ_VictorA was assigned to unknown DropGroup KQ_VictorA.
+[09.02.2012 16:00:09] (Warn) KQ_VictorA was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) KQ_VictorB was assigned to unknown DropGroup KQ_VictorB.
+[09.02.2012 16:00:09] (Warn) KQ_VictorB was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) KQ_VictorC was assigned to unknown DropGroup KQ_VictorC.
+[09.02.2012 16:00:09] (Warn) KQ_VictorC was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) KQ_VictorD was assigned to unknown DropGroup KQ_VictorD.
+[09.02.2012 16:00:09] (Warn) KQ_VictorD was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) KQ_VictorE was assigned to unknown DropGroup KQ_VictorE.
+[09.02.2012 16:00:09] (Warn) KQ_VictorE was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) KQ_VictorF was assigned to unknown DropGroup KQ_VictorF.
+[09.02.2012 16:00:09] (Warn) KQ_VictorF was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:09] (Warn) SunStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) WindStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) LightningStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) RagingWindStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) ThunderStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) StormStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SEclipseStealAxe was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SunWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) WindWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) LightningWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) RagingWindWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) ThunderWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) StormWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SEclipseWarriorAxe was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SunTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) WindTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) LightningTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) RagingWindTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) ThunderTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) StormTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SEclipseTwoHandAxe was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SunPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) WindPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) LightningPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) RagingWindPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) ThunderPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) StormPoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SEclipsePoleAxe was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SunHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) WindHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) LightningHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) RagingWindHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) ThunderHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) StormHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SEclipseHalberd was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SunBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) WindBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) LightningBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) RagingWindBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) ThunderBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) StormBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SEclipseBikingAxe was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SunGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) WindGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) LightningGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) RagingWindGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) ThunderGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) StormGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) SEclipseGiantAxe was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) SunTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) WindTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) LightningTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) RagingWindTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) ThunderTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) StormTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) SEclipseTitanicAxe was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) SunValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) WindValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) LightningValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) RagingWindValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) ThunderValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) StormValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SEclipseValorAxe was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SunGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) WindGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) LightningGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) RagingWindGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) ThunderGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) StormGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) SEclipseGorgonAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) SunShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) WindShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) LightningShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) RagingWindShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) ThunderShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) StormShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) SEclipseShortSword was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:09] (Warn) SunLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) WindLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) LightningLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) RagingWindLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) ThunderLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) StormLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) SEclipseLongSword was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:09] (Warn) SunBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) WindBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) LightningBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) RagingWindBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) ThunderBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) StormBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) SEclipseBroadSword was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:09] (Warn) SunRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) WindRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) LightningRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) RagingWindRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) ThunderRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) StormRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SEclipseRoumenSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SunBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) WindBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) LightningBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) RagingWindBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) ThunderBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) StormBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SEclipseBridgeSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SunCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) WindCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) LightningCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) RagingWindCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) ThunderCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) StormCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SEclipseCutlas was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SunEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) WindEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) LightningEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) RagingWindEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) ThunderEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) StormEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SEclipseEdgedSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SunSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) WindSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) LightningSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) RagingWindSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) ThunderSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) StormSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SEclipseSplitter was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SunAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) WindAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) LightningAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) RagingWindAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) ThunderAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) StormAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SEclipseAvantGardeSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SunSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) WindSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) LightningSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) RagingWindSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) ThunderSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) StormSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SEclipseSerpentSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SunVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) WindVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) LightningVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) RagingWindVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) ThunderVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) StormVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SEclipseVulcanSword was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SunHellasSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) WindHellasSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) LightningHellasSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) RagingHellasSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) ThunderAvaSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) StormAvaSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SEclipseAvaSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SunGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) WindGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) LightningGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) RagingGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) ThunderGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) StormGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) SEclipseGedSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) SunStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) WindStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) LightningStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) RagingWindStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) ThunderStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) StormStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SEclipseStealSword was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:09] (Warn) SunWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) WindWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) LightningWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) RagingWindWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) ThunderWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) StormWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SEclipseWarriorSword was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:09] (Warn) SunZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) WindZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) LightningZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) RagingWindZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) ThunderZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) StormZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SEclipseZweihander was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:09] (Warn) SunBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) WindBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) LightningBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) RagingWindBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) ThunderBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) StormBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SEclipseBastardSword was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:09] (Warn) SunClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) WindClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) LightningClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) RagingWindClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) ThunderClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) StormClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SEclipseClaymore was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:09] (Warn) SunFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) WindFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) LightningFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) RagingWindFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) ThunderFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) StormFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SEclipseFlamberge was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:09] (Warn) SunGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) WindGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) LightningGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) RagingWindGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) ThunderGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) StormGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) SEclipseGiantSword was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:09] (Warn) SunTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) WindTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) LightningTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) RagingWindTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) ThunderTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) StormTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) SEclipseTitanicSword was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:09] (Warn) SunValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) WindValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) LightningValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) RagingWindValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) ThunderValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) StormValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SEclipseValorSword was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:09] (Warn) SunGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) WindGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) LightningGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:09] (Warn) RagingWindGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ThunderGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipseGorgonSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SunShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) WindShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) LightningShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) RagingWindShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) ThunderShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) StormShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) SEclipseShortMace was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) SunLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) WindLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) LightningLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) RagingWindLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) ThunderLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) StormLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) SEclipseLongMace was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) SunSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) WindSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) LightningSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) RagingWindSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) ThunderSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) StormSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) SEclipseSpikedClub was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) SunRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) RagingWindRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ThunderRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SEclipseRoumenMace was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SunPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) RagingWindPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ThunderPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormPaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SEclipsePaladinMace was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SunHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) RagingWindHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ThunderHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SEclipseHorsemansFlail was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SunMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) RagingWindMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ThunderMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SEclipseMorningStar was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SunWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) RagingWindWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ThunderWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SEclipseWarMace was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SunBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) RagingWindBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ThunderBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SEclipseBattleMace was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SunGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) RagingWindGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ThunderGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SEclipseGiantMace was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SunTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) RagingWindTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ThunderTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SEclipseTitanicMace was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SunHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) RagingHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ThunderHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyMace was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SunRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) RagingRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ThunderRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipseRudicMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SunHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) RagingWindHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ThunderHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SEclipseHeavenHammer was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SunPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) RagingWindPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ThunderPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormPaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SEclipsePaladinHammer was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SunHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) RagingWindHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ThunderHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SEclipseHorsemansHammer was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SunMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) RagingWindMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ThunderMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SEclipseMorgenstern was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SunWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) RagingWindWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ThunderWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SEclipseWarHammer was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SunBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) RagingWindBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ThunderBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SEclipseBattleHammer was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SunGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) RagingWindGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ThunderGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SEclipseGiantHammer was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SunTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) RagingWindTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ThunderTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SEclipseTitanicHammer was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SunHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) RagingHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ThunderHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyHammer was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SunBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) RagingBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ThunderBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipseBillholyshionHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SunShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) WindShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) LightningShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) RagingWindShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) ThunderShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) StormShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) SEclipseShortBow was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) SunLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) WindLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) LightningLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) RagingWindLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) ThunderLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) StormLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) SEclipseLongBow was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) SunLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) WindLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) LightningLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) RagingWindLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) ThunderLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) StormLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) SEclipseLightBow was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) SunRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) RagingWindRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ThunderRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SEclipseRoumenBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SunScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) RagingWindScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ThunderScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SEclipseScoutBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SunHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) RagingWindHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ThunderHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SEclipseHeavyBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SunCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) RagingWindCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ThunderCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SEclipseCompositBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SunWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) RagingWindWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ThunderWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SEclipseWarBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SunBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) RagingWindBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ThunderBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SEclipseBattleBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SunGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) RagingWindGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ThunderGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SEclipseGiantBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SunTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) RagingWindTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ThunderTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SEclipseTitanicBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SunShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) RagingShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ThunderShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SEclipseShadowBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SunPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) RagingPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ThunderPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormPakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipsePakahBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SunStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) RagingWindStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ThunderStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SEclipseStealCrossBow was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SunScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) RagingWindScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ThunderScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SEclipseScoutCrossBow was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SunHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) RagingWindHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ThunderHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SEclipseHeavyCrossBow was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SunCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) RagingWindCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ThunderCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SEclipseCompositCrossBow was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SunWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) RagingWindWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ThunderWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SEclipseWarCrossBow was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SunBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) RagingWindBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ThunderBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SEclipseBattleCrossBow was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SunGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) RagingWindGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ThunderGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SEclipseGiantCrossBow was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SunTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) RagingWindTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ThunderTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SEclipseTitanicCrossBow was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SunShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) RagingShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ThunderShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SEclipseShadowCrossBow was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SunShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) RagingShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ThunderShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipseShebaCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) MoonShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) WindShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) LightningShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) SadMoonShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) ShdwMoonShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) StormShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) MEclipseShortStaff was assigned to unknown DropGroup RandomNamedW01.
+[09.02.2012 16:00:10] (Warn) MoonLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) WindLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) LightningLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) SadMoonLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) ShdwMoonLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) StormLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) MEclipseLongStaff was assigned to unknown DropGroup RandomNamedW02.
+[09.02.2012 16:00:10] (Warn) MoonMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) WindMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) LightningMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) SadMoonMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) ShdwMoonMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) StormMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) MEclipseMagicStaff was assigned to unknown DropGroup RandomNamedW03.
+[09.02.2012 16:00:10] (Warn) MoonRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SadMoonRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ShdwMoonRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) MEclipseRoumenStaff was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) MoonEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SadMoonEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ShdwMoonEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) MEclipseEnchanterStaff was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) MoonPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SadMoonPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ShdwMoonPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormPowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) MEclipsePowerStaff was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) MoonSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SadMoonSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ShdwMoonSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) MEclipseSpiritStaff was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) MoonFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SadMoonFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ShdwMoonFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) MEclipseFairyStaff was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) MoonBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SadMoonBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ShdwMoonBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) MEclipseBattleStaff was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) MoonGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SadMoonGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ShdwMoonGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) MEclipseGiantStaff was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) MoonTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SadMoonTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ShdwMoonTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) MEclipseTitanicStaff was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) MoonIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SadMoonIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ShdwMoonIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) MEclipseIllusionStaff was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) MoonManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SadMoonManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ShdwMoonManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) MEclipseManoahStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) MoonRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) WindRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) LightningRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) SadMoonRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) ShdwMoonRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) MEclipseRuneWand was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) MoonEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) WindEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) LightningEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) SadMoonEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) ShdwMoonEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) MEclipseEnchanterWand was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) MoonPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) WindPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) LightningPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) SadMoonPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) ShdwMoonPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) StormPowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) MEclipsePowerWand was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) MoonSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) WindSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) LightningSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) SadMoonSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) ShdwMoonSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) StormSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) MEclipseSpiritWand was assigned to unknown DropGroup RandomNamedW07.
+[09.02.2012 16:00:10] (Warn) MoonFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) WindFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) LightningFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) SadMoonFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) ShdwMoonFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) StormFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) MEclipseFairyWand was assigned to unknown DropGroup RandomNamedW08.
+[09.02.2012 16:00:10] (Warn) MoonBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) WindBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) LightningBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) SadMoonBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) ShdwMoonBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) StormBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) MEclipseBattleWand was assigned to unknown DropGroup RandomNamedW09.
+[09.02.2012 16:00:10] (Warn) MoonGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) WindGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) LightningGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) SadMoonGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) ShdwMoonGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) StormGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) MEclipseGiantWand was assigned to unknown DropGroup RandomNamedW10.
+[09.02.2012 16:00:10] (Warn) MoonTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) WindTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) LightningTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) SadMoonTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) ShdwMoonTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) MEclipseTitanicWand was assigned to unknown DropGroup RandomNamedW11.
+[09.02.2012 16:00:10] (Warn) StormRuneWand01 was assigned to unknown DropGroup RandomNamedW04.
+[09.02.2012 16:00:10] (Warn) StormEnchanterWand01 was assigned to unknown DropGroup RandomNamedW05.
+[09.02.2012 16:00:10] (Warn) StormPowerWand01 was assigned to unknown DropGroup RandomNamedW06.
+[09.02.2012 16:00:10] (Warn) MoonIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) WindIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) LightningIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) SadMoonIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) ShdwMoonIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) StormIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) MEclipseIllusionWand was assigned to unknown DropGroup RandomNamedW12.
+[09.02.2012 16:00:10] (Warn) MoonDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) WindDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) LightningDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SadMoonDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) ShdwMoonDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) StormDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) MEclipseDinahWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:10] (Warn) SEclipseLeatherShirt was assigned to unknown DropGroup RandomNamedA02.
+[09.02.2012 16:00:10] (Warn) SEclipseChainArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:10] (Warn) SEclipseHideArmor was assigned to unknown DropGroup RandomNamedA04.
+[09.02.2012 16:00:10] (Warn) SEclipseScailArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:10] (Warn) SEclipseMithrilArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:10] (Warn) SEclipseBrigandineArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:10] (Warn) SEclipseLightPlateArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:10] (Warn) SEclipseHalfPlateArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:10] (Warn) SEclipseMightyPlateArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:10] (Warn) SEclipseFuryArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:10] (Warn) SEclipseElishaArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SEclipseRedcliffArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseLeatherPants was assigned to unknown DropGroup RandomNamedP02.
+[09.02.2012 16:00:10] (Warn) SeclipseChainPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:10] (Warn) SeclipseHidePants was assigned to unknown DropGroup RandomNamedP04.
+[09.02.2012 16:00:10] (Warn) SeclipseScailPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:10] (Warn) SeclipseMithrilPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:10] (Warn) SeclipseBrigandinePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:10] (Warn) SeclipseLightPlatePants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:10] (Warn) SeclipseHalfPlatePants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:10] (Warn) SeclipseMightyPlatePants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:10] (Warn) SEclipseFuryPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:10] (Warn) SEclipseElishaPants was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseRedcliffPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:10] (Warn) SeclipseLeatherHelmet was assigned to unknown DropGroup RandomNamedH02.
+[09.02.2012 16:00:10] (Warn) SeclipseChainHelmet was assigned to unknown DropGroup RandomNamedH03.
+[09.02.2012 16:00:10] (Warn) SeclipseHideHelmet was assigned to unknown DropGroup RandomNamedH04.
+[09.02.2012 16:00:10] (Warn) SeclipseScailHelmet was assigned to unknown DropGroup RandomNamedH05.
+[09.02.2012 16:00:10] (Warn) SeclipseMithrilHelmet was assigned to unknown DropGroup RandomNamedH06.
+[09.02.2012 16:00:10] (Warn) SeclipseBrigandineHelmet was assigned to unknown DropGroup RandomNamedH07.
+[09.02.2012 16:00:10] (Warn) SeclipseLightPlateHelmet was assigned to unknown DropGroup RandomNamedH08.
+[09.02.2012 16:00:10] (Warn) SeclipseHalfPlateHelmet was assigned to unknown DropGroup RandomNamedH09.
+[09.02.2012 16:00:10] (Warn) SeclipseMightyPlateHelmet was assigned to unknown DropGroup RandomNamedH10.
+[09.02.2012 16:00:10] (Warn) SEclipseFuryHelmet was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:10] (Warn) SEclipseElishaHelmet was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseRedcliffHelmet was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:10] (Warn) SeclipseLeatherBoots was assigned to unknown DropGroup RandomNamedB02.
+[09.02.2012 16:00:10] (Warn) SeclipseChainBoots was assigned to unknown DropGroup RandomNamedB03.
+[09.02.2012 16:00:10] (Warn) SeclipseHideBoots was assigned to unknown DropGroup RandomNamedB04.
+[09.02.2012 16:00:10] (Warn) SeclipseScailBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:10] (Warn) SeclipseMithrilBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:10] (Warn) SeclipseBrigandineBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:10] (Warn) SeclipseLightPlateBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:10] (Warn) SeclipseHalfPlateBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:10] (Warn) SeclipseMightyPlateBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:10] (Warn) SEclipseFuryBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:10] (Warn) SEclipseElishaBoots was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseRedcliffBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:10] (Warn) SeclipseWoodenShield was assigned to unknown DropGroup RandomNamedS01.
+[09.02.2012 16:00:10] (Warn) SeclipseBuckler was assigned to unknown DropGroup RandomNamedS02.
+[09.02.2012 16:00:10] (Warn) SeclipseFChainShield was assigned to unknown DropGroup RandomNamedS03.
+[09.02.2012 16:00:10] (Warn) SeclipseHideShield was assigned to unknown DropGroup RandomNamedS04.
+[09.02.2012 16:00:10] (Warn) SeclipseFKiteShield was assigned to unknown DropGroup RandomNamedS05.
+[09.02.2012 16:00:10] (Warn) SeclipseFTargeShield was assigned to unknown DropGroup RandomNamedS06.
+[09.02.2012 16:00:10] (Warn) SeclipseFSplendor was assigned to unknown DropGroup RandomNamedS07.
+[09.02.2012 16:00:10] (Warn) SeclipseAvantGardeShield was assigned to unknown DropGroup RandomNamedS08.
+[09.02.2012 16:00:10] (Warn) SeclipseLionHeartShield was assigned to unknown DropGroup RandomNamedS09.
+[09.02.2012 16:00:10] (Warn) SeclipseHeaterShield was assigned to unknown DropGroup RandomNamedS10.
+[09.02.2012 16:00:10] (Warn) SeclipseCeresShield was assigned to unknown DropGroup RandomNamedS11.
+[09.02.2012 16:00:10] (Warn) SEclipseLitanyHelmet was assigned to unknown DropGroup RandomNamedH02.
+[09.02.2012 16:00:10] (Warn) SEclipseBlessHelmet was assigned to unknown DropGroup RandomNamedH03.
+[09.02.2012 16:00:10] (Warn) SEclipseRestoreHelmet was assigned to unknown DropGroup RandomNamedH04.
+[09.02.2012 16:00:10] (Warn) SEclipseSplintHelmet was assigned to unknown DropGroup RandomNamedH05.
+[09.02.2012 16:00:10] (Warn) SEclipseSacredHelmet was assigned to unknown DropGroup RandomNamedH06.
+[09.02.2012 16:00:10] (Warn) SEclipsePlateHelmet was assigned to unknown DropGroup RandomNamedH07.
+[09.02.2012 16:00:10] (Warn) SEclipseFieldPlateHelmet was assigned to unknown DropGroup RandomNamedH08.
+[09.02.2012 16:00:10] (Warn) SEclipseFullPlateHelmet was assigned to unknown DropGroup RandomNamedH09.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyHelmet was assigned to unknown DropGroup RandomNamedH10.
+[09.02.2012 16:00:10] (Warn) SEclipseCharityHelmet was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:10] (Warn) SEclipseEleazarHelmet was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseFloofHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:10] (Warn) SEclipseLitanyBoots was assigned to unknown DropGroup RandomNamedB02.
+[09.02.2012 16:00:10] (Warn) SEclipseBlessBoots was assigned to unknown DropGroup RandomNamedB03.
+[09.02.2012 16:00:10] (Warn) SEclipseRestoreBoots was assigned to unknown DropGroup RandomNamedB04.
+[09.02.2012 16:00:10] (Warn) SEclipseSplintBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:10] (Warn) SEclipseSacredBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:10] (Warn) SEclipsePlateBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:10] (Warn) SEclipseFieldPlateBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:10] (Warn) SEclipseFullPlateBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:10] (Warn) SEclipseCharityBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:10] (Warn) SEclipseEleazarBoots was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseFloofBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:10] (Warn) SEclipseLitanyArmor was assigned to unknown DropGroup RandomNamedA02.
+[09.02.2012 16:00:10] (Warn) SEclipseBlessArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:10] (Warn) SEclipseRestoreArmor was assigned to unknown DropGroup RandomNamedA04.
+[09.02.2012 16:00:10] (Warn) SEclipseSplintArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:10] (Warn) SEclipseSacredArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:10] (Warn) SEclipsePlateArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:10] (Warn) SEclipseFieldPlateArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:10] (Warn) SEclipseFullPlateArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:10] (Warn) SEclipseCharityArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:10] (Warn) SEclipseEleazarArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseFloofArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SEclipseLitanyPants was assigned to unknown DropGroup RandomNamedP02.
+[09.02.2012 16:00:10] (Warn) SEclipseBlessPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:10] (Warn) SEclipseRestorePants was assigned to unknown DropGroup RandomNamedP04.
+[09.02.2012 16:00:10] (Warn) SEclipseSplintPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:10] (Warn) SEclipseSacredPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:10] (Warn) SEclipsePlatePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:10] (Warn) SEclipseFieldPlatePants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:10] (Warn) SEclipseFullPlatePants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:10] (Warn) SEclipseCharityPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:10] (Warn) SEclipseEleazarPants was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseFloofPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:10] (Warn) SEclipseFighterShield was assigned to unknown DropGroup RandomNamedS01.
+[09.02.2012 16:00:10] (Warn) SEclipseRoundShield was assigned to unknown DropGroup RandomNamedS02.
+[09.02.2012 16:00:10] (Warn) SEclipseChainShield was assigned to unknown DropGroup RandomNamedS03.
+[09.02.2012 16:00:10] (Warn) SEclipsePelta was assigned to unknown DropGroup RandomNamedS04.
+[09.02.2012 16:00:10] (Warn) SEclipseKiteShield was assigned to unknown DropGroup RandomNamedS05.
+[09.02.2012 16:00:10] (Warn) SEclipseTargeShield was assigned to unknown DropGroup RandomNamedS06.
+[09.02.2012 16:00:10] (Warn) SEclipseSplendor was assigned to unknown DropGroup RandomNamedS07.
+[09.02.2012 16:00:10] (Warn) SEclipseReflectionShield was assigned to unknown DropGroup RandomNamedS08.
+[09.02.2012 16:00:10] (Warn) SEclipseTowershield was assigned to unknown DropGroup RandomNamedS09.
+[09.02.2012 16:00:10] (Warn) SEclipseHolyShield was assigned to unknown DropGroup RandomNamedS10.
+[09.02.2012 16:00:10] (Warn) SEclipseClipeusShield was assigned to unknown DropGroup RandomNamedS11.
+[09.02.2012 16:00:10] (Warn) SEclipseTrivialHat was assigned to unknown DropGroup RandomNamedH02.
+[09.02.2012 16:00:10] (Warn) SEclipseHardLeatherHat was assigned to unknown DropGroup RandomNamedH03.
+[09.02.2012 16:00:10] (Warn) SEclipseDisguiseHat was assigned to unknown DropGroup RandomNamedH04.
+[09.02.2012 16:00:10] (Warn) SEclipseSneakHat was assigned to unknown DropGroup RandomNamedH05.
+[09.02.2012 16:00:10] (Warn) SEclipseRobberHat was assigned to unknown DropGroup RandomNamedH06.
+[09.02.2012 16:00:10] (Warn) SEclipseHunterHat was assigned to unknown DropGroup RandomNamedH07.
+[09.02.2012 16:00:10] (Warn) SEclipseMasterHat was assigned to unknown DropGroup RandomNamedH08.
+[09.02.2012 16:00:10] (Warn) SEclipseDuskHat was assigned to unknown DropGroup RandomNamedH09.
+[09.02.2012 16:00:10] (Warn) SEclipseDarknessHat was assigned to unknown DropGroup RandomNamedH10.
+[09.02.2012 16:00:10] (Warn) SEclipseSpeedyHat was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:10] (Warn) SEclipseOhelHat was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:10] (Warn) SeclipseGreenStormHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:10] (Warn) SEclipseTrivialBoots was assigned to unknown DropGroup RandomNamedB02.
+[09.02.2012 16:00:10] (Warn) SEclipseHardLeatherBoots was assigned to unknown DropGroup RandomNamedB03.
+[09.02.2012 16:00:10] (Warn) SEclipseDisguiseBoots was assigned to unknown DropGroup RandomNamedB04.
+[09.02.2012 16:00:11] (Warn) SEclipseSneakBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) SEclipseRobberBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) SEclipseHunterBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) SEclipseMasterBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) SEclipseDuskBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) SEclipseDarknessBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) SEclipseSpeedyBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) SEclipseOhelBoots was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) SeclipseGreenStormBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:11] (Warn) SEclipseTrivialShirt was assigned to unknown DropGroup RandomNamedA02.
+[09.02.2012 16:00:11] (Warn) SEclipseHardLeatherArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) SEclipseDisguiseArmor was assigned to unknown DropGroup RandomNamedA04.
+[09.02.2012 16:00:11] (Warn) SEclipseSneakArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) SEclipseRobberArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) SEclipseHunterArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) SEclipseMasterArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) SEclipseDuskArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) SEclipseDarknessArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) SEclipseSpeedyArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) SEclipseOhelArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) SeclipseGreenStormArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) SEclipseTrivialPants was assigned to unknown DropGroup RandomNamedP02.
+[09.02.2012 16:00:11] (Warn) SEclipseHardLeatherPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) SEclipseDisguisePants was assigned to unknown DropGroup RandomNamedP04.
+[09.02.2012 16:00:11] (Warn) SEclipseSneakPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) SEclipseRobberPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) SEclipseHunterPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) SEclipseMasterPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) SEclipseDuskPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) SEclipseDarknessPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) SEclipseSpeedyPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) SEclipseOhelPants was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) SeclipseGreenStormPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:11] (Warn) MEclipseNoviceHat was assigned to unknown DropGroup RandomNamedH02.
+[09.02.2012 16:00:11] (Warn) MEclipseMagicHat was assigned to unknown DropGroup RandomNamedH03.
+[09.02.2012 16:00:11] (Warn) MEclipseDelightHat was assigned to unknown DropGroup RandomNamedH04.
+[09.02.2012 16:00:11] (Warn) MEclipseSilkHat was assigned to unknown DropGroup RandomNamedH05.
+[09.02.2012 16:00:11] (Warn) MEclipseMentalHat was assigned to unknown DropGroup RandomNamedH06.
+[09.02.2012 16:00:11] (Warn) MEclipseNatureHat was assigned to unknown DropGroup RandomNamedH07.
+[09.02.2012 16:00:11] (Warn) MEclipseElementHat was assigned to unknown DropGroup RandomNamedH08.
+[09.02.2012 16:00:11] (Warn) MEclipseSuperiorHat was assigned to unknown DropGroup RandomNamedH09.
+[09.02.2012 16:00:11] (Warn) MEclipsewisdomHat was assigned to unknown DropGroup RandomNamedH10.
+[09.02.2012 16:00:11] (Warn) MEclipseWizardlyHat was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:11] (Warn) MEclipseEliHat was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) MeclipseMarineBloodHat was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:11] (Warn) MEclipseNoviceBoots was assigned to unknown DropGroup RandomNamedB02.
+[09.02.2012 16:00:11] (Warn) MEclipseMagicBoots was assigned to unknown DropGroup RandomNamedB03.
+[09.02.2012 16:00:11] (Warn) MEclipseDelightBoots was assigned to unknown DropGroup RandomNamedB04.
+[09.02.2012 16:00:11] (Warn) MEclipseSilkBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) MEclipseMentalBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) MEclipseNatureBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) MEclipseElementBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) MEclipseSuperiorBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) MEclipsewisdomBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) MEclipseWizardlyBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) MEclipseEliBoots was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) MeclipseMarineBloodBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:11] (Warn) MEclipseNoviceShirt was assigned to unknown DropGroup RandomNamedA02.
+[09.02.2012 16:00:11] (Warn) MEclipseMagicShirt was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) MEclipseDelightShirt was assigned to unknown DropGroup RandomNamedA04.
+[09.02.2012 16:00:11] (Warn) MEclipseSilkShirt was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) MEclipseMentalShirt was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) MEclipseNatureShirt was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) MEclipseElementShirt was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) MEclipseSuperiorShirt was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) MEclipsewisdomShirt was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) MEclipseWizardlyShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) MEclipseEliShirt was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) MeclipseMarineBloodShirt was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) MEclipseNovicePants was assigned to unknown DropGroup RandomNamedP02.
+[09.02.2012 16:00:11] (Warn) MEclipseMagicPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) MEclipseDelightPants was assigned to unknown DropGroup RandomNamedP04.
+[09.02.2012 16:00:11] (Warn) MEclipseSilkPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) MEclipseMentalPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) MEclipseNaturePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) MEclipseElementPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) MEclipseSuperiorPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) MEclipsewisdomPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) MEclipseWizardlyPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) MEclipseEliPants was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) MeclipseMarineBloodPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:11] (Warn) ItemInfoServer has obsolete item ID: 30105.
+[09.02.2012 16:00:11] (Warn) Kaineneceflight was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Kasaonehandsword was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) Kainenecewatch was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Kasatwohandsword was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) Kainenecefury was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Kasaaxe was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) Kaineneceshield was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Kasashield was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) Kaimito was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Furymace was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) KaimitoThorn was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Furynail was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) KaimitoSield was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Furyshild was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) CanaryBeak was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Shilpdance was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) CanaryWing was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Shilpsong was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) GoblinStaff was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Heazlingstff was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) GoblinWand was assigned to unknown DropGroup RandomRare50.
+[09.02.2012 16:00:11] (Warn) Hazlingwand was assigned to unknown DropGroup RandomRare70.
+[09.02.2012 16:00:11] (Warn) Hel_gaiteonehandsword was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitetwohandsword was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaiteaxe was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaiteshield was assigned to unknown DropGroup UniqueS01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitemace was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitehammer was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitebow was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitecrossbow was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitestaff was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) Hel_gaitewand was assigned to unknown DropGroup UniqueW01.
+[09.02.2012 16:00:11] (Warn) S_RouCos01CrapLongSword was assigned to unknown DropGroup RandomNamedMW01.
+[09.02.2012 16:00:11] (Warn) S_RouCos02CrapLongMace was assigned to unknown DropGroup RandomNamedMW01.
+[09.02.2012 16:00:11] (Warn) S_RouCos01CrapLongBow was assigned to unknown DropGroup RandomNamedMW01.
+[09.02.2012 16:00:11] (Warn) S_RouCos02CrapLongStaff was assigned to unknown DropGroup RandomNamedMW01.
+[09.02.2012 16:00:11] (Warn) S_WolfBroadSword was assigned to unknown DropGroup RandomNamedMW02.
+[09.02.2012 16:00:11] (Warn) S_BoogySpikedClub was assigned to unknown DropGroup RandomNamedMW02.
+[09.02.2012 16:00:11] (Warn) S_WolfLightBow was assigned to unknown DropGroup RandomNamedMW02.
+[09.02.2012 16:00:11] (Warn) S_BoogyMagicStaff was assigned to unknown DropGroup RandomNamedMW02.
+[09.02.2012 16:00:11] (Warn) MaraRoumenSword was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_MarloneFighterStealSword was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_kingMarloneStealAxe was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_kingMarloneRoumenMace was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) MarloneHeavenHammer was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_kingMarloneRoumenBow was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) S_KebingStealCrossBow was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) S_KebingRoumenStaff was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_kingMarloneRuneWand was assigned to unknown DropGroup RandomNamedMW03.
+[09.02.2012 16:00:11] (Warn) D_ZombiekingBridgeSword was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) D_OldFoxCrusader was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) SkelKnightHideAxe was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) D_ZombiekingStoutMace was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) SkelKnightStoutHammer was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) D_ZombiekingCloseBow was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) S_ZombieCloseCrossBow was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) D_ZombiekingZestStaff was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) S_ZombieZestWand was assigned to unknown DropGroup RandomNamedMW04.
+[09.02.2012 16:00:11] (Warn) D_GiantGblKingCutlas was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) D_GoblinSwordmanZweihander was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) GobleKingPoleAxe was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) S_WereBearHorsemansFlail was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) D_GiantGblKingHorsemansHammer was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) D_GiantGblKingHeavyBow was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) S_WereBearHeavyCrossBow was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) RoboPowerStaff was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) D_GiantGblKingPowerWand was assigned to unknown DropGroup RandomNamedMW05.
+[09.02.2012 16:00:11] (Warn) D_PrisonerEdgedSword was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) S_VampireBatBastardSword was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingHalberd was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingMorningStar was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) S_VampireBatMorgenstern was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) S_VampireBatCompositBow was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingCompositCrossBow was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingSpiritStaff was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) S_VampireBatSpiritWand was assigned to unknown DropGroup RandomNamedMW06.
+[09.02.2012 16:00:11] (Warn) D_GiantOrcCaptainSplitter was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) D_NoxClaymore was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) S_GreenkyBikingAxe was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) S_GreenkyWarMace was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) D_GiantOrcCaptainWarHammer was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) S_GreenkyWarBow was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) D_GiantOrcCaptainWarCrossBow was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) D_GiantOrcCaptainFairyStaff was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) S_GreenkyFairyWand was assigned to unknown DropGroup RandomNamedMW07.
+[09.02.2012 16:00:11] (Warn) D_HarpyAvantGardeSword was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyFlamberge was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBikingAxe was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleMace was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleHammer was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleBow was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleCrossBow was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleStaff was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_HarpyBattleWand was assigned to unknown DropGroup RandomNamedMW08.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterSerpentSword was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantSword was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantAxe was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantMace was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantHammer was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantBow was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantCrossBow was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantStaff was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) D_GuardianMasterGiantWand was assigned to unknown DropGroup RandomNamedMW09.
+[09.02.2012 16:00:11] (Warn) BellowKnightSerpentSword was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantSword was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantAxe was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantMace was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantHammer was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantBow was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantCrossBow was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantStaff was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightGiantWand was assigned to unknown DropGroup RandomNamedMW10.
+[09.02.2012 16:00:11] (Warn) BellowKnightVulcanSword was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicSword was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicAxe was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicMace was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicHammer was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicBow was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicCrossBow was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicStaff was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowKnightTitanicWand was assigned to unknown DropGroup RandomNamedMW11.
+[09.02.2012 16:00:11] (Warn) BellowknightRordVulcanSword was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicSword was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicAxe was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicMace was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicHammer was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicBow was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicCrossBow was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicStaff was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) BellowknightRordTitanicWand was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteValorAxe was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteValorSword was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteHellasSword was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteHolyMace was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteHolyHammer was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteShadowBow was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteShadowCrossBow was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteIllusionStaff was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteIllusionWand was assigned to unknown DropGroup RandomNamedMW12.
+[09.02.2012 16:00:11] (Warn) D_MagriteGorgonAxe was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteGorgonSword was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteGedSword was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteRudicMace was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteBillholyshionHammer was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagritePakahBow was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteShebaCrossBow was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteManoahStaff was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MagriteDinahWand was assigned to unknown DropGroup RandomNamedMW13.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing01 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing02 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing03 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing04 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing05 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_MarloneRing06 was assigned to unknown DropGroup RaAcc025.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing01 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing02 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing03 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing04 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing05 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_ZombieRing06 was assigned to unknown DropGroup RaAcc035.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing01 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing02 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing03 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing04 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing05 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_GobleKingRing06 was assigned to unknown DropGroup RaAcc045.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing01 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing02 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing03 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing04 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing05 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_TorturerkingRing06 was assigned to unknown DropGroup RaAcc055.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing01 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing02 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing03 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing04 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing05 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) D_OrcCaptainRing06 was assigned to unknown DropGroup RaAcc065.
+[09.02.2012 16:00:11] (Warn) HungryWolfBronzeRing01 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) HungryWolfBronzeRing02 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) HungryWolfBronzeRing03 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) HungryWolfBronzeRing04 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) HungryWolfBronzeRing05 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) CrossBoneRing01 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:11] (Warn) CrossBoneRing02 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:11] (Warn) CrossBoneRing03 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:11] (Warn) CrossBoneRing04 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:11] (Warn) CrossBoneRing05 was assigned to unknown DropGroup NaAcc015.
+[09.02.2012 16:00:11] (Warn) StrangerRing01 was assigned to unknown DropGroup NaAcc025.
+[09.02.2012 16:00:11] (Warn) StrangerRing02 was assigned to unknown DropGroup NaAcc025.
+[09.02.2012 16:00:11] (Warn) StrangerRing03 was assigned to unknown DropGroup NaAcc025.
+[09.02.2012 16:00:11] (Warn) StrangerRing04 was assigned to unknown DropGroup NaAcc025.
+[09.02.2012 16:00:11] (Warn) StrangerRing05 was assigned to unknown DropGroup NaAcc025.
+[09.02.2012 16:00:11] (Warn) BeastChiefRing01 was assigned to unknown DropGroup NaAcc040.
+[09.02.2012 16:00:11] (Warn) BeastChiefRing02 was assigned to unknown DropGroup NaAcc040.
+[09.02.2012 16:00:11] (Warn) BeastChiefRing03 was assigned to unknown DropGroup NaAcc040.
+[09.02.2012 16:00:11] (Warn) BeastChiefRing04 was assigned to unknown DropGroup NaAcc040.
+[09.02.2012 16:00:11] (Warn) BeastChiefRing05 was assigned to unknown DropGroup NaAcc040.
+[09.02.2012 16:00:11] (Warn) WorshipRing01 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) WorshipRing02 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) WorshipRing03 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) WorshipRing04 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) WorshipRing05 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) HermitRing01 was assigned to unknown DropGroup NaAcc060.
+[09.02.2012 16:00:11] (Warn) HermitRing02 was assigned to unknown DropGroup NaAcc060.
+[09.02.2012 16:00:11] (Warn) HermitRing03 was assigned to unknown DropGroup NaAcc060.
+[09.02.2012 16:00:11] (Warn) HermitRing04 was assigned to unknown DropGroup NaAcc060.
+[09.02.2012 16:00:11] (Warn) HermitRing05 was assigned to unknown DropGroup NaAcc060.
+[09.02.2012 16:00:11] (Warn) TreeRing01 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) TreeRing02 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) TreeRing03 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) TreeRing04 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) TreeRing05 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) AngryWolfNeck01 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) AngryWolfNeck02 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) AngryWolfNeck03 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) TreeNeck01 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) TreeNeck02 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) TreeNeck03 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) NormalEar10 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) NormalEar30 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:11] (Warn) NormalEar65 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) NormalEar70 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) NormalEar80 was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:11] (Warn) NormalEar90 was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:11] (Warn) NormalEar102 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalEar104 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalEar108 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) NamedEar20 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:11] (Warn) NamedEar50 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) NamedEar75 was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) NamedEar85 was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) NamedEar106 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) RareEar40 was assigned to unknown DropGroup RaAcc040.
+[09.02.2012 16:00:11] (Warn) RareEar95 was assigned to unknown DropGroup RaAcc095.
+[09.02.2012 16:00:11] (Warn) RareEar116 was assigned to unknown DropGroup RaAcc115.
+[09.02.2012 16:00:11] (Warn) UniqEar60 was assigned to unknown DropGroup UnAcc060.
+[09.02.2012 16:00:11] (Warn) UniqEar100 was assigned to unknown DropGroup UnAcc100.
+[09.02.2012 16:00:11] (Warn) UniqEar120 was assigned to unknown DropGroup UnAcc120.
+[09.02.2012 16:00:11] (Warn) NormalNeck10 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) NormalNeck30 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:11] (Warn) NormalNeck65 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) NormalNeck70 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) NormalNeck80 was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:11] (Warn) NormalNeck90 was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:11] (Warn) NormalNeck102 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalNeck104 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalNeck108 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) NamedNeck20 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:11] (Warn) NamedNeck50 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) NamedNeck75 was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) NamedNeck85 was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) NamedNeck106 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) RareNeck40 was assigned to unknown DropGroup RaAcc040.
+[09.02.2012 16:00:11] (Warn) RareNeck95 was assigned to unknown DropGroup RaAcc095.
+[09.02.2012 16:00:11] (Warn) RareNeck116 was assigned to unknown DropGroup RaAcc115.
+[09.02.2012 16:00:11] (Warn) UniqNeck60 was assigned to unknown DropGroup UnAcc060.
+[09.02.2012 16:00:11] (Warn) UniqNeck100 was assigned to unknown DropGroup UnAcc100.
+[09.02.2012 16:00:11] (Warn) UniqNeck120 was assigned to unknown DropGroup UnAcc120.
+[09.02.2012 16:00:11] (Warn) NormalRing10 was assigned to unknown DropGroup NaAcc010.
+[09.02.2012 16:00:11] (Warn) NormalRing30 was assigned to unknown DropGroup NaAcc030.
+[09.02.2012 16:00:11] (Warn) NormalRing65 was assigned to unknown DropGroup NaAcc065.
+[09.02.2012 16:00:11] (Warn) NormalRing70 was assigned to unknown DropGroup NaAcc070.
+[09.02.2012 16:00:11] (Warn) NormalRing80 was assigned to unknown DropGroup NaAcc080.
+[09.02.2012 16:00:11] (Warn) NormalRing90 was assigned to unknown DropGroup NaAcc090.
+[09.02.2012 16:00:11] (Warn) NormalRing102 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalRing104 was assigned to unknown DropGroup NaAcc100.
+[09.02.2012 16:00:11] (Warn) NormalRing108 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) NamedRing20 was assigned to unknown DropGroup NaAcc020.
+[09.02.2012 16:00:11] (Warn) NamedRing50 was assigned to unknown DropGroup NaAcc050.
+[09.02.2012 16:00:11] (Warn) NamedRing75 was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) NamedRing85 was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) NamedRing106 was assigned to unknown DropGroup NaAcc105.
+[09.02.2012 16:00:11] (Warn) RareRing40 was assigned to unknown DropGroup RaAcc040.
+[09.02.2012 16:00:11] (Warn) RareRing95 was assigned to unknown DropGroup RaAcc095.
+[09.02.2012 16:00:11] (Warn) RareRing116 was assigned to unknown DropGroup RaAcc115.
+[09.02.2012 16:00:11] (Warn) UniqRing60 was assigned to unknown DropGroup UnAcc060.
+[09.02.2012 16:00:11] (Warn) UniqRing100 was assigned to unknown DropGroup UnAcc100.
+[09.02.2012 16:00:11] (Warn) UniqRing120 was assigned to unknown DropGroup UnAcc120.
+[09.02.2012 16:00:11] (Warn) MiniKeby01_2 was assigned to unknown DropGroup EventItem04.
+[09.02.2012 16:00:11] (Warn) MiniKeby02_2 was assigned to unknown DropGroup EventItem04.
+[09.02.2012 16:00:11] (Warn) BoneAttackArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) BoneAttackPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) SlashArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) SlashPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) MightyArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) MightyPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) MightyBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) DecreaseArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) DecreasePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) DecreaseBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) SwingArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) SwingPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) SwingBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) DefectArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) DefectPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) DefectBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) BloodArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) BloodPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) BloodBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) PowerWindyArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) PowerWindyPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) PowerWindyBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) ShoutArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) ShoutPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) ShoutBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) BlowArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) BlowPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) BlowBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) MoraleArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) MoralePants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) MoraleBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) KickArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) KickPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) KickBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) WinArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) WinPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) PowerWieldArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) PowerWieldPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) MentalSetArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) MentalSetPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) MentalSetBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) RestoreSetArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) RestoreSetPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) RestoreSetBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) DivineArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) DivinePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) DivineBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) LevanArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) LevanPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) LevanBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) LifeArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) LifePants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) LifeBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) ManoaCrossArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) ManoaCrossPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) ManoaCrossBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) SmiteArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) SmitePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) SmiteBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) GreatingArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) GreatingPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) GreatingBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) SafeArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) SafePants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) SafeBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) SafetyArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) SafetyPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) SafetyBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) PowerArmor was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) PowerPants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) PoisonArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) PoisonPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) TimeArmor was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) TimePants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) TimeBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) MultiArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) MultiPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) MultiBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) DiseaseArmor was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) DiseasePants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) DiseaseBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) MedusaArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) MedusaPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) MedusaBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) KorinArmor was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) KorinPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) KorinBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) ManoaNatureArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) ManoaNaturePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) ManoaNatureBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) BoneArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) BonePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) BoneBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) ShotArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) ShotPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) ShotBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) HawkArmor was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) HawkPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) HawkBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) SilentArmor was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) SilentPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) SilentBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) IceShirt was assigned to unknown DropGroup RandomNamedA03.
+[09.02.2012 16:00:11] (Warn) IcePants was assigned to unknown DropGroup RandomNamedP03.
+[09.02.2012 16:00:11] (Warn) FireShirt was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) FirePants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) GleamShirt was assigned to unknown DropGroup RandomNamedA05.
+[09.02.2012 16:00:11] (Warn) GleamPants was assigned to unknown DropGroup RandomNamedP05.
+[09.02.2012 16:00:11] (Warn) GleamBoots was assigned to unknown DropGroup RandomNamedB05.
+[09.02.2012 16:00:11] (Warn) SparkShirt was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) SparkPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) SparkBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) SunShirt was assigned to unknown DropGroup RandomNamedA07.
+[09.02.2012 16:00:11] (Warn) SunPants was assigned to unknown DropGroup RandomNamedP07.
+[09.02.2012 16:00:11] (Warn) SunBoots was assigned to unknown DropGroup RandomNamedB07.
+[09.02.2012 16:00:11] (Warn) IcingShirt was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) IcingPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) IcingBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) MindShirt was assigned to unknown DropGroup RandomNamedA09.
+[09.02.2012 16:00:11] (Warn) MindPants was assigned to unknown DropGroup RandomNamedP09.
+[09.02.2012 16:00:11] (Warn) MindBoots was assigned to unknown DropGroup RandomNamedB09.
+[09.02.2012 16:00:11] (Warn) ManoaChainShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) ManoaChainPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) ManoaChainBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) FlamesShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) FlamesPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) FlamesBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) BlastShirt was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) BlastPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) BlastBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) DrainShirt was assigned to unknown DropGroup RandomNamedA10.
+[09.02.2012 16:00:11] (Warn) DrainPants was assigned to unknown DropGroup RandomNamedP10.
+[09.02.2012 16:00:11] (Warn) DrainBoots was assigned to unknown DropGroup RandomNamedB10.
+[09.02.2012 16:00:11] (Warn) VanishShirt was assigned to unknown DropGroup RandomNamedA06.
+[09.02.2012 16:00:11] (Warn) VanishPants was assigned to unknown DropGroup RandomNamedP06.
+[09.02.2012 16:00:11] (Warn) VanishBoots was assigned to unknown DropGroup RandomNamedB06.
+[09.02.2012 16:00:11] (Warn) GloryNeck was assigned to unknown DropGroup NaAcc035.
+[09.02.2012 16:00:11] (Warn) GlorySilverRing was assigned to unknown DropGroup NaAcc035.
+[09.02.2012 16:00:11] (Warn) GloryGoldRing was assigned to unknown DropGroup NaAcc035.
+[09.02.2012 16:00:11] (Warn) GabrielleNeck was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:11] (Warn) GabrielleSilverRing was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:11] (Warn) GabrielleGoldRing was assigned to unknown DropGroup NaAcc055.
+[09.02.2012 16:00:11] (Warn) PointNeck was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) PointSilverRing was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) PointGoldRing was assigned to unknown DropGroup NaAcc075.
+[09.02.2012 16:00:11] (Warn) StrikingNeck was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) StrikingGoldRing was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) StrikingSilverRing was assigned to unknown DropGroup NaAcc085.
+[09.02.2012 16:00:11] (Warn) KQ_PowerWindyArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_PowerWindyPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_PowerWindyBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_ShoutArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_ShoutPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_ShoutBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaCrossArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaCrossPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaCrossBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_SmiteArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_SmitePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_SmiteBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaNatureArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaNaturePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaNatureBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_BoneArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_BonePants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_BoneBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaChainShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaChainPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_ManoaChainBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KQ_FlamesShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) KQ_FlamesPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) KQ_FlamesBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) KarenSword was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenTSword was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenAxe was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenShield was assigned to unknown DropGroup UniqueS02.
+[09.02.2012 16:00:11] (Warn) KarenMace was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) karenHammer was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenBow was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenCrossbow was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenStaff was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) KarenWand was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:11] (Warn) HadesRaxesSword was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesGabestoSword was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesAlastoAxe was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesDumbleMace was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesCrageaHammer was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesDarkshuterBow was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesMoottalisCrossBow was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesNefertiStaff was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesChamorWand was assigned to unknown DropGroup RandomNamedW15.
+[09.02.2012 16:00:11] (Warn) HadesRaxesBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesRaxesHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesRaxesPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesRaxesArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesZakarBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesZakarHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesZakarPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesZakarArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesKhrajeBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesKhrajeHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesKhrajePants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesKhrajeArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesDumblinBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesDumblinHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesDumblinPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesDumblinArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesDarkshuterBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesDarkshuterHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesDarkshuterPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesDarkshuterArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesMoottalisBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesMoottalisHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesMoottalisPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesMoottalisArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesNefertiBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesNefertiHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesNefertiPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesNefertiShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) HadesChamorBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:11] (Warn) HadesChamorHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:11] (Warn) HadesChamorPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:11] (Warn) HadesChamorShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:11] (Warn) RedFireEar was assigned to unknown DropGroup KarenAccBoss.
+[09.02.2012 16:00:11] (Warn) RedFireEar was assigned to unknown DropGroup NaAcc120.
+[09.02.2012 16:00:11] (Warn) RedFireNeck was assigned to unknown DropGroup KarenAccBoss.
+[09.02.2012 16:00:11] (Warn) RedFireNeck was assigned to unknown DropGroup NaAcc120.
+[09.02.2012 16:00:11] (Warn) GoldNine06_1 was assigned to unknown DropGroup GoldNine1.
+[09.02.2012 16:00:11] (Warn) GoldNine06_2 was assigned to unknown DropGroup GoldNine2.
+[09.02.2012 16:00:11] (Warn) BeastArmor was assigned to unknown DropGroup SetItemA67.
+[09.02.2012 16:00:11] (Warn) BeastArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) BeastPants was assigned to unknown DropGroup SetItemP67.
+[09.02.2012 16:00:11] (Warn) BeastPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) BeastBoots was assigned to unknown DropGroup SetItemS67.
+[09.02.2012 16:00:11] (Warn) BeastBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) FirmamentArmor was assigned to unknown DropGroup SetItemA67.
+[09.02.2012 16:00:11] (Warn) FirmamentArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) FirmamentPants was assigned to unknown DropGroup SetItemP67.
+[09.02.2012 16:00:11] (Warn) FirmamentPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) FirmamentBoots was assigned to unknown DropGroup SetItemS67.
+[09.02.2012 16:00:11] (Warn) FirmamentBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) GaeaArmor was assigned to unknown DropGroup SetItemA67.
+[09.02.2012 16:00:11] (Warn) GaeaArmor was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) GaeaPants was assigned to unknown DropGroup SetItemP67.
+[09.02.2012 16:00:11] (Warn) GaeaPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) GaeaBoots was assigned to unknown DropGroup SetItemS67.
+[09.02.2012 16:00:11] (Warn) GaeaBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) ShamanShirt was assigned to unknown DropGroup SetItemA67.
+[09.02.2012 16:00:11] (Warn) ShamanShirt was assigned to unknown DropGroup RandomNamedA08.
+[09.02.2012 16:00:11] (Warn) ShamanPants was assigned to unknown DropGroup SetItemP67.
+[09.02.2012 16:00:11] (Warn) ShamanPants was assigned to unknown DropGroup RandomNamedP08.
+[09.02.2012 16:00:11] (Warn) ShamanBoots was assigned to unknown DropGroup SetItemS67.
+[09.02.2012 16:00:11] (Warn) ShamanBoots was assigned to unknown DropGroup RandomNamedB08.
+[09.02.2012 16:00:11] (Warn) Lev_DegroArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) Lev_DegroPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) Lev_DegroBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:11] (Warn) Lev_DegroHelmet was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:11] (Warn) Lev_BattlefieldArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) Lev_BattlefieldPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:11] (Warn) Lev_BattlefieldBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:11] (Warn) Lev_BattlefieldHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:11] (Warn) Lev_CourageArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:11] (Warn) Lev_CouragePants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:11] (Warn) Lev_CourageBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:11] (Warn) Lev_CourageHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:11] (Warn) Lev_HolySetArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:11] (Warn) Lev_HolySetPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:11] (Warn) Lev_HolySetBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:12] (Warn) Lev_HolySetHelmet was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:12] (Warn) Lev_BeliefArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_BeliefPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_BeliefBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_BeliefHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) Lev_ProtectionArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_ProtectionPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_ProtectionBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_ProtectionHelmet was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) Lev_VegaArmor was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:12] (Warn) Lev_VegaPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:12] (Warn) Lev_VegaBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:12] (Warn) Lev_VegaHat was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:12] (Warn) Lev_ConcentratedArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_ConcentratedPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_ConcentratedBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_ConcentratedHat was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) Lev_WindArmor was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_WindPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_WindBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_WindHat was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) Lev_FrostShirt was assigned to unknown DropGroup RandomNamedA11.
+[09.02.2012 16:00:12] (Warn) Lev_FrostPants was assigned to unknown DropGroup RandomNamedP11.
+[09.02.2012 16:00:12] (Warn) Lev_FrostBoots was assigned to unknown DropGroup RandomNamedB11.
+[09.02.2012 16:00:12] (Warn) Lev_FrostHat was assigned to unknown DropGroup RandomNamedH11.
+[09.02.2012 16:00:12] (Warn) Lev_RagingShirt was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_RagingPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_RagingBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_RagingHat was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) Lev_TruthShirt was assigned to unknown DropGroup RandomNamedA12.
+[09.02.2012 16:00:12] (Warn) Lev_TruthPants was assigned to unknown DropGroup RandomNamedP12.
+[09.02.2012 16:00:12] (Warn) Lev_TruthBoots was assigned to unknown DropGroup RandomNamedB12.
+[09.02.2012 16:00:12] (Warn) Lev_TruthHat was assigned to unknown DropGroup RandomNamedH12.
+[09.02.2012 16:00:12] (Warn) SetLabGlaArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabGlaPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabGlaBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabGlaHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabKniArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabKniPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabKniBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabKniHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabHolArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabHolPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabHolBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabHolHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabGuaArmor was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabGuaPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabGuaBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabGuaHelmet was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabShaShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabShaPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabShaBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabShaHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabRanShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabRanPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabRanBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabRanHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabWarlShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabWarlPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabWarlBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabWarlHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabWizShirt was assigned to unknown DropGroup RandomNamedA13.
+[09.02.2012 16:00:12] (Warn) SetLabWizPants was assigned to unknown DropGroup RandomNamedP13.
+[09.02.2012 16:00:12] (Warn) SetLabWizBoots was assigned to unknown DropGroup RandomNamedB13.
+[09.02.2012 16:00:12] (Warn) SetLabWizHat was assigned to unknown DropGroup RandomNamedH13.
+[09.02.2012 16:00:12] (Warn) SetLabOneHandSword was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabAxe was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabMace was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabHammer was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabCrossBow was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabStaff was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) SetLabWand was assigned to unknown DropGroup RandomNamedW13.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasSword was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionSword was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionAxe was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesMace was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerAscalonHammer was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerAshurBow was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerGlenirCrossBow was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerVelundStaff was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerCchulainnWand was assigned to unknown DropGroup UniqueW02.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasShield was assigned to unknown DropGroup UniqueS02.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesShield was assigned to unknown DropGroup UniqueS02.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionHelmet was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerDantalionArmor was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasHelmet was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAndrasArmor was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAscalonBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAscalonHelmet was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAscalonPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAscalonArmor was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesHelmet was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerMarbesArmor was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAshurBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAshurHat was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAshurPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerAshurShirt was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerGlenirBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerGlenirHat was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerGlenirPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerGlenirShirt was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerCchulainnBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerCchulainnHat was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerCchulainnPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerCchulainnShirt was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerVelundBoots was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerVelundHat was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerVelundPants was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Warn) B_CrackerVelundShirt was assigned to unknown DropGroup RandomRare105.
+[09.02.2012 16:00:12] (Info) Loaded 208 Mini Houses.
+[09.02.2012 16:00:12] (Info) Loaded 1943 ActiveSkills.
+[09.02.2012 16:00:12] (Info) Database Initialized.
+[09.02.2012 16:00:50] (Debug) Transfering testmage.
+[09.02.2012 16:00:50] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Warn) Could not load LinkTable for NPC MapLinkGate01 LT GateRou5
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) Added Zepheus.Zone.Game.NPC to the map.
+[09.02.2012 16:00:50] (Debug) testmage logged in successfully!
+[09.02.2012 16:01:32] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:01:32] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:01:32] (Debug) GM testmage authenticated ingame.
+[09.02.2012 16:02:30] (Debug) Transfering Stan.
+[09.02.2012 16:02:30] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:02:30] (Debug) Stan logged in successfully!
+[09.02.2012 16:04:35] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:04:35] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:04:35] (Debug) GM Stan authenticated ingame.
+[09.02.2012 16:22:43] (Debug) Removed 24 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:22:43] (Debug) Saved character in 31,2202
+[09.02.2012 16:22:43] (Debug) Transfering Stan.
+[09.02.2012 16:22:43] (Debug) Saved character in 15,6101
+[09.02.2012 16:22:43] (Debug) Client disconnected.
+[09.02.2012 16:22:44] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:22:44] (Debug) Stan logged in successfully!
+[09.02.2012 16:22:46] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:22:46] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:22:46] (Debug) GM Stan authenticated ingame.
+[09.02.2012 16:26:01] (Debug) Removed 24 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:26:01] (Debug) Saved character in 46,8303
+[09.02.2012 16:26:01] (Debug) Transfering Stan.
+[09.02.2012 16:26:01] (Debug) Saved character in 31,2202
+[09.02.2012 16:26:01] (Debug) Client disconnected.
+[09.02.2012 16:26:02] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:26:02] (Debug) Stan logged in successfully!
+[09.02.2012 16:26:03] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:26:03] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:26:03] (Debug) GM Stan authenticated ingame.
+[09.02.2012 16:26:13] (Debug) Removed 23 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:26:13] (Debug) Saved character in 0
+[09.02.2012 16:26:14] (Debug) Transfering testmage.
+[09.02.2012 16:26:14] (Debug) Saved character in 0
+[09.02.2012 16:26:14] (Debug) Client disconnected.
+[09.02.2012 16:26:14] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:26:14] (Debug) testmage logged in successfully!
+[09.02.2012 16:26:15] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:26:15] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:26:15] (Debug) GM testmage authenticated ingame.
+[09.02.2012 16:28:10] (Debug) Removed 23 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:28:10] (Debug) Saved character in 0
+[09.02.2012 16:28:10] (Debug) Transfering testmage.
+[09.02.2012 16:28:10] (Debug) Saved character in 0
+[09.02.2012 16:28:10] (Debug) Client disconnected.
+[09.02.2012 16:28:10] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:28:10] (Debug) testmage logged in successfully!
+[09.02.2012 16:28:11] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:28:11] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:28:11] (Debug) GM testmage authenticated ingame.
+[09.02.2012 16:30:31] (Debug) TicksPerSecond: 11400
+[09.02.2012 16:30:32] (Debug) TicksPerSecond: 200
+[09.02.2012 16:30:32] (Debug) TicksPerSecond: 200
+[09.02.2012 16:30:33] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:30:34] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:30:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:40] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:42] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:43] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:44] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:45] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:46] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:47] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:48] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:49] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:50] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:51] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:52] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:30:53] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:54] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:55] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:56] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:57] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:30:58] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:30:59] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:02] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:04] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:31:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:06] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:07] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:08] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:09] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:10] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:11] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:12] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:13] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:15] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:16] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:17] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:18] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:19] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:20] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:21] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:22] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:23] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:24] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:25] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:26] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:27] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:28] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:29] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:30] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:31] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:32] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:35] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:40] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:41] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:42] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:43] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:44] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:45] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:46] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:47] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:31:48] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:49] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:50] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:52] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:53] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:54] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:55] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:56] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:57] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:58] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:31:59] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:02] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:04] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:32:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:06] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:07] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:08] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:09] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:10] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:11] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:12] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:13] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:32:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:15] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:16] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:17] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:18] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:19] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:32:20] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:21] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:22] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:23] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:24] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:25] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:26] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:27] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:28] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:29] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:30] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:31] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:32] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:40] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:40] (Debug) Removed 24 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:32:40] (Debug) Saved character in 0
+[09.02.2012 16:32:41] (Debug) Transfering Stan.
+[09.02.2012 16:32:41] (Debug) Saved character in 0
+[09.02.2012 16:32:41] (Debug) Client disconnected.
+[09.02.2012 16:32:41] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:32:41] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:32:41] (Debug) Stan logged in successfully!
+[09.02.2012 16:32:42] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:32:42] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:32:42] (Debug) GM Stan authenticated ingame.
+[09.02.2012 16:32:54] (Debug) Removed 23 (type: Zepheus.Zone.Game.ZoneCharacter) from the map.
+[09.02.2012 16:32:54] (Debug) Saved character in 31,2202
+[09.02.2012 16:32:54] (Debug) Transfering testmage.
+[09.02.2012 16:32:54] (Debug) TicksPerSecond: 8800
+[09.02.2012 16:32:54] (Debug) Saved character in 15,6101
+[09.02.2012 16:32:54] (Debug) Client disconnected.
+[09.02.2012 16:32:54] (Debug) Client connected from 188.96.168.19
+[09.02.2012 16:32:54] (Debug) testmage logged in successfully!
+[09.02.2012 16:32:55] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:32:55] (Debug) Unhandled packet: 8|11
+[09.02.2012 16:32:55] (Debug) Sending 22 objects (0 - 22)
+[09.02.2012 16:32:55] (Debug) GM testmage authenticated ingame.
+[09.02.2012 16:33:12] (Debug) TicksPerSecond: 2800
+[09.02.2012 16:33:13] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:33:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:15] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:33:16] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:17] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:18] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:19] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:21] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:22] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:23] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:24] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:25] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:26] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:27] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:28] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:29] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:30] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:31] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:32] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:34] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:33:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:40] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:41] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:42] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:43] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:44] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:45] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:46] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:47] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:48] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:49] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:50] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:33:51] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:52] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:53] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:54] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:55] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:33:56] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:57] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:58] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:33:59] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:02] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:04] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:34:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:06] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:07] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:08] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:09] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:10] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:11] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:12] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:13] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:15] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:16] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:17] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:18] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:19] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:20] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:21] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:22] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:23] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:24] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:25] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:26] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:27] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:34:28] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:29] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:31] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:32] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:40] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:34:41] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:42] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:43] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:44] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:45] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:46] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:47] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:48] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:34:49] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:50] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:51] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:52] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:53] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:54] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:55] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:56] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:57] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:58] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:34:59] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:02] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:04] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:06] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:35:07] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:08] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:09] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:10] (Debug) TicksPerSecond: 12000
+[09.02.2012 16:35:11] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:12] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:13] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:15] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:35:16] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:17] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:35:18] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:19] (Debug) TicksPerSecond: 11800
+[09.02.2012 16:35:20] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:21] (Debug) TicksPerSecond: 12000
+[09.02.2012 16:35:22] (Debug) TicksPerSecond: 12000
+[09.02.2012 16:35:23] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:24] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:25] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:26] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:27] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:28] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:35:29] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:30] (Debug) TicksPerSecond: 11600
+[09.02.2012 16:35:31] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:32] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:35:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:35:36] (Debug) TicksPerSecond: 12000
+[09.02.2012 16:35:37] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:35:38] (Debug) TicksPerSecond: 12000
+[09.02.2012 16:35:39] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:35:40] (Debug) TicksPerSecond: 11800
+[09.02.2012 16:35:41] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:35:42] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:56] (Debug) TicksPerSecond: 7600
+[09.02.2012 16:35:57] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:35:58] (Debug) TicksPerSecond: 12200
+[09.02.2012 16:35:59] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:36:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:02] (Debug) TicksPerSecond: 11800
+[09.02.2012 16:36:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:04] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:36:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:06] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:07] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:08] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:09] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:10] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:11] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:12] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:13] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:36:14] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:15] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:17] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:26] (Debug) TicksPerSecond: 9200
+[09.02.2012 16:36:28] (Debug) TicksPerSecond: 400
+[09.02.2012 16:36:29] (Debug) TicksPerSecond: 800
+[09.02.2012 16:36:30] (Debug) TicksPerSecond: 12400
+[09.02.2012 16:36:31] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:36:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:39] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:40] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:41] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:42] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:43] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:44] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:45] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:46] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:47] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:48] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:49] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:50] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:51] (Debug) TicksPerSecond: 12800
+[09.02.2012 16:36:52] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:53] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:54] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:55] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:56] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:57] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:58] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:36:59] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:00] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:01] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:02] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:03] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:04] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:05] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:30] (Debug) TicksPerSecond: 6200
+[09.02.2012 16:37:31] (Debug) TicksPerSecond: 400
+[09.02.2012 16:37:32] (Debug) TicksPerSecond: 12600
+[09.02.2012 16:37:33] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:34] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:35] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:36] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:37] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:38] (Debug) TicksPerSecond: 13000
+[09.02.2012 16:37:39] (Debug) TicksPerSecond: 13000

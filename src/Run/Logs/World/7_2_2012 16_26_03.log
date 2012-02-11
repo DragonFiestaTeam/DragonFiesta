@@ -1,0 +1,34 @@
+[07.02.2012 16:26:04] (Info) 6 InterHandlers loaded.
+[07.02.2012 16:26:04] (Info) 27 Handlers loaded.
+[07.02.2012 16:26:04] (Info) Loaded 1182 bad names.
+[07.02.2012 16:26:04] (Info) DataProvider initialized successfully!
+[07.02.2012 16:26:04] (Info) Listening on port 11000 for zones.
+[07.02.2012 16:26:04] (Info) Connected to server @ localhost:10000
+[07.02.2012 16:26:04] (Info) ClientManager initialized.
+[07.02.2012 16:26:04] (Info) WorldAcceptor ready at 9110
+[07.02.2012 16:26:04] (Info) IV data received
+[07.02.2012 16:26:04] (Info) <3 LoginServer.
+[07.02.2012 16:26:13] (Info) Incoming connection from 85.214.55.189:51556
+[07.02.2012 16:26:13] (Info) IV data received
+[07.02.2012 16:26:13] (Info) Added zone 0 with 64 maps.
+[07.02.2012 16:26:14] (Info) Zone 0 listens @ 85.214.55.189:9210
+[07.02.2012 16:27:29] (Debug) Client connected from 188.96.168.19
+[07.02.2012 16:27:29] (Debug) test authenticated.
+[07.02.2012 16:27:29] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[07.02.2012 16:29:55] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[07.02.2012 16:38:35] (Debug) Client connected from 188.96.168.19
+[07.02.2012 16:38:35] (Debug) test99 authenticated.
+[07.02.2012 16:38:35] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[07.02.2012 16:40:47] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[07.02.2012 16:46:11] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[07.02.2012 16:46:11] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[07.02.2012 16:46:19] (Warn) Trying to register client by name without having Character object.
+[07.02.2012 16:46:20] (Debug) Unhandled packet: 3|31 Opcode: 0x0C1F Length: 1 Data: 00 
+[07.02.2012 16:46:20] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[07.02.2012 16:48:31] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[07.02.2012 16:48:50] (Warn) Trying to register client by name without having Character object.
+[07.02.2012 16:51:54] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[07.02.2012 16:54:52] (Debug) Client connected from 188.96.168.19
+[07.02.2012 16:54:52] (Debug) test7 authenticated.
+[07.02.2012 16:54:52] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[07.02.2012 16:57:59] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 

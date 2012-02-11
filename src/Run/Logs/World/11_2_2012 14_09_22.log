@@ -1,0 +1,22 @@
+[11.02.2012 14:09:22] (Info) 6 InterHandlers loaded.
+[11.02.2012 14:09:22] (Info) 27 Handlers loaded.
+[11.02.2012 14:09:23] (Info) Loaded 1182 bad names.
+[11.02.2012 14:09:23] (Info) DataProvider initialized successfully!
+[11.02.2012 14:09:23] (Info) Listening on port 11000 for zones.
+[11.02.2012 14:09:23] (Info) Connected to server @ localhost:10000
+[11.02.2012 14:09:23] (Info) ClientManager initialized.
+[11.02.2012 14:09:23] (Info) WorldAcceptor ready at 9110
+[11.02.2012 14:09:23] (Info) IV data received
+[11.02.2012 14:09:23] (Info) <3 LoginServer.
+[11.02.2012 14:09:32] (Info) Incoming connection from 85.214.55.189:54211
+[11.02.2012 14:09:32] (Info) IV data received
+[11.02.2012 14:09:32] (Info) Added zone 0 with 64 maps.
+[11.02.2012 14:09:32] (Info) Zone 0 listens @ 85.214.55.189:9210
+[11.02.2012 14:12:00] (Debug) Client connected from 178.11.252.6
+[11.02.2012 14:12:00] (Debug) test authenticated.
+[11.02.2012 14:12:01] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[11.02.2012 14:12:45] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 
+[11.02.2012 14:13:39] (Debug) Client connected from 178.11.252.6
+[11.02.2012 14:13:39] (Debug) test7 authenticated.
+[11.02.2012 14:13:39] (Debug) Unhandled packet: 2|13 Opcode: 0x080D Length: 0 Data: 
+[11.02.2012 14:15:49] (Debug) Unhandled packet: 22|27 Opcode: 0x581B Length: 0 Data: 

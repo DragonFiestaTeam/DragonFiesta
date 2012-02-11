@@ -1,0 +1,49 @@
+[11.02.2012 16:05:14] (Info) 28 command(s) registered.
+[11.02.2012 16:05:14] (Info) 8 InterHandlers loaded.
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:1
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:8
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:43
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:61
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:50
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:64
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 9:65
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:1
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:29
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:30
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:10
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:39
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:42
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:32
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:36
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:25
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:18
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 8:23
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 7:1
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 6:1
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 6:22
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 6:3
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 4:78
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 4:92
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 15:2
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 14:72
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 2:5
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:18
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:3
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:6
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:9
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:21
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:15
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:11
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:7
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 12:23
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 20:7
+[11.02.2012 16:05:14] (Warn) Duplicate handler found: 20:9
+[11.02.2012 16:05:14] (Info) 38 Handlers loaded.
+[11.02.2012 16:05:14] (Info) ClientManager initialized.
+[11.02.2012 16:05:15] (Info) Connected to server @ 85.214.55.189:11000
+[11.02.2012 16:05:15] (Info) IV data received
+[11.02.2012 16:05:15] (Info) Successfully linked with worldserver. [Zone: 0 | Port: 9210]
+[11.02.2012 16:05:15] (Info) Listening at port 9210 for incoming clients.
+[11.02.2012 16:05:15] (Info) Added zone 0 to zonelist. 85.214.55.189:9210
+[11.02.2012 16:05:15] (Warn) No BlockInfo for Map Job2_TimeG
+[11.02.2012 16:05:15] (Error) Disconnected from server.
