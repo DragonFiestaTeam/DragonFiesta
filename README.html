@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>DragonFiesta - README</title>
+</head>
+<body>
+	<h1>Dragon Fiesta</h1>
+    <div id="contents">
+    	<h4>Content Table</h4>
+        <ol>
+        	<li><a href="#introduction">Introduction</a></li>
+            <li><a href="#setUpAndRun">Setup and Running</a></li>
+            <li><a href="#gmCommands">GM Commands</a></li>
+            <li><a href="#other">Other things to say/mention</a></li>
+        </ol>
+    </div>
+    <div id="introduction">
+    	<h4>Introduction</h4>
+        <p>
+        	The project now called <code>DragonFiesta</code> is a continued branch of the preivous <code>Zepheus</code> called project, aiming for a complete Fiesta emulator.
+        </p>
+    </div>
+    <div id="setUpAndRun">
+    	<h4>Setup and Running</h4>
+        <h5>Setup</h5>
+        <p>
+        	1st Make sure that your copy of the project compiles without any errors.
+            2nd You need to setup a MySQL Database, add a Scheme and run all the Scripts found in the sqlbase folder on it.
+            3rd You'll need and want to Edit the configuration file, matching your setup.
+            <p>
+            	Edit any Mysql propertes, so they match your settings. <br />
+                Also, you'll want to edit the public IP's:
+                <code>World.IP and Zone.IP</code>
+            </p>
+        </p>
+        <h4>Running</h4>
+        <p>
+        	Just run all the *.exe files in the Run folder, they will give an output on any error occurance.<br />
+            You'll also want to try and connect to your Server, if you can't do so, go and check the Public-IP's in your Configuration file.
+        </p>
+    </div>
+<div id="gmCommands">
+    	<h4>GM Commands</h4>
+        There are a few GM-Commandos which are currently supported. The list keeps getting updated.
+        <p>
+        	<ul>
+            	<li><code>&amp;anim &lt;AnimationID&gt;</code> Let you Character make the Animation with the give ID.</li>
+                <li><code>&amp;map &lt;MapName&gt;</code> Ports you to the given map</li>
+                <li><code>&amp;warpnpc &lt;NPC Name&gt;</code> Teleports you to the given NPC</li>
+                <li><code>&amp;find &lt;Character Name&gt;</code> Displays the coordinates of the  given Character, if online</li>
+                <li><code>&amp;warp &lt;Character Name&gt;</code> Teleports you to the given Character, if online</li>
+                <li><code>&amp;tele &lt;X&gt; &lt;Y&gt;</code> teleports you to the given Position.</li>
+                <li><code>&amp;pos</code> displays you current position</li>
+                <li><code>&amp;heal</code> heals your character.</li>
+                <li><code>&amp;mount &lt;Mount ID&gt;</code> Mounts you on the given mount.</li>
+                <li><code>&amp;umount</code> unmounts you.</li>
+  </ul>
+    </p>
+  </div>
+  <div id="other">
+  	<h4>Other things to say/mention</h4>
+    You can find support on the official Website, <a href="http://dragon-project.org/">here</a>
+  </div>
+</body>
+</html>
