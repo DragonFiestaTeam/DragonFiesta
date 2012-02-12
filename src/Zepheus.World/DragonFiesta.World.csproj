@@ -53,11 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Group.cs" />
+    <Compile Include="Data\GroupMember.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="Data\DataProvider.cs" />
+    <Compile Include="Data\GroupRequest.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
     <Compile Include="Data\WorldGuild.cs" />
     <Compile Include="Data\ZoneInfo.cs" />
+    <Compile Include="GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler25.cs" />
     <Compile Include="Handlers\Handler29.cs" />

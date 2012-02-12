@@ -61,6 +61,7 @@
     <Compile Include="SerializableDictionary.cs" />
     <Compile Include="ServerModuleAttribute.cs" />
     <Compile Include="TimedTask.cs" />
+    <Compile Include="UserWorkItem.cs" />
     <Compile Include="Vector2.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

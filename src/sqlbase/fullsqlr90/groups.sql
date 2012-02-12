@@ -27,8 +27,3 @@ CREATE TABLE `groups` (
   `Member4` varchar(16) NOT NULL DEFAULT '',
   PRIMARY KEY (`Master`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of groups
--- ----------------------------
-INSERT INTO `groups` VALUES (0x6C616C6170617061, 'lalapapa', '', '', '');

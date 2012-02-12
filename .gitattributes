@@ -1,0 +1,6 @@
+
+*.shn binary
+*.dll binary
+*.exe binary
+
+*.cfg text

@@ -19,6 +19,8 @@ namespace Zepheus.World.Data
         //party
         public List<string> Party = new List<string>();
         public bool IsPartyMaster { get; set;  }
+    	public Group Group { get; private set; }
+
         public WorldCharacter(Character ch)
         {
             Character = ch;
