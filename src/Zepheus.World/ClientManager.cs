@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
-
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Services.DataContracts;
 using Zepheus.Util;
@@ -10,7 +9,7 @@ using Zepheus.World.Networking;
 
 namespace Zepheus.World
 {
-	[ServerModule(Util.InitializationStage.Clients)]
+	[ServerModule(InitializationStage.Clients)]
 	public sealed class ClientManager
 	{
 		public static ClientManager Instance { get; private set; }
@@ -25,7 +24,7 @@ namespace Zepheus.World
 		public ClientManager()
 		{
 			expirator = new Timer(2000);
-			expirator.Elapsed += new ElapsedEventHandler(expirator_Elapsed);
+			expirator.Elapsed += expirator_Elapsed;
 			expirator.Start();
 		}
 
@@ -191,9 +190,9 @@ namespace Zepheus.World
 
 			if (toExpire.Count > 0)
 			{
-				ClientTransfer trans;
 				foreach (var expired in toExpire)
 				{
+					ClientTransfer trans;
 					transfers.TryRemove(expired, out trans);
 				}
 				toExpire.Clear();
@@ -208,12 +207,25 @@ namespace Zepheus.World
 		[InitializerMethod]
 		public static bool Load()
 		{
-			Instance = new ClientManager()
+			Instance = new ClientManager
 			{
 				transferTimeout = Settings.Instance.TransferTimeout
 			};
 			Log.WriteLine(LogLevel.Info, "ClientManager initialized.");
 			return true;
+		}
+
+		[CleanUpMethod]
+		public static void CleanUp()
+		{
+			Log.WriteLine(LogLevel.Info, "Cleaning up ClientManager.");
+			while (Instance.clients.Count > 0)
+			{
+				var cl = Instance.clients[0];
+				cl.Disconnect();
+				Instance.clients.Remove(cl);
+			}
+			Instance = null;
 		}
 	}
 }

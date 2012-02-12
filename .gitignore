@@ -1,5 +1,8 @@
+
 # .gitignore for DragonFiesta
 
+*Run/*.exe
+*Run/*.dll
 
 #ignore prev SVN stuff
 *.svn
@@ -18,6 +21,10 @@
 bin
 obj
 
+*Log.*
+*log.*
+*.log
+
 #builds
 
 *Run/*.pdb
@@ -26,3 +33,30 @@ obj
 *.vshost
 *Run/*[lL]og*
 *Logs/*
+#ignore thumbnails created by windows
+Thumbs.db
+#Ignore files build by Visual Studio
+*.obj
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+[Bb]in
+[Dd]ebug*/
+*.lib
+*.sbr
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*

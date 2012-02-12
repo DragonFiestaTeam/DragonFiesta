@@ -1542,7 +1542,7 @@ namespace Zepheus.Zone.Game
 
 		#region Event-Invoker
 
-		protected virtual void OnLevelUp(int pOldLevel, int pNewLevel, int pMobId)
+		protected virtual void OnLevelUp(int pOldLevel, int pNewLevel, ushort pMobId)
 		{
 			SendLevelUpAnimation((ushort) pMobId);
 			Heal();

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
@@ -8,21 +9,25 @@ namespace Zepheus.World.Data
 	public class Group
 	{
 		#region .ctor
-		public Group()
+		public Group(long id)
 		{
-			this.Members = new GroupMember[5];
+			this.Members = new List<GroupMember>();
+			this.Id = id;
+			this.Members = new List<GroupMember>();
+			this.DropState = DropState.FreeForAll;
+			this._gotLastDrop = 0;
 		}
 		#endregion
 
 		#region Properties
 
 		public const int MAX_MEMBERS = 5;
-		private GroupMember[] Members;
+		private List<GroupMember> Members;
 		public GroupMember this[int index] { get { return Members[index]; }}
 		public GroupMember Master { get { return Members.Single(m => m.Role == GroupRole.Master); }}
 		public IEnumerable<GroupMember> NormalMembers { get { return from m in Members where m.Role != GroupRole.Master select m; }}
 		public DropState DropState { get; private set; }
-		public ushort Id { get; private set; }
+		public long Id { get; private set; }
 
 		private int _gotLastDrop;
 		#endregion
@@ -58,6 +63,20 @@ namespace Zepheus.World.Data
 
 			UpdateDropStateToMembers();
 		}
+		public void BreakUp()
+		{
+			// TODO: Send to clients
+
+			ExecuteBreakUpQuery();
+			OnBrokeUp();
+		}
+
+		internal void AddMember(GroupMember memb)
+		{
+			this.Members.Add(memb);
+			memb.Group = this;
+		}
+
 		#endregion
 
 		#region Private
@@ -73,16 +92,38 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
+		private void ExecuteBreakUpQuery()
+		{
+			const string query = "DELETE FROM `groups` WHERE `Id` = {0}";
+			string realQuery = string.Format(query, this.Id);
+
+			Program.DatabaseManager.GetClient().ExecuteQuery(realQuery);
+		}
 		#endregion
+		
+		#region EventExecuter
+		protected virtual void OnBrokeUp()
+		{
+			if(BrokeUp != null)
+				BrokeUp(this, new EventArgs());
+		}
+		#endregion
+
 		#region EventHandler
 
 		#endregion
+		#endregion
+
+		#region Events
+
+		public event EventHandler BrokeUp;
+
 		#endregion
 	}
 
 	public enum DropState : byte
 	{
-		// TODO: Add states!
-		Unk = 0x0,
+		FreeForAll = 0,
+		InRow = 1,
 	}
 }

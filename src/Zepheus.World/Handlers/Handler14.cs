@@ -195,7 +195,7 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.KickPartyMember)]
 		public static void KickPartyMember(WorldClient client, Packet packet)
 		{
-			if (client.Character.IsPartyMaster == true)
+			if (client.Character.IsPartyMaster)
 			{
 				string RemoveName;
 				if (packet.TryReadString(out RemoveName, 16))
