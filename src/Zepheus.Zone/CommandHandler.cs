@@ -54,6 +54,20 @@ namespace Zepheus.Zone
             RegisterCommand("&animall", AnimAll, 1, "animid");
             RegisterCommand("&perf", Performance, 1);
             RegisterCommand("&allm", allm, 1);
+            RegisterCommand("&movetome", movetome, 1,"playername");
+            RegisterCommand("&movetoplayer", movetoplayer, 1,"playername");
+        }
+        private void movetoplayer(ZoneCharacter character, params string[] param)
+        {
+            string player = param[1];
+            ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
+            character.ChangeMap(playerc.Character.MapID, playerc.Character.Position.X, character.Position.Y);
+        }
+        private void movetome(ZoneCharacter character, params string[] param)
+        {
+            string player = param[1];
+          ZoneClient playerc =  ClientManager.Instance.GetClientByName(player);
+          playerc.Character.ChangeMap(character.MapID, character.Position.X, character.Position.Y);
         }
         private void allm(ZoneCharacter character, params string[] param)
         {
