@@ -163,8 +163,10 @@ namespace MapleShark
                     bool outbound = (size & 0x8000) != 0;
                     size = (ushort)(size & 0x7FFF);
                     byte[] buffer = reader.ReadBytes(size);
+                    int Type = opcode >> 10;
+                    int Header = opcode & 1023;
                     Definition definition = Config.Instance.Definitions.Find(d => d.Build == mBuild && d.Outbound == outbound && d.Opcode == opcode);
-                    FiestaPacket packet = new FiestaPacket(new DateTime(timestamp), outbound, opcode, definition == null ? "" : definition.Name, buffer);
+                    FiestaPacket packet = new FiestaPacket(new DateTime(timestamp), outbound, opcode,Type,Header, definition == null ? "" : definition.Name, buffer);
                     mPackets.Add(packet);
                     if (!mOpcodes.Exists(kv => kv.First == packet.Outbound && kv.Second == packet.Opcode)) mOpcodes.Add(new Pair<bool, ushort>(packet.Outbound, packet.Opcode));
                     if (definition != null && definition.Ignore) continue;

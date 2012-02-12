@@ -56,6 +56,8 @@
             this.mViewSeparator3Menu = new System.Windows.Forms.ToolStripSeparator();
             this.mSaveDialog = new System.Windows.Forms.SaveFileDialog();
             this.mExportDialog = new System.Windows.Forms.SaveFileDialog();
+            this.Header = new System.Windows.Forms.ColumnHeader();
+            this.Type = new System.Windows.Forms.ColumnHeader();
             this.mPacketContextMenu.SuspendLayout();
             this.mMenu.SuspendLayout();
             this.SuspendLayout();
@@ -67,6 +69,8 @@
             this.mDirectionColumn,
             this.mLengthColumn,
             this.mOpcodeColumn,
+            this.Type,
+            this.Header,
             this.mNameColumn});
             this.mPacketList.ContextMenuStrip = this.mPacketContextMenu;
             this.mPacketList.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -74,10 +78,10 @@
             this.mPacketList.FullRowSelect = true;
             this.mPacketList.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.mPacketList.HideSelection = false;
-            this.mPacketList.Location = new System.Drawing.Point(0, 24);
+            this.mPacketList.Location = new System.Drawing.Point(0, 0);
             this.mPacketList.MultiSelect = false;
             this.mPacketList.Name = "mPacketList";
-            this.mPacketList.Size = new System.Drawing.Size(611, 427);
+            this.mPacketList.Size = new System.Drawing.Size(611, 451);
             this.mPacketList.TabIndex = 0;
             this.mPacketList.UseCompatibleStateImageBehavior = false;
             this.mPacketList.View = System.Windows.Forms.View.Details;
@@ -105,8 +109,9 @@
             // 
             // mNameColumn
             // 
+            this.mNameColumn.DisplayIndex = 4;
             this.mNameColumn.Text = "Name";
-            this.mNameColumn.Width = 300;
+            this.mNameColumn.Width = 72;
             // 
             // mPacketContextMenu
             // 
@@ -174,7 +179,7 @@
             this.mFileSeparatorMenu.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.mFileSeparatorMenu.MergeIndex = 2;
             this.mFileSeparatorMenu.Name = "mFileSeparatorMenu";
-            this.mFileSeparatorMenu.Size = new System.Drawing.Size(152, 6);
+            this.mFileSeparatorMenu.Size = new System.Drawing.Size(155, 6);
             // 
             // mFileSaveMenu
             // 
@@ -182,7 +187,7 @@
             this.mFileSaveMenu.MergeIndex = 3;
             this.mFileSaveMenu.Name = "mFileSaveMenu";
             this.mFileSaveMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.mFileSaveMenu.Size = new System.Drawing.Size(155, 22);
+            this.mFileSaveMenu.Size = new System.Drawing.Size(158, 22);
             this.mFileSaveMenu.Text = "&Save";
             this.mFileSaveMenu.Click += new System.EventHandler(this.mFileSaveMenu_Click);
             // 
@@ -192,7 +197,7 @@
             this.mFileExportMenu.MergeIndex = 4;
             this.mFileExportMenu.Name = "mFileExportMenu";
             this.mFileExportMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.mFileExportMenu.Size = new System.Drawing.Size(155, 22);
+            this.mFileExportMenu.Size = new System.Drawing.Size(158, 22);
             this.mFileExportMenu.Text = "&Export";
             this.mFileExportMenu.Click += new System.EventHandler(this.mFileExportMenu_Click);
             // 
@@ -302,6 +307,16 @@
             this.mExportDialog.RestoreDirectory = true;
             this.mExportDialog.Title = "Export";
             // 
+            // Header
+            // 
+            this.Header.Text = "Header";
+            this.Header.Width = 101;
+            // 
+            // Type
+            // 
+            this.Type.DisplayIndex = 6;
+            this.Type.Text = "Type";
+            // 
             // SessionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
@@ -355,5 +370,7 @@
         private System.Windows.Forms.SaveFileDialog mExportDialog;
         private System.Windows.Forms.ToolStripSeparator mViewSeparator3Menu;
         private System.Windows.Forms.ToolStripSeparator mFileSeparatorMenu;
+        private System.Windows.Forms.ColumnHeader Header;
+        private System.Windows.Forms.ColumnHeader Type;
     }
 }

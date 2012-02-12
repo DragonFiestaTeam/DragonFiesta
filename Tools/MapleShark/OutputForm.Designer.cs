@@ -38,14 +38,14 @@
             this.mTextBox.Multiline = true;
             this.mTextBox.Name = "mTextBox";
             this.mTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.mTextBox.Size = new System.Drawing.Size(392, 376);
+            this.mTextBox.Size = new System.Drawing.Size(542, 376);
             this.mTextBox.TabIndex = 0;
             // 
             // OutputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(392, 376);
+            this.ClientSize = new System.Drawing.Size(542, 376);
             this.Controls.Add(this.mTextBox);
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft)
                         | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)
