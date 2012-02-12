@@ -12,7 +12,7 @@ namespace MapleShark
         private byte[] mBuffer = new byte[DEFAULT_SIZE];
         private int mCursor = 0;
         private ushort XorK = 0;
-
+     
 
         public FiestaStream(bool encrypted, ushort XorKey) { XorK = XorKey; encrypt = encrypted; }
 
@@ -47,10 +47,12 @@ namespace MapleShark
             mCursor -= (packetLen + HeaderLen);
             if (mCursor > 0) Buffer.BlockCopy(mBuffer, packetLen + HeaderLen, mBuffer, 0, mCursor); //fix buffer
             ushort opcode = BitConverter.ToUInt16(packetData, 0);
+            int Type = opcode >> 10;
+            int Header = opcode & 1023;
             Buffer.BlockCopy(packetData, 2, packetData, 0, packetLen - 2); //remove opcode (;
             Array.Resize(ref packetData, packetLen - 2); //and fix the data array size
             Definition definition = Config.Instance.Definitions.Find(d => d.Build == 1 && d.Outbound == encrypt && d.Opcode == opcode);
-            return new FiestaPacket(pTransmitted, encrypt, opcode, definition == null ? "" : definition.Name, packetData);
+            return new FiestaPacket(pTransmitted, encrypt, opcode,Type,Header ,definition == null ? "" : definition.Name, packetData);
         }
 
       /*  public MaplePacket Read(DateTime pTransmitted, ushort pBuild)

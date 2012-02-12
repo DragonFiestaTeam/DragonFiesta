@@ -12,19 +12,25 @@ namespace MapleShark
         private ushort mBuild = 1;
         private ushort mOpcode = 0;
         private byte[] mBuffer = null;
+        private int  mType;
+        private int  mheader;
         private int mCursor = 0;
 
-        internal FiestaPacket(DateTime pTimestamp, bool pOutbound, ushort pOpcode, string pName, byte[] pBuffer)
+        internal FiestaPacket(DateTime pTimestamp, bool pOutbound, ushort pOpcode,int type ,int Header, string pName, byte[] pBuffer)
             : base(new string[] {
                 pTimestamp.ToShortTimeString(),
                 pOutbound ? "Outbound" : "Inbound",
                 pBuffer.Length.ToString(),
                 "0x" + pOpcode.ToString("X4"),
+                "Type "+type+"",
+                "Header "+Header+"",
                 pName })
         {
             mTimestamp = pTimestamp;
             mOutbound = pOutbound;
             mOpcode = pOpcode;
+            mType = type;
+            mheader = Header;
             mBuffer = pBuffer;
         }
 
@@ -33,7 +39,8 @@ namespace MapleShark
         public ushort Build { get { return mBuild; } }
         public ushort Opcode { get { return mOpcode; } }
         public new string Name { set { SubItems[4].Text = value; } }
-
+        public int Type { get { return mType; } }
+        public int Header { get { return mheader; } }
         public byte[] InnerBuffer { get { return mBuffer; } }
         public int Cursor { get { return mCursor; } }
         public int Length { get { return mBuffer.Length; } }
