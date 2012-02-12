@@ -1,7 +1,7 @@
 ﻿<Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Interface>Drahtlose Netzwerkverbindung</Interface>
   <LowPort>9000</LowPort>
-  <HighPort>9999</HighPort>
+  <HighPort>65535</HighPort>
   <Definitions>
     <Definition>
       <Build>1</Build>
@@ -399,6 +399,55 @@
       <Build>1</Build>
       <Outbound>false</Outbound>
       <Opcode>7192</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>9255</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>9276</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>9287</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>9289</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>8216</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>8223</Opcode>
+      <Name />
+      <Ignore>true</Ignore>
+    </Definition>
+    <Definition>
+      <Build>1</Build>
+      <Outbound>false</Outbound>
+      <Opcode>8239</Opcode>
       <Name />
       <Ignore>true</Ignore>
     </Definition>

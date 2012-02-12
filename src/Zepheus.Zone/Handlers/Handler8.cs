@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
@@ -534,8 +534,7 @@ namespace Zepheus.Zone.Handlers
             foreach (var Member in character.Party)
             {
                 if (Member.Key != character.Name)
-                {//offcial like
-          
+                {
                         using (var ppacket = new Packet(SH14Type.UpdatePartyMemberLoc))
                         {
                             ppacket.WriteByte(1);//unk
@@ -544,47 +543,10 @@ namespace Zepheus.Zone.Handlers
                             ppacket.WriteInt(character.Position.Y);
                             Member.Value.SendPacket(ppacket);
                         }
-                        if (character.MapSector != Member.Value.Character.MapSector)
-                        {
-                            if (Member.Value.Character.SendGrpInsector == false)
-                            using (var ppacket = new Packet(SH14Type.UpdatePartyMemberStats))
-                            {
-                                ppacket.WriteByte(1);//unk
-                                ppacket.WriteString(character.Name, 16);
-                                ppacket.WriteUInt(0);
-                                ppacket.WriteUInt(0);
-                                Member.Value.SendPacket(ppacket);
-                                Member.Value.Character.SendGrpInsector = true;
-                            }
-                        }
-                        else
-                        {
-                            if(Member.Value.Character.SendGrpInsector)
-                            using (var ppacket = new Packet(SH14Type.UpdatePartyMemberStats))
-                            {
-                                ppacket.WriteByte(1);//unk
-                                ppacket.WriteString(character.Name, 16);
-                                ppacket.WriteUInt(character.HP);
-                                ppacket.WriteUInt(character.SP);
-                                Member.Value.SendPacket(ppacket);
-                            }
-                            using (var ppacket = new Packet(SH14Type.SetMemberStats))//when character has levelup in group
-                            {
-                                ppacket.WriteByte(1);
-                                ppacket.WriteString(character.Name, 16);
-                                ppacket.WriteByte((byte)character.Job);
-                                ppacket.WriteByte(character.Level);
-                                ppacket.WriteUInt(character.MaxHP);//maxhp
-                                ppacket.WriteUInt(character.MaxSP);//MaxSP
-                                ppacket.WriteByte(1);
-                                Member.Value.SendPacket(ppacket);
-
-                            }
-                            Member.Value.Character.SendGrpInsector = false;
-                        }
                 }
-                character.Move(oldX, oldY, newX, newY, !run, stop); // hehe
+              
             }
+              character.Move(oldX, oldY, newX, newY, !run, stop); // hehe
         }
         public static Packet MoveObject(MapObject obj, int oldx, int oldy, bool walk, ushort speed = 115)
         {
