@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.World.Networking;
-using Zepheus.InterLib.Networking;
-using Zepheus.World.InterServer;
-using Zepheus.Database;
 
 namespace Zepheus.World.Handlers
 {
@@ -38,9 +33,11 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.PartyMaster)]
 		public static void MasterList(WorldClient client, Packet packet)
 		{
-			Dictionary<string, string> list = new Dictionary<string, string>();
-			list.Add("Char1", "hier ist Char1");
-			list.Add("Char2", "hier ist Char2");
+			Dictionary<string, string> list = new Dictionary<string, string>
+			{
+				{"Char1", "hier ist Char1"},
+				{"Char2", "hier ist Char2"}
+			};
 			using (var ppacket = new Packet(SH14Type.GroupList))
 			{
 				ppacket.WriteHexAsBytes("00 00 14 01 01 00 01 00 00 00");
@@ -86,60 +83,10 @@ namespace Zepheus.World.Handlers
 			string Mastername;
 			if (packet.TryReadString(out Mastername, 16))
 			{
-				client.Character.IsPartyMaster = false;
-				List<string> NewMember = new List<string>();
-				try
-				{
-					NewMember.Add(Mastername);
-					foreach (string Memb in client.Character.Party)
-					{
-						if (Memb != Mastername)
-						{
-							NewMember.Add(Memb);
-						}
-						else
-						{
-						}
-					}
-					switch (NewMember.Count)
-					{
-						case 2:
-							Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET Member1='" + NewMember[0] + "'  WHERE binary `Master` = '" + client.Character.Character.Name + "'");
-							break;
-						case 3:
-							Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET Member1='" + NewMember[1] + "', Member2='"+NewMember[2]+"', master='"+Mastername+"'  WHERE binary `Master` = '" + client.Character.Character.Name+ "'");
-							break;
-						case 4:
-							Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET Member1='" + NewMember[1] + "', Member2='" + NewMember[2] + "', Member3='"+NewMember[3]+"', master='" + Mastername + "'  WHERE binary `Master` = '" + client.Character.Character.Name + "'");
-							break;
-						case 5:
-							Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET Member1='" + NewMember[1] + "', Member2='"+NewMember[2]+"',Member3='"+NewMember[3]+"',Member4='"+NewMember[4]+"' master='"+Mastername+"'  WHERE binary `Master` = '" + client.Character.Character.Name+ "'");
-						 break;
+				if(client.Character.Group.Master.Name != client.Character.Character.Name)
+					return;
 
-					}
-					foreach (string Memb2 in NewMember)
-					{
-						WorldClient MemberClient = ClientManager.Instance.GetClientByCharname(Memb2);
-						if (MemberClient.Character.Character.Name == Mastername)
-						{
-							MemberClient.Character.IsPartyMaster = true;
-						}
-						
-						MemberClient.Character.Party = NewMember;
-	 
-						using (var ppacket = new Packet(SH14Type.ChangePartyMaster))
-						{
-							ppacket.WriteString(Mastername, 16);
-							ppacket.WriteUShort(1352);
-							MemberClient.SendPacket(ppacket);
-						}
-
-					}
-				}
-				catch
-				{
-					Console.WriteLine("change master failed");
-				}
+				GroupManager.Instance.ChangeMaster(client, Mastername);
 			}
 		}
 		[PacketHandler(CH14Type.PartyAccept)]

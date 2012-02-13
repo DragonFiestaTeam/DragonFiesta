@@ -123,7 +123,12 @@ namespace Zepheus.World
 				pClient.Character.Group.KickMember(pKicked);
 			}
 		}
-
+		public void ChangeMaster(WorldClient pClient, string pMastername)
+		{
+			if(pClient.Character.GroupMember.Role != GroupRole.Master)
+				return;
+			pClient.Character.Group.ChangeMaster(pClient.Character.Group.NormalMembers.Single(m => m.Name == pMastername));
+		}
 
 		internal void OnGroupBrokeUp(object sender, EventArgs e)
 		{

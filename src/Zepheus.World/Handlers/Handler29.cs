@@ -18,11 +18,7 @@ namespace Zepheus.World.Handlers
                 return;
             }
             var guild = WorldGuild.GetGuild(id);
-            if (guild == null)
-            {
-                SendGuildNameResult(client, id, "");
-            }
-            else
+            if (guild != null)
             {
                 SendGuildNameResult(client, id, guild.Name);
             }

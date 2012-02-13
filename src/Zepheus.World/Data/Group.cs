@@ -80,6 +80,8 @@ namespace Zepheus.World.Data
 		{
 			Master.Role = GroupRole.Member;
 			pNewMaster.Role = GroupRole.Master;
+
+			AnnounceChangeMaster();
 		}
 
 		public override bool Equals(object obj)
@@ -218,7 +220,17 @@ namespace Zepheus.World.Data
 				"UPDATE characters SET GroupID = NULL WHERE Name = \'{0}\'", pName);
 			Program.DatabaseManager.GetClient().ExecuteQuery(query);
 		}
+		private void AnnounceChangeMaster()
+		{
+			using (var packet = new Packet(SH14Type.ChangePartyMaster))
+			{
+				packet.WriteString(Master.Name, 16);
+				packet.WriteUShort(1352);
 
+				// Send to all online members
+				Members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
+			}
+		}
 		#endregion
 		
 		#region EventExecuter
