@@ -20,6 +20,13 @@ namespace Zepheus.World
 			groupsById = new Dictionary<long, Group>();
 			requestsByGroup = new Dictionary<Group, List<GroupRequest>>();
 		}
+
+		[InitializerMethod]
+		public static bool Initialize()
+		{
+			Instance = new GroupManager();
+			return true;
+		}
 		#endregion
 
 		#region Properties
@@ -39,10 +46,11 @@ namespace Zepheus.World
 			maxId ++;
 			return tmp;
 		}
-		public Group CreateNewGroup(WorldClient master)
+		public Group CreateNewGroup(WorldClient pMaster)
 		{
 			Group grp = new Group(GetNextId());
-			GroupMember mstr = new GroupMember(master, GroupRole.Master);
+			GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
+			pMaster.Character.GroupMember = mstr;
 			grp.AddMember(mstr);
 			// TODO: Add group in Database?
 
@@ -55,6 +63,10 @@ namespace Zepheus.World
 				return; // not online
 
 			WorldClient invitedClient = ClientManager.Instance.GetClientByCharname(pInvited);
+
+			if(pClient.Character.Group == null)
+				pClient.Character.Group = CreateNewGroup(pClient);
+
 			GroupRequest request = new GroupRequest(pClient, pClient.Character.Group, pInvited);
 			AddRequest(request);
 			pClient.Character.Group.AddInvite(request);
