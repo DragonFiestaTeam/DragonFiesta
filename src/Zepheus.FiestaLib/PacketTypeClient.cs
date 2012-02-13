@@ -112,7 +112,12 @@ namespace Zepheus.FiestaLib
         UseHPStone = 7,
         UseSPStone = 9,
     }
-
+    public enum CH21Type : byte
+    {
+        FriendInvite = 1,
+        FriendInviteResponse = 4,
+        FriendListDelete = 5,
+    }
     public enum CH28Type : byte
     {
         GetQuickBar = 2,

@@ -52,6 +52,12 @@ namespace MapleShark
             Buffer.BlockCopy(packetData, 2, packetData, 0, packetLen - 2); //remove opcode (;
             Array.Resize(ref packetData, packetLen - 2); //and fix the data array size
             Definition definition = Config.Instance.Definitions.Find(d => d.Build == 1 && d.Outbound == encrypt && d.Opcode == opcode);
+            if (SearchForm.HeaderBox != "" || SearchForm.Typebox.Text != "")
+            {
+                if (SearchForm.HeaderBox.Text == Header || SearchForm.Typebox.Text == Type)
+                return new FiestaPacket(pTransmitted, encrypt, opcode, Type, Header, definition == null ? "" : definition.Name, packetData);
+            }
+            else
             return new FiestaPacket(pTransmitted, encrypt, opcode,Type,Header ,definition == null ? "" : definition.Name, packetData);
         }
 

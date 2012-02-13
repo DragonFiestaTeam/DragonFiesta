@@ -35,6 +35,10 @@
             this.mSequenceSplitter = new System.Windows.Forms.SplitContainer();
             this.mSequenceHex = new System.Windows.Forms.HexBox();
             this.mNextSequenceButton = new System.Windows.Forms.Button();
+            this.HeaderBox = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.Typebox = new DevComponents.DotNetBar.Controls.TextBoxX();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.mSplitter.Panel1.SuspendLayout();
             this.mSplitter.Panel2.SuspendLayout();
             this.mSplitter.SuspendLayout();
@@ -62,7 +66,7 @@
             // mSplitter.Panel2
             // 
             this.mSplitter.Panel2.Controls.Add(this.mSequenceSplitter);
-            this.mSplitter.Size = new System.Drawing.Size(523, 55);
+            this.mSplitter.Size = new System.Drawing.Size(523, 102);
             this.mSplitter.SplitterDistance = 25;
             this.mSplitter.TabIndex = 9;
             this.mSplitter.TabStop = false;
@@ -123,12 +127,16 @@
             // 
             // mSequenceSplitter.Panel1
             // 
+            this.mSequenceSplitter.Panel1.Controls.Add(this.label2);
+            this.mSequenceSplitter.Panel1.Controls.Add(this.label1);
+            this.mSequenceSplitter.Panel1.Controls.Add(this.Typebox);
+            this.mSequenceSplitter.Panel1.Controls.Add(this.HeaderBox);
             this.mSequenceSplitter.Panel1.Controls.Add(this.mSequenceHex);
             // 
             // mSequenceSplitter.Panel2
             // 
             this.mSequenceSplitter.Panel2.Controls.Add(this.mNextSequenceButton);
-            this.mSequenceSplitter.Size = new System.Drawing.Size(523, 26);
+            this.mSequenceSplitter.Size = new System.Drawing.Size(523, 73);
             this.mSequenceSplitter.SplitterDistance = 392;
             this.mSequenceSplitter.TabIndex = 7;
             this.mSequenceSplitter.TabStop = false;
@@ -159,11 +167,53 @@
             this.mNextSequenceButton.UseVisualStyleBackColor = true;
             this.mNextSequenceButton.Click += new System.EventHandler(this.mNextSequenceButton_Click);
             // 
+            // HeaderBox
+            // 
+            // 
+            // 
+            // 
+            this.HeaderBox.Border.Class = "TextBoxBorder";
+            this.HeaderBox.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.HeaderBox.Location = new System.Drawing.Point(3, 32);
+            this.HeaderBox.Name = "HeaderBox";
+            this.HeaderBox.Size = new System.Drawing.Size(100, 20);
+            this.HeaderBox.TabIndex = 7;
+            // 
+            // Typebox
+            // 
+            // 
+            // 
+            // 
+            this.Typebox.Border.Class = "TextBoxBorder";
+            this.Typebox.Border.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.Typebox.Location = new System.Drawing.Point(164, 32);
+            this.Typebox.Name = "Typebox";
+            this.Typebox.Size = new System.Drawing.Size(100, 20);
+            this.Typebox.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(109, 34);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 14);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Header";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(270, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 14);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Type";
+            // 
             // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(523, 55);
+            this.ClientSize = new System.Drawing.Size(523, 102);
             this.Controls.Add(this.mSplitter);
             this.DockAreas = ((WeifenLuo.WinFormsUI.Docking.DockAreas)(((((WeifenLuo.WinFormsUI.Docking.DockAreas.Float | WeifenLuo.WinFormsUI.Docking.DockAreas.DockLeft)
                         | WeifenLuo.WinFormsUI.Docking.DockAreas.DockRight)
@@ -183,6 +233,7 @@
             this.mOpcodeSplitter.Panel2.PerformLayout();
             this.mOpcodeSplitter.ResumeLayout(false);
             this.mSequenceSplitter.Panel1.ResumeLayout(false);
+            this.mSequenceSplitter.Panel1.PerformLayout();
             this.mSequenceSplitter.Panel2.ResumeLayout(false);
             this.mSequenceSplitter.Panel2.PerformLayout();
             this.mSequenceSplitter.ResumeLayout(false);
@@ -199,5 +250,9 @@
         private System.Windows.Forms.SplitContainer mSequenceSplitter;
         private System.Windows.Forms.HexBox mSequenceHex;
         private System.Windows.Forms.Button mNextSequenceButton;
+        private System.Windows.Forms.Label label1;
+        private DevComponents.DotNetBar.Controls.TextBoxX Typebox;
+        public System.Windows.Forms.Label label2;
+        private DevComponents.DotNetBar.Controls.TextBoxX HeaderBox;
     }
 }

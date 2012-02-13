@@ -25,6 +25,7 @@ namespace Zepheus.FiestaLib.Networking
         public PacketHandlerAttribute(CH12Type type) : this(12, (byte)type) { }
         public PacketHandlerAttribute(CH15Type type) : this(15, (byte)type) { }
         public PacketHandlerAttribute(CH20Type type) : this(20, (byte)type) { }
+        public PacketHandlerAttribute(CH21Type type) : this(21, (byte)type) { }
         public PacketHandlerAttribute(CH28Type type) : this(28, (byte)type) { }
         public PacketHandlerAttribute(CH29Type type) : this(29, (byte)type) { }
         public PacketHandlerAttribute(CH31Type type) : this(31, (byte)type) { }
