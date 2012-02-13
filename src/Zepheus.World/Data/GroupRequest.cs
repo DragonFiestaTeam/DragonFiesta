@@ -1,16 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Zepheus.World.Networking;
 
 namespace Zepheus.World.Data
 {
 	public class GroupRequest
 	{
 		#region .ctor
+		public GroupRequest(WorldClient pFrom, Group pGroup, string pInvited)
+		{
+			if(!(pGroup.Master.Equals(pFrom)))
+				return; // the fuck
+
+			this.CrationTimeStamp = DateTime.Now;
+			this.InvitedClient = ClientManager.Instance.GetClientByCharname(pInvited);
+			this.InviterClient = pFrom;
+			this.Group = pGroup;
+		}
 		#endregion
 
 		#region Properties
+		public DateTime CrationTimeStamp { get; private set; }
+		public Group Group { get; private set; }
+		public WorldClient InvitedClient { get; private set; }
+		public WorldClient InviterClient { get; private set; }
 		#endregion
 
 		#region Methods

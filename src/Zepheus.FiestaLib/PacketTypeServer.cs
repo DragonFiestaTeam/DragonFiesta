@@ -135,7 +135,7 @@ namespace Zepheus.FiestaLib
         UpdatePartyMemberLoc = 73,
         UpdatePartyMemberStats = 50,
         SetMemberStats = 51,
-        PartyInvide = 3,
+        PartyInvite = 3,
         PartyAccept = 4,
         PartyDropState = 76,
         PartyList = 9,

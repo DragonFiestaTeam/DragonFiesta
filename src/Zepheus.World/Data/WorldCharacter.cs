@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Zepheus.Database;
 using Zepheus.FiestaLib;
 using Zepheus.Util;
 using Zepheus.Database.Storage;
-using System.IO;
 
 namespace Zepheus.World.Data
 {
@@ -20,6 +18,7 @@ namespace Zepheus.World.Data
         public List<string> Party = new List<string>();
         public bool IsPartyMaster { get; set;  }
     	public Group Group { get; private set; }
+    	public GroupMember GroupMember { get; internal set; }
 
         public WorldCharacter(Character ch)
         {
@@ -59,6 +58,16 @@ namespace Zepheus.World.Data
                 Log.WriteLine(LogLevel.Exception, "Error detaching character from entity: {0}.", ex.ToString());
             }
         }
+
+		public void RemoveGroup()
+		{
+			this.Group = null;
+			this.GroupMember = null;
+
+			string query = string.Format(
+				"UDPATE characters SET GroupID = NULL WHERE CharID = {0}", this.ID);
+			Program.DatabaseManager.GetClient().ExecuteQuery(query);
+		}
 
         public bool Delete()
         {

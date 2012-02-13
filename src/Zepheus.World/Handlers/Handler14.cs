@@ -18,154 +18,21 @@ namespace Zepheus.World.Handlers
 			string invitedChar;
 			if (packet.TryReadString(out invitedChar, 16))
 			{
-				WorldClient invitedClient = ClientManager.Instance.GetClientByCharname(invitedChar);//use later for members handling
-				using (var ppacket = new Packet(SH14Type.PartyInvide))
-				{
-					ppacket.WriteString(client.Character.Character.Name, 0x10);
-					invitedClient.SendPacket(ppacket);
-				}
+				GroupManager.Instance.Invite(client, invitedChar);
 			}
 		}
 		[PacketHandler(CH14Type.PartyLeave)]
 		public static void PartyLeave(WorldClient client, Packet packet)
 		{
-				if (client.Character.Party.Count > 2)
-				{
-					WorldClient ClearClient = null;
-					List<WorldClient> Membersclients = new List<WorldClient>();
-					List<string> NewPartyList = new List<string>();
-					foreach (string Memb in client.Character.Party)
-					{
-						WorldClient Client = ClientManager.Instance.GetClientByCharname(Memb);
-						if (Client.Character.Character.Name != client.Character.Character.Name)
-						{
-							Membersclients.Add(Client);
-							NewPartyList.Add(Client.Character.Character.Name);
-						}
-						else
-						{
-							ClearClient = Client;
-						}
-					}
-					try
-					{
-						if (client.Character.IsPartyMaster == true)
-						{
-							client.Character.IsPartyMaster = false;
-							WorldClient newMaster =  Membersclients[0];
-							newMaster.Character.IsPartyMaster = true;
-							foreach (WorldClient clientm in Membersclients)
-							{
-								using (var ppacket = new Packet(SH14Type.ChangePartyMaster))
-								{
-									ppacket.WriteString(newMaster.Character.Character.Name, 16);
-									ppacket.WriteUShort(1352);
-								   clientm.SendPacket(ppacket);
-								}
-							}
-						}
-						switch (ClearClient.Character.Party.Count)
-						{
-							case 3:
-								Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member1='" + NewPartyList[1] + "', member2='' WHERE master='" + NewPartyList[0] + "'");
-								break;
-							case 4:
-								Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member2='" + NewPartyList[2] + "', member3='' WHERE master='" + NewPartyList[0] + "'");
-								break;
-							case 5:
-								Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member3='" + NewPartyList[3] + "', member4='' WHERE master='" + NewPartyList[0] + "'");
-								break;
-							default:
-								Exception Eror = new Exception("Our of Partyrange Members");
-								break;
-						}
-					}
-					catch (Exception ex)
-					{
-						Zepheus.Util.Log.WriteLine(Util.LogLevel.Exception, ex.ToString());
-					}
-					foreach (WorldClient clientm in Membersclients)
-					{
-						//todo Packet
-						using (var ppacket = new Packet(SH14Type.KickPartyMember))
-						{
-							ppacket.WriteString(client.Character.Character.Name, 16);
-							ppacket.WriteUShort(1345);
-							clientm.SendPacket(ppacket);
-						}
-						clientm.Character.Party = NewPartyList;
-					}
-					using (var ppacket = new Packet(SH14Type.KickPartyMember))
-					{
-						ppacket.WriteString(client.Character.Character.Name, 16);
-						ppacket.WriteUShort(1345);
-						ClearClient.SendPacket(ppacket);
-					}
-					ZoneConnection z = Program.GetZoneByMap(ClearClient.Character.Character.PositionInfo.Map);
-					using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-					{
-						interleave.WriteString(ClearClient.Character.Character.Name, 16);
-						interleave.WriteString(ClearClient.Character.Character.Name, 16);
-						z.SendPacket(interleave);
-					}
-					ClearClient.Character.Party.Clear();
-				}
-				else
-				{
-					WorldClient mClient1 = ClientManager.Instance.GetClientByCharname(client.Character.Party[0]);
-					WorldClient mClient2 = ClientManager.Instance.GetClientByCharname(client.Character.Party[1]);
-					using (var ppacket = new Packet(SH14Type.KickPartyMember))
-					{
-						ppacket.WriteString(mClient1.Character.Character.Name, 16);
-						ppacket.WriteUShort(1345);
-						mClient2.SendPacket(ppacket);
-					}
-
-					using (var ppacket = new Packet(SH14Type.KickPartyMember))
-					{
-						ppacket.WriteString(mClient2.Character.Character.Name, 16);
-						ppacket.WriteUShort(1345);
-						mClient1.SendPacket(ppacket);
-					}
-					ZoneConnection z = Program.GetZoneByMap(mClient1.Character.Character.PositionInfo.Map);
-					using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-					{
-						interleave.WriteString(mClient1.Character.Character.Name, 16);
-						interleave.WriteString(mClient1.Character.Character.Name, 16);
-						z.SendPacket(interleave);
-					}
-					ZoneConnection z2 = Program.GetZoneByMap(mClient2.Character.Character.PositionInfo.Map);
-					using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-					{
-						interleave.WriteString(mClient2.Character.Character.Name, 16);
-						interleave.WriteString(mClient2.Character.Character.Name, 16);
-						z2.SendPacket(interleave);
-					}
-					if (mClient1.Character.IsPartyMaster == true)
-					{
-						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM groups WHERE master='" + mClient1.Character.Character.Name+ "'");
-					}
-					else if (mClient2.Character.IsPartyMaster == true)
-					{
-						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM groups WHERE master='" + mClient2.Character.Character.Name + "'");
-					}
-					///*:todo inter server
-					//
-					//*/
-					mClient1.Character.Party.Clear();
-					mClient2.Character.Party.Clear();
-				}
-			}
+			GroupManager.Instance.LeaveParty(client);
+		}
 		[PacketHandler(CH14Type.PartyDecline)]
 		public static void PartyDecline(WorldClient client, Packet packet)
 		{
 			string InviteChar;
 			if (packet.TryReadString(out InviteChar, 0x10))
 			{
-				/*WorldClient InvideClient = ClientManager.Instance.GetClientByCharname(InviteChar);
-				packet.WriteString(InvideClient.Character.Character.Name);
-				packet.WriteUShort(1217);
-				InvideClient.SendPacket(packet);*/
+				GroupManager.Instance.DeclineInvite(client, InviteChar);
 			}
 		}
 		[PacketHandler(CH14Type.PartyMaster)]
@@ -180,6 +47,7 @@ namespace Zepheus.World.Handlers
 				ppacket.WriteInt(list.Count);
 				foreach (var stat in list)
 				{
+					// Note - teh fuck?
 					ppacket.WriteHexAsBytes("");
 					ppacket.WriteString("haha", 16);
 					ppacket.WriteString("1234567890123456789012345678901234567890123456", 46);
@@ -195,121 +63,15 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.KickPartyMember)]
 		public static void KickPartyMember(WorldClient client, Packet packet)
 		{
-			if (client.Character.IsPartyMaster)
+			string RemoveName;
+			if (packet.TryReadString(out RemoveName, 16))
 			{
-				string RemoveName;
-				if (packet.TryReadString(out RemoveName, 16))
-				{
-					if (client.Character.Party.Count > 2)
-					{
-						WorldClient ClearClient = null;
-						List<WorldClient> Membersclients = new List<WorldClient>();
-						List<string> NewPartyList = new List<string>();
-						foreach (string Memb in client.Character.Party)
-						{
-							WorldClient Client = ClientManager.Instance.GetClientByCharname(Memb);
-							if (Client.Character.Character.Name != RemoveName)
-							{
-								Membersclients.Add(Client);
-								NewPartyList.Add(Client.Character.Character.Name);
-							}
-							else
-							{
-								ClearClient = Client;
-							}
-						}
-						using (var ppacket = new Packet(SH14Type.KickPartyMember))
-						{
-							ppacket.WriteString(RemoveName, 16);
-							ppacket.WriteUShort(1345);
-							ClearClient.SendPacket(ppacket);
-						}
-						try
-						{
-							switch (ClearClient.Character.Party.Count)
-							{
-								case 3:
-									Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member1='" + NewPartyList[1] + "', member2='' WHERE master='" + client.Character.Character.Name + "'");
-									break;
-								case 4:
-									Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member2='" + NewPartyList[2] + "', member3='' WHERE master='" + client.Character.Character.Name + "'");
-									break;
-								case 5:
-									Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE groups SET member3='" + NewPartyList[3] + "', member4='' WHERE master='" + client.Character.Character.Name + "'");
-									break;
-								default:
-								 Exception Eror =   new Exception("Our of Partyrange Members");
-									break;
-							}
-						}
-						catch (Exception ex)
-						{
-							Zepheus.Util.Log.WriteLine(Util.LogLevel.Exception, ex.ToString());
-						}
-						foreach (WorldClient clientm in Membersclients)
-						{
-							//todo Packet
-							using (var ppacket = new Packet(SH14Type.KickPartyMember))
-							{
-								ppacket.WriteString(RemoveName, 16);
-								ppacket.WriteUShort(1345);
-								clientm.SendPacket(ppacket);
-							}
-							clientm.Character.Party = NewPartyList;
-						}
-						//todo Interserver Packet
-						ZoneConnection Member1 = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
-						using (var inter = new InterPacket(InterHeader.RemovePartyMember))
-						{
-							inter.WriteString(ClearClient.Character.Character.Name, 16);
-							inter.WriteString(ClearClient.Character.Character.Name, 16);
-							Member1.SendPacket(inter);
-						}
-						ClearClient.Character.Party.Clear();
-					}
-					else
-					{
-						WorldClient mClient1 = ClientManager.Instance.GetClientByCharname(client.Character.Party[0]);
-						WorldClient mClient2 = ClientManager.Instance.GetClientByCharname(client.Character.Party[1]);
-						using (var ppacket = new Packet(SH14Type.KickPartyMember))
-						{
-							ppacket.WriteString(mClient1.Character.Character.Name, 16);
-							ppacket.WriteUShort(1345);
-							mClient2.SendPacket(ppacket);
-						}
-						ZoneConnection z1 = Program.GetZoneByMap(mClient1.Character.Character.PositionInfo.Map);
-						ZoneConnection z2 = Program.GetZoneByMap(mClient2.Character.Character.PositionInfo.Map);
-					
-						using (var ppacket = new Packet(SH14Type.KickPartyMember))
-						{
-						   
-							ppacket.WriteString(mClient2.Character.Character.Name, 16);
-							ppacket.WriteUShort(1345);
-							mClient1.SendPacket(ppacket);
-						}
-						using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-						{
-							interleave.WriteString(mClient1.Character.Character.Name,16);
-							interleave.WriteString(mClient1.Character.Character.Name, 16);
-							z1.SendPacket(interleave);
-						}
-						using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-						{
-							interleave.WriteString(mClient2.Character.Character.Name, 16);
-							interleave.WriteString(mClient2.Character.Character.Name, 16);
-							z2.SendPacket(interleave);
-						}
-						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM groups WHERE master='" + client.Character.Character.Name + "'");
-						///*:todo inter server
-						//
-						//*/
-						mClient1.Character.Party.Clear();
-						mClient2.Character.Party.Clear();
-					}
-				}
-			
+				if(!client.Character.Group.HasMember(RemoveName))
+					return;
+
+				GroupManager.Instance.KickMember(client, RemoveName);
 			}
-			}
+		}
 		[PacketHandler(CH14Type.ChangePartyDrop)]
 		public static void ChangeDropMode(WorldClient client, Packet packet)
 		{
@@ -384,131 +146,9 @@ namespace Zepheus.World.Handlers
 		public static void AcceptParty(WorldClient client, Packet packet)
 		{
 			string InviteChar;
-			if (packet.TryReadString(out InviteChar, 0x10))
+			if (packet.TryReadString(out InviteChar, 16))
 			{
-				WorldClient InvideClient = ClientManager.Instance.GetClientByCharname(InviteChar);
-				DataTable Data = null;
-				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-				{
-					// NOTE: Check if Member5 is right column name!
-					Data = dbClient.ReadDataTable("SELECT `Member1`, `Member2`, `Member3`, `Member4`, `Member5` FROM groups WHERE binary `Master` = '" + InvideClient.Character.Character.Name + "'");
-				}
-
-				if (Data != null)
-				{
-					if (Data.Rows.Count > 0)
-					{
-						foreach (DataRow Row in Data.Rows)
-						{
-							string Member1 = (string)Row["Member1"];
-							string Member2 = (string)Row["Member2"];
-							string Member3 = (string)Row["Member3"];
-							string Member4 = (string)Row["Member4"];
-							List<string> memListTemp = new List<string>() {Member1, Member2, Member3, Member4};
-							List<string> Members = new List<string>();
-							if (InvideClient.Character.IsPartyMaster && Member1 != "")
-							{
-								Members.Insert(0, InvideClient.Character.Character.Name);
-
-								for(int i = 1; i < 5; i++)
-								{
-									if(memListTemp[i - 1] != "")
-									{
-										Members.Add(memListTemp[i]);
-									}
-									else
-									{
-										string member = memListTemp.Find(m => m == client.Character.Character.Name);
-										if(member == null)
-										{
-											Program.DatabaseManager.GetClient().ExecuteQuery(string.Format(
-												"UDPATE groups SET Memeber{0}=\'{1}\' WHERE binary `Master` = \'{2}\'",
-												i, client.Character.Character.Name,
-												InvideClient.Character.Character.Name));
-										}
-									}
-								}
-								Members.Insert(1, Member1);
-								ZoneConnection zone = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
-								using (var inter = new InterPacket(InterHeader.AddPartyMember))
-								{
-									inter.WriteString(InvideClient.Character.Character.Name, 16);
-									inter.WriteString(client.Character.Character.Name,16);
-									zone.SendPacket(inter);
-								}
-								using (var ppacket = new Packet(SH14Type.PartyList))
-								{
-									foreach (string Member in Members)//senpacket all members
-									{
-										WorldClient MemberClient = ClientManager.Instance.GetClientByCharname(Member);
-										ppacket.WriteByte((byte)Members.Count);
-										foreach (string partym in Members)
-										{
-
-											ppacket.WriteString(partym, 16);
-											ppacket.WriteBool(ClientManager.Instance.IsOnline(partym));
-
-										}
-										MemberClient.Character.Party = Members;
-										MemberClient.SendPacket(ppacket);
-									}
-								}
-							}
-
-						}
-					}
-					else
-					{
-						Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO groups (Master,Member1) VALUES ('" + InvideClient.Character.Character.Name + "','" + client.Character.Character.Name + "')");
-						List<string> Members = new List<string>();
-						ZoneConnection Master = Program.GetZoneByMap(InvideClient.Character.Character.PositionInfo.Map);
-						ZoneConnection Member1 = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
-						using (var inter = new InterPacket(InterHeader.AddPartyMember))
-						{
-							inter.WriteString(InvideClient.Character.Character.Name, 16);
-							inter.WriteString(client.Character.Character.Name, 16);
-							Master.SendPacket(inter);
-						}
-						using (var inter = new InterPacket(InterHeader.AddPartyMember))
-						{
-							inter.WriteString(InvideClient.Character.Character.Name, 16);
-							inter.WriteString(InvideClient.Character.Character.Name, 16);
-							Master.SendPacket(inter);
-						}
-						using (var inter = new InterPacket(InterHeader.AddPartyMember))
-						{
-							inter.WriteString(client.Character.Character.Name, 16);
-							inter.WriteString(InvideClient.Character.Character.Name,16);
-							Member1.SendPacket(inter);
-						}
-						using (var inter = new InterPacket(InterHeader.AddPartyMember))
-						{
-							inter.WriteString(client.Character.Character.Name, 16);
-							inter.WriteString(client.Character.Character.Name, 16);
-							Member1.SendPacket(inter);
-						}
-						Members.Insert(0, InvideClient.Character.Character.Name);
-						InvideClient.Character.IsPartyMaster = true;
-						Members.Insert(1, client.Character.Character.Name);
-						InvideClient.Character.Party = Members;
-						client.Character.Party = Members;
-						using (var ppacket = new Packet(SH14Type.PartyInvideAsMaster))
-						{
-							ppacket.WriteString(client.Character.Character.Name, 16);
-							ppacket.WriteHexAsBytes("C1 04");
-							InvideClient.SendPacket(ppacket);
-						}
-						using (var ppacket = new Packet(SH14Type.PartyList))
-						{
-							ppacket.WriteByte(2);
-							ppacket.WriteString(InvideClient.Character.Character.Name, 16);
-							ppacket.WriteByte(1);//unk
-							ppacket.WriteString(client.Character.Character.Name, 16);
-							ppacket.WriteByte(1);//unk
-							client.SendPacket(ppacket);
-						}
-					}
-				}
+				GroupManager.Instance.AcceptInvite(client, InviteChar);
 			}
 		}
 	}

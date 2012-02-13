@@ -20,6 +20,7 @@ namespace Zepheus.World.Data
 		public Group Group { get; internal set; }
 		public GroupRole Role { get; internal set; }
 		public WorldClient Client { get; private set; }
+		public bool IsOnline { get; set; }
 		#endregion
 
 		#region Methods

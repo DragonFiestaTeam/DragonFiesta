@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
+using Zepheus.InterLib.Networking;
+using Zepheus.World.InterServer;
+using Zepheus.World.Networking;
 
 namespace Zepheus.World.Data
 {
@@ -12,6 +15,7 @@ namespace Zepheus.World.Data
 		public Group(long id)
 		{
 			this.Members = new List<GroupMember>();
+			this.openRequests = new List<GroupRequest>();
 			this.Id = id;
 			this.Members = new List<GroupMember>();
 			this.DropState = DropState.FreeForAll;
@@ -23,11 +27,13 @@ namespace Zepheus.World.Data
 
 		public const int MAX_MEMBERS = 5;
 		private List<GroupMember> Members;
+		private List<GroupRequest> openRequests;
 		public GroupMember this[int index] { get { return Members[index]; }}
 		public GroupMember Master { get { return Members.Single(m => m.Role == GroupRole.Master); }}
 		public IEnumerable<GroupMember> NormalMembers { get { return from m in Members where m.Role != GroupRole.Master select m; }}
 		public DropState DropState { get; private set; }
 		public long Id { get; private set; }
+		public bool Exists { get; private set; }
 
 		private int _gotLastDrop;
 		#endregion
@@ -65,18 +71,88 @@ namespace Zepheus.World.Data
 		}
 		public void BreakUp()
 		{
-			// TODO: Send to clients
-
-			ExecuteBreakUpQuery();
+			// TODO: Send to clients and update those in DB
+			
+			this.Exists = false;
 			OnBrokeUp();
 		}
-
-		internal void AddMember(GroupMember memb)
+		public void ChangeMaster(GroupMember pNewMaster)
 		{
-			this.Members.Add(memb);
-			memb.Group = this;
+			Master.Role = GroupRole.Member;
+			pNewMaster.Role = GroupRole.Master;
 		}
 
+		public override bool Equals(object obj)
+		{
+			if(!(obj is Group))
+				return false;
+			var grp = (Group) obj;
+			return grp.Id == this.Id;
+		}
+		public bool Equals(Group other)
+		{
+			return other.Id.Equals(this.Id);
+		}
+		public override int GetHashCode()
+		{
+			return 0;
+		}
+		public bool HasOpenRequestFor(string pName)
+		{
+			return openRequests.Any(r => r.InvitedClient.Character.Character.Name == pName);
+		}
+		public void MemberLeaves(WorldClient pClient)
+		{
+			var otherMembers = from m in Members
+			                   where m.Name != pClient.Character.Character.Name
+			                   select m.Client;
+			if (pClient.Character.GroupMember.Role == GroupRole.Master)
+				ChangeMaster(otherMembers.First().Character.GroupMember);
+			SendMemberLeavesPacket(pClient.Character.Character.Name, otherMembers);
+			UpdateInDatabase();
+		}
+		public void KickMember(string pMember)
+		{
+			GroupMember mem = this.Members.First(m => m.Name == pMember);
+			var otherMembers = from m in Members
+			                   where m.Name != pMember
+			                   select m.Client;
+			
+			SendMemberLeavesPacket(pMember, otherMembers);
+			UpdateInDatabase();
+		}
+		public void MemberJoin(string pMember)
+		{
+			WorldClient client = ClientManager.Instance.GetClientByCharname(pMember);
+			GroupMember gMember = new GroupMember(client, GroupRole.Member);
+			this.Members.Add(gMember);
+
+			AnnouncePartyList();
+			UpdateInDatabase();
+		}
+
+		internal void AddMember(GroupMember pMember)
+		{
+			this.Members.Add(pMember);
+			pMember.Group = this;
+		}
+		internal void AddInvite(GroupRequest pRequest)
+		{
+			this.openRequests.Add(pRequest);
+		}
+		internal void RemoveMember(GroupMember pMember)
+		{
+			this.Members.Remove(pMember);
+			// TODO: Send packet to other members to update GroupList!
+		}
+		internal void RemoveInvite(GroupRequest pRequest)
+		{
+			this.openRequests.Remove(pRequest);
+		}
+		internal void UpdateInDatabase()
+		{
+			// TODO: Implement
+		}
 		#endregion
 
 		#region Private
@@ -92,13 +168,57 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
-		private void ExecuteBreakUpQuery()
+		private void SendMemberLeavesPacket(string pLeaver, IEnumerable<WorldClient> pOthers)
 		{
-			const string query = "DELETE FROM `groups` WHERE `Id` = {0}";
-			string realQuery = string.Format(query, this.Id);
+			bool isOnline = ClientManager.Instance.IsOnline(pLeaver);
+			WorldClient client = isOnline ? ClientManager.Instance.GetClientByCharname(pLeaver) : null;
+			using (var packet = new Packet(SH14Type.KickPartyMember))
+			{
+				packet.WriteString(pLeaver, 16);
+				packet.WriteUShort(1345);
 
-			Program.DatabaseManager.GetClient().ExecuteQuery(realQuery);
+				foreach (var other in pOthers)
+				{
+					other.SendPacket(packet);
+				}
+				if (isOnline)
+					client.SendPacket(packet);
+			}
+			if (isOnline)
+			{
+				ZoneConnection z = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
+				using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
+				{
+					interleave.WriteString(client.Character.Character.Name, 16);
+					interleave.WriteString(client.Character.Character.Name, 16);
+					z.SendPacket(interleave);
+				}
+			}
 		}
+		private void AnnouncePartyList()
+		{
+			using (var packet = new Packet(SH14Type.PartyList))
+			{
+				packet.WriteByte((byte) Members.Count);
+				foreach (var groupMember in Members)
+				{
+					packet.WriteString(groupMember.Name, 16);
+					packet.WriteBool(groupMember.IsOnline);
+				}
+
+				foreach (var mem in Members.Where(m => m.IsOnline))
+				{
+					mem.Client.SendPacket(packet);
+				}
+			}
+		}
+		private void DeleteGroupByNameInDatabase(string pName)
+		{
+			string query = string.Format(
+				"UPDATE characters SET GroupID = NULL WHERE Name = \'{0}\'", pName);
+			Program.DatabaseManager.GetClient().ExecuteQuery(query);
+		}
+
 		#endregion
 		
 		#region EventExecuter

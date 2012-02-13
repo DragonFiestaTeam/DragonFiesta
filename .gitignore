@@ -1,8 +1,8 @@
 
 # .gitignore for DragonFiesta
 
-*Run/*.exe
-*Run/*.dll
+Run/*exe
+Run/*dll
 
 #ignore prev SVN stuff
 *.svn
