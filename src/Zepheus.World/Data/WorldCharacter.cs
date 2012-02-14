@@ -4,6 +4,9 @@ using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.Util;
 using Zepheus.Database.Storage;
+using System.Data;
+using Zepheus.Database;
+using Zepheus.FiestaLib.Networking;
 
 namespace Zepheus.World.Data
 {
@@ -19,7 +22,7 @@ namespace Zepheus.World.Data
 		public bool IsPartyMaster { get; set;  }
 		public Group Group { get; internal set; }
 		public GroupMember GroupMember { get; internal set; }
-
+        private List<Friend> friends;
 		public WorldCharacter(Character ch)
 		{
 			Character = ch;
@@ -38,7 +41,116 @@ namespace Zepheus.World.Data
 				Equips.Add(realslot, (ushort)eqp.EquipID);
 			}
 		}
+        public List<Friend> Friends
+        {
+            get
+            {
+                if (this.friends == null)
+                {
+                    LoadFriends();
+                }
+                return this.friends;
+            }
+        }
 
+        private void LoadFriends()
+        {
+            this.friends = new List<Friend>();
+                   DataTable frenddata = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                frenddata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + this.ID + "'");
+            }
+
+            if (frenddata != null)
+            {
+                foreach (DataRow Row in frenddata.Rows)
+                {
+                    this.friends.Add(Friend.LoadFromDatabase(Row));
+                }
+            }
+            foreach (var friend in this.Friends)
+            {
+                DataTable frendsdata = null;
+                using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                {
+                    frendsdata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + friend.ID + "'");
+                }
+                if (frenddata != null)
+                {
+                    foreach (DataRow Row in frenddata.Rows)
+                    {
+                        friend.UpdateFromDatabase(Row);
+                    }
+                }
+            }
+            UpdateFriendStates();
+        }
+        public Friend AddFriend(WorldCharacter pChar)
+        {
+            Friend friend = Friend.Create(pChar);
+            friends.Add(friend);
+            return friend;
+        }
+        public bool DeleteFriend(WorldCharacter pChar)
+        {
+            Friend friend = this.friends.Find(f => f.Name == pChar.Character.Name);
+            bool result = this.friends.Remove(friend);
+            if (result)
+            {
+                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + pChar.ID);
+            }
+            return result;
+        }
+        public bool DeleteFriend(string pName)
+        {
+            Friend friend = this.friends.Find(f => f.Name == pName);
+            if (friend != null)
+            {
+                bool result = this.friends.Remove(friend);
+                if (result)
+                {
+                    Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID="+this.ID+" AND FriendID="+friend.ID);
+                }
+                return result;
+            }
+            return false;
+        }
+        public void UpdateFriendStates()
+        {
+            List<Friend> unknowns = new List<Friend>();
+            foreach (var friend in this.Friends)
+            {
+                if (friend.Name == null)
+                {
+                    unknowns.Add(friend);
+                    continue;
+                }
+
+                WorldCharacter friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name).Character;
+                if (friendCharacter != null)
+                {
+                    friend.Update(friendCharacter);
+                }
+                else
+                {
+                    friend.IsOnline = false;
+                }
+            }
+            foreach (var friend in unknowns)
+            {
+                this.Friends.Remove(friend);
+            }
+            unknowns.Clear();
+        }
+        
+        public void WriteFriendData(Packet pPacket)
+        {
+            foreach (var friend in this.Friends)
+            {
+                friend.WritePacket(pPacket);
+            }
+        }
 		private Character LazyLoadMe()
 		{
 		  //  return Program.Entity.Characters.First(c => c.ID == ID);

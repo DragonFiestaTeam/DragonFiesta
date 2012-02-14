@@ -508,6 +508,28 @@ namespace Zepheus.Database
             }
         }
 
+
+        public uint InsertAndIdentify(string query)
+        {
+                MySqlCommand command = this.Connection.CreateCommand();
+                command.CommandText = query;
+                return InsertAndIdentifyInternal(command);
+        }
+        private  uint InsertAndIdentifyInternal(MySqlCommand pCommand)
+        {
+            pCommand.Prepare();
+            pCommand.ExecuteNonQuery();
+            pCommand.CommandText = "SELECT LAST_INSERT_ID()";
+            pCommand.Parameters.Clear();
+            return (uint)(long)pCommand.ExecuteScalar();
+        }
+        public uint ReadUInt(string Query)
+        {
+            Command.CommandText = Query;
+            uint result = uint.Parse(Command.ExecuteScalar().ToString());
+            Command.CommandText = null;
+            return result;
+        }
         public Int32 ReadInt32(string Query)
         {
             Command.CommandText = Query;

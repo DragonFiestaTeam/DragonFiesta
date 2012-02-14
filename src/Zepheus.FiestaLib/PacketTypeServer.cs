@@ -29,6 +29,7 @@ namespace Zepheus.FiestaLib
         Money = 51,
         ConnectError = 2,
         ServerIP = 3,
+        CharacterGuildinfo = 18,
         CharacterInfo = 56,
         CharacterLook = 57,
         CharacterQuestsBusy = 58,
@@ -39,12 +40,11 @@ namespace Zepheus.FiestaLib
         CharacterInfoEnd = 72,
         CharacterTitles = 73,
         CharacterTimedItemList = 74,
-
         ReviveWindow = 77,
         Revive = 79,
-
         CharacterPoints = 91,
         SetPointOnStat = 95,
+        CharacterGuildacademyinfo = 151,
     }
 
     public enum SH5Type : byte

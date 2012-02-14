@@ -76,9 +76,9 @@ namespace Zepheus.Zone.Handlers
                 packet.Fill(5, 0);
                 client.SendPacket(packet);
             }
-            using (var packet = new Packet(0x1012))
+            using (var packet = new Packet(SH4Type.CharacterGuildinfo))
             {      // Guild info
-                packet.WriteInt(90);
+                packet.WriteInt(client.Character.character.GuildID);
                 client.SendPacket(packet);
             }
             //SendMasterList(pClient);
@@ -105,9 +105,8 @@ namespace Zepheus.Zone.Handlers
                 client.SendPacket(packet);
             }
 
-            using (var packet = new Packet())
+            using (var packet = new Packet(SH21Type.FriendList))
             {
-                packet.WriteShort(0x5407);
                 packet.WriteByte((byte)0);
                 //Character.WriteFriendData(packet);
                 client.SendPacket(packet);

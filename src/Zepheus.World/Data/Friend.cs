@@ -32,6 +32,7 @@ namespace Zepheus.World.Data
                 Level = pCharacter.Character.CharLevel,
                 Job = pCharacter.Character.Job,
                 Map = pCharacter.Character.PositionInfo.Map,
+                UniqueID = (uint)pCharacter.Character.AccountID,
                 IsOnline = true
             };
 
@@ -63,6 +64,7 @@ namespace Zepheus.World.Data
         public void UpdateFromDatabase(DataRow Row)
         {
             this.Name = Row["Name"].ToString();
+            this.UniqueID = uint.Parse(Row["AccountID"].ToString());
             this.Job = byte.Parse(Row["Job"].ToString());
             this.Level = byte.Parse(Row["Level"].ToString());
             this.Map = ushort.Parse(Row["Map"].ToString());
