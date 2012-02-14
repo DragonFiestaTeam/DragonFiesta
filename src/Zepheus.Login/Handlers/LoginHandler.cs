@@ -226,6 +226,12 @@ namespace Zepheus.Login.Handlers
                     pack.WriteString(world.Name, 16);
                     pack.WriteByte((byte)world.Status);
                 }
+				for(int i = 0; i < (11 - WorldManager.Instance.Worlds.Count); i++)
+				{
+					pack.WriteByte((byte) i);
+					pack.WriteString("DUMMY" + i, 16);
+					pack.WriteByte((byte) WorldStatus.OFFLINE);
+				}
                 pClient.SendPacket(pack);
             }
         }
