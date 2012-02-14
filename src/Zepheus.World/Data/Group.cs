@@ -58,8 +58,9 @@ namespace Zepheus.World.Data
 			}
 			if(Master.Name != pSender.Character.Name)
 				return;		// only the master may invite new members
-			
-			// TODO: Handle/Implement!
+
+			WorldClient pTo = ClientManager.Instance.GetClientByCharname(pTarget);
+			SendInvitationPacket(pTo);
 		}
 		public void ChangeDropType(WorldCharacter pBy, byte pDropState)
 		{
@@ -144,8 +145,18 @@ namespace Zepheus.World.Data
 		}
 		internal void RemoveMember(GroupMember pMember)
 		{
+			WorldClient leaver = ClientManager.Instance.GetClientByCharname(pMember.Name);
 			this.Members.Remove(pMember);
-			// TODO: Send packet to other members to update GroupList!
+			SendMemberLeavesPacket(pMember.Name, Members.Select(m => m.Client));
+
+			ZoneConnection z =
+				Program.GetZoneByMap(leaver.Character.Character.PositionInfo.Map);
+			using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
+			{
+				interleave.WriteString(leaver.Character.Character.Name, 16);
+				interleave.WriteString(leaver.Character.Character.Name, 16);
+				z.SendPacket(interleave);
+			}
 		}
 		internal void RemoveInvite(GroupRequest pRequest)
 		{
@@ -153,7 +164,24 @@ namespace Zepheus.World.Data
 		}
 		internal void UpdateInDatabase()
 		{
-			// TODO: Implement
+			const string query =
+				"UPDATE groups "
+				+ "SET Member1 = {0} "
+				+ "SET Member2 = {1} "
+				+ "SET Member3 = {2} "
+				+ "SET Member4 = {3} "
+				+ "SET Member5 = {4} "
+				+ "SET Exists = {5} "
+				+ "WHERE Id = {6}";
+			string formated = string.Format(query,
+				GetDBMemberName(0),
+				GetDBMemberName(1),
+				GetDBMemberName(2),
+				GetDBMemberName(3),
+				GetDBMemberName(4),
+				this.Exists,
+				this.Id);
+			Program.DatabaseManager.GetClient().ExecuteQuery(formated);
 		}
 		#endregion
 
@@ -229,6 +257,20 @@ namespace Zepheus.World.Data
 
 				// Send to all online members
 				Members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
+			}
+		}
+		private string GetDBMemberName(int pFor)
+		{
+			if(Members.Count < pFor)
+				return "NULL";
+			return string.Format("\'{0}\'", Members[pFor].Name);
+		}
+		private void SendInvitationPacket(WorldClient pTo)
+		{
+			using (var packet = new Packet(SH14Type.PartyInvite))
+			{
+				packet.WriteString(Master.Name, 16);
+				pTo.SendPacket(packet);
 			}
 		}
 		#endregion
