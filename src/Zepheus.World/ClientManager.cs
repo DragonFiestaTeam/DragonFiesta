@@ -76,7 +76,7 @@ namespace Zepheus.World
 		}
 		public void RemoveZoneTrand(string name , WorldClient ccclient)
 		{
-			//ZoneAdd.TryRemove(name, ccclient);
+			ZoneAdd.TryRemove(name, out ccclient);
 		}
 		List<WorldClient> pingTimeouts = new List<WorldClient>();
 		public void PingCheck(DateTime now)

@@ -479,6 +479,7 @@ namespace Zepheus.Zone
                 character.ChangeMap(mapid, x, y);
             }
             character.ChangeMap(mapid);
+
         }
 
         private void WritePacket(ZoneCharacter character, params string[] param)

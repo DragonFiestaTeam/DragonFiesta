@@ -178,8 +178,11 @@ namespace Zepheus.FiestaLib
         FriendInviteResponse = 2,
         FriendInviteRequest = 3,
         FriendExtraInformation = 8,
+        FriendOnline = 9,
+        FriendOffline = 10,
         FriendInviteReject = 11,
         FriendDeleteSend = 12,
+        FriendChangeMap = 13,
     }
     public enum SH25Type : byte
     {

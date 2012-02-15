@@ -643,10 +643,10 @@ namespace Zepheus.Zone.Game
 					toy = y;
 				}
 
-				// Try setting up transfer.
+				// Try setting up transfer
 				ushort RandomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
-				InterHandler.TransferClient(zci.ID, this.Client.AccountID, this.Client.Username, this.Name, RandomID, this.Client.Admin, this.Client.Host);
+				InterHandler.TransferClient(zci.ID,character.PositionInfo.Map, this.Client.AccountID, this.Client.Username, this.Name, RandomID, this.Client.Admin, this.Client.Host);
 
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;

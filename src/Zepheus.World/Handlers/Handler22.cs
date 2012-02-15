@@ -13,7 +13,6 @@ namespace Zepheus.World.Handlers
        [PacketHandler(CH22Type.GotIngame)]
        public static void GotIngame(WorldClient client, Packet Packet)
        {
-
            using (var packet = new Packet(0x1097))
            {      // Guild academy info
                packet.Fill(5, 0);
@@ -47,6 +46,7 @@ namespace Zepheus.World.Handlers
                packet.WriteShort(0);           //zero kingdom quests!
                client.SendPacket(packet);
            }
+           
            using (var packet = new Packet(21, 7))
            {
                packet.WriteByte((byte)0);
@@ -59,6 +59,9 @@ namespace Zepheus.World.Handlers
                client.SendPacket(packet);
            }
            Handler2.SendClientTime(client,DateTime.Now);
+           client.Character.Loadfriends();
+           client.Character.FriendOnline();
+
        }
     }
 }

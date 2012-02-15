@@ -6,7 +6,9 @@ using Zepheus.Util;
 using Zepheus.Database.Storage;
 using System.Data;
 using Zepheus.Database;
+using Zepheus.World.Networking;
 using Zepheus.FiestaLib.Networking;
+using Zepheus.FiestaLib.Data;
 
 namespace Zepheus.World.Data
 {
@@ -52,7 +54,10 @@ namespace Zepheus.World.Data
                 return this.friends;
             }
         }
-
+        public void Loadfriends()
+        {
+            this.LoadFriends();
+        }
         private void LoadFriends()
         {
             this.friends = new List<Friend>();
@@ -88,9 +93,68 @@ namespace Zepheus.World.Data
         }
         public Friend AddFriend(WorldCharacter pChar)
         {
+
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','"+pChar.Character.ID+"')");
             Friend friend = Friend.Create(pChar);
             friends.Add(friend);
             return friend;
+        }
+        public void  FriendOffline()
+        {
+            DateTime now = DateTime.Now;
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Friends SET LastConnectDay='"+now.Second+"', LastConnectMonth='"+now.Month+"' WHERE CharID='"+this.Character.ID+"'");
+            SendAllFriendOffline();
+        }
+        private void SendAllFriendOffline()
+        {
+            foreach (var friend in friends)
+            {
+                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                using(var packet = new Packet(SH21Type.FriendOffline))
+                {
+                    packet.WriteString(this.Character.Name, 16);
+                    Client.SendPacket(packet);
+                }
+            }
+        }
+        public void ChangeMap(string mapname)
+        {
+            foreach (var friend in friends)
+            {
+                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                using (var packet = new Packet(SH21Type.FriendChangeMap))
+                {
+                    packet.WriteString(this.Character.Name, 16);
+                    packet.WriteString(this.GetMapname(this.Character.PositionInfo.Map), 12);
+                    Client.SendPacket(packet);
+                }
+            }
+        }
+        public void FriendOnline()
+        {
+            this.SendAllFriendOnline();
+        }
+        private void SendAllFriendOnline()
+        {
+            foreach (var friend in friends)
+            {
+                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                using (var packet = new Packet(SH21Type.FriendOffline))
+                {
+                    packet.WriteString(this.Character.Name, 16);
+                    packet.WriteString(this.GetMapname(this.Character.PositionInfo.Map),12);
+                    Client.SendPacket(packet);
+                }
+            }
+        }
+        public string GetMapname(ushort mapid)
+        {
+            MapInfo mapinfo;
+            if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
+            {
+                return mapinfo.ShortName;
+            }
+            return "";
         }
         public bool DeleteFriend(WorldCharacter pChar)
         {
@@ -149,6 +213,7 @@ namespace Zepheus.World.Data
             foreach (var friend in this.Friends)
             {
                 friend.WritePacket(pPacket);
+
             }
         }
 		public void RemoveGroup()

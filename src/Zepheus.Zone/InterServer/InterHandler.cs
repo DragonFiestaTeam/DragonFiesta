@@ -347,12 +347,13 @@ namespace Zepheus.Zone.InterServer
             }
         }
 
-        public static void TransferClient(byte zoneID, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
+        public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
         {
             using (var packet = new InterPacket(InterHeader.CLIENTTRANSFERZONE))
             {
                 packet.WriteByte(zoneID);
                 packet.WriteInt(accountID);
+                packet.WriteInt(mapid);
                 packet.WriteStringLen(userName);
                 packet.WriteStringLen(charName);
                 packet.WriteUShort(randid);

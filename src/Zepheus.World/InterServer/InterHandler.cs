@@ -70,7 +70,11 @@ namespace Zepheus.World.InterServer
                 }
             }
         }
-
+        [InterPacketHandler(InterHeader.ChangeZone)]
+        public static void ChangeZoneBeginn(ZoneConnection zc, InterPacket packet)
+        {
+           // ClientManager.Instance.AddZoneTrans(
+        }
         [InterPacketHandler(InterHeader.ASSIGNED)]
         public static void HandleAssigned(LoginConnector lc, InterPacket packet)
         {
@@ -136,8 +140,8 @@ namespace Zepheus.World.InterServer
             byte admin, zoneid;
             int accountid;
             string username, charname, hostip;
-            ushort randid;
-            if (!packet.TryReadByte(out zoneid) || !packet.TryReadInt(out accountid) || !packet.TryReadString(out username) ||
+            ushort randid, mapid;
+            if (!packet.TryReadByte(out zoneid) || !packet.TryReadInt(out accountid) || !packet.TryReadUShort(out mapid) || !packet.TryReadString(out username) ||
                 !packet.TryReadString(out charname) || !packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) ||
                 !packet.TryReadString(out hostip))
             {
@@ -149,6 +153,8 @@ namespace Zepheus.World.InterServer
                 if (Program.Zones.TryGetValue(zoneid, out z))
                 {
                     z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
+                    WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+                    client.Character.ChangeMap(client.Character.GetMapname(mapid));
                 }
             }
             else
