@@ -15,18 +15,19 @@ namespace Zepheus.World.Handlers
         }
         public static void SendClientTime(WorldClient client, DateTime Time)
         {
+        
             using (var packet = new Packet(SH2Type.UpdateClientTime))
             {
-
                 packet.WriteInt(37);
                 packet.WriteInt(Time.Minute);//minutes
                 packet.WriteInt(Time.Hour);//hourses
-                packet.WriteInt(Time.Day); //day
+                packet.WriteInt(15); //day
                 packet.WriteInt(1);//unk
                 packet.WriteInt(112);//unk
                 packet.WriteInt(3);//unk
                 packet.WriteInt(45);
-                packet.Fill(4, 0);//unk
+                packet.Fill(3, 0);//unk
+                packet.WriteByte(1);
                 client.SendPacket(packet);
             }
         }

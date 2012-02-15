@@ -9,6 +9,7 @@ namespace Zepheus.FiestaLib
         SetXorKeyPosition = 7,
         Chatblock = 72,
         UpdateClientTime = 73,
+        UnkTimePacket = 69,
     }
 
     public enum SH3Type : byte

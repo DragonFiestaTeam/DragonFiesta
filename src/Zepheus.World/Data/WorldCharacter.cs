@@ -205,30 +205,35 @@ namespace Zepheus.World.Data
 		public void SetQuickBarData(byte[] pData)
 		{
 			Character.QuickBar = pData;
-			Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBar='" + ByteArrayToStringForBlobSave(Character.QuickBar) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.QuickBar) ?? ByteArrayToStringForBlobSave(new byte[1024]);
+			Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBar='" +data+ "' WHERE CharID='" + Character.ID + "';");
 		}
 		public void SetQuickBarStateData(byte[] pData)
 		{
 			Character.QuickBarState = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBarState='" + ByteArrayToStringForBlobSave(Character.QuickBarState) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.QuickBarState) ?? ByteArrayToStringForBlobSave(new byte[24]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBarState='"+data+"' WHERE CharID='" + Character.ID + "'");
 		}
 
 		public void SetGameSettingsData(byte[] pData)
 		{
 			Character.GameSettings = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET GameSettings='" + ByteArrayToStringForBlobSave(Character.GameSettings) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data =  ByteArrayToStringForBlobSave(Character.GameSettings) ?? ByteArrayToStringForBlobSave(new byte[64]);
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET GameSettings='" + data + "' WHERE CharID='" + Character.ID + "';");
 		}
 
 		public void SetClientSettingsData(byte[] pData)
 		{
 			Character.ClientSettings = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET ClientSettings='" + ByteArrayToStringForBlobSave(Character.ClientSettings) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.ClientSettings) ?? ByteArrayToStringForBlobSave(new byte[392]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET ClientSettings='"+data + "' WHERE CharID='" + Character.ID + "';");
 		}
 
 		public void SetShortcutsData(byte[] pData)
 		{
 			Character.Shortcuts = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + ByteArrayToStringForBlobSave(Character.Shortcuts) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.Shortcuts) ?? ByteArrayToStringForBlobSave(new byte[308]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + data+ "' WHERE CharID='" + Character.ID + "';");
 		}
 	}
 }

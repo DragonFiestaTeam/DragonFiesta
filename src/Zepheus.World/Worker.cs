@@ -96,6 +96,7 @@ namespace Zepheus.World
                 if (now.Subtract(LastClientTime).TotalSeconds >= 60)
                 {
                     ClientManager.Instance.UpdateClientTime(now);
+                    LastClientTime = now;
                 }
                 if (i % 200 == 0)
                 {

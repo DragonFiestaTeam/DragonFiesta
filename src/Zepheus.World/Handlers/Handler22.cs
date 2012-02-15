@@ -53,6 +53,12 @@ namespace Zepheus.World.Handlers
                client.Character.WriteFriendData(packet);
                client.SendPacket(packet);
            }
+           using (var packet = new Packet(SH2Type.UnkTimePacket))
+           {
+               packet.WriteShort(256);
+               client.SendPacket(packet);
+           }
+           Handler2.SendClientTime(client,DateTime.Now);
        }
     }
 }
