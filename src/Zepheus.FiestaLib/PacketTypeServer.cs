@@ -10,6 +10,7 @@ namespace Zepheus.FiestaLib
         Chatblock = 72,
         UpdateClientTime = 73,
         UnkTimePacket = 69,
+        unk1 = 14,
     }
 
     public enum SH3Type : byte

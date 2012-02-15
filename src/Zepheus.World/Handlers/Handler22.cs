@@ -49,7 +49,7 @@ namespace Zepheus.World.Handlers
            
            using (var packet = new Packet(21, 7))
            {
-               packet.WriteByte((byte)0);
+               packet.WriteByte((byte)client.Character.Friends.Count);
                client.Character.WriteFriendData(packet);
                client.SendPacket(packet);
            }

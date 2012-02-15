@@ -353,7 +353,7 @@ namespace Zepheus.Zone.InterServer
             {
                 packet.WriteByte(zoneID);
                 packet.WriteInt(accountID);
-                packet.WriteInt(mapid);
+                packet.WriteUShort(mapid);
                 packet.WriteStringLen(userName);
                 packet.WriteStringLen(charName);
                 packet.WriteUShort(randid);

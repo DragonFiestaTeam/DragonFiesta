@@ -79,11 +79,11 @@ namespace Zepheus.World.Data
                 DataTable frendsdata = null;
                 using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                 {
-                    frendsdata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + friend.ID + "'");
+                    frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
                 }
                 if (frenddata != null)
                 {
-                    foreach (DataRow Row in frenddata.Rows)
+                    foreach (DataRow Row in frendsdata.Rows)
                     {
                         friend.UpdateFromDatabase(Row);
                     }
@@ -107,9 +107,10 @@ namespace Zepheus.World.Data
         }
         private void SendAllFriendOffline()
         {
-            foreach (var friend in friends)
+            foreach (var friend in this.friends)
             {
                 WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                if(Client != null)
                 using(var packet = new Packet(SH21Type.FriendOffline))
                 {
                     packet.WriteString(this.Character.Name, 16);
@@ -125,21 +126,22 @@ namespace Zepheus.World.Data
                 using (var packet = new Packet(SH21Type.FriendChangeMap))
                 {
                     packet.WriteString(this.Character.Name, 16);
-                    packet.WriteString(this.GetMapname(this.Character.PositionInfo.Map), 12);
+                    packet.WriteString(mapname, 12);
                     Client.SendPacket(packet);
                 }
             }
         }
         public void FriendOnline()
         {
-            this.SendAllFriendOnline();
+           SendAllFriendOnline();
         }
         private void SendAllFriendOnline()
         {
             foreach (var friend in friends)
             {
                 WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
-                using (var packet = new Packet(SH21Type.FriendOffline))
+                if(Client != null)
+                using (var packet = new Packet(SH21Type.FriendOnline))
                 {
                     packet.WriteString(this.Character.Name, 16);
                     packet.WriteString(this.GetMapname(this.Character.PositionInfo.Map),12);
@@ -191,10 +193,10 @@ namespace Zepheus.World.Data
                     continue;
                 }
 
-                WorldCharacter friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name).Character;
+                WorldClient friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name);
                 if (friendCharacter != null)
                 {
-                    friend.Update(friendCharacter);
+                    friend.Update(friendCharacter.Character);
                 }
                 else
                 {

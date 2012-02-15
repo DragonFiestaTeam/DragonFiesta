@@ -12,6 +12,7 @@ namespace Zepheus.InterLib.Networking
         IVS = 0x0002,
         ClientReady = 0x003,
         ChangeZone = 0x004,
+        ClientDisconect = 0x005,
         GetParty = 0x0099,
         SendParty = 0x0100,
         UpdateParty = 0x098,

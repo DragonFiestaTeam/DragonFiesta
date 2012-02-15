@@ -737,6 +737,7 @@ namespace Zepheus.Zone.Game
 		public void Ban()
 		{
 			Save();
+          
 			// Program.worldService.DisconnectClient(this.Name, true); // TODO: Inter server packet.
 			Client.Disconnect();
 		}

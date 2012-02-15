@@ -97,7 +97,17 @@ namespace Zepheus.World.InterServer
             InterHandler.SendZoneList(lc);
             Log.WriteLine(LogLevel.Info, "Zone {0} listens @ {1}:{2}", lc.ID, lc.IP, lc.Port);
         }
-
+         [InterPacketHandler(InterHeader.ClientDisconect)]
+        public static void DisconnectFromzoneserver(ZoneConnection zc, InterPacket packet)
+        {
+            string charname;
+            if (packet.TryReadString(out charname,16))
+            {
+              WorldClient client =  ClientManager.Instance.GetClientByCharname(charname);
+              client.Character.FriendOffline();
+              // :Todo Reststuff when backtochar
+            }
+        }
         [InterPacketHandler(InterHeader.CLIENTTRANSFER)]
         public static void HandleTransfer(LoginConnector lc, InterPacket packet)
         {
