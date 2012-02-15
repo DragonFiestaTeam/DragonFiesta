@@ -76,6 +76,7 @@ namespace Zepheus.Zone
             DateTime lastPing = DateTime.Now;
             DateTime lastGC = DateTime.Now;
             DateTime lastWorldPing = DateTime.Now;
+            DateTime LastClientTime = DateTime.Now;
             for (ulong i = 0; ; i++)
             {
                 if (!this.IsRunning)
@@ -122,7 +123,10 @@ namespace Zepheus.Zone
                         GC.Collect();
                         lastGC = now;
                     }
-                   
+                    if (now.Subtract(LastClientTime).TotalSeconds >= 60)
+                    {
+                     
+                    }
 
                     if (i % 2000 == 0 && MapManager.Instance != null)
                     {

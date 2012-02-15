@@ -22,7 +22,6 @@ namespace Zepheus.Zone.Handlers
         {
             character.HasPong = true;
         }
-
         public static void SendPing(ZoneClient character)
         {
             using (var packet = new Packet(SH2Type.Ping))

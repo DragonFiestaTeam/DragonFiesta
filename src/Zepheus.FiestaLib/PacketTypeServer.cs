@@ -8,6 +8,7 @@ namespace Zepheus.FiestaLib
         Ping = 4,
         SetXorKeyPosition = 7,
         Chatblock = 72,
+        UpdateClientTime = 73,
     }
 
     public enum SH3Type : byte

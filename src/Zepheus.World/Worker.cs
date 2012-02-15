@@ -67,6 +67,7 @@ namespace Zepheus.World
 
             Action action;
             DateTime pingCheckRan = DateTime.Now;
+            DateTime LastClientTime = DateTime.Now;
             for (ulong i = 0; ; i++)
             {
                 if (!this.IsRunning) break;
@@ -92,7 +93,10 @@ namespace Zepheus.World
                         pingCheckRan = now;
                     
                 }
-
+                if (now.Subtract(LastClientTime).TotalSeconds >= 60)
+                {
+                    ClientManager.Instance.UpdateClientTime(now);
+                }
                 if (i % 200 == 0)
                 {
                     Thread.Sleep(sleep);
