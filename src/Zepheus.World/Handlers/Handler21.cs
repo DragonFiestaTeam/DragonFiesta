@@ -51,7 +51,7 @@ namespace Zepheus.World.Handlers
                 return;
             }
             WorldClient sendchar = ClientManager.Instance.GetClientByCharname(sender);
-            if (sendchar != null)
+            if (sendchar == null)
             {
                 Log.WriteLine(LogLevel.Warn, "Invalid friend reject received.");
                 return;
@@ -99,7 +99,7 @@ namespace Zepheus.World.Handlers
 
            WorldCharacter inviter = pClient.Character;
            WorldClient invitee = ClientManager.Instance.GetClientByCharname(receiver);
-           if (invitee != null)
+           if (invitee == null)
            {
                //character not found
                using (var pack = new Packet(SH21Type.FriendInviteResponse))

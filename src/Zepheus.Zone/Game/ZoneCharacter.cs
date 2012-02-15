@@ -1091,7 +1091,15 @@ namespace Zepheus.Zone.Game
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
 			packet.WriteByte(this.Level);
 		}
-
+        public void ChangeMoney(long newMoney)
+        {
+            this.character.Money = newMoney;
+            using (var packet = new Packet(SH4Type.Money))
+            {
+                packet.WriteLong(this.character.Money);// money
+                this.Client.SendPacket(packet);
+            }
+        }
 		public ushort GetEquippedBySlot(ItemSlot slot)
 		{
 			Equip eqp;
