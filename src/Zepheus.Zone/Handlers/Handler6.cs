@@ -105,12 +105,12 @@ namespace Zepheus.Zone.Handlers
                 client.SendPacket(packet);
             }
 
-            using (var packet = new Packet(SH21Type.FriendList))
+           /* using (var packet = new Packet(SH21Type.FriendList))
             {
                 packet.WriteByte((byte)0);
-                //Character.WriteFriendData(packet);
+               // client.Character.wr.WriteFriendData(packet);
                 client.SendPacket(packet);
-            }
+            }*/
         }
         [PacketHandler(CH6Type.ClientReady)]
         public static void ClientReadyHandler(ZoneClient client, Packet packet)

@@ -21,9 +21,18 @@ namespace Zepheus.World.Handlers
 
             if (pClient.Character.DeleteFriend(target))
             {
-                using (var pack = new Packet(SH21Type.FriendDelete))
+                WorldClient client = ClientManager.Instance.GetClientByCharname(target);
+                if (client != null)
+                    using (var pack = new Packet(SH21Type.FriendDeleteSend))
+                    {
+                        pack.WriteString(sender, 16);
+                        client.SendPacket(pack);
+                    }
+                using (var pack = new Packet(SH21Type.FriendListDelete))
                 {
                     pack.WriteString(sender, 16);
+                    pack.WriteString(target, 16);
+                    pack.WriteUShort(2385);	// Cannot find ${Target}
                     pClient.SendPacket(pack);
                 }
             }
@@ -31,8 +40,8 @@ namespace Zepheus.World.Handlers
             {
                 using (var pack = new Packet(SH21Type.FriendInviteResponse))
                 {
-                    pack.WriteString(sender, 16);
                     pack.WriteString(target, 16);
+                    pack.WriteString(sender, 16);
                     pack.WriteUShort(0x0946);	// Cannot find ${Target}
                     pClient.SendPacket(pack);
                 }
@@ -84,64 +93,64 @@ namespace Zepheus.World.Handlers
                     sendchar.SendPacket(packet);
                 }
             }
-                    
+
         }
         [PacketHandler(CH21Type.FriendInvite)]
         public static void FriendInvite(WorldClient pClient, Packet pPacket)
-       {
-           string sender, receiver;
-           if (!pPacket.TryReadString(out sender, 16) ||
-               !pPacket.TryReadString(out receiver, 16))
-           {
-               Log.WriteLine(LogLevel.Warn, "Error reading friend invite.");
-               return;
-           }
+        {
+            string sender, receiver;
+            if (!pPacket.TryReadString(out sender, 16) ||
+                !pPacket.TryReadString(out receiver, 16))
+            {
+                Log.WriteLine(LogLevel.Warn, "Error reading friend invite.");
+                return;
+            }
 
-           WorldCharacter inviter = pClient.Character;
-           WorldClient invitee = ClientManager.Instance.GetClientByCharname(receiver);
-           if (invitee == null)
-           {
-               //character not found
-               using (var pack = new Packet(SH21Type.FriendInviteResponse))
-               {
-                   pack.WriteString(sender, 16);
-                   pack.WriteString(receiver, 16);
-                   pack.WriteUShort(0x0946);	// Cannot find ${Target}
+            WorldCharacter inviter = pClient.Character;
+            WorldClient invitee = ClientManager.Instance.GetClientByCharname(receiver);
+            if (invitee == null)
+            {
+                //character not found
+                using (var pack = new Packet(SH21Type.FriendInviteResponse))
+                {
+                    pack.WriteString(sender, 16);
+                    pack.WriteString(receiver, 16);
+                    pack.WriteUShort(0x0946);	// Cannot find ${Target}
 
-                   pClient.SendPacket(pack);
-               }
-           }
-           else if (receiver == sender)
-           {
-               using (var pack = new Packet(SH21Type.FriendInviteResponse))
-               {
-                   pack.WriteString(sender, 16);
-                   pack.WriteString(receiver, 16);
-                   pack.WriteUShort(0x0942);	// You cannot add yourself to your Buddy List.
+                    pClient.SendPacket(pack);
+                }
+            }
+            else if (receiver == sender)
+            {
+                using (var pack = new Packet(SH21Type.FriendInviteResponse))
+                {
+                    pack.WriteString(sender, 16);
+                    pack.WriteString(receiver, 16);
+                    pack.WriteUShort(0x0942);	// You cannot add yourself to your Buddy List.
 
-                   pClient.SendPacket(pack);
-               }
-           }
-           else if (inviter.Friends.Find(f => f.Name == receiver) != null)
-           {
-               using (var pack = new Packet(SH21Type.FriendInviteResponse))
-               {
-                   pack.WriteString(sender, 16);
-                   pack.WriteString(receiver, 16);
-                   pack.WriteUShort(0x0945);	// {Target} is already registered in the friends list.
-                   pClient.SendPacket(pack);
-               }
-           }
-           else
-           {
-               using (var pack = new Packet(SH21Type.FriendInviteRequest))
-               {
-                   pack.WriteString(receiver, 16);
-                   pack.WriteString(sender, 16);
+                    pClient.SendPacket(pack);
+                }
+            }
+            else if (inviter.Friends.Find(f => f.Name == receiver) != null)
+            {
+                using (var pack = new Packet(SH21Type.FriendInviteResponse))
+                {
+                    pack.WriteString(sender, 16);
+                    pack.WriteString(receiver, 16);
+                    pack.WriteUShort(0x0945);	// {Target} is already registered in the friends list.
+                    pClient.SendPacket(pack);
+                }
+            }
+            else
+            {
+                using (var pack = new Packet(SH21Type.FriendInviteRequest))
+                {
+                    pack.WriteString(receiver, 16);
+                    pack.WriteString(sender, 16);
 
-                   invitee.SendPacket(pack);
-               }
-           }
-       }
+                    invitee.SendPacket(pack);
+                }
+            }
+        }
     }
 }

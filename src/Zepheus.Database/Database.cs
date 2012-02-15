@@ -413,7 +413,6 @@ namespace Zepheus.Database
             }
             catch (Exception e) { Console.WriteLine(e + "\n (" + sQuery + ")"); }
         }
-
         public bool findsResult(string sQuery)
         {
             bool Found = false;

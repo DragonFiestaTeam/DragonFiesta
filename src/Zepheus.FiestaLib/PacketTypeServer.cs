@@ -172,13 +172,12 @@ namespace Zepheus.FiestaLib
     }
     public enum SH21Type : byte
     {
-        PartyDecline = 7,
-        FriendList = 6,
+        FriendListDelete = 6,
         FriendInviteResponse = 2,
         FriendInviteRequest = 3,
         FriendExtraInformation = 8,
         FriendInviteReject = 11,
-        FriendDelete = 12,
+        FriendDeleteSend = 12,
     }
     public enum SH25Type : byte
     {

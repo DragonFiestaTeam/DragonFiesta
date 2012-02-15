@@ -59,7 +59,7 @@ namespace Zepheus.World.Data
                    DataTable frenddata = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                frenddata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + this.ID + "'");
+                frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.ID + "'");
             }
 
             if (frenddata != null)
@@ -74,7 +74,7 @@ namespace Zepheus.World.Data
                 DataTable frendsdata = null;
                 using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                 {
-                    frendsdata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + friend.ID + "'");
+                    frendsdata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + friend.ID + "'");
                 }
                 if (frenddata != null)
                 {
@@ -151,26 +151,6 @@ namespace Zepheus.World.Data
                 friend.WritePacket(pPacket);
             }
         }
-		private Character LazyLoadMe()
-		{
-		  //  return Program.Entity.Characters.First(c => c.ID == ID);
-			return this.Character;
-		}
-
-		public void Detach()
-		{
-			try
-			{
-			   
-				//Program.Entity.Detach(Character);
-				Character = null;
-			}
-			catch (Exception ex)
-			{
-				Log.WriteLine(LogLevel.Exception, "Error detaching character from entity: {0}.", ex.ToString());
-			}
-		}
-
 		public void RemoveGroup()
 		{
 			this.Group = null;
