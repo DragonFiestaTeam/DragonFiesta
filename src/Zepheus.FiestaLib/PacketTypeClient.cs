@@ -119,7 +119,7 @@ namespace Zepheus.FiestaLib
     }
     public enum CH22Type : byte
     {
-        GotIngame = 22,
+        GotIngame = 27,
     }
     public enum CH28Type : byte
     {

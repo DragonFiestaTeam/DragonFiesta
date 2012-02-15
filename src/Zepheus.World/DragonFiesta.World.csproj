@@ -68,6 +68,7 @@
     <Compile Include="GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />
+    <Compile Include="Handlers\Handler22.cs" />
     <Compile Include="Handlers\Handler25.cs" />
     <Compile Include="Handlers\Handler29.cs" />
     <Compile Include="Handlers\Handler2.cs" />
@@ -76,7 +77,6 @@
     <Compile Include="Handlers\Handler31.cs" />
     <Compile Include="Handlers\Handler4.cs" />
     <Compile Include="Handlers\Handler5.cs" />
-    <Compile Include="Handlers\handler6.cs" />
     <Compile Include="Handlers\Handler8.cs" />
     <Compile Include="Handlers\HandlerStore.cs" />
     <Compile Include="Handlers\PacketHelper.cs" />
