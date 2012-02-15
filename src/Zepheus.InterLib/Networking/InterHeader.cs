@@ -10,6 +10,7 @@ namespace Zepheus.InterLib.Networking
         PING = 0x0000,
         PONG = 0x0001,
         IVS = 0x0002,
+        ClientReady = 0x003,
         GetParty = 0x0099,
         SendParty = 0x0100,
         UpdateParty = 0x098,
