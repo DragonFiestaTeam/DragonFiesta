@@ -67,7 +67,7 @@ namespace Zepheus.Zone.Game
             }
             else
             {
-                packet.Fill(54, 0); //find out later
+                packet.Fill(55, 0); //find out later
             }
         }
     }

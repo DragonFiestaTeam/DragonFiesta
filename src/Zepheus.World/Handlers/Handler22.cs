@@ -59,9 +59,9 @@ namespace Zepheus.World.Handlers
                client.SendPacket(packet);
            }
            Handler2.SendClientTime(client,DateTime.Now);
+           client.Character.LoadFriends(client);
            client.Character.IsIngame = true;
-           client.Character.Loadfriends(client);
-           client.Character.FriendOnline(client);
+           client.Character.UpdateFriendStates(client);
 
        }
     }

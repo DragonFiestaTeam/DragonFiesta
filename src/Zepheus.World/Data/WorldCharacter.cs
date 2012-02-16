@@ -55,11 +55,7 @@ namespace Zepheus.World.Data
                 return this.friends;
            }
         }
-        public void Loadfriends(WorldClient c)
-        {
-            this.LoadFriends(c);
-        }
-        private void LoadFriends(WorldClient c)
+        public void LoadFriends(WorldClient c)
         {
             this.friends = new List<Friend>();
                    DataTable frenddata = null;
@@ -87,18 +83,12 @@ namespace Zepheus.World.Data
                     foreach (DataRow Row in frendsdata.Rows)
                     {
                         friend.UpdateFromDatabase(Row);
+                        if (friend.Pending)
+                            Console.WriteLine("Pending true");
                     }
                 }
             }
             UpdateFriendStates(c);
-        }
-        public Friend AddFriend(WorldCharacter pChar)
-        {
-
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','"+pChar.Character.ID+"')");
-            Friend friend = Friend.Create(pChar);
-            friends.Add(friend);
-            return friend;
         }
         public void ChangeMap(string mapname)
         {
@@ -113,25 +103,6 @@ namespace Zepheus.World.Data
                 }
             }
         }
-        public void FriendOnline(WorldClient c)
-        {
-           this.SendAllFriendOnline(c);
-        }
-        private void SendAllFriendOnline(WorldClient c)
-        {
-            foreach (var friend in this.friends)
-            {
-                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
-                if(Client != null)
-                using (var packet = new Packet(SH21Type.FriendOnline))
-                {
-                    packet.WriteString(this.Character.Name, 16);
-                    packet.WriteString(this.GetMapname(this.Character.PositionInfo.Map),12);
-                    Client.SendPacket(packet);
-                }
-            }
-            this.UpdateFriendStates(c);
-        }
         public string GetMapname(ushort mapid)
         {
             MapInfo mapinfo;
@@ -141,15 +112,21 @@ namespace Zepheus.World.Data
             }
             return "";
         }
-        public bool DeleteFriend(WorldCharacter pChar)
+        public Friend AddFriend(WorldCharacter pChar)
         {
-            Friend friend = this.friends.Find(f => f.Name == pChar.Character.Name);
-            bool result = this.friends.Remove(friend);
-            if (result)
+
+            Friend pFrend = pChar.friends.Find(f => f.Name == pChar.Character.Name);
+            Friend friend = Friend.Create(pChar);
+            if (pFrend != null)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + pChar.ID);
+                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
+                pFrend.UpdatePending(true);
+                friend.UpdatePending(true);
             }
-            return result;
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
+            friends.Add(friend);
+           
+            return friend;
         }
         public bool DeleteFriend(string pName)
         {
@@ -160,7 +137,19 @@ namespace Zepheus.World.Data
                 if (result)
                 {
                     Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID="+this.ID+" AND FriendID="+friend.ID);
+                    if (friend.Pending)
+                    {
+                        if (friend.IsOnline)
+                        {
+                            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
+                        }
+                        else
+                        {
+                            friend.UpdatePending(false);
+                        }
+                    }
                 }
+                UpdateFriendStates(friend.client);
                 return result;
             }
             return false;
@@ -181,17 +170,6 @@ namespace Zepheus.World.Data
                 {
                     friend.Update(friendCharacter.Character);
                 }
-                else
-                {
-                    DateTime now = DateTime.Now;
-                    Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Friends SET LastConnectDay='" + now.Second + "', LastConnectMonth='" + now.Month + "' WHERE CharID='" + this.Character.ID + "'");
-                        using (var packet = new Packet(SH21Type.FriendOffline))
-                        {
-                            packet.WriteString(this.Character.Name, 16);
-                             pclient.SendPacket(packet);
-                        }
-                    friend.IsOnline = false;
-                }
             }
             foreach (var friend in unknowns)
             {
@@ -205,8 +183,12 @@ namespace Zepheus.World.Data
             foreach (var friend in this.Friends)
             {
                 friend.WritePacket(pPacket);
-
             }
+        }
+        public void Loggeout(WorldClient Pchar)
+        {
+            this.IsIngame = false;
+            this.UpdateFriendStates(Pchar);
         }
 		public void RemoveGroup()
 		{

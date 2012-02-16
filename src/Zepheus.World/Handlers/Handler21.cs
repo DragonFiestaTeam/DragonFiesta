@@ -28,6 +28,8 @@ namespace Zepheus.World.Handlers
                         pack.WriteString(sender, 16);
                         client.SendPacket(pack);
                     }
+                Friend friend = pClient.Character.Friends.Find(f => f.Name == target);
+                if(friend != null && friend.Pending)
                 using (var pack = new Packet(SH21Type.FriendListDelete))
                 {
                     pack.WriteString(sender, 16);

@@ -23,7 +23,7 @@ namespace Zepheus.World.Data
         public bool IsOnline { get; set; }
         public byte Month { get; private set; }
         public byte Day { get; private set; }
-
+        public WorldClient  client { get; private set; }
         public static Friend Create(WorldCharacter pCharacter)
         {
        
@@ -35,9 +35,10 @@ namespace Zepheus.World.Data
                 Job = pCharacter.Character.Job,
                 Map = GetMapname(pCharacter.Character.PositionInfo.Map),
                 UniqueID = (uint)pCharacter.Character.AccountID,
-                IsOnline = true
+                IsOnline = pCharacter.IsIngame,
+                client = ClientManager.Instance.GetClientByCharname(pCharacter.Character.Name),
             };
-
+            
             return friend;
         }
        private static string GetMapname(ushort mapid)
@@ -53,9 +54,11 @@ namespace Zepheus.World.Data
         {
             Friend friend = new Friend
             {
-                UniqueID = uint.Parse(Row["ID"].ToString()),
+                UniqueID = uint.Parse(Row["CharID"].ToString()),
                 ID = int.Parse(Row["FriendID"].ToString()),
                 Pending = Zepheus.Database.DataStore.ReadMethods.EnumToBool(Row["Pending"].ToString()),
+                Day = byte.Parse(Row["LastConnectDay"].ToString()),
+                Month = byte.Parse(Row["LastConnectMonth"].ToString()),
             };
             return friend;
         }
@@ -66,7 +69,7 @@ namespace Zepheus.World.Data
         public void UpdateFromDatabase(DataRow Row)
         {
             this.Name = Row["Name"].ToString();
-            this.UniqueID = uint.Parse(Row["AccountID"].ToString());
+            this.UniqueID = uint.Parse(Row["CharID"].ToString());
             this.Job = byte.Parse(Row["Job"].ToString());
             this.Level = byte.Parse(Row["Level"].ToString());
             this.Map = GetMapname(ushort.Parse(Row["Map"].ToString()));
@@ -78,10 +81,54 @@ namespace Zepheus.World.Data
         /// <param name="pCharacter">The WorldCharacter object with the new data.</param>
         public void Update(WorldCharacter pCharacter)
         {
-            this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
-            this.Job = pCharacter.Character.Job;
-            this.Level = pCharacter.Character.CharLevel;
-
+            if (ClientManager.Instance.IsOnline(pCharacter.Character.Name))
+            {
+                if (pCharacter.IsIngame)
+                {
+                    Online(pCharacter.Character.Name, pCharacter.GetMapname(pCharacter.Character.PositionInfo.Map));
+                    Friend ff = Create(pCharacter);
+                    if(this.client.Character != null)
+                    this.client.Character.Friends.Add(ff);
+                }
+                else
+                {
+                    this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
+                    this.Job = pCharacter.Character.Job;
+                    this.Level = pCharacter.Character.CharLevel;
+                    this.IsOnline = pCharacter.IsIngame;
+                    this.client = ClientManager.Instance.GetClientByCharname(pCharacter.Character.Name);
+                }
+            }
+            else
+            {
+                Offline(pCharacter.Character.Name);
+                Friend ff = Create(pCharacter);
+                this.client.Character.Friends.Remove(ff);
+            }
+        }
+        private void Offline(string name)
+        {
+            if(this.client != null)
+            using (var packet = new Packet(SH21Type.FriendOffline))
+            {
+                packet.WriteString(name, 16);
+               this.client.SendPacket(packet);
+            }
+        }
+        public void Online(string Name, string MapName)
+        {
+            if(this.client != null)
+            using (var packet = new Packet(SH21Type.FriendOnline))
+            {
+                packet.WriteString(Name, 16);
+                packet.WriteString(MapName, 12);
+                this.client.SendPacket(packet);
+            }
+        }
+        public void UpdatePending(bool Pending)
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE SET Pending='"+Pending.ToString()+"' WHERE CharID='"+this.UniqueID+"' AND FriendID='"+this.ID+"'");
+            this.Pending = Pending;
         }
         public void WritePacket(Packet pPacket)
         {

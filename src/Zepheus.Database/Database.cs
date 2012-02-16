@@ -407,6 +407,7 @@ namespace Zepheus.Database
         {
             try
             {
+                this.Dispose();
                 Command.CommandText = sQuery;
                 Command.ExecuteScalar();
                 Command.CommandText = null;
