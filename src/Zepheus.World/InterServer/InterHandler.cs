@@ -104,7 +104,8 @@ namespace Zepheus.World.InterServer
             if (packet.TryReadString(out charname,16))
             {
               WorldClient client =  ClientManager.Instance.GetClientByCharname(charname);
-              client.Character.FriendOffline();
+              client.Character.IsIngame = false;
+              client.Character.UpdateFriendStates(client);
               // :Todo Reststuff when backtochar
             }
         }

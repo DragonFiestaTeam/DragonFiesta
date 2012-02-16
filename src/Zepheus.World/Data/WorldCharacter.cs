@@ -19,6 +19,7 @@ namespace Zepheus.World.Data
 		public int ID { get; private set; }
 		public Dictionary<byte, ushort> Equips { get; private set; }
 		public bool IsDeleted { get; private set; }
+        public bool IsIngame { get;  set; }
 		//party
 		public List<string> Party = new List<string>();
 		public bool IsPartyMaster { get; set;  }
@@ -49,16 +50,16 @@ namespace Zepheus.World.Data
             {
                 if (this.friends == null)
                 {
-                    LoadFriends();
+                    LoadFriends(ClientManager.Instance.GetClientByCharname(this.Character.Name));
                 }
                 return this.friends;
-            }
+           }
         }
-        public void Loadfriends()
+        public void Loadfriends(WorldClient c)
         {
-            this.LoadFriends();
+            this.LoadFriends(c);
         }
-        private void LoadFriends()
+        private void LoadFriends(WorldClient c)
         {
             this.friends = new List<Friend>();
                    DataTable frenddata = null;
@@ -89,7 +90,7 @@ namespace Zepheus.World.Data
                     }
                 }
             }
-            UpdateFriendStates();
+            UpdateFriendStates(c);
         }
         public Friend AddFriend(WorldCharacter pChar)
         {
@@ -98,25 +99,6 @@ namespace Zepheus.World.Data
             Friend friend = Friend.Create(pChar);
             friends.Add(friend);
             return friend;
-        }
-        public void  FriendOffline()
-        {
-            DateTime now = DateTime.Now;
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Friends SET LastConnectDay='"+now.Second+"', LastConnectMonth='"+now.Month+"' WHERE CharID='"+this.Character.ID+"'");
-            SendAllFriendOffline();
-        }
-        private void SendAllFriendOffline()
-        {
-            foreach (var friend in this.friends)
-            {
-                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
-                if(Client != null)
-                using(var packet = new Packet(SH21Type.FriendOffline))
-                {
-                    packet.WriteString(this.Character.Name, 16);
-                    Client.SendPacket(packet);
-                }
-            }
         }
         public void ChangeMap(string mapname)
         {
@@ -131,13 +113,13 @@ namespace Zepheus.World.Data
                 }
             }
         }
-        public void FriendOnline()
+        public void FriendOnline(WorldClient c)
         {
-           SendAllFriendOnline();
+           this.SendAllFriendOnline(c);
         }
-        private void SendAllFriendOnline()
+        private void SendAllFriendOnline(WorldClient c)
         {
-            foreach (var friend in friends)
+            foreach (var friend in this.friends)
             {
                 WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
                 if(Client != null)
@@ -148,6 +130,7 @@ namespace Zepheus.World.Data
                     Client.SendPacket(packet);
                 }
             }
+            this.UpdateFriendStates(c);
         }
         public string GetMapname(ushort mapid)
         {
@@ -182,7 +165,7 @@ namespace Zepheus.World.Data
             }
             return false;
         }
-        public void UpdateFriendStates()
+        public void UpdateFriendStates(WorldClient pclient)
         {
             List<Friend> unknowns = new List<Friend>();
             foreach (var friend in this.Friends)
@@ -200,6 +183,13 @@ namespace Zepheus.World.Data
                 }
                 else
                 {
+                    DateTime now = DateTime.Now;
+                    Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Friends SET LastConnectDay='" + now.Second + "', LastConnectMonth='" + now.Month + "' WHERE CharID='" + this.Character.ID + "'");
+                        using (var packet = new Packet(SH21Type.FriendOffline))
+                        {
+                            packet.WriteString(this.Character.Name, 16);
+                             pclient.SendPacket(packet);
+                        }
                     friend.IsOnline = false;
                 }
             }
