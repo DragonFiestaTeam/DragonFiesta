@@ -339,7 +339,7 @@ namespace Zepheus.Zone.Game
 			else return;
 		}
 
-		public InventoryStatus GiveItem(ushort id, byte amount = 1)
+		public InventoryStatus GiveItem(ushort id, byte amount = (byte) 1)
 		{
 			ItemInfo info;
 			if (DataProvider.Instance.ItemsByID.TryGetValue(id, out info))
@@ -617,7 +617,7 @@ namespace Zepheus.Zone.Game
 			else return -1;
 		}
 
-		public void ChangeMap(ushort ID, int x = -1, int y = -1, short instance = -1)
+		public void ChangeMap(ushort ID, int x = -1, int y = -1, short instance = (short) -1)
 		{
 			if (ID > 120)
 			{

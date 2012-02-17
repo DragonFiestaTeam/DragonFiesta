@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
+using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
+using Zepheus.World.InterServer;
 using Zepheus.World.Networking;
 
 namespace Zepheus.World
@@ -52,7 +54,11 @@ namespace Zepheus.World
 			GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
 			pMaster.Character.GroupMember = mstr;
 			grp.AddMember(mstr);
-			// TODO: Add group in Database?
+
+			this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
+			this.groupsById.Add(grp.Id, grp);
+			this.groups.Add(grp);
+			// TODO: Add group in Database?););
 
 			return grp;
 		}
@@ -92,9 +98,18 @@ namespace Zepheus.World
 			WorldClient from = ClientManager.Instance.GetClientByCharname(pFrom);
 			if(!groupsByMaster.ContainsKey(pFrom))
 				return;
+
 			Group grp = groupsByMaster[pFrom];
 			GroupRequest request = requestsByGroup[grp].Find(r => r.InvitedClient == pClient);
 			RemoveRequest(request);
+
+			using (var packet = new InterPacket(InterHeader.AddPartyMember))
+			{
+				packet.WriteString(pFrom, 16);
+				packet.WriteString(pClient.Character.Character.Name);
+				ZoneConnection zone = Program.GetZoneByMap(pClient.Character.Character.PositionInfo.Map);
+				zone.SendPacket(packet);
+			}
 			grp.RemoveInvite(request);
 			grp.MemberJoin(pClient.Character.Character.Name);
 		}
@@ -143,12 +158,15 @@ namespace Zepheus.World
 
 		private void AddRequest(GroupRequest pRequest)
 		{
+			if(pRequest.Group == null)
+				pRequest.Group = CreateNewGroup(pRequest.InviterClient);
+
 			if (!this.requestsByGroup.ContainsKey(pRequest.Group))
 			{
 				this.requestsByGroup.Add(pRequest.Group, new List<GroupRequest>());
-			}
 
-			this.requestsByGroup[pRequest.Group].Add(pRequest);
+				this.requestsByGroup[pRequest.Group].Add(pRequest);
+			}
 		}
 		private void RemoveRequest(GroupRequest pRequest)
 		{
@@ -168,7 +186,7 @@ namespace Zepheus.World
 			packet.WriteString(InvideClient.Character.Character.Name);
 			packet.WriteUShort(1217);
 			InvideClient.SendPacket(packet);*/
-			// TODO: Send Packet
+			// TODO: Sniff op code
 		}
 
 		#endregion

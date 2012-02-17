@@ -198,7 +198,7 @@ namespace Zepheus.Zone.Game
             }
         }
 
-        public void Broadcast(Packet packet, ushort idskip = 0)
+        public void Broadcast(Packet packet, ushort idskip = (ushort) 0)
         {
             foreach (var rcharacter in Map.GetCharactersBySectors(this.SurroundingSectors))
             {

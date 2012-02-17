@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Zepheus.Database;
-using Zepheus.FiestaLib;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.Login.InterServer;
-using Zepheus.InterLib.Networking;
-using Zepheus.InterLib.NetworkObjects;
+﻿using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 
 namespace Zepheus.Login.InterServer

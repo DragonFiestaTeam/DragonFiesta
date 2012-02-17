@@ -548,7 +548,7 @@ namespace Zepheus.Zone.Handlers
             }
               character.Move(oldX, oldY, newX, newY, !run, stop); // hehe
         }
-        public static Packet MoveObject(MapObject obj, int oldx, int oldy, bool walk, ushort speed = 115)
+        public static Packet MoveObject(MapObject obj, int oldx, int oldy, bool walk, ushort speed = (ushort) 115)
         {
             Packet packet = new Packet(walk ? SH8Type.Walk : SH8Type.Move);
             packet.WriteUShort(obj.MapObjectID);
@@ -599,7 +599,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendNormalChat(ZoneCharacter character, string chat, byte color = 0x2a)
+        public static void SendNormalChat(ZoneCharacter character, string chat, byte color = (byte) 0x2a)
         {
             using (var packet = new Packet(SH8Type.ChatNormal))
             {

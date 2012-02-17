@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\Friend.cs" />
     <Compile Include="Data\Group.cs" />
     <Compile Include="Data\GroupMember.cs" />

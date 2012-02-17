@@ -26,7 +26,7 @@ namespace Zepheus.Zone.Game
             Answers.AddRange(text);
         }
 
-        public void Send(ZoneCharacter character, ushort distance = 1000)
+        public void Send(ZoneCharacter character, ushort distance = (ushort) 1000)
         {
             Handler15.SendQuestion(character, this, distance);
         }

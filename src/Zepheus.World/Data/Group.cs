@@ -58,9 +58,8 @@ namespace Zepheus.World.Data
 			}
 			if(Master.Name != pSender.Character.Name)
 				return;		// only the master may invite new members
-
-			WorldClient pTo = ClientManager.Instance.GetClientByCharname(pTarget);
-			SendInvitationPacket(pTo);
+			
+			// TODO: Handle/Implement!
 		}
 		public void ChangeDropType(WorldCharacter pBy, byte pDropState)
 		{
@@ -128,7 +127,7 @@ namespace Zepheus.World.Data
 		{
 			WorldClient client = ClientManager.Instance.GetClientByCharname(pMember);
 			GroupMember gMember = new GroupMember(client, GroupRole.Member);
-			this.Members.Add(gMember);
+			AddMember(gMember);
 
 			AnnouncePartyList();
 			UpdateInDatabase();
@@ -138,6 +137,7 @@ namespace Zepheus.World.Data
 		{
 			this.Members.Add(pMember);
 			pMember.Group = this;
+			SendAddMemberInterPacket(pMember);
 		}
 		internal void AddInvite(GroupRequest pRequest)
 		{
@@ -145,18 +145,11 @@ namespace Zepheus.World.Data
 		}
 		internal void RemoveMember(GroupMember pMember)
 		{
-			WorldClient leaver = ClientManager.Instance.GetClientByCharname(pMember.Name);
 			this.Members.Remove(pMember);
-			SendMemberLeavesPacket(pMember.Name, Members.Select(m => m.Client));
-
-			ZoneConnection z =
-				Program.GetZoneByMap(leaver.Character.Character.PositionInfo.Map);
-			using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
-			{
-				interleave.WriteString(leaver.Character.Character.Name, 16);
-				interleave.WriteString(leaver.Character.Character.Name, 16);
-				z.SendPacket(interleave);
-			}
+			pMember.Character.Group = null;
+			pMember.Character.GroupMember = null;
+			
+			// TODO: Send packet to other members to update GroupList!
 		}
 		internal void RemoveInvite(GroupRequest pRequest)
 		{
@@ -164,24 +157,11 @@ namespace Zepheus.World.Data
 		}
 		internal void UpdateInDatabase()
 		{
-			const string query =
-				"UPDATE groups "
-				+ "SET Member1 = {0} "
-				+ "SET Member2 = {1} "
-				+ "SET Member3 = {2} "
-				+ "SET Member4 = {3} "
-				+ "SET Member5 = {4} "
-				+ "SET Exists = {5} "
-				+ "WHERE Id = {6}";
-			string formated = string.Format(query,
-				GetDBMemberName(0),
-				GetDBMemberName(1),
-				GetDBMemberName(2),
-				GetDBMemberName(3),
-				GetDBMemberName(4),
-				this.Exists,
-				this.Id);
-			Program.DatabaseManager.GetClient().ExecuteQuery(formated);
+			// TODO: Implement
+		}
+		internal void CreateInDatabase()
+		{
+			
 		}
 		#endregion
 
@@ -244,9 +224,7 @@ namespace Zepheus.World.Data
 		}
 		private void DeleteGroupByNameInDatabase(string pName)
 		{
-			string query = string.Format(
-				"UPDATE characters SET GroupID = NULL WHERE Name = \'{0}\'", pName);
-			Program.DatabaseManager.GetClient().ExecuteQuery(query);
+			DatabaseHelper.RemoveCharacterGroup(pName);
 		}
 		private void AnnounceChangeMaster()
 		{
@@ -259,18 +237,14 @@ namespace Zepheus.World.Data
 				Members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
 			}
 		}
-		private string GetDBMemberName(int pFor)
+		private void SendAddMemberInterPacket(GroupMember pMember)
 		{
-			if(Members.Count < pFor)
-				return "NULL";
-			return string.Format("\'{0}\'", Members[pFor].Name);
-		}
-		private void SendInvitationPacket(WorldClient pTo)
-		{
-			using (var packet = new Packet(SH14Type.PartyInvite))
+			ZoneConnection con = Program.GetZoneByMap(pMember.Character.Character.PositionInfo.Map);
+			using (var pack = new InterPacket(InterHeader.AddPartyMember))
 			{
-				packet.WriteString(Master.Name, 16);
-				pTo.SendPacket(packet);
+				pack.WriteString(this.Master.Name, 16);
+				pack.WriteString(pMember.Name, 16);
+				con.SendPacket(pack);
 			}
 		}
 		#endregion

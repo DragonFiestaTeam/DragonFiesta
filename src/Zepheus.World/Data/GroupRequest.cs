@@ -8,8 +8,6 @@ namespace Zepheus.World.Data
 		#region .ctor
 		public GroupRequest(WorldClient pFrom, Group pGroup, string pInvited)
 		{
-			if(!(pGroup.Master.Equals(pFrom)))
-				return; // the fuck
 
 			this.CrationTimeStamp = DateTime.Now;
 			this.InvitedClient = ClientManager.Instance.GetClientByCharname(pInvited);
@@ -20,7 +18,7 @@ namespace Zepheus.World.Data
 
 		#region Properties
 		public DateTime CrationTimeStamp { get; private set; }
-		public Group Group { get; private set; }
+		public Group Group { get; internal set; }
 		public WorldClient InvitedClient { get; private set; }
 		public WorldClient InviterClient { get; private set; }
 		#endregion

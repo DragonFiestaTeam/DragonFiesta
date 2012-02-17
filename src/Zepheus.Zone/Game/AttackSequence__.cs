@@ -19,7 +19,7 @@ namespace Zepheus.Zone.Game
             public ushort MoveTime;
             public ushort Skill;
 
-            public Attack(ushort dmg, bool crit, ushort movetime, ushort skill = 0)
+            public Attack(ushort dmg, bool crit, ushort movetime, ushort skill = (ushort) 0)
             {
                 Damage = dmg;
                 Crit = crit;
@@ -42,7 +42,7 @@ namespace Zepheus.Zone.Game
         private ushort skillid = 0xFFFF;
         private bool IsSkill { get { return skillid == 0xFFFF; } }
 
-        public AttackSequence__(MapObject from, MapObject to, ushort skill = 0xFFFF, ushort attackspeed = 1400)
+        public AttackSequence__(MapObject from, MapObject to, ushort skill = (ushort) 0xFFFF, ushort attackspeed = (ushort) 1400)
         {
             From = from;
             To = to;

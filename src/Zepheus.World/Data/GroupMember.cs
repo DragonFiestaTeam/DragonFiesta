@@ -11,6 +11,7 @@ namespace Zepheus.World.Data
 			this.Client = client;
 			this.Character = client.Character;
 			this.Role = role;
+			this.Name = client.Character.Character.Name;
 		}
 		#endregion
 		
@@ -24,6 +25,14 @@ namespace Zepheus.World.Data
 		#endregion
 
 		#region Methods
+
+		public override bool Equals(object obj)
+		{
+			if(!(obj is GroupMember))
+				return false;
+			return ((GroupMember) obj).Name == this.Name;
+		}
+
 		#endregion
 	}
 

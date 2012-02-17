@@ -17,7 +17,7 @@ namespace Zepheus.Zone
             Maps = new Dictionary<MapInfo, List<Map>>();
         }
 
-        public Map GetMap(MapInfo info, short instance = 0)
+        public Map GetMap(MapInfo info, short instance = (short) 0)
         {
             //lazy loading
             if (!Maps.ContainsKey(info))

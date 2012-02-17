@@ -20,7 +20,7 @@ namespace Zepheus.Zone.Game
         public ZoneCharacter Owner { get; private set; }
         public MiniHouseInfo Info { get { return (DataProvider.Instance.MiniHouses.ContainsKey(ItemID) ? DataProvider.Instance.MiniHouses[ItemID] : null); } }
 
-        public House(ZoneCharacter pOwner, HouseType pType, ushort pItemID = 0, string pName = "")
+        public House(ZoneCharacter pOwner, HouseType pType, ushort pItemID = (ushort) 0, string pName = "")
         {
             this.Owner = pOwner;
             this.Type = pType;

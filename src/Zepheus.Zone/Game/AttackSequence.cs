@@ -61,7 +61,7 @@ namespace Zepheus.Zone.Game
             this.Y = 0;
         }
 
-        public AttackSequence(MapObject att, uint min, uint max, ushort skillid, uint x = 0, uint y = 0) :
+        public AttackSequence(MapObject att, uint min, uint max, ushort skillid, uint x = (uint) 0, uint y = (uint) 0) :
             this(att, null, min, max, skillid, true)
         {
             this.X = x;

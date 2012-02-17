@@ -147,7 +147,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendItemUsed(ZoneCharacter character, Item item, ushort error = 1792)
+        public static void SendItemUsed(ZoneCharacter character, Item item, ushort error = (ushort) 1792)
         {
             if (error == 1792)
             {
@@ -273,7 +273,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void FailedEquip(ZoneCharacter character, ushort val = 0)
+        public static void FailedEquip(ZoneCharacter character, ushort val = (ushort) 0)
         {
             using (var packet = new Packet(SH12Type.FailedEquip))
             {

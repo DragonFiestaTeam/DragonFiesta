@@ -238,7 +238,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendGainEXP(ZoneCharacter who, uint amount, ushort mobid = 0xFFFF)
+        public static void SendGainEXP(ZoneCharacter who, uint amount, ushort mobid = (ushort) 0xFFFF)
         {
             using (var packet = new Packet(SH9Type.GainEXP))
             {
@@ -248,7 +248,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendLevelUPAnim(ZoneCharacter who, ushort mobid = 0xFFFF)
+        public static void SendLevelUPAnim(ZoneCharacter who, ushort mobid = (ushort) 0xFFFF)
         {
             using (var packet = new Packet(SH9Type.LevelUPAnimation))
             {
@@ -258,7 +258,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendLevelUPData(ZoneCharacter who, ushort mobid = 0xFFFF)
+        public static void SendLevelUPData(ZoneCharacter who, ushort mobid = (ushort) 0xFFFF)
         {
             using (var packet = new Packet(SH9Type.LevelUP))
             {
@@ -366,7 +366,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendSkill(MapObject user, ushort animid, ushort victimid, uint damage, uint newhp, ushort counter, byte special1 = 0x10, byte special2 = 0x00)
+        public static void SendSkill(MapObject user, ushort animid, ushort victimid, uint damage, uint newhp, ushort counter, byte special1 = (byte) 0x10, byte special2 = (byte) 0x00)
         {
             // 9 82 | [E5 3F] [8A 27] [01] [8A 27] [10 00] [09 00 00 00] [5E 00 00 00] [A7 4C]
             // 9 82 | [9A 35] [8A 27] [01] [C2 05] [10 00] [0A 00 00 00] [1D 01 00 00] [73 37]
