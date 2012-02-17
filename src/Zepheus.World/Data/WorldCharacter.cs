@@ -144,12 +144,13 @@ namespace Zepheus.World.Data
         {
 
             Friend pFrend = pChar.friends.Find(f => f.Name == pChar.Character.Name);
+            Friend pFrendby = pChar.friendsby.Find(f => f.Name == pChar.Character.Name);
             Friend friend = Friend.Create(pChar);
             if (pFrend != null)
             {
                 Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
-                pFrend.UpdatePending(true);
                 friend.UpdatePending(true);
+                if (pFrendby == null) this.friendsby.Add(friend);
             }
             Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
             friends.Add(friend);
@@ -159,30 +160,25 @@ namespace Zepheus.World.Data
         public bool DeleteFriend(string pName)
         {
             Friend friend = this.friends.Find(f => f.Name == pName);
+            Friend friendby = this.friendsby.Find(f => f.Name == pName);
             if (friend != null)
             {
                 bool result = this.friends.Remove(friend);
                 if (result)
                 {
-                    Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID="+this.ID+" AND FriendID="+friend.ID);
-                    if (friend.Pending)
+                    if (friendsby != null)
                     {
-                        if (friend.IsOnline)
-                        {
-                            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
-                        }
-                        else
-                        {
-                            friend.UpdatePending(false);
-                        }
+                        Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
+                        this.friendsby.Remove(friendby);
                     }
+                    Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID="+this.ID+" AND FriendID="+friend.ID);
                 }
                 UpdateFriendStates(friend.client);
                 return result;
             }
             return false;
         }
-        public void UpdateFriendsStatus(bool State)
+        public void UpdateFriendsStatus(bool State, WorldClient sender)
         {
             foreach (Friend frend in friendsby)
             {
@@ -191,11 +187,12 @@ namespace Zepheus.World.Data
               {
                   if (State)
                   {
-                      frend.Online(client);
+                      if (client != sender)
+                      frend.Online(client,sender);
                   }
                   else
                   {
-                      frend.Offline(client);
+                      frend.Offline(client,this.Character.Name);
                   }
               }
             }
@@ -237,7 +234,7 @@ namespace Zepheus.World.Data
         public void Loggeout(WorldClient Pchar)
         {
             this.IsIngame = false;
-            this.UpdateFriendsStatus(false);
+            this.UpdateFriendsStatus(false,Pchar);
             this.UpdateFriendStates(Pchar);
         }
 		public void RemoveGroup()

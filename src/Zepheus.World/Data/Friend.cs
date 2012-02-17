@@ -87,20 +87,21 @@ namespace Zepheus.World.Data
                     this.Level = pCharacter.Character.CharLevel;
                     this.IsOnline = ClientManager.Instance.IsOnline(pCharacter.Character.Name);
         }
-        public void Offline(WorldClient pClient)
+        public void Offline(WorldClient pClient,string name)
         {
             using (var packet = new Packet(SH21Type.FriendOffline))
             {
-                packet.WriteString(pClient.Character.Character.Name, 16);
+                packet.WriteString(name, 16);
                 pClient.SendPacket(packet);
             }
         }
-        public void Online(WorldClient client)
+        public void Online(WorldClient client,WorldClient Target)
         {
             using (var packet = new Packet(SH21Type.FriendOnline))
             {
-                packet.WriteString(this.Name, 16);
-                packet.WriteString(this.Map, 12);
+
+                packet.WriteString(Target.Character.Character.Name, 16);
+                packet.WriteString(Target.Character.GetMapname(Target.Character.Character.PositionInfo.Map), 12);
                 client.SendPacket(packet);
             }
         }
