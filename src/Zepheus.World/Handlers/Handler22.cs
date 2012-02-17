@@ -60,8 +60,8 @@ namespace Zepheus.World.Handlers
            }
            Handler2.SendClientTime(client,DateTime.Now);
            client.Character.LoadFriends(client);
-           client.Character.IsIngame = true;
            client.Character.UpdateFriendStates(client);
+           client.Character.IsIngame = true;
 
        }
     }

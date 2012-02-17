@@ -24,6 +24,7 @@ namespace Zepheus.World.Data
         public byte Month { get; private set; }
         public byte Day { get; private set; }
         public WorldClient  client { get; private set; }
+
         public static Friend Create(WorldCharacter pCharacter)
         {
        
@@ -36,7 +37,7 @@ namespace Zepheus.World.Data
                 Map = GetMapname(pCharacter.Character.PositionInfo.Map),
                 UniqueID = (uint)pCharacter.Character.AccountID,
                 IsOnline = pCharacter.IsIngame,
-                client = ClientManager.Instance.GetClientByCharname(pCharacter.Character.Name),
+                client = pCharacter.client,
             };
             
             return friend;
@@ -79,50 +80,38 @@ namespace Zepheus.World.Data
         /// Updates friend status using a <see cref="WorldCharacter" /> object.
         /// </summary>
         /// <param name="pCharacter">The WorldCharacter object with the new data.</param>
-        public void Update(WorldCharacter pCharacter)
+        public void Update(WorldCharacter pCharacter,string name)
         {
             if (ClientManager.Instance.IsOnline(pCharacter.Character.Name))
             {
                 if (pCharacter.IsIngame)
                 {
-                    Online(pCharacter.Character.Name, pCharacter.GetMapname(pCharacter.Character.PositionInfo.Map));
-                    Friend ff = Create(pCharacter);
-                    if(this.client.Character != null)
-                    this.client.Character.Friends.Add(ff);
-                }
-                else
-                {
                     this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
                     this.Job = pCharacter.Character.Job;
                     this.Level = pCharacter.Character.CharLevel;
-                    this.IsOnline = pCharacter.IsIngame;
-                    this.client = ClientManager.Instance.GetClientByCharname(pCharacter.Character.Name);
+                    if (this.IsOnline) return;
+                    Online(name);
+                    this.IsOnline = true;
                 }
             }
-            else
-            {
-                Offline(pCharacter.Character.Name);
-                Friend ff = Create(pCharacter);
-                this.client.Character.Friends.Remove(ff);
-            }
         }
-        private void Offline(string name)
+        public void Offline(WorldClient pClient)
         {
-            if(this.client != null)
             using (var packet = new Packet(SH21Type.FriendOffline))
             {
-                packet.WriteString(name, 16);
-               this.client.SendPacket(packet);
+                packet.WriteString(this.Name, 16);
+               pClient.SendPacket(packet);
             }
         }
-        public void Online(string Name, string MapName)
+        public void Online(string Name)
         {
-            if(this.client != null)
+            WorldClient client = ClientManager.Instance.GetClientByCharname(Name);
+            if (client == null) return;
             using (var packet = new Packet(SH21Type.FriendOnline))
             {
-                packet.WriteString(Name, 16);
-                packet.WriteString(MapName, 12);
-                this.client.SendPacket(packet);
+                packet.WriteString(this.Name, 16);
+                packet.WriteString(this.Map, 12);
+                client.SendPacket(packet);
             }
         }
         public void UpdatePending(bool Pending)

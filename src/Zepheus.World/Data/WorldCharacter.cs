@@ -15,6 +15,7 @@ namespace Zepheus.World.Data
 	public class WorldCharacter
 	{
 		public Character Character { get; set;  }
+        public WorldClient client { get; set; }
 	   // public Character Character { get { return _character ?? (_character = LazyLoadMe()); } set { _character = value; } }
 		public int ID { get; private set; }
 		public Dictionary<byte, ushort> Equips { get; private set; }
@@ -26,10 +27,11 @@ namespace Zepheus.World.Data
 		public Group Group { get; internal set; }
 		public GroupMember GroupMember { get; internal set; }
         private List<Friend> friends;
+
 		public WorldCharacter(Character ch)
 		{
 			Character = ch;
-	  
+            client = ClientManager.Instance.GetClientByCharname(ch.Name);
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
 		   
@@ -57,6 +59,7 @@ namespace Zepheus.World.Data
         }
         public void LoadFriends(WorldClient c)
         {
+           
             this.friends = new List<Friend>();
                    DataTable frenddata = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
@@ -95,6 +98,7 @@ namespace Zepheus.World.Data
             foreach (var friend in friends)
             {
                 WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                if (Client == null) return;
                 using (var packet = new Packet(SH21Type.FriendChangeMap))
                 {
                     packet.WriteString(this.Character.Name, 16);
@@ -164,12 +168,18 @@ namespace Zepheus.World.Data
                     unknowns.Add(friend);
                     continue;
                 }
-
                 WorldClient friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name);
                 if (friendCharacter != null)
                 {
-                    friend.Update(friendCharacter.Character);
+                    friend.Update(friendCharacter.Character,pclient.Character.Character.Name);
                 }
+                else
+                {
+                    if(this.IsIngame)
+                    friend.IsOnline = false;
+                    friend.Offline(pclient);
+                }
+                
             }
             foreach (var friend in unknowns)
             {
