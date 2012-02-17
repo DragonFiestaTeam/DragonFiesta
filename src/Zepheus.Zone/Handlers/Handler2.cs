@@ -3,7 +3,7 @@ using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
-
+using System;
 namespace Zepheus.Zone.Handlers
 {
     public static class Handler2
@@ -16,13 +16,11 @@ namespace Zepheus.Zone.Handlers
                 character.Client.SendPacket(packet);
             }
         }
-
         [PacketHandler(CH2Type.Pong)]
         public static void HandlePong(ZoneClient character, Packet packet)
         {
             character.HasPong = true;
         }
-
         public static void SendPing(ZoneClient character)
         {
             using (var packet = new Packet(SH2Type.Ping))

@@ -8,6 +8,9 @@ namespace Zepheus.FiestaLib
         Ping = 4,
         SetXorKeyPosition = 7,
         Chatblock = 72,
+        UpdateClientTime = 73,
+        UnkTimePacket = 69,
+        unk1 = 14,
     }
 
     public enum SH3Type : byte
@@ -172,13 +175,15 @@ namespace Zepheus.FiestaLib
     }
     public enum SH21Type : byte
     {
-        PartyDecline = 7,
-        FriendList = 6,
+        FriendListDelete = 6,
         FriendInviteResponse = 2,
         FriendInviteRequest = 3,
         FriendExtraInformation = 8,
+        FriendOnline = 9,
+        FriendOffline = 10,
         FriendInviteReject = 11,
-        FriendDelete = 12,
+        FriendDeleteSend = 12,
+        FriendChangeMap = 13,
     }
     public enum SH25Type : byte
     {

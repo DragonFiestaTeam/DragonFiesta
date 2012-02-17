@@ -92,7 +92,6 @@ namespace Zepheus.Zone
             }
         }
 
-
         public bool AddClient(ZoneClient client)
         {
       

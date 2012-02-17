@@ -4,6 +4,7 @@ namespace Zepheus.FiestaLib
     public enum CH2Type : byte
     {
         Pong = 5,
+        Unk1 = 13,
     }
 
     public enum CH3Type : byte
@@ -13,7 +14,6 @@ namespace Zepheus.FiestaLib
         WorldReRequest = 27,
         FileHash = 4,
         WorldSelect = 11,
-
         //Actually used in World
         WorldClientKey = 15,
         BackToCharSelect = 24,
@@ -37,7 +37,6 @@ namespace Zepheus.FiestaLib
     {
         TransferKey = 1,
         ClientReady = 3,
-        GotIngame = 22,
     }
 
     public enum CH7Type : byte
@@ -117,6 +116,10 @@ namespace Zepheus.FiestaLib
         FriendInvite = 1,
         FriendInviteResponse = 4,
         FriendListDelete = 5,
+    }
+    public enum CH22Type : byte
+    {
+        GotIngame = 27,
     }
     public enum CH28Type : byte
     {

@@ -35,10 +35,9 @@ namespace Zepheus.World.Networking
 
 		void WorldClient_OnDisconnect(object sender, SessionCloseEventArgs e)
 		{
-			Log.WriteLine(LogLevel.Debug, "{0} Disconnected.", this.Host);
+            Log.WriteLine(LogLevel.Debug, "{0} Disconnected.", this.Host);
 			ClientManager.Instance.RemoveClient(this);
 		}
-
 		void WorldClient_OnPacket(object sender, PacketReceivedEventArgs e)
 		{
 			if (!Authenticated && !(e.Packet.Header == 3 && e.Packet.Type == 15)) return; //do not handle packets if not authenticated!

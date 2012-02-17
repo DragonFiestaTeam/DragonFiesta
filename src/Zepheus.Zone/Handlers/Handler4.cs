@@ -215,15 +215,6 @@ namespace Zepheus.Zone.Handlers
                 client.SendPacket(packet);
             }
         }
-
-        public static void SendMoney(ZoneCharacter Char)
-        {
-            using (var packet = new Packet(SH4Type.Money))
-            {
-                packet.WriteLong(Char.Money);// money
-                Char.Client.SendPacket(packet);
-            }
-        }
         public static void SendReviveWindow(ZoneClient client, byte minutesTillExpire)
         {
             using (var packet = new Packet(SH4Type.ReviveWindow))

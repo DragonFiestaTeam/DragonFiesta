@@ -6,27 +6,33 @@ using Zepheus.Util;
 using Zepheus.Database.Storage;
 using System.Data;
 using Zepheus.Database;
+using Zepheus.World.Networking;
 using Zepheus.FiestaLib.Networking;
+using Zepheus.FiestaLib.Data;
 
 namespace Zepheus.World.Data
 {
 	public class WorldCharacter
 	{
 		public Character Character { get; set;  }
+        public WorldClient client { get; set; }
 	   // public Character Character { get { return _character ?? (_character = LazyLoadMe()); } set { _character = value; } }
 		public int ID { get; private set; }
 		public Dictionary<byte, ushort> Equips { get; private set; }
 		public bool IsDeleted { get; private set; }
+        public bool IsIngame { get;  set; }
 		//party
 		public List<string> Party = new List<string>();
 		public bool IsPartyMaster { get; set;  }
 		public Group Group { get; internal set; }
 		public GroupMember GroupMember { get; internal set; }
         private List<Friend> friends;
+        private List<Friend> friendsby;
+
 		public WorldCharacter(Character ch)
 		{
 			Character = ch;
-	  
+            client = ClientManager.Instance.GetClientByCharname(ch.Name);
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
 		   
@@ -47,19 +53,22 @@ namespace Zepheus.World.Data
             {
                 if (this.friends == null)
                 {
-                    LoadFriends();
+                    LoadFriends(ClientManager.Instance.GetClientByCharname(this.Character.Name));
                 }
                 return this.friends;
-            }
+           }
         }
-
-        private void LoadFriends()
+        public void LoadFriends(WorldClient c)
         {
+           
             this.friends = new List<Friend>();
-                   DataTable frenddata = null;
+            this.friendsby = new List<Friend>();
+            DataTable frenddata = null;
+            DataTable frenddataby = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                frenddata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + this.ID + "'");
+                frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.ID + "'");
+                frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='" + this.ID + "'");
             }
 
             if (frenddata != null)
@@ -69,54 +78,126 @@ namespace Zepheus.World.Data
                     this.friends.Add(Friend.LoadFromDatabase(Row));
                 }
             }
-            foreach (var friend in this.Friends)
+            if (frenddataby != null)
+            {
+                foreach (DataRow Row in frenddata.Rows)
+                {
+                    this.friendsby.Add(Friend.LoadFromDatabase(Row));
+                }
+            }
+            foreach (var friend in this.friendsby)
             {
                 DataTable frendsdata = null;
                 using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                 {
-                    frendsdata = dbClient.ReadDataTable("SELECT FROM friends WHERE CharID='" + friend.ID + "'");
+                    frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
                 }
                 if (frenddata != null)
                 {
-                    foreach (DataRow Row in frenddata.Rows)
+                    foreach (DataRow Row in frendsdata.Rows)
                     {
                         friend.UpdateFromDatabase(Row);
                     }
                 }
             }
-            UpdateFriendStates();
+            foreach (var friend in this.Friends)
+            {
+                DataTable frendsdata = null;
+                using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                {
+                    frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
+                }
+                if (frenddata != null)
+                {
+                    foreach (DataRow Row in frendsdata.Rows)
+                    {
+                        friend.UpdateFromDatabase(Row);
+                    }
+                }
+            }
+            UpdateFriendStates(c);
+        }
+        public void ChangeMap(string mapname)
+        {
+            foreach (var friend in friends)
+            {
+                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                if (Client == null) return;
+                using (var packet = new Packet(SH21Type.FriendChangeMap))
+                {
+                    packet.WriteString(this.Character.Name, 16);
+                    packet.WriteString(mapname, 12);
+                    Client.SendPacket(packet);
+                }
+            }
+        }
+        public string GetMapname(ushort mapid)
+        {
+            MapInfo mapinfo;
+            if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
+            {
+                return mapinfo.ShortName;
+            }
+            return "";
         }
         public Friend AddFriend(WorldCharacter pChar)
         {
+
+            Friend pFrend = pChar.friends.Find(f => f.Name == pChar.Character.Name);
+            Friend pFrendby = pChar.friendsby.Find(f => f.Name == pChar.Character.Name);
             Friend friend = Friend.Create(pChar);
-            friends.Add(friend);
-            return friend;
-        }
-        public bool DeleteFriend(WorldCharacter pChar)
-        {
-            Friend friend = this.friends.Find(f => f.Name == pChar.Character.Name);
-            bool result = this.friends.Remove(friend);
-            if (result)
+            if (pFrend != null)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + pChar.ID);
+                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
+                friend.UpdatePending(true);
+                if (pFrendby == null) this.friendsby.Add(friend);
             }
-            return result;
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
+            friends.Add(friend);
+           
+            return friend;
         }
         public bool DeleteFriend(string pName)
         {
             Friend friend = this.friends.Find(f => f.Name == pName);
+            Friend friendby = this.friendsby.Find(f => f.Name == pName);
             if (friend != null)
             {
                 bool result = this.friends.Remove(friend);
                 if (result)
                 {
+                    if (friendsby != null)
+                    {
+                        Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
+                        this.friendsby.Remove(friendby);
+                    }
                     Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID="+this.ID+" AND FriendID="+friend.ID);
                 }
+                UpdateFriendStates(friend.client);
                 return result;
             }
             return false;
         }
-        public void UpdateFriendStates()
+        public void UpdateFriendsStatus(bool State, WorldClient sender)
+        {
+            foreach (Friend frend in friendsby)
+            {
+              WorldClient client =  ClientManager.Instance.GetClientByCharname(frend.Name);
+              if (client != null)
+              {
+                  if (State)
+                  {
+                      if (client != sender)
+                      frend.Online(client,sender);
+                  }
+                  else
+                  {
+                      frend.Offline(client,this.Character.Name);
+                  }
+              }
+            }
+        }
+        public void UpdateFriendStates(WorldClient pclient)
         {
             List<Friend> unknowns = new List<Friend>();
             foreach (var friend in this.Friends)
@@ -126,11 +207,10 @@ namespace Zepheus.World.Data
                     unknowns.Add(friend);
                     continue;
                 }
-
-                WorldCharacter friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name).Character;
+                WorldClient friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name);
                 if (friendCharacter != null)
                 {
-                    friend.Update(friendCharacter);
+                    friend.Update(friendCharacter.Character);
                 }
                 else
                 {
@@ -151,26 +231,12 @@ namespace Zepheus.World.Data
                 friend.WritePacket(pPacket);
             }
         }
-		private Character LazyLoadMe()
-		{
-		  //  return Program.Entity.Characters.First(c => c.ID == ID);
-			return this.Character;
-		}
-
-		public void Detach()
-		{
-			try
-			{
-			   
-				//Program.Entity.Detach(Character);
-				Character = null;
-			}
-			catch (Exception ex)
-			{
-				Log.WriteLine(LogLevel.Exception, "Error detaching character from entity: {0}.", ex.ToString());
-			}
-		}
-
+        public void Loggeout(WorldClient Pchar)
+        {
+            this.IsIngame = false;
+            this.UpdateFriendsStatus(false,Pchar);
+            this.UpdateFriendStates(Pchar);
+        }
 		public void RemoveGroup()
 		{
 			this.Group = null;
@@ -225,30 +291,35 @@ namespace Zepheus.World.Data
 		public void SetQuickBarData(byte[] pData)
 		{
 			Character.QuickBar = pData;
-			Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBar='" + ByteArrayToStringForBlobSave(Character.QuickBar) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.QuickBar) ?? ByteArrayToStringForBlobSave(new byte[1024]);
+			Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBar='" +data+ "' WHERE CharID='" + Character.ID + "';");
 		}
 		public void SetQuickBarStateData(byte[] pData)
 		{
 			Character.QuickBarState = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBarState='" + ByteArrayToStringForBlobSave(Character.QuickBarState) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.QuickBarState) ?? ByteArrayToStringForBlobSave(new byte[24]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET QuickBarState='"+data+"' WHERE CharID='" + Character.ID + "'");
 		}
 
 		public void SetGameSettingsData(byte[] pData)
 		{
 			Character.GameSettings = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET GameSettings='" + ByteArrayToStringForBlobSave(Character.GameSettings) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data =  ByteArrayToStringForBlobSave(Character.GameSettings) ?? ByteArrayToStringForBlobSave(new byte[64]);
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET GameSettings='" + data + "' WHERE CharID='" + Character.ID + "';");
 		}
 
 		public void SetClientSettingsData(byte[] pData)
 		{
 			Character.ClientSettings = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET ClientSettings='" + ByteArrayToStringForBlobSave(Character.ClientSettings) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.ClientSettings) ?? ByteArrayToStringForBlobSave(new byte[392]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET ClientSettings='"+data + "' WHERE CharID='" + Character.ID + "';");
 		}
 
 		public void SetShortcutsData(byte[] pData)
 		{
 			Character.Shortcuts = pData;
-			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + ByteArrayToStringForBlobSave(Character.Shortcuts) ?? new byte[] { 0x00 } + "' WHERE CharID='" + Character.ID + "';");
+            string data = ByteArrayToStringForBlobSave(Character.Shortcuts) ?? ByteArrayToStringForBlobSave(new byte[308]);
+			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + data+ "' WHERE CharID='" + Character.ID + "';");
 		}
 	}
 }

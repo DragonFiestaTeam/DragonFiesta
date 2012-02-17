@@ -167,7 +167,7 @@ namespace Zepheus.Zone.Game
             packet.WriteInt(this.Position.X);
             packet.WriteInt(this.Position.Y);
             packet.WriteByte(this.Rotation);
-            packet.Fill(54, 0);
+            packet.Fill(55, 0);
         }
 
         public void WriteUpdateStats(Packet packet)

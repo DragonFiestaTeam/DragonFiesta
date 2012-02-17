@@ -51,7 +51,16 @@ namespace Zepheus.World
 
 			}
 		}
-
+        public void UpdateClientTime(DateTime DateTime)
+        {
+            lock (clients)
+            {
+                foreach (WorldClient kvp in clientsByName.Values)
+                {
+                    Handlers.Handler2.SendClientTime(kvp, DateTime);
+                }
+            }
+        }
 		public void AddClientByName(WorldClient client)
 		{
 			if (client.Character != null && !clientsByName.ContainsKey(client.Character.Character.Name))
@@ -67,7 +76,7 @@ namespace Zepheus.World
 		}
 		public void RemoveZoneTrand(string name , WorldClient ccclient)
 		{
-			//ZoneAdd.TryRemove(name, ccclient);
+			ZoneAdd.TryRemove(name, out ccclient);
 		}
 		List<WorldClient> pingTimeouts = new List<WorldClient>();
 		public void PingCheck(DateTime now)

@@ -407,13 +407,13 @@ namespace Zepheus.Database
         {
             try
             {
+                this.Dispose();
                 Command.CommandText = sQuery;
                 Command.ExecuteScalar();
                 Command.CommandText = null;
             }
             catch (Exception e) { Console.WriteLine(e + "\n (" + sQuery + ")"); }
         }
-
         public bool findsResult(string sQuery)
         {
             bool Found = false;

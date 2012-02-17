@@ -39,7 +39,7 @@ namespace Zepheus.Zone.Handlers
                    if (character.GiveItem(BuyItemID, (byte)Amount) != InventoryStatus.FULL)
                    {
                        character.Money -= Amount * BuyItem.BuyPrice;
-                       Handler4.SendMoney(character);
+                       character.ChangeMoney(character.Money);
                    }
                }
                else
@@ -49,14 +49,14 @@ namespace Zepheus.Zone.Handlers
                        if (character.GiveItem(BuyItemID, 255) != InventoryStatus.FULL)
                        {
                            character.Money -= Amount * BuyItem.BuyPrice;
-                           Handler4.SendMoney(character);
+                           character.ChangeMoney(character.Money);
                        }
                        if (Amount < 255)
                        {
                            if (character.GiveItem(BuyItemID, (byte)Amount) != InventoryStatus.FULL)
                            {
                                character.Money -= Amount * BuyItem.BuyPrice;
-                               Handler4.SendMoney(character);
+                               character.ChangeMoney(character.Money);
                            }
                            break;
                        }
@@ -86,7 +86,7 @@ namespace Zepheus.Zone.Handlers
                        byte Slot = (byte)item.Slot;
                        Handler12.ModifyInventorySlot(Character, 0x24, Slot, Slot, item);
                        Character.Money += FullSellPrice;
-                       Handler4.SendMoney(Character);
+                       Character.ChangeMoney(Character.Money);
                        if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
                        {
                            Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Amount='" + item.Amount + "' WHERE Owner='" + item.Owner.ID + "' AND EquipID='" + item.ItemID + "' AND Slot='" + item.Slot + "'");
@@ -99,7 +99,7 @@ namespace Zepheus.Zone.Handlers
                    else
                    {
                        Character.Money += FullSellPrice;
-                       Handler4.SendMoney(Character);
+                       Character.ChangeMoney(Character.Money);
                        Character.InventoryItems.Remove((sbyte)slot);
                        ResetInventorySlot(Character, slot);
                        if (item.Info.Type == FiestaLib.Data.ItemType.Equip)

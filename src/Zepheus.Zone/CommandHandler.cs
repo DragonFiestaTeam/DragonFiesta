@@ -27,7 +27,8 @@ namespace Zepheus.Zone
         public void LoadCommands()
         {
             RegisterCommand("&Inv", Inv, 1);
-            RegisterCommand("&Money", Money, 1);
+            RegisterCommand("&GiveMoney",GiveMoney,1,"<long>");
+            RegisterCommand("&ChangeMoney", ChangeMoney, 1,"NewMoney");
             RegisterCommand("&adminlevel", AdminLevel, 1);
             RegisterCommand("&map", ChangeMap, 1, "mapid", "x", "y");
             RegisterCommand("&pos", Pos, 1);
@@ -63,6 +64,16 @@ namespace Zepheus.Zone
             ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
             character.ChangeMap(playerc.Character.MapID, playerc.Character.Position.X, character.Position.Y);
         }
+        private void GiveMoney(ZoneCharacter character, params string[] param)
+        {
+            long givedm = long.Parse(param[1].ToString());
+            character.ChangeMoney(character.Money+= givedm);
+        }
+        private void ChangeMoney(ZoneCharacter character, params string[] param)
+        {
+            long NewMoney = long.Parse(param[1].ToString());
+            character.ChangeMoney(NewMoney);
+        }
         private void movetome(ZoneCharacter character, params string[] param)
         {
             string player = param[1];
@@ -89,10 +100,6 @@ namespace Zepheus.Zone
              Char.Map.Block.CanWalk(Char.character.PositionInfo.XPos,Char.character.PositionInfo.YPos);
             
            Char.DropMessage("Unknown skill.");
-        }
-        private void Money(ZoneCharacter character, params string[] param)
-        {
-            Handler4.SendMoney(character);
         }
         private void Inv(ZoneCharacter character, params string[] param)
         {
@@ -472,6 +479,7 @@ namespace Zepheus.Zone
                 character.ChangeMap(mapid, x, y);
             }
             character.ChangeMap(mapid);
+
         }
 
         private void WritePacket(ZoneCharacter character, params string[] param)

@@ -643,10 +643,10 @@ namespace Zepheus.Zone.Game
 					toy = y;
 				}
 
-				// Try setting up transfer.
+				// Try setting up transfer
 				ushort RandomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
-				InterHandler.TransferClient(zci.ID, this.Client.AccountID, this.Client.Username, this.Name, RandomID, this.Client.Admin, this.Client.Host);
+				InterHandler.TransferClient(zci.ID,ID, this.Client.AccountID, this.Client.Username, this.Name, RandomID, this.Client.Admin, this.Client.Host);
 
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;
@@ -737,6 +737,7 @@ namespace Zepheus.Zone.Game
 		public void Ban()
 		{
 			Save();
+          
 			// Program.worldService.DisconnectClient(this.Name, true); // TODO: Inter server packet.
 			Client.Disconnect();
 		}
@@ -1091,7 +1092,15 @@ namespace Zepheus.Zone.Game
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
 			packet.WriteByte(this.Level);
 		}
-
+        public void ChangeMoney(long newMoney)
+        {
+            this.character.Money = newMoney;
+            using (var packet = new Packet(SH4Type.Money))
+            {
+                packet.WriteLong(this.character.Money);// money
+                this.Client.SendPacket(packet);
+            }
+        }
 		public ushort GetEquippedBySlot(ItemSlot slot)
 		{
 			Equip eqp;
