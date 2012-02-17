@@ -80,33 +80,23 @@ namespace Zepheus.World.Data
         /// Updates friend status using a <see cref="WorldCharacter" /> object.
         /// </summary>
         /// <param name="pCharacter">The WorldCharacter object with the new data.</param>
-        public void Update(WorldCharacter pCharacter,string name)
+        public void Update(WorldCharacter pCharacter)
         {
-            if (ClientManager.Instance.IsOnline(pCharacter.Character.Name))
-            {
-                if (pCharacter.IsIngame)
-                {
                     this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
                     this.Job = pCharacter.Character.Job;
                     this.Level = pCharacter.Character.CharLevel;
-                    if (this.IsOnline) return;
-                    Online(name);
-                    this.IsOnline = true;
-                }
-            }
+                    this.IsOnline = ClientManager.Instance.IsOnline(pCharacter.Character.Name);
         }
         public void Offline(WorldClient pClient)
         {
             using (var packet = new Packet(SH21Type.FriendOffline))
             {
-                packet.WriteString(this.Name, 16);
-               pClient.SendPacket(packet);
+                packet.WriteString(pClient.Character.Character.Name, 16);
+                pClient.SendPacket(packet);
             }
         }
-        public void Online(string Name)
+        public void Online(WorldClient client)
         {
-            WorldClient client = ClientManager.Instance.GetClientByCharname(Name);
-            if (client == null) return;
             using (var packet = new Packet(SH21Type.FriendOnline))
             {
                 packet.WriteString(this.Name, 16);

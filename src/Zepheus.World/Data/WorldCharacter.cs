@@ -27,6 +27,7 @@ namespace Zepheus.World.Data
 		public Group Group { get; internal set; }
 		public GroupMember GroupMember { get; internal set; }
         private List<Friend> friends;
+        private List<Friend> friendsby;
 
 		public WorldCharacter(Character ch)
 		{
@@ -61,10 +62,13 @@ namespace Zepheus.World.Data
         {
            
             this.friends = new List<Friend>();
-                   DataTable frenddata = null;
+            this.friendsby = new List<Friend>();
+            DataTable frenddata = null;
+            DataTable frenddataby = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
                 frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.ID + "'");
+                frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='" + this.ID + "'");
             }
 
             if (frenddata != null)
@@ -72,6 +76,28 @@ namespace Zepheus.World.Data
                 foreach (DataRow Row in frenddata.Rows)
                 {
                     this.friends.Add(Friend.LoadFromDatabase(Row));
+                }
+            }
+            if (frenddataby != null)
+            {
+                foreach (DataRow Row in frenddata.Rows)
+                {
+                    this.friendsby.Add(Friend.LoadFromDatabase(Row));
+                }
+            }
+            foreach (var friend in this.friendsby)
+            {
+                DataTable frendsdata = null;
+                using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                {
+                    frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
+                }
+                if (frenddata != null)
+                {
+                    foreach (DataRow Row in frendsdata.Rows)
+                    {
+                        friend.UpdateFromDatabase(Row);
+                    }
                 }
             }
             foreach (var friend in this.Friends)
@@ -86,8 +112,6 @@ namespace Zepheus.World.Data
                     foreach (DataRow Row in frendsdata.Rows)
                     {
                         friend.UpdateFromDatabase(Row);
-                        if (friend.Pending)
-                            Console.WriteLine("Pending true");
                     }
                 }
             }
@@ -158,6 +182,24 @@ namespace Zepheus.World.Data
             }
             return false;
         }
+        public void UpdateFriendsStatus(bool State)
+        {
+            foreach (Friend frend in friendsby)
+            {
+              WorldClient client =  ClientManager.Instance.GetClientByCharname(frend.Name);
+              if (client != null)
+              {
+                  if (State)
+                  {
+                      frend.Online(client);
+                  }
+                  else
+                  {
+                      frend.Offline(client);
+                  }
+              }
+            }
+        }
         public void UpdateFriendStates(WorldClient pclient)
         {
             List<Friend> unknowns = new List<Friend>();
@@ -171,15 +213,12 @@ namespace Zepheus.World.Data
                 WorldClient friendCharacter = ClientManager.Instance.GetClientByCharname(friend.Name);
                 if (friendCharacter != null)
                 {
-                    friend.Update(friendCharacter.Character,pclient.Character.Character.Name);
+                    friend.Update(friendCharacter.Character);
                 }
                 else
                 {
-                    if(this.IsIngame)
                     friend.IsOnline = false;
-                    friend.Offline(pclient);
                 }
-                
             }
             foreach (var friend in unknowns)
             {
@@ -198,6 +237,7 @@ namespace Zepheus.World.Data
         public void Loggeout(WorldClient Pchar)
         {
             this.IsIngame = false;
+            this.UpdateFriendsStatus(false);
             this.UpdateFriendStates(Pchar);
         }
 		public void RemoveGroup()
