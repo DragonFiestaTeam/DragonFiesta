@@ -1,5 +1,4 @@
 ﻿using System;
-using Zepheus.Util;
 using System.Data;
 
 namespace Zepheus.FiestaLib.Data
@@ -14,10 +13,10 @@ namespace Zepheus.FiestaLib.Data
         public Int32 Dexterity { get; private set; }
         public Int32 Spirit { get; private set; }
         public Int32 SoulHP { get; private set; }
-        public Int32 MAXSoulHP { get; private set; }
+        public Int32 MaxSoulHP { get; private set; }
         public Int32 PriceHPStone { get; private set; }
         public Int32 SoulSP { get; private set; }
-        public Int32 MAXSoulSP { get; private set; }
+        public Int32 MaxSoulSP { get; private set; }
         public Int32 PriceSPStone { get; private set; }
         public Int32 AtkPerAP { get; private set; }
         public Int32 DmgPerAP { get; private set; }
@@ -40,43 +39,43 @@ namespace Zepheus.FiestaLib.Data
         public Int32 CharTitlePt { get; private set; }
         public Int32 SkillPwrPt { get; private set; }
 
-        public static FiestaBaseStat Load(DataRow Row, Job job)
+        public static FiestaBaseStat Load(DataRow row, Job job)
         {
             FiestaBaseStat info = new FiestaBaseStat
             {
                 Job = job,
-                Level = (int)Row["Level"],
-                Strength = (int)Row["Strength"],
-                Endurance = (int)Row["Constitution"],
-                Intelligence = (int)Row["Intelligence"],
-                Dexterity = (int)Row["Dexterity"],
-                Spirit = (int)Row["MentalPower"],
-                SoulHP = (int)Row["SoulHP"],
-                MAXSoulHP = (int)Row["MAXSoulHP"],
-                PriceHPStone = (int)Row["PriceHPStone"],
-                SoulSP = (int)Row["SoulSP"],
-                MAXSoulSP = (int)Row["MAXSoulSP"],
-                PriceSPStone = (int)Row["PriceSPStone"],
-                AtkPerAP = (int)Row["AtkPerAP"],
-                DmgPerAP = (int)Row["DmgPerAP"],
-                MaxPwrStone = (int)Row["MaxPwrStone"],
-                NumPwrStone = (int)Row["NumPwrStone"],
-                PricePwrStone = (int)Row["PricePwrStone"],
-                PwrStoneWC = (int)Row["PwrStoneWC"],
-                PwrStoneMA = (int)Row["PwrStoneMA"],
-                MaxGrdStone = (int)Row["MaxGrdStone"],
-                NumGrdStone = (int)Row["NumGrdStone"],
-                PriceGrdStone = (int)Row["PriceGrdStone"],
-                GrdStoneAC = (int)Row["GrdStoneAC"],
-                GrdStoneMR = (int)Row["GrdStoneMR"],
-                PainRes = (int)Row["PainRes"],
-                RestraintRes = (int)Row["RestraintRes"],
-                CurseRes = (int)Row["CurseRes"],
-                ShockRes = (int)Row["ShockRes"],
-                MaxHP = (ushort)(int)Row["MaxHP"],
-                MaxSP = (ushort)(int)Row["MaxSP"],
-                CharTitlePt = (int)Row["CharTitlePt"],
-                SkillPwrPt = (int)Row["SkillPwrPt"],
+                Level = (int)row["Level"],
+                Strength = (int)row["Strength"],
+                Endurance = (int)row["Constitution"],
+                Intelligence = (int)row["Intelligence"],
+                Dexterity = (int)row["Dexterity"],
+                Spirit = (int)row["MentalPower"],
+                SoulHP = (int)row["SoulHP"],
+                MaxSoulHP = (int)row["MAXSoulHP"],
+                PriceHPStone = (int)row["PriceHPStone"],
+                SoulSP = (int)row["SoulSP"],
+                MaxSoulSP = (int)row["MAXSoulSP"],
+                PriceSPStone = (int)row["PriceSPStone"],
+                AtkPerAP = (int)row["AtkPerAP"],
+                DmgPerAP = (int)row["DmgPerAP"],
+                MaxPwrStone = (int)row["MaxPwrStone"],
+                NumPwrStone = (int)row["NumPwrStone"],
+                PricePwrStone = (int)row["PricePwrStone"],
+                PwrStoneWC = (int)row["PwrStoneWC"],
+                PwrStoneMA = (int)row["PwrStoneMA"],
+                MaxGrdStone = (int)row["MaxGrdStone"],
+                NumGrdStone = (int)row["NumGrdStone"],
+                PriceGrdStone = (int)row["PriceGrdStone"],
+                GrdStoneAC = (int)row["GrdStoneAC"],
+                GrdStoneMR = (int)row["GrdStoneMR"],
+                PainRes = (int)row["PainRes"],
+                RestraintRes = (int)row["RestraintRes"],
+                CurseRes = (int)row["CurseRes"],
+                ShockRes = (int)row["ShockRes"],
+                MaxHP = (ushort)(int)row["MaxHP"],
+                MaxSP = (ushort)(int)row["MaxSP"],
+                CharTitlePt = (int)row["CharTitlePt"],
+                SkillPwrPt = (int)row["SkillPwrPt"],
             };
            
             return info;

@@ -28,39 +28,39 @@ namespace Zepheus.Zone.Handlers
         public static void BuyItem(ZoneClient client, Packet packet)
         {
             ZoneCharacter character = client.Character;
-            ushort BuyItemID;
-            int Amount;
-            if (packet.TryReadUShort(out BuyItemID) && packet.TryReadInt(out Amount))
+            ushort buyItemID;
+            int amount;
+            if (packet.TryReadUShort(out buyItemID) && packet.TryReadInt(out amount))
             {
-               FiestaLib.Data.ItemInfo  BuyItem;
-               Data.DataProvider.Instance.ItemsByID.TryGetValue(BuyItemID, out BuyItem);
-               if (Amount < 255)
+               FiestaLib.Data.ItemInfo  buyItem;
+               Data.DataProvider.Instance.ItemsByID.TryGetValue(buyItemID, out buyItem);
+               if (amount < 255)
                {
-                   if (character.GiveItem(BuyItemID, (byte)Amount) != InventoryStatus.FULL)
+                   if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
                    {
-                       character.Money -= Amount * BuyItem.BuyPrice;
+                       character.Money -= amount * buyItem.BuyPrice;
                        character.ChangeMoney(character.Money);
                    }
                }
                else
                {
-                   while (Amount > 0)
+                   while (amount > 0)
                    {
-                       if (character.GiveItem(BuyItemID, 255) != InventoryStatus.FULL)
+                       if (character.GiveItem(buyItemID, 255) != InventoryStatus.Full)
                        {
-                           character.Money -= Amount * BuyItem.BuyPrice;
+                           character.Money -= amount * buyItem.BuyPrice;
                            character.ChangeMoney(character.Money);
                        }
-                       if (Amount < 255)
+                       if (amount < 255)
                        {
-                           if (character.GiveItem(BuyItemID, (byte)Amount) != InventoryStatus.FULL)
+                           if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
                            {
-                               character.Money -= Amount * BuyItem.BuyPrice;
+                               character.Money -= amount * buyItem.BuyPrice;
                                character.ChangeMoney(character.Money);
                            }
                            break;
                        }
-                       Amount -= 255;
+                       amount -= 255;
                    }
                }
             }
@@ -70,23 +70,23 @@ namespace Zepheus.Zone.Handlers
         {
            byte slot;
            int sellcount;
-           ZoneCharacter Character = client.Character;
+           ZoneCharacter character = client.Character;
            if (packet.TryReadByte(out slot) && packet.TryReadInt(out sellcount))
            {
                
                Item item;
-               Character.InventoryItems.TryGetValue((sbyte)slot,out item);
+               character.InventoryItems.TryGetValue((sbyte)slot,out item);
                if (item != null)
                {
           
-                   long FullSellPrice = sellcount * item.Info.SellPrice;
+                   long fullSellPrice = sellcount * item.Info.SellPrice;
                    if (item.Amount > 1)
                    {
                        item.Amount -= (short)sellcount;
                        byte Slot = (byte)item.Slot;
-                       Handler12.ModifyInventorySlot(Character, 0x24, Slot, Slot, item);
-                       Character.Money += FullSellPrice;
-                       Character.ChangeMoney(Character.Money);
+                       Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
+                       character.Money += fullSellPrice;
+                       character.ChangeMoney(character.Money);
                        if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
                        {
                            Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Amount='" + item.Amount + "' WHERE Owner='" + item.Owner.ID + "' AND EquipID='" + item.ItemID + "' AND Slot='" + item.Slot + "'");
@@ -98,10 +98,10 @@ namespace Zepheus.Zone.Handlers
                    }
                    else
                    {
-                       Character.Money += FullSellPrice;
-                       Character.ChangeMoney(Character.Money);
-                       Character.InventoryItems.Remove((sbyte)slot);
-                       ResetInventorySlot(Character, slot);
+                       character.Money += fullSellPrice;
+                       character.ChangeMoney(character.Money);
+                       character.InventoryItems.Remove((sbyte)slot);
+                       ResetInventorySlot(character, slot);
                        if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
                        {
                            Program.CharDBManager.GetClient().ExecuteQuery("DELETE  FROM equips WHERE Owner='" + item.Owner.ID + "' AND EquipID='" + item.ItemID + "' AND Slot='" + item.Slot + "'");

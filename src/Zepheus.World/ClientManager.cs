@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.World.Networking;
 
@@ -13,22 +12,22 @@ namespace Zepheus.World
 	public sealed class ClientManager
 	{
 		public static ClientManager Instance { get; private set; }
-		public int WorldLoad { get { return clientCount(); } }
-		private List<WorldClient> clients = new List<WorldClient>();
-		private ConcurrentDictionary<string, WorldClient> clientsByName = new ConcurrentDictionary<string, WorldClient>();
-		private ConcurrentDictionary<string, WorldClient> ZoneAdd = new ConcurrentDictionary<string, WorldClient>();
-		private ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
-		private Timer expirator;
+		public int WorldLoad { get { return ClientCount(); } }
+		private readonly List<WorldClient> clients = new List<WorldClient>();
+		private readonly ConcurrentDictionary<string, WorldClient> clientsByName = new ConcurrentDictionary<string, WorldClient>();
+		private readonly ConcurrentDictionary<string, WorldClient> zoneAdd = new ConcurrentDictionary<string, WorldClient>();
+		private readonly ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
+		private readonly Timer expirator;
 		private int transferTimeout = 1;
 
 		public ClientManager()
 		{
 			expirator = new Timer(2000);
-			expirator.Elapsed += expirator_Elapsed;
+			expirator.Elapsed += ExpiratorElapsed;
 			expirator.Start();
 		}
 
-		private int clientCount()
+		private int ClientCount()
 		{
 			lock (clients)
 			{
@@ -51,13 +50,13 @@ namespace Zepheus.World
 
 			}
 		}
-        public void UpdateClientTime(DateTime DateTime)
+        public void UpdateClientTime(DateTime dateTime)
         {
             lock (clients)
             {
                 foreach (WorldClient kvp in clientsByName.Values)
                 {
-                    Handlers.Handler2.SendClientTime(kvp, DateTime);
+                    Handlers.Handler2.SendClientTime(kvp, dateTime);
                 }
             }
         }
@@ -72,13 +71,13 @@ namespace Zepheus.World
 		}
 		public void AddZoneTrans(string name,WorldClient client)
 		{
-			ZoneAdd.TryAdd(name,client);
+			zoneAdd.TryAdd(name,client);
 		}
 		public void RemoveZoneTrand(string name , WorldClient ccclient)
 		{
-			ZoneAdd.TryRemove(name, out ccclient);
+			zoneAdd.TryRemove(name, out ccclient);
 		}
-		List<WorldClient> pingTimeouts = new List<WorldClient>();
+		readonly List<WorldClient> pingTimeouts = new List<WorldClient>();
 		public void PingCheck(DateTime now)
 		{
 			lock (clients)
@@ -142,7 +141,7 @@ namespace Zepheus.World
 
 		public void AddTransfer(ClientTransfer transfer)
 		{
-			if (transfer.Type != TransferType.WORLD)
+			if (transfer.Type != TransferType.World)
 			{
 				Log.WriteLine(LogLevel.Warn, "Received a GAME transfer request. Trashing it.");
 				return;
@@ -184,8 +183,8 @@ namespace Zepheus.World
 			}
 		}
 
-		private List<string> toExpire = new List<string>();
-		void expirator_Elapsed(object sender, ElapsedEventArgs e)
+		private readonly List<string> toExpire = new List<string>();
+		void ExpiratorElapsed(object sender, ElapsedEventArgs e)
 		{
 			//this is actually executed in the main thread! (ctor is in STAThread)
 			foreach (var transfer in transfers.Values)

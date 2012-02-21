@@ -7,7 +7,7 @@ namespace Zepheus.Util
 {
     public static class Log
     {
-        private static readonly Mutex Locker = new Mutex();
+        private static readonly Mutex locker = new Mutex();
         public static bool IsDebug { get; set; }
         public static TextWriter Writer { get; set; }
 
@@ -22,7 +22,7 @@ namespace Zepheus.Util
                 Debug.WriteLine(header + buffer);
             }
 
-            Locker.WaitOne();
+            locker.WaitOne();
             try
             {
                 Console.ForegroundColor = GetColor(pLogLevel);
@@ -36,7 +36,7 @@ namespace Zepheus.Util
             }
             finally
             {
-                Locker.ReleaseMutex();
+                locker.ReleaseMutex();
             }
         }
 
@@ -66,16 +66,6 @@ namespace Zepheus.Util
                     return ConsoleColor.White;
             }
         }
-    }
-
-    public enum LogLevel : byte
-    {
-        Default,
-        Info,
-        Warn,
-        Error,
-        Exception,
-        Debug
     }
 
 }

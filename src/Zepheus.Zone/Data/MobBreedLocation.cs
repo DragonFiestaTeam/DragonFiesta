@@ -19,13 +19,13 @@ namespace Zepheus.Zone.Data
         public byte CurrentMobs { get; set; }
         
         [XmlIgnore]
-        private Map _map;
+        private Map map;
 
         [XmlIgnore]
-        public Map Map { get { return _map ?? (_map = MapManager.Instance.GetMap(DataProvider.Instance.MapsByID[MapID], InstanceID)); } }
+        public Map Map { get { return map ?? (map = MapManager.Instance.GetMap(DataProvider.Instance.MapsByID[MapID], InstanceID)); } }
 
         [XmlIgnore]
-        private DateTime _nextUpdate;
+        private DateTime nextUpdate;
 
         public MobBreedLocation()
         {
@@ -34,13 +34,13 @@ namespace Zepheus.Zone.Data
             MapID = 0;
             InstanceID = -1;
             Position = null;
-            _nextUpdate = Program.CurrentTime;
+            nextUpdate = Program.CurrentTime;
         }
 
-        public static MobBreedLocation CreateLocationFromPlayer(ZoneCharacter pCharacter, ushort MobID)
+        public static MobBreedLocation CreateLocationFromPlayer(ZoneCharacter pCharacter, ushort mobID)
         {
             MobBreedLocation mbl = new MobBreedLocation();
-            mbl.MobID = MobID;
+            mbl.MobID = mobID;
             mbl.MapID = pCharacter.MapID;
             mbl.InstanceID = pCharacter.Map.InstanceID;
             mbl.Position = new Vector2(pCharacter.Position);
@@ -58,7 +58,7 @@ namespace Zepheus.Zone.Data
         public void Update(DateTime date)
         {
             if (Position == null) return;
-            if (this._nextUpdate > date) return;
+            if (this.nextUpdate > date) return;
 
             if (CurrentMobs < MinMobs)
             {
@@ -69,7 +69,7 @@ namespace Zepheus.Zone.Data
                 SpawnMob();
             }
 
-            this._nextUpdate = date.AddSeconds(Program.Randomizer.Next(30, 120)); // Around 30 seconds to 2 minutes for next check.
+            this.nextUpdate = date.AddSeconds(Program.Randomizer.Next(30, 120)); // Around 30 seconds to 2 minutes for next check.
         }
     }
 }

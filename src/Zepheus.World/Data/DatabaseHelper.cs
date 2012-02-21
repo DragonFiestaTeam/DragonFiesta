@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Zepheus.World.Data
+﻿namespace Zepheus.World.Data
 {
 	public static class DatabaseHelper
 	{

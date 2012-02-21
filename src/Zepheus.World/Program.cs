@@ -13,7 +13,7 @@ namespace Zepheus.World
 	class Program
 	{
 		public static bool Maintenance { get; set; }
-		private static bool handleCommands = true;
+		private static bool HandleCommands = true;
 		internal static Database.DatabaseManager DatabaseManager { get; set; }
 		public static ConcurrentDictionary<byte, ZoneConnection> Zones { get; private set; }
 		[SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
@@ -35,7 +35,7 @@ namespace Zepheus.World
 				Zones = new ConcurrentDictionary<byte, ZoneConnection>();
 				Console.Title = "Zepheus.World[" + Settings.Instance.ID + "]";
 
-				while (handleCommands)
+				while (HandleCommands)
 				{
 					string line = Console.ReadLine();
 					try
@@ -122,13 +122,13 @@ namespace Zepheus.World
 					}
 					break;
 				case "shutdown":
-					handleCommands = false;
+					HandleCommands = false;
 					break;
 				case "exit":
-					handleCommands = false;
+					HandleCommands = false;
 					break;
 				case "quit":
-					handleCommands = false;
+					HandleCommands = false;
 					break;
 				default:
 					Console.WriteLine("Command not recognized.");

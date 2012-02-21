@@ -57,7 +57,7 @@ namespace Zepheus.World.InterServer
                     return;
                 }
 
-                if (e.Packet.OpCode == InterHeader.AUTH)
+                if (e.Packet.OpCode == InterHeader.Auth)
                 {
                     string pass;
                     if (!e.Packet.TryReadString(out pass))
@@ -143,7 +143,7 @@ namespace Zepheus.World.InterServer
 
         public void SendTransferClientFromWorld(int accountID, string userName, byte admin, string hostIP, string hash)
         {
-            using (var packet = new InterPacket(InterHeader.CLIENTTRANSFER))
+            using (var packet = new InterPacket(InterHeader.Clienttransfer))
             {
                 packet.WriteByte(0);
                 packet.WriteInt(accountID);
@@ -157,7 +157,7 @@ namespace Zepheus.World.InterServer
 
         public void SendTransferClientFromZone(int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
         {
-            using (var packet = new InterPacket(InterHeader.CLIENTTRANSFER))
+            using (var packet = new InterPacket(InterHeader.Clienttransfer))
             {
                 packet.WriteByte(1);
                 packet.WriteInt(accountID);
@@ -172,10 +172,10 @@ namespace Zepheus.World.InterServer
 
         public void SendData()
         {
-            using (var packet = new InterPacket(InterHeader.ASSIGNED))
+            using (var packet = new InterPacket(InterHeader.Assigned))
             {
                 packet.WriteByte(ID);
-                packet.WriteStringLen(String.Format("{0}-{1}", Settings.Instance.GameServiceURI, ID));
+                packet.WriteStringLen(String.Format("{0}-{1}", Settings.Instance.GameServiceUri, ID));
                 packet.WriteUShort((ushort)(Settings.Instance.ZoneBasePort + ID));
 
                 packet.WriteInt(Maps.Count);

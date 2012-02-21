@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
-using Zepheus.FiestaLib.SHN;
-using Zepheus.Util;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -18,7 +14,7 @@ namespace Zepheus.FiestaLib.Data
         public byte Kingdom { get; private set; }
         public ushort ViewRange { get; private set; }
 
-        public List<ShineNPC> NPCs { get; set; }
+        public List<ShineNpc> NPCs { get; set; }
 
         public MapInfo() { }
         public MapInfo(ushort id, string shortname, string fullname, int regenx, int regeny, byte kingdom, ushort viewrange)
@@ -32,17 +28,17 @@ namespace Zepheus.FiestaLib.Data
             this.ViewRange = viewrange;
         }
 
-        public static MapInfo Load(DataRow Row)
+        public static MapInfo Load(DataRow row)
         {
             MapInfo info = new MapInfo
             {
-                ID = (ushort)Row["ID"],
-                ShortName = (string)Row["MapName"],
-                FullName = (string)Row["Name"],
-                RegenX = (Int32)Row["RegenX"],
-                RegenY = (Int32)Row["RegenY"],
-                Kingdom = (byte)(SByte)Row["KingdomMap"],
-                ViewRange = (ushort)Row["Sight"],
+                ID = (ushort)row["ID"],
+                ShortName = (string)row["MapName"],
+                FullName = (string)row["Name"],
+                RegenX = (Int32)row["RegenX"],
+                RegenY = (Int32)row["RegenY"],
+                Kingdom = (byte)(SByte)row["KingdomMap"],
+                ViewRange = (ushort)row["Sight"],
             };
             return info;
         }

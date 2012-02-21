@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.Util;
-using MySql.Data.MySqlClient;
-
-namespace Zepheus.FiestaLib.Data
+﻿namespace Zepheus.FiestaLib.Data
 {
    public class Vendor
     {

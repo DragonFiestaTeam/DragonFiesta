@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Zepheus.FiestaLib;
+﻿using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.World.Networking;
-using Zepheus.Database.Storage;
-using MySql.Data.MySqlClient;
 
 namespace Zepheus.World.Handlers
 {
@@ -17,21 +11,21 @@ namespace Zepheus.World.Handlers
         {
             if (client.Character.Party.Count > 1)
             {
-                byte MessageLenght;
-                string Message = string.Empty;
-                if (packet.TryReadByte(out MessageLenght))
+                byte messageLenght;
+                string message = string.Empty;
+                if (packet.TryReadByte(out messageLenght))
                 {
-                    if (packet.TryReadString(out Message, MessageLenght))
+                    if (packet.TryReadString(out message, messageLenght))
                     {
                         foreach (var member in client.Character.Party)
                         {
-                            WorldClient MemberClient = ClientManager.Instance.GetClientByCharname(member);
+                            WorldClient memberClient = ClientManager.Instance.GetClientByCharname(member);
                             using (var ppacket = new Packet(SH8Type.PartyChat))
                             {
                                 ppacket.WriteString(client.Character.Character.Name, 16);
-                                ppacket.WriteByte(MessageLenght);
-                                ppacket.WriteString(Message,MessageLenght);
-                                MemberClient.SendPacket(ppacket);
+                                ppacket.WriteByte(messageLenght);
+                                ppacket.WriteString(message,messageLenght);
+                                memberClient.SendPacket(ppacket);
                             }
                         }
                     }

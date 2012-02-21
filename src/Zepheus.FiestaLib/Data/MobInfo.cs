@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Zepheus.FiestaLib.SHN;
-using Zepheus.Util;
+﻿using System.Collections.Generic;
 using System.Data;
 
 namespace Zepheus.FiestaLib.Data
@@ -16,7 +10,7 @@ namespace Zepheus.FiestaLib.Data
         public byte Level { get; private set; }
         public uint MaxHP { get; private set; }
         public ushort RunSpeed { get; private set; }
-        public bool IsNPC { get; private set; }
+        public bool IsNpc { get; private set; }
         public bool IsAggro { get; private set; }
         public byte Type { get; private set; }
         public ushort Size { get; private set; }
@@ -26,19 +20,19 @@ namespace Zepheus.FiestaLib.Data
         public byte MinDropLevel { get; set; }
         public byte MaxDropLevel { get; set; }
 
-        public static MobInfo Load(DataRow Row)
+        public static MobInfo Load(DataRow row)
         {
             MobInfo inf = new MobInfo
             {
-                Name = (string)Row["InxName"],
-                ID = (ushort)Row["ID"],
-                Level = (byte)Row["Level"],
-                MaxHP = (uint)Row["MaxHP"],
-                RunSpeed = (ushort)Row["RunSpeed"],
-                IsNPC = (bool)Row["IsNPC"],
-                Size = (ushort)Row["Size"],
-                Type = (byte)Row["Type"],
-                IsAggro = (bool)Row["IsPlayerSide"],
+                Name = (string)row["InxName"],
+                ID = (ushort)row["ID"],
+                Level = (byte)row["Level"],
+                MaxHP = (uint)row["MaxHP"],
+                RunSpeed = (ushort)row["RunSpeed"],
+                IsNpc = (bool)row["IsNPC"],
+                Size = (ushort)row["Size"],
+                Type = (byte)row["Type"],
+                IsAggro = (bool)row["IsPlayerSide"],
                 Drops = new List<DropInfo>()
             };
             return inf;

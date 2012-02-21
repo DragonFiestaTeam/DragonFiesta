@@ -1,16 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
-
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Login.Handlers;
-using Zepheus.FiestaLib;
 using Zepheus.Util;
-using Zepheus.Services.DataContracts;
 
 namespace Zepheus.Login.Networking
 {

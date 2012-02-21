@@ -23,8 +23,8 @@ namespace Zepheus.Zone.Game
         public bool IsDead { get { return HP == 0; } }
 
         // HP/SP update counter thing
-        private ushort _statUpdateCounter = 0;
-        public ushort UpdateCounter { get { return ++_statUpdateCounter; } }
+        private ushort statUpdateCounter = 0;
+        public ushort UpdateCounter { get { return ++statUpdateCounter; } }
         public List<ZoneCharacter> SelectedBy { get; private set; }
 
         public virtual void Attack(MapObject victim)
@@ -37,7 +37,7 @@ namespace Zepheus.Zone.Game
             if (victim != null && !victim.IsAttackable) return;
         }
 
-        public virtual void AttackSkillAoE(ushort skillid, uint X, uint Y)
+        public virtual void AttackSkillAoE(ushort skillid, uint x, uint y)
         {
         }
 

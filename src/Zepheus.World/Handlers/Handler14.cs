@@ -24,10 +24,10 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.PartyDecline)]
 		public static void PartyDecline(WorldClient client, Packet packet)
 		{
-			string InviteChar;
-			if (packet.TryReadString(out InviteChar, 0x10))
+			string inviteChar;
+			if (packet.TryReadString(out inviteChar, 0x10))
 			{
-				GroupManager.Instance.DeclineInvite(client, InviteChar);
+				GroupManager.Instance.DeclineInvite(client, inviteChar);
 			}
 		}
 		[PacketHandler(CH14Type.PartyMaster)]
@@ -42,7 +42,7 @@ namespace Zepheus.World.Handlers
 			{
 				ppacket.WriteHexAsBytes("00 00 14 01 01 00 01 00 00 00");
 				ppacket.WriteInt(list.Count);
-				foreach (var stat in list)
+				foreach (KeyValuePair<string, string> stat in list)
 				{
 					// Note - teh fuck?
 					ppacket.WriteHexAsBytes("");
@@ -60,13 +60,13 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.KickPartyMember)]
 		public static void KickPartyMember(WorldClient client, Packet packet)
 		{
-			string RemoveName;
-			if (packet.TryReadString(out RemoveName, 16))
+			string removeName;
+			if (packet.TryReadString(out removeName, 16))
 			{
-				if(!client.Character.Group.HasMember(RemoveName))
+				if(!client.Character.Group.HasMember(removeName))
 					return;
 
-				GroupManager.Instance.KickMember(client, RemoveName);
+				GroupManager.Instance.KickMember(client, removeName);
 			}
 		}
 		[PacketHandler(CH14Type.ChangePartyDrop)]
@@ -80,22 +80,22 @@ namespace Zepheus.World.Handlers
 		[PacketHandler(CH14Type.ChangePartyMaster)]
 		public static void ChangePartyMaster(WorldClient client, Packet packet)
 		{
-			string Mastername;
-			if (packet.TryReadString(out Mastername, 16))
+			string mastername;
+			if (packet.TryReadString(out mastername, 16))
 			{
 				if(client.Character.Group.Master.Name != client.Character.Character.Name)
 					return;
 
-				GroupManager.Instance.ChangeMaster(client, Mastername);
+				GroupManager.Instance.ChangeMaster(client, mastername);
 			}
 		}
 		[PacketHandler(CH14Type.PartyAccept)]
 		public static void AcceptParty(WorldClient client, Packet packet)
 		{
-			string InviteChar;
-			if (packet.TryReadString(out InviteChar, 16))
+			string inviteChar;
+			if (packet.TryReadString(out inviteChar, 16))
 			{
-				GroupManager.Instance.AcceptInvite(client, InviteChar);
+				GroupManager.Instance.AcceptInvite(client, inviteChar);
 			}
 		}
 	}

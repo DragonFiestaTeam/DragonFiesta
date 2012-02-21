@@ -8,8 +8,8 @@ namespace Zepheus.Zone
     [ServerModule(Util.InitializationStage.DataStore)]
     public sealed class CommandLog
     {
-        private StreamWriter writer;
-        public static CommandLog Instance { get; private set; }
+		private readonly StreamWriter writer;
+		public static CommandLog Instance { get; private set; }
 
         public CommandLog(string filename)
         {

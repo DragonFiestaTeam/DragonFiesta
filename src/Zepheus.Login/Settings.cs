@@ -1,9 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-using Zepheus.Util;
-
-namespace Zepheus.Login
+﻿namespace Zepheus.Login
 {
     public sealed class Settings
     {
@@ -20,7 +15,7 @@ namespace Zepheus.Login
         public string LoginMysqlDatabase { get; set; }
         public uint LoginDBMinPoolSize { get; set; }
         public uint LoginDBMaxPoolSize { get; set; }
-        public string LoginServiceURI { get; set; }
+        public string LoginServiceUri { get; set; }
         public string InterPassword { get; set; }
         public ushort InterServerPort { get; set; }
         public static Settings Instance { get; set; }
@@ -35,7 +30,7 @@ namespace Zepheus.Login
                 Port = (ushort)Zepheus.InterLib.Settings.GetInt32("Login.Port"),
                 Debug = Zepheus.InterLib.Settings.GetBool("Login.Debug"),
                 WorkInterval = Zepheus.InterLib.Settings.GetInt32("Login.WorkInterVal"),
-                LoginServiceURI = Zepheus.InterLib.Settings.GetString("Login.LoginServiceURI"),
+                LoginServiceUri = Zepheus.InterLib.Settings.GetString("Login.LoginServiceURI"),
                 InterPassword =  Zepheus.InterLib.Settings.GetString("Login.InterPassword"),
                 LoginMysqlServer = Zepheus.InterLib.Settings.GetString("Login.Mysql.Server"),
                 LoginMysqlPort = Zepheus.InterLib.Settings.GetInt32("Login.Mysql.Port"),

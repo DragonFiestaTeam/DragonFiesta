@@ -2,7 +2,6 @@
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.InterLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.World.Handlers;
 using Zepheus.World.Networking;
@@ -11,7 +10,7 @@ namespace Zepheus.World.InterServer
 {
     public sealed class InterHandler
     {
-        [InterPacketHandler(InterHeader.WORLDMSG)]
+        [InterPacketHandler(InterHeader.Worldmsg)]
         public static void HandleWorldMessage(ZoneConnection zc, InterPacket packet)
         {
             string msg;
@@ -52,18 +51,18 @@ namespace Zepheus.World.InterServer
         [InterPacketHandler(InterHeader.GetParty)]
         public static void HandleGetParty(ZoneConnection lc, InterPacket packet)
         {
-            string Charname;
-            if (packet.TryReadString(out Charname, 16))
+            string charname;
+            if (packet.TryReadString(out charname, 16))
             {
-                WorldClient charclient = ClientManager.Instance.GetClientByCharname(Charname);
+                WorldClient charclient = ClientManager.Instance.GetClientByCharname(charname);
                 using (var ppacket = new InterPacket(InterHeader.SendParty))
                 {
 
                     ppacket.WriteByte((byte)charclient.Character.Party.Count);
-                    ppacket.WriteString(Charname, 16);
-                    foreach (var Member in charclient.Character.Party)
+                    ppacket.WriteString(charname, 16);
+                    foreach (var member in charclient.Character.Party)
                     {
-                        ppacket.WriteString(Member, 16);
+                        ppacket.WriteString(member, 16);
                     }
 
                     lc.SendPacket(ppacket);
@@ -75,13 +74,13 @@ namespace Zepheus.World.InterServer
         {
            // ClientManager.Instance.AddZoneTrans(
         }
-        [InterPacketHandler(InterHeader.ASSIGNED)]
+        [InterPacketHandler(InterHeader.Assigned)]
         public static void HandleAssigned(LoginConnector lc, InterPacket packet)
         {
             Log.WriteLine(LogLevel.Info, "<3 LoginServer.");
         }
 
-        [InterPacketHandler(InterHeader.ASSIGN)]
+        [InterPacketHandler(InterHeader.Assign)]
         public static void HandleAssigning(ZoneConnection lc, InterPacket packet)
         {
             string ip;
@@ -108,7 +107,7 @@ namespace Zepheus.World.InterServer
               ClientManager.Instance.RemoveClient(client);
             }
         }
-        [InterPacketHandler(InterHeader.CLIENTTRANSFER)]
+        [InterPacketHandler(InterHeader.Clienttransfer)]
         public static void HandleTransfer(LoginConnector lc, InterPacket packet)
         {
             byte v;
@@ -144,7 +143,7 @@ namespace Zepheus.World.InterServer
             }
         }
 
-        [InterPacketHandler(InterHeader.CLIENTTRANSFERZONE)]
+        [InterPacketHandler(InterHeader.Clienttransferzone)]
         public static void HandleClientTransferZone(ZoneConnection zc, InterPacket packet)
         {
             byte admin, zoneid;
@@ -175,7 +174,7 @@ namespace Zepheus.World.InterServer
 
         public static void TryAssiging(LoginConnector lc)
         {
-            using (var p = new InterPacket(InterHeader.ASSIGN))
+            using (var p = new InterPacket(InterHeader.Assign))
             {
                 p.WriteByte(Settings.Instance.ID);
                 p.WriteStringLen(Settings.Instance.WorldName);
@@ -186,7 +185,7 @@ namespace Zepheus.World.InterServer
         }
         public static void SendZoneStarted(byte zoneid, string ip, ushort port, List<MapInfo> maps)
         {
-            using (var packet = new InterPacket(InterHeader.ZONEOPENED))
+            using (var packet = new InterPacket(InterHeader.Zoneopened))
             {
                 packet.WriteByte(zoneid);
                 packet.WriteStringLen(ip);
@@ -212,7 +211,7 @@ namespace Zepheus.World.InterServer
 
         public static void SendZoneList(ZoneConnection zc)
         {
-            using (var packet = new InterPacket(InterHeader.ZONELIST))
+            using (var packet = new InterPacket(InterHeader.Zonelist))
             {
                 packet.Write(Program.Zones.Values.Count);
                 foreach (var z in Program.Zones.Values)
@@ -238,7 +237,7 @@ namespace Zepheus.World.InterServer
 
         public static void SendZoneStopped(byte zoneid)
         {
-            using (var packet = new InterPacket(InterHeader.ZONECLOSED))
+            using (var packet = new InterPacket(InterHeader.Zoneclosed))
             {
                 packet.Write(zoneid);
                 foreach (var c in Program.Zones.Values)

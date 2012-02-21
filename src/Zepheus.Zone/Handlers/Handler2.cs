@@ -1,9 +1,8 @@
-﻿
-using Zepheus.FiestaLib;
+﻿using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
-using System;
+
 namespace Zepheus.Zone.Handlers
 {
     public static class Handler2

@@ -1,12 +1,10 @@
-﻿
-using Zepheus.FiestaLib;
+﻿using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.Zone.Data;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
-using MySql.Data.MySqlClient;
 
 namespace Zepheus.Zone.Handlers
 {

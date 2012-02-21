@@ -7,7 +7,6 @@ using Zepheus.Database;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Handlers;
@@ -35,7 +34,7 @@ namespace Zepheus.World.Networking
 
 		void WorldClient_OnDisconnect(object sender, SessionCloseEventArgs e)
 		{
-            Log.WriteLine(LogLevel.Debug, "{0} Disconnected.", this.Host);
+			Log.WriteLine(LogLevel.Debug, "{0} Disconnected.", this.Host);
 			ClientManager.Instance.RemoveClient(this);
 		}
 		void WorldClient_OnPacket(object sender, PacketReceivedEventArgs e)
@@ -60,34 +59,34 @@ namespace Zepheus.World.Networking
 			Characters = new Dictionary<byte,WorldCharacter>();
 			try
 			{
-				DataTable CharData = null;
+				DataTable charData = null;
 				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
 				{
-					CharData = dbClient.ReadDataTable("SELECT *FROM Characters WHERE AccountID='" + this.AccountID + "'");
+					charData = dbClient.ReadDataTable("SELECT *FROM Characters WHERE AccountID='" + this.AccountID + "'");
 				}
 
-				if (CharData != null)
+				if (charData != null)
 				{
-					foreach (DataRow Row in CharData.Rows)
+					foreach (DataRow row in charData.Rows)
 					{
 						Database.Storage.Character ch = new Database.Storage.Character();
-						ch.PositionInfo.ReadFromDatabase(Row);
-						ch.LookInfo.ReadFromDatabase(Row);
-						ch.CharacterStats.ReadFromDatabase(Row);
-						ch.Slot = (byte)Row["Slot"];
-						ch.CharLevel = (byte)Row["Level"];
+						ch.PositionInfo.ReadFromDatabase(row);
+						ch.LookInfo.ReadFromDatabase(row);
+						ch.CharacterStats.ReadFromDatabase(row);
+						ch.Slot = (byte)row["Slot"];
+						ch.CharLevel = (byte)row["Level"];
 						ch.AccountID = this.AccountID;
-						ch.Name = (string)Row["Name"];
-						ch.ID = int.Parse(Row["CharID"].ToString());
-						ch.Job = (byte)Row["Job"];
-						ch.Money = long.Parse(Row["Money"].ToString());
-						ch.Exp = long.Parse(Row["Exp"].ToString()) ;
-						ch.HP = int.Parse(Row["CurHP"].ToString()); ;
+						ch.Name = (string)row["Name"];
+						ch.ID = int.Parse(row["CharID"].ToString());
+						ch.Job = (byte)row["Job"];
+						ch.Money = long.Parse(row["Money"].ToString());
+						ch.Exp = long.Parse(row["Exp"].ToString()) ;
+						ch.HP = int.Parse(row["CurHP"].ToString());
 						ch.HPStones = 10;
-						ch.SP = int.Parse(Row["CurSP"].ToString());
+						ch.SP = int.Parse(row["CurSP"].ToString());
 						ch.SPStones = 10;
-						ch.StatPoints = (byte)Row["StatPoints"];
-						ch.UsablePoints = (byte)Row["UsablePoints"];
+						ch.StatPoints = (byte)row["StatPoints"];
+						ch.UsablePoints = (byte)row["UsablePoints"];
 						ch.Fame = 0;
 						ch.GameSettings = Database.DataStore.ReadMethods.GetGameSettings(ch.ID, Program.DatabaseManager);
 						ch.ClientSettings = Database.DataStore.ReadMethods.GetClientSettings(ch.ID, Program.DatabaseManager);

@@ -10,7 +10,7 @@ using Zepheus.Zone.Data;
 using Zepheus.Zone.Handlers;
 using Zepheus.Zone.InterServer;
 using Zepheus.Zone.Networking;
-using Zepheus.Zone.Security;
+using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using System.Data;
 namespace Zepheus.Zone.Game
@@ -68,8 +68,8 @@ namespace Zepheus.Zone.Game
 		public House House { get; set; }
 		public MapObject CharacterInTarget { get; set; }
 		public Question Question { get; set; }
-		private AttackSequence AttackingSequence;
-		public bool IsAttacking { get { return AttackingSequence != null && AttackingSequence.State != AttackSequence.AnimationState.Ended; } }
+		private AttackSequence attackingSequence;
+		public bool IsAttacking { get { return attackingSequence != null && attackingSequence.State != AttackSequence.AnimationState.Ended; } }
 
 		public DateTime LastShout { get; set; }
 		public DateTime LastChat { get; set; }
@@ -78,8 +78,8 @@ namespace Zepheus.Zone.Game
 		public DateTime NextSPRest { get; set; }
 
 		//lazy loading cheattracker
-		private CheatTracker _tracker;
-		public CheatTracker CheatTracker { get { return _tracker ?? (_tracker = new CheatTracker(this)); } } 
+		private CheatTracker tracker;
+		public CheatTracker CheatTracker { get { return tracker ?? (tracker = new CheatTracker(this)); } } 
 		#endregion
 
 		#region Methods
@@ -180,7 +180,7 @@ namespace Zepheus.Zone.Game
 			return "ZoneCharacter(" + this.Name + " | " + this.ID + ")";
 		}
 
-		public void GiveEXP(uint amount, ushort mobid = (ushort) 0xFFFF)
+		public void GiveExp(uint amount, ushort mobid = (ushort) 0xFFFF)
 		{
 			if (Level == DataProvider.Instance.ExpTable.Count) return; // No overleveling
 			if (Exp + amount < 0)
@@ -192,7 +192,7 @@ namespace Zepheus.Zone.Game
 				Exp += amount;
 			}
 
-			Handler9.SendGainEXP(this, amount, mobid);
+			Handler9.SendGainExp(this, amount, mobid);
 
 			while (true)
 			{
@@ -387,11 +387,11 @@ namespace Zepheus.Zone.Game
 								Handler12.ModifyInventorySlot(this, 0x24, (byte)invslot, (byte)invslot, item);
 								amount -= info.MaxLot;
 							}
-							else return InventoryStatus.FULL;
+							else return InventoryStatus.Full;
 						}
 					}
 					Save();
-					return InventoryStatus.ADDED;
+					return InventoryStatus.Added;
 				}
 				else
 				{
@@ -409,12 +409,12 @@ namespace Zepheus.Zone.Game
 						InventoryItems.Add(invslot, nequip);
 						Save();
 						Handler12.ModifyInventorySlot(this, 0x24, (byte)invslot, (byte)invslot, nequip);
-						return InventoryStatus.ADDED;
+						return InventoryStatus.Added;
 					}
-					else return InventoryStatus.FULL;
+					else return InventoryStatus.Full;
 				}
 			}
-			else return InventoryStatus.NOT_FOUND;
+			else return InventoryStatus.NotFound;
 		}
 		public void UpgradeItem(sbyte eqpslot, sbyte stoneslot)
 		{
@@ -500,12 +500,12 @@ namespace Zepheus.Zone.Game
 			{
 				if (!drop.CanTake || Vector2.Distance(this.Position, drop.Position) >= 500)
 				{
-					Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.FAILED);
+					Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Failed);
 					return;
 				}
 				else if (!gotslot)
 				{
-					Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.INV_FULL);
+					Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.InvFull);
 					return;
 				}
 
@@ -520,7 +520,7 @@ namespace Zepheus.Zone.Game
 				{
 					item = new Item(drop.Item, this, freeslot);
 				}
-				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.OBTAINED);
+				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Obtained);
 				Handler12.ModifyInventorySlot(this, 0x24, (byte)freeslot, 0, item);
 			}
 		}
@@ -617,19 +617,19 @@ namespace Zepheus.Zone.Game
 			else return -1;
 		}
 
-		public void ChangeMap(ushort ID, int x = -1, int y = -1, short instance = (short) -1)
+		public void ChangeMap(ushort id, int x = -1, int y = -1, short instance = (short) -1)
 		{
-			if (ID > 120)
+			if (id > 120)
 			{
-				Log.WriteLine(LogLevel.Warn, "Character trying to warp to unexisting map: {0}", ID);
+				Log.WriteLine(LogLevel.Warn, "Character trying to warp to unexisting map: {0}", id);
 				DropMessage("Unable to transfer to this map. Error code 10");
 				return;
 			}
-			ZoneData zci = Program.GetZoneForMap(ID);
+			ZoneData zci = Program.GetZoneForMap(id);
 
 			if (zci != null)
 			{
-				var v = zci.MapsToLoad.Find(m => m.ID == ID);
+				var v = zci.MapsToLoad.Find(m => m.ID == id);
 				int tox = 0;
 				int toy = 0;
 				if (x < 0 || y < 0)
@@ -644,16 +644,16 @@ namespace Zepheus.Zone.Game
 				}
 
 				// Try setting up transfer
-				ushort RandomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
+				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
-				InterHandler.TransferClient(zci.ID,ID, this.Client.AccountID, this.Client.Username, this.Name, RandomID, this.Client.Admin, this.Client.Host);
+				InterHandler.TransferClient(zci.ID,id, this.Client.AccountID, this.Client.Username, this.Name, randomID, this.Client.Admin, this.Client.Host);
 
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;
 				Position.Y = toy;
-				character.PositionInfo.Map = (byte)ID;
+				character.PositionInfo.Map = (byte)id;
 				Save();
-				Handler6.SendChangeZone(this, ID, tox, toy, zci.IP, zci.Port, RandomID);
+				Handler6.SendChangeZone(this, id, tox, toy, zci.IP, zci.Port, randomID);
 			}
 			else
 			{
@@ -694,17 +694,17 @@ namespace Zepheus.Zone.Game
 				if (walk) speed = 60;
 				else speed = 115;
 				// else if (horse) speed = 165
-				foreach (var Member in this.Party)
+				foreach (var member in this.Party)
 				{
-					if (Member.Value.Character.Name != this.character.Name)
+					if (member.Value.Character.Name != this.character.Name)
 					{
 						using (var ppacket = new Packet(14, 73))
 						{
 							ppacket.WriteByte(1);//unk
-							ppacket.WriteString(Member.Key, 16);
-							ppacket.WriteInt(Member.Value.Character.character.PositionInfo.XPos);
-							ppacket.WriteInt(Member.Value.Character.character.PositionInfo.XPos);
-							Member.Value.SendPacket(ppacket);
+							ppacket.WriteString(member.Key, 16);
+							ppacket.WriteInt(member.Value.Character.character.PositionInfo.XPos);
+							ppacket.WriteInt(member.Value.Character.character.PositionInfo.XPos);
+							member.Value.SendPacket(ppacket);
 						}
 					}
 				}
@@ -746,36 +746,36 @@ namespace Zepheus.Zone.Game
 		{
 			EquippedItems = new Dictionary<ItemSlot, Equip>();
 			InventoryItems = new Dictionary<sbyte, Item>();
-			DataTable ItemsData = null;
-			DataTable Skilllistdata = null;
-			DataTable Data = null;
+			DataTable itemsData = null;
+			DataTable skilllistdata = null;
+			DataTable data = null;
 			using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
 			{
-				ItemsData = dbClient.ReadDataTable("SELECT *FROM equips WHERE Owner='" + ID + "'");
-				Skilllistdata = dbClient.ReadDataTable("SELECT *FROM Skillist WHERE Owner='" + character.ID + "'");
-				Data = dbClient.ReadDataTable("SELECT *FROM Items WHERE Owner='" + ID + "'");
+				itemsData = dbClient.ReadDataTable("SELECT *FROM equips WHERE Owner='" + ID + "'");
+				skilllistdata = dbClient.ReadDataTable("SELECT *FROM Skillist WHERE Owner='" + character.ID + "'");
+				data = dbClient.ReadDataTable("SELECT *FROM Items WHERE Owner='" + ID + "'");
 			}
 
-			if (ItemsData != null)
+			if (itemsData != null)
 			{
-				foreach (DataRow Row in ItemsData.Rows)
+				foreach (DataRow row in itemsData.Rows)
 				{
 					EquipInfo eqp = new EquipInfo();
 					eqp.Character = this.character;
-					eqp.EquipID = int.Parse(Row["EquipID"].ToString());
+					eqp.EquipID = int.Parse(row["EquipID"].ToString());
 					//eqp.Expires = eqreader.GetDateTime("Expires");
 					eqp.Owner = character.ID;
-					eqp.ID = int.Parse(Row["ID"].ToString());
-					eqp.Slot = short.Parse(Row["Slot"].ToString());
-					eqp.Upgrades = (byte)Row["Upgrades"];
-					eqp.IncStr = byte.Parse(Row["iSTR"].ToString());
-					eqp.IncEnd = (byte)Row["iEND"];
-					eqp.IncDex = (byte)Row["iDEX"];
-					eqp.IncSpr = (byte)Row["iSPR"];
-					eqp.IncInt = (byte)Row["IInt"];
+					eqp.ID = int.Parse(row["ID"].ToString());
+					eqp.Slot = short.Parse(row["Slot"].ToString());
+					eqp.Upgrades = (byte)row["Upgrades"];
+					eqp.IncStr = byte.Parse(row["iSTR"].ToString());
+					eqp.IncEnd = (byte)row["iEND"];
+					eqp.IncDex = (byte)row["iDEX"];
+					eqp.IncSpr = (byte)row["iSPR"];
+					eqp.IncInt = (byte)row["IInt"];
 
 					Equip equip = new Equip(eqp);
-					if ((bool)Row["Equiptet"])
+					if ((bool)row["Equiptet"])
 					{
 						if (EquippedItems.ContainsKey(equip.SlotType))
 						{
@@ -796,34 +796,33 @@ namespace Zepheus.Zone.Game
 					}
 				}
 			}
-			if (Data != null)
+			if (data != null)
 			{
-				foreach (DataRow Row in Data.Rows)
+				foreach (DataRow row in data.Rows)
 				{
-
 					Item item = new Item();
-					item.ItemID = ushort.Parse(Row["ItemID"].ToString());
+					item.ItemID = ushort.Parse(row["ItemID"].ToString());
 					item.Owner = this.character;
-					item.Slot = sbyte.Parse(Row["Slot"].ToString());
+					item.Slot = sbyte.Parse(row["Slot"].ToString());
 
-					item.Amount = short.Parse(Row["Amount"].ToString());
+					item.Amount = short.Parse(row["Amount"].ToString());
 					// item.Expires = reader.GetDateTime("Expires");
-					InventoryItems.Add((sbyte)item.Slot, item);
+					InventoryItems.Add(item.Slot, item);
 				}
 			}
 			SkillsActive = new Dictionary<ushort, Skill>();
 			SkillsPassive = new Dictionary<ushort, Skill>();
-			if (Skilllistdata != null)
+			if (skilllistdata != null)
 			{
-				foreach (DataRow Row in Skilllistdata.Rows)
+				foreach (DataRow row in skilllistdata.Rows)
 				{
-					DatabaseSkill Skill = new DatabaseSkill();
-					Skill.ID = long.Parse(Row["ID"].ToString());
-					Skill.Upgrades = short.Parse(Row["Upgrades"].ToString());
-					Skill.Character = character;
-					Skill.SkillID = short.Parse(Row["SkillID"].ToString());
-					Skill.IsPassive = (bool)Row["IsPassive"];
-					Skill s = new Skill(Skill);
+					DatabaseSkill skill = new DatabaseSkill();
+					skill.ID = long.Parse(row["ID"].ToString());
+					skill.Upgrades = short.Parse(row["Upgrades"].ToString());
+					skill.Character = character;
+					skill.SkillID = short.Parse(row["SkillID"].ToString());
+					skill.IsPassive = (bool)row["IsPassive"];
+					Skill s = new Skill(skill);
 					if (s.IsPassive)
 					{
 						SkillsPassive.Add(s.ID, s);
@@ -996,12 +995,12 @@ namespace Zepheus.Zone.Game
 
 		public override void Update(DateTime date)
 		{
-			if (AttackingSequence != null)
+			if (attackingSequence != null)
 			{
-				AttackingSequence.Update(date);
-				if (AttackingSequence.State == AttackSequence.AnimationState.Ended)
+				attackingSequence.Update(date);
+				if (attackingSequence.State == AttackSequence.AnimationState.Ended)
 				{
-					AttackingSequence = null;
+					attackingSequence = null;
 				}
 			}
 
@@ -1017,13 +1016,13 @@ namespace Zepheus.Zone.Game
 			{
 				if (date >= NextHPRest)
 				{
-					HealHP((uint)(MaxHP / 1000 * House.Info.HPRecovery));
+					HealHP((MaxHP / 1000 * House.Info.HPRecovery));
 					//TODO: also show this to people who have me selected.
 					NextHPRest = date.AddMilliseconds(House.Info.HPTick);
 				}
 				if (date >= NextSPRest)
 				{
-					HealSP((uint)(MaxSP / 1000 * House.Info.SPRecovery));
+					HealSP((MaxSP / 1000 * House.Info.SPRecovery));
 					//TODO: also show this to people who have me selected.
 					NextSPRest = date.AddMilliseconds(House.Info.SPTick);
 				}
@@ -1308,8 +1307,8 @@ namespace Zepheus.Zone.Game
 			packet.WriteUInt(BaseStats.MaxSP); //max SP
 
 			packet.WriteInt(0);                   // UNK
-			packet.WriteInt(BaseStats.MAXSoulHP);   // Max HP Stones
-			packet.WriteInt(BaseStats.MAXSoulSP);   // Max SP Stones
+			packet.WriteInt(BaseStats.MaxSoulHP);   // Max HP Stones
+			packet.WriteInt(BaseStats.MaxSoulSP);   // Max SP Stones
 			packet.Fill(64, 0);
 			if (!levelUP)
 			{
@@ -1349,7 +1348,7 @@ namespace Zepheus.Zone.Game
 			}
 
 			base.Attack(victim);
-			AttackingSequence = new AttackSequence(this, victim, dmgmin, dmgmax, attackspeed);
+			attackingSequence = new AttackSequence(this, victim, dmgmin, dmgmax, attackspeed);
 		}
 
 		public override void AttackSkill(ushort skillid, MapObject victim)
@@ -1361,45 +1360,41 @@ namespace Zepheus.Zone.Game
 
 			if (IsAttacking || victim == null || !victim.IsAttackable) return;
 
-			ushort attackspeed = 1200;
 			Equip weapon;
 			EquippedItems.TryGetValue(ItemSlot.Weapon, out weapon);
 			uint dmgmin = (uint)GetWeaponDamage(true);
 			uint dmgmax = (uint)(GetWeaponDamage(true) + (GetWeaponDamage(true) % 3));
 			if (weapon != null)
 			{
-				attackspeed = weapon.Info.AttackSpeed;
 				dmgmin += weapon.Info.MinMelee;
 				dmgmax += weapon.Info.MaxMelee;
 			}
 
-			AttackingSequence = new AttackSequence(this, victim, dmgmin, dmgmax, skillid, true);
+			attackingSequence = new AttackSequence(this, victim, dmgmin, dmgmax, skillid, true);
 		}
 
 		public override void AttackSkillAoE(ushort skillid, uint x, uint y)
 		{
 			if (IsAttacking) return;
 
-			ushort attackspeed = 1200;
 			Equip weapon;
 			EquippedItems.TryGetValue(ItemSlot.Weapon, out weapon);
 			uint dmgmin = (uint)GetExtraStr();
 			uint dmgmax = (uint)(GetExtraStr() + (GetExtraStr() % 3));
 			if (weapon != null)
 			{
-				attackspeed = weapon.Info.AttackSpeed;
 				dmgmin += weapon.Info.MinMelee;
 				dmgmax += weapon.Info.MaxMelee;
 			}
 
-			AttackingSequence = new AttackSequence(this, dmgmin, dmgmax, skillid, x, y);
+			attackingSequence = new AttackSequence(this, dmgmin, dmgmax, skillid, x, y);
 		}
 
 		public void AttackStop()
 		{
 			if (IsAttacking)
 			{
-				AttackingSequence = null;
+				attackingSequence = null;
 			}
 		}
 
@@ -1484,7 +1479,7 @@ namespace Zepheus.Zone.Game
 			if (IsDead)
 			{
 				Log.WriteLine(LogLevel.Warn, "Zombie tried to rest while being dead. {0}", this);
-				CheatTracker.AddCheat(CheatTypes.DEAD_REST, 100);
+				CheatTracker.AddCheat(CheatTypes.DeadRest, 100);
 				return;
 			}
 			if (pStart && (this.State == PlayerState.Resting || this.State == PlayerState.Vendor))
@@ -1553,7 +1548,7 @@ namespace Zepheus.Zone.Game
 
 		protected virtual void OnLevelUp(int pOldLevel, int pNewLevel, ushort pMobId)
 		{
-			SendLevelUpAnimation((ushort) pMobId);
+			SendLevelUpAnimation(pMobId);
 			Heal();
 			LevelUpHandleUsablePoints((byte) (pNewLevel - pOldLevel));
 			if(LevelUp != null)
@@ -1568,21 +1563,4 @@ namespace Zepheus.Zone.Game
 
 		#endregion
 	}
-
-	#region EventArgs
-	
-	public class LevelUpEventArgs : EventArgs
-	{
-		public LevelUpEventArgs(int oldLevel, int newLevel, ushort mobId)
-		{
-			this.OldLevel = oldLevel;
-			this.NewLevel = newLevel;
-			this.MobId = mobId;
-		}
-
-		public int OldLevel { get; private set; }
-		public int NewLevel { get; private set; }
-		public ushort MobId { get; set; }
-	}
-	#endregion
 }

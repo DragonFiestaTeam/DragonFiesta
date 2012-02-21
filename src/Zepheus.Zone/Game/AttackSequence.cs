@@ -8,9 +8,9 @@ using Zepheus.Zone.Handlers;
 namespace Zepheus.Zone.Game
 {
     public class AttackSequence
-    {
-        public enum AnimationState
-        {
+	{
+		public enum AnimationState
+		{
             Starting,
             Running,
             AoEShow,
@@ -20,17 +20,23 @@ namespace Zepheus.Zone.Game
 
         public const ushort NoSkill = 0xFFFF;
 
-        private DateTime _nextAction;
-        private ushort skillid;
-        private ActiveSkillInfo skillInfo { get { return DataProvider.Instance.ActiveSkillsByID[skillid]; } }
+        private DateTime nextAction;
+		private readonly ushort skillid;
+		private ActiveSkillInfo skillInfo
+		{
+			get
+			{
+				return DataProvider.Instance.ActiveSkillsByID[skillid];
+			}
+		}
         public bool IsSkill { get { return skillid != NoSkill; } }
-        public bool IsAoE { get { return this.X != 0 && this.Y != 0; } }
-        private uint MinDamage;
-        private uint MaxDamage;
-        private ushort attackspeed;
-        private uint X;
-        private uint Y;
-        private ushort AnimationID;
+        public bool IsAoE { get { return this.x != 0 && this.y != 0; } }
+		private readonly uint minDamage;
+		private readonly uint maxDamage;
+		private readonly ushort attackspeed;
+		private readonly uint x;
+		private readonly uint y;
+		private readonly ushort animationID;
 
         private MapObject attacker;
         private MapObject victim;
@@ -41,35 +47,33 @@ namespace Zepheus.Zone.Game
             this.State = AnimationState.Starting;
             this.attacker = att;
             this.victim = vict;
-            this.MinDamage = min;
-            this.MaxDamage = max;
+            this.minDamage = min;
+            this.maxDamage = max;
             this.attackspeed = attackspeed;
-            this._nextAction = Program.CurrentTime;
+            this.nextAction = Program.CurrentTime;
             this.skillid = NoSkill;
-            this.AnimationID = att.UpdateCounter;
+            this.animationID = att.UpdateCounter;
             this.State = AnimationState.Running;
         }
 
-
         public AttackSequence(MapObject att, MapObject vict, uint min, uint max, ushort skillid, bool derp) :
             this(att, vict, min, max, 0)
-        {
-            this.skillid = skillid;
-            this.MinDamage += skillInfo.MinDamage;
-            this.MaxDamage += skillInfo.MaxDamage;
-            this.X = 0;
-            this.Y = 0;
+		{
+			this.skillid = skillid;
+			this.minDamage += skillInfo.MinDamage;
+            this.maxDamage += skillInfo.MaxDamage;
+            this.x = 0;
+            this.y = 0;
         }
 
         public AttackSequence(MapObject att, uint min, uint max, ushort skillid, uint x = (uint) 0, uint y = (uint) 0) :
             this(att, null, min, max, skillid, true)
         {
-            this.X = x;
-            this.Y = y;
-            this._nextAction = Program.CurrentTime.AddMilliseconds(skillInfo.CastTime);
+            this.x = x;
+            this.y = y;
+            this.nextAction = Program.CurrentTime.AddMilliseconds(skillInfo.CastTime);
             this.State = AnimationState.AoEShow;
         }
-
 
         public void Update(DateTime now)
         {
@@ -84,7 +88,7 @@ namespace Zepheus.Zone.Game
                 this.State = AnimationState.Ended;
                 return;
             }
-            if (this._nextAction > now) return;
+            if (this.nextAction > now) return;
 
             if (IsSkill)
             {
@@ -92,16 +96,16 @@ namespace Zepheus.Zone.Game
                 {
                     if (this.State == AnimationState.AoEShow)
                     {
-                        Handler9.SendSkillPosition(attacker, AnimationID, skillid, X, Y);
-                        Handler9.SendSkillAnimationForPlayer(attacker, skillid, AnimationID);
-                        this._nextAction = Program.CurrentTime.AddMilliseconds(skillInfo.SkillAniTime);
+                        Handler9.SendSkillPosition(attacker, animationID, skillid, x, y);
+                        Handler9.SendSkillAnimationForPlayer(attacker, skillid, animationID);
+                        this.nextAction = Program.CurrentTime.AddMilliseconds(skillInfo.SkillAniTime);
                         this.State = AnimationState.AoEDo;
                     }
                     else if (this.State == AnimationState.AoEDo)
                     {
                         // Lets create an AoE skill @ X Y
                         List<SkillVictim> victims = new List<SkillVictim>();
-                        var pos = new Vector2((int)X, (int)Y);
+                        var pos = new Vector2((int)x, (int)y);
                         // Find victims
                         foreach (var v in attacker.Map.GetObjectsBySectors(attacker.MapSector.SurroundingSectors))
                         {
@@ -110,7 +114,7 @@ namespace Zepheus.Zone.Game
                             if (Vector2.Distance(v.Position, pos) > skillInfo.Range) continue;
                             // Calculate dmg
 
-                            uint dmg = (uint)Program.Randomizer.Next((int)MinDamage, (int)MaxDamage);
+                            uint dmg = (uint)Program.Randomizer.Next((int)minDamage, (int)maxDamage);
                             if (dmg > v.HP)
                             {
                                 v.HP = 0;
@@ -124,8 +128,8 @@ namespace Zepheus.Zone.Game
                             {
                                 if (v is Mob && attacker is ZoneCharacter)
                                 {
-                                    uint exp = (v as Mob).InfoServer.MonEXP;
-                                    (attacker as ZoneCharacter).GiveEXP(exp, v.MapObjectID);
+                                    uint exp = (v as Mob).InfoServer.MonExp;
+                                    (attacker as ZoneCharacter).GiveExp(exp, v.MapObjectID);
                                 }
                             }
 
@@ -133,7 +137,7 @@ namespace Zepheus.Zone.Game
                             if (victims.Count == skillInfo.MaxTargets) break;
                         }
 
-                        Handler9.SendSkill(attacker, AnimationID, victims);
+                        Handler9.SendSkill(attacker, animationID, victims);
                         foreach (var v in victims)
                         {
                             if (v.HPLeft == 0)
@@ -164,23 +168,23 @@ namespace Zepheus.Zone.Game
                 else
                 {
                     // Calculate some damage to do
-                    ushort dmg = (ushort)Program.Randomizer.Next((int)MinDamage, (int)MaxDamage);
+                    ushort dmg = (ushort)Program.Randomizer.Next((int)minDamage, (int)maxDamage);
                     if (dmg > victim.HP)
                     {
                         victim.HP = 0;
                     }
-                    bool Crit = Program.Randomizer.Next() % 100 >= 80;
+                    bool crit = Program.Randomizer.Next() % 100 >= 80;
                     byte stance = (byte)(Program.Randomizer.Next(0, 3));
                     victim.Damage(attacker, dmg);
                     Handler9.SendAttackAnimation(attacker, victim.MapObjectID, attackspeed, stance);
-                    Handler9.SendAttackDamage(attacker, victim.MapObjectID, dmg, Crit, victim.HP, victim.UpdateCounter);
+                    Handler9.SendAttackDamage(attacker, victim.MapObjectID, dmg, crit, victim.HP, victim.UpdateCounter);
 
                     if (victim.IsDead)
                     {
                         if (victim is Mob && attacker is ZoneCharacter)
                         {
-                            uint exp = (victim as Mob).InfoServer.MonEXP;
-                            (attacker as ZoneCharacter).GiveEXP(exp, victim.MapObjectID);
+                            uint exp = (victim as Mob).InfoServer.MonExp;
+                            (attacker as ZoneCharacter).GiveExp(exp, victim.MapObjectID);
                         }
                         
                         Handler9.SendDieAnimation(attacker, victim.MapObjectID);
@@ -189,7 +193,7 @@ namespace Zepheus.Zone.Game
                     }
                     else
                     {
-                        _nextAction = now.AddMilliseconds(attackspeed);
+                        nextAction = now.AddMilliseconds(attackspeed);
                     }
                 }
             }

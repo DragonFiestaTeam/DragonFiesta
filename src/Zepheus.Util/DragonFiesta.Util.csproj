@@ -53,7 +53,9 @@
     <Compile Include="DUpdater\DatabaseUpdater.cs" />
     <Compile Include="EntitySetting.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="InitializationStage.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="MathUtils.cs" />
     <Compile Include="Pair.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="SerializableDictionary.cs" />
     <Compile Include="ServerModuleAttribute.cs" />
     <Compile Include="TimedTask.cs" />
+    <Compile Include="TransferType.cs" />
     <Compile Include="UserWorkItem.cs" />
     <Compile Include="Vector2.cs" />
   </ItemGroup>

@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-
-namespace Zepheus.Zone
+﻿namespace Zepheus.Zone
 {
     public sealed class Settings
     {
@@ -14,7 +10,7 @@ namespace Zepheus.Zone
         public int WorkInterval { get; set; }
         public int TransferTimeout { get; set; }
 
-        public string WorldServiceURI { get; set; }
+        public string WorldServiceUri { get; set; }
         public string InterPassword { get; set; }
         public string WorldServerIP { get; set; }
         public ushort WorldServerPort { get; set; }
@@ -50,7 +46,7 @@ namespace Zepheus.Zone
                     WorkInterval = Zepheus.InterLib.Settings.GetInt32("Zone.WorkInterval"),
                     TransferTimeout = Zepheus.InterLib.Settings.GetInt32("Zone.TransferTimeout"),
 
-                    WorldServiceURI = Zepheus.InterLib.Settings.GetString("Zone.WorldServiceURI"),
+                    WorldServiceUri = Zepheus.InterLib.Settings.GetString("Zone.WorldServiceURI"),
                     InterPassword = Zepheus.InterLib.Settings.GetString("Zone.Password"),
                     zoneMysqlServer = Zepheus.InterLib.Settings.GetString("Data.Mysql.Server"),
                     zoneMysqlPort = Zepheus.InterLib.Settings.GetInt32("Data.Mysql.Port"),

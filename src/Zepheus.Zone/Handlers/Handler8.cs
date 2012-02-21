@@ -6,609 +6,607 @@ using Zepheus.Util;
 using Zepheus.Zone.Data;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
-using Zepheus.Zone.Security;
-using System.Collections.Generic;
+using Zepheus.Zone.Networking.Security;
 
 namespace Zepheus.Zone.Handlers
 {
-    public sealed class Handler8
-    {
-        [PacketHandler(CH8Type.ChatNormal)]
-        public static void NormalChatHandler(ZoneClient client, Packet packet)
-        {
-            byte len;
-            string text;
-            if (!packet.TryReadByte(out len) || !packet.TryReadString(out text, len))
-            {
-                Log.WriteLine(LogLevel.Warn, "Could not parse normal chat from {0}.", client.Character.Name);
-                return;
-            }
-            if (client.Admin > 0 && (text.StartsWith("&") || text.StartsWith("/")))
-            {
-                CommandLog.Instance.LogCommand(client.Character.Name, text);
-                CommandStatus status = CommandHandler.Instance.ExecuteCommand(client.Character, text.Split(' '));
-                switch (status)
-                {
-                    case CommandStatus.ERROR:
-                        client.Character.DropMessage("Error executing command.");
-                        break;
-                    case CommandStatus.GM_LEVEL_TOO_LOW:
-                        client.Character.DropMessage("You do not have the privileges for this command.");
-                        break;
-                    case CommandStatus.NOT_FOUND:
-                        client.Character.DropMessage("Command not found.");
-                        break;
-                }
-            }
-            else
-            {
-                int chatblock = client.Character.ChatCheck();
-                if (chatblock == -1)
-                {
-                    ChatLog.Instance.LogChat(client.Character.Name, text, false);
-                    SendNormalChat(client.Character, text, client.Admin > 0 ? (byte)0x03 : (byte)0x2a);
-                }
-                else
-                {
-                    Handler2.SendChatBlock(client.Character, chatblock);
-                }
-            }
-        }
-        [PacketHandler(CH8Type.By)]
-        public static void GetByList(ZoneClient client, Packet packet)
-        {
-            ZoneCharacter character = client.Character;
-    
-            byte Handlerflags;
-            packet.TryReadByte(out Handlerflags);
-            if (Handlerflags == 1 && character.CharacterInTarget !=null)
-            {
-                   NPC Npc = character.CharacterInTarget as NPC;
-                   switch (Npc.point.RoleArg0)
-                   {
-                       case "Weapon":
-                           SendItemShopWeapon(Npc, packet, character);
-                           break;
-                       case "Item":
-                           SendItemShopItems(Npc, packet, character);
-                           break;
-                       case "Guild":
-                           SendItemShopItems(Npc, packet, character);
-                           break;
-                       case "WeaponTitle":
-                           SendItemShopItems(Npc, packet, character);
-                           break;
-                       case "Skill":
-                           SendItemShopSkill(Npc, packet, character);
-                           break;
-                       case "SoulStone":
-                           SendItemShopStones(Npc, packet, character);
-                           break;
-                       default:
-                           Log.WriteLine(LogLevel.Error, "Unhandelt Npc VendorType : {0}", Npc.point.RoleArg0);
-                           break;
-                   }
-            }
+	public sealed class Handler8
+	{
+		[PacketHandler(CH8Type.ChatNormal)]
+		public static void NormalChatHandler(ZoneClient client, Packet packet)
+		{
+			byte len;
+			string text;
+			if (!packet.TryReadByte(out len) || !packet.TryReadString(out text, len))
+			{
+				Log.WriteLine(LogLevel.Warn, "Could not parse normal chat from {0}.", client.Character.Name);
+				return;
+			}
+			if (client.Admin > 0 && (text.StartsWith("&") || text.StartsWith("/")))
+			{
+				CommandLog.Instance.LogCommand(client.Character.Name, text);
+				CommandStatus status = CommandHandler.Instance.ExecuteCommand(client.Character, text.Split(' '));
+				switch (status)
+				{
+					case CommandStatus.Error:
+						client.Character.DropMessage("Error executing command.");
+						break;
+					case CommandStatus.GMLevelTooLow:
+						client.Character.DropMessage("You do not have the privileges for this command.");
+						break;
+					case CommandStatus.NotFound:
+						client.Character.DropMessage("Command not found.");
+						break;
+				}
+			}
+			else
+			{
+				int chatblock = client.Character.ChatCheck();
+				if (chatblock == -1)
+				{
+					ChatLog.Instance.LogChat(client.Character.Name, text, false);
+					SendNormalChat(client.Character, text, client.Admin > 0 ? (byte)0x03 : (byte)0x2a);
+				}
+				else
+				{
+					Handler2.SendChatBlock(client.Character, chatblock);
+				}
+			}
+		}
+		[PacketHandler(CH8Type.By)]
+		public static void GetByList(ZoneClient client, Packet packet)
+		{
+			ZoneCharacter character = client.Character;
+
+			byte handlerflags;
+			packet.TryReadByte(out handlerflags);
+			if (handlerflags == 1 && character.CharacterInTarget != null)
+			{
+				Npc npc = character.CharacterInTarget as Npc;
+				switch (npc.Point.RoleArg0)
+				{
+					case "Weapon":
+						SendItemShopWeapon(npc, packet, character);
+						break;
+					case "Item":
+						SendItemShopItems(npc, packet, character);
+						break;
+					case "Guild":
+						SendItemShopItems(npc, packet, character);
+						break;
+					case "WeaponTitle":
+						SendItemShopItems(npc, packet, character);
+						break;
+					case "Skill":
+						SendItemShopSkill(npc, packet, character);
+						break;
+					case "SoulStone":
+						SendItemShopStones(npc, packet, character);
+						break;
+					default:
+						Log.WriteLine(LogLevel.Error, "Unhandelt Npc VendorType : {0}", npc.Point.RoleArg0);
+						break;
+				}
+			}
 
 
-        }
-     
-        public static void SendItemShopStones(NPC Npc, Packet packet, ZoneCharacter character)
-        {
-            using (packet = new Packet(SH15Type.HandlerStone))
-            {
+		}
 
-                packet.WriteInt(95);//useeffectid
-                packet.WriteInt(200);//maxhpstones
-                packet.WriteInt(2000000);//hp stines price
-                packet.WriteInt(43);//useeffectid
-                packet.WriteInt(29);//sp max stones
-                packet.WriteInt(20);//spstones price
-                character.Client.SendPacket(packet);
-            }
-        }
-        public static void SendItemShopItems(NPC Npc, Packet packet, ZoneCharacter character)
-        {
-            using (packet = new Packet(SH15Type.HandlerTitel))
-            {
+		public static void SendItemShopStones(Npc npc, Packet packet, ZoneCharacter character)
+		{
+			using (packet = new Packet(SH15Type.HandlerStone))
+			{
 
-                if (Npc.point.VendorItems != null)
-                {
-                    int count = Npc.point.VendorItems.Count;
+				packet.WriteInt(95);//useeffectid
+				packet.WriteInt(200);//maxhpstones
+				packet.WriteInt(2000000);//hp stines price
+				packet.WriteInt(43);//useeffectid
+				packet.WriteInt(29);//sp max stones
+				packet.WriteInt(20);//spstones price
+				character.Client.SendPacket(packet);
+			}
+		}
+		public static void SendItemShopItems(Npc npc, Packet packet, ZoneCharacter character)
+		{
+			using (packet = new Packet(SH15Type.HandlerTitel))
+			{
 
-                    packet.WriteByte((byte)count);
-                    packet.WriteInt(0);//unk
-                    if (count > 0)
-                    {
-                        foreach (var items in Npc.point.VendorItems)
-                        {
+				if (npc.Point.VendorItems != null)
+				{
+					int count = npc.Point.VendorItems.Count;
 
-                            packet.WriteUShort(items.ItemID);
-                            packet.WriteByte(items.InvSlot);
-                        }
-                    }
-                    else
-                    {
-                        packet.WriteUShort(0);
-                        packet.WriteByte(0);//unk
-                    }
+					packet.WriteByte((byte)count);
+					packet.WriteInt(0);//unk
+					if (count > 0)
+					{
+						foreach (var items in npc.Point.VendorItems)
+						{
 
-                }
-                else
-                {
+							packet.WriteUShort(items.ItemID);
+							packet.WriteByte(items.InvSlot);
+						}
+					}
+					else
+					{
+						packet.WriteUShort(0);
+						packet.WriteByte(0);//unk
+					}
 
-                    packet.WriteByte(0);
-                    packet.WriteInt(0);//unk
-                    packet.WriteUShort(0);
-                    packet.WriteByte(0);//unk
-                }
-                character.Client.SendPacket(packet);
-            }
-        }
-        public static void SendItemShopSkill(NPC Npc, Packet packet, ZoneCharacter character)
-        {
-            using (packet = new Packet(SH15Type.HanlderSkill))
-            {
-                if (Npc.point.VendorItems != null)
-                {
-                    int count = Npc.point.VendorItems.Count;
+				}
+				else
+				{
 
-                    packet.WriteByte((byte)count);
-                    packet.WriteInt(0);//unk
-                    foreach (var items in Npc.point.VendorItems)
-                    {
+					packet.WriteByte(0);
+					packet.WriteInt(0);//unk
+					packet.WriteUShort(0);
+					packet.WriteByte(0);//unk
+				}
+				character.Client.SendPacket(packet);
+			}
+		}
+		public static void SendItemShopSkill(Npc npc, Packet packet, ZoneCharacter character)
+		{
+			using (packet = new Packet(SH15Type.HanlderSkill))
+			{
+				if (npc.Point.VendorItems != null)
+				{
+					int count = npc.Point.VendorItems.Count;
 
-                        packet.WriteUShort(items.ItemID);
-                        packet.WriteByte(items.InvSlot);
-                    }
+					packet.WriteByte((byte)count);
+					packet.WriteInt(0);//unk
+					foreach (var items in npc.Point.VendorItems)
+					{
 
-                }
-                else
-                {
-                   
-                    packet.WriteByte(0);
-                    packet.WriteInt(0);//unk
-                    packet.WriteUShort(0);
-                    packet.WriteByte(0);//unk
-                }
-                character.Client.SendPacket(packet);
-                
-            }
-        }
-        public static void SendItemShopWeapon(NPC Npc,Packet packet,ZoneCharacter character)
-        {
-            using (packet = new Packet(SH15Type.HandlerWeapon))
-            {
-                if (Npc.point.VendorItems != null)
-                {
-                    int count = Npc.point.VendorItems.Count;
+						packet.WriteUShort(items.ItemID);
+						packet.WriteByte(items.InvSlot);
+					}
 
-                    packet.WriteByte((byte)count);
-                    packet.WriteInt(0);//unk
-                    foreach (var items in Npc.point.VendorItems)
-                    {
+				}
+				else
+				{
 
-                        packet.WriteUShort(items.ItemID);
-                        packet.WriteByte(items.InvSlot);//unk
-                    }
+					packet.WriteByte(0);
+					packet.WriteInt(0);//unk
+					packet.WriteUShort(0);
+					packet.WriteByte(0);//unk
+				}
+				character.Client.SendPacket(packet);
 
-                }
-                else
-                {
+			}
+		}
+		public static void SendItemShopWeapon(Npc npc, Packet packet, ZoneCharacter character)
+		{
+			using (packet = new Packet(SH15Type.HandlerWeapon))
+			{
+				if (npc.Point.VendorItems != null)
+				{
+					int count = npc.Point.VendorItems.Count;
 
-                    packet.WriteByte(0);
-                    packet.WriteInt(0);//unk
-                    packet.WriteUShort(0);
-                    packet.WriteByte(0);//unk
-                }
-                character.Client.SendPacket(packet);
-            }
-        }
-        [PacketHandler(CH8Type.Shout)]
-        public static void ShoutHandler(ZoneClient client, Packet packet)
-        {
-            ZoneCharacter character = client.Character;
-            byte len;
-            string message;
-            if (!packet.TryReadByte(out len) ||
-                !packet.TryReadString(out message, len))
-            {
-                Log.WriteLine(LogLevel.Warn, "Could not read shout from {0}.", character.Name);
-                return;
-            }
+					packet.WriteByte((byte)count);
+					packet.WriteInt(0);//unk
+					foreach (var items in npc.Point.VendorItems)
+					{
 
-            int shoutcheck = character.ShoutCheck();
-            if (shoutcheck > 0)
-            {
-                Handler2.SendChatBlock(character, shoutcheck);
-            }
-            else
-            {
-                ChatLog.Instance.LogChat(client.Character.Name, message, true);
-                using (var broad = Shout(character.Name, message))
-                {
-                    character.Map.Broadcast(broad);
-                }
-            }
-        }
+						packet.WriteUShort(items.ItemID);
+						packet.WriteByte(items.InvSlot);//unk
+					}
 
-        [PacketHandler(CH8Type.BeginInteraction)]
-        public static void BeginInteractionHandler(ZoneClient client, Packet packet)
-        {
-            ushort entityid;
-            if (!packet.TryReadUShort(out entityid))
-            {
-                Log.WriteLine(LogLevel.Warn, "Error reading interaction attempt.");
-                return;
-            }
-            ZoneCharacter character = client.Character;
-            
-            
-            MapObject obj;
-            if (character.Map.Objects.TryGetValue(entityid, out obj))
-            {
-               
-                NPC npc = obj as NPC;
-                client.Character.CharacterInTarget = obj;
-                if (npc != null)
-                {
-                    if (npc.Gate != null)
-                  
-                    {
-                        
-                        MapInfo mi = null;
-                        if (DataProvider.Instance.MapsByName.TryGetValue(npc.Gate.MapServer, out mi))
-                        {
-                            Question q = new Question(string.Format("Do you want to move to {0} field?", mi.FullName), new QuestionCallback(AnswerOnGateQuestion), npc);
-                            q.Add("Yes", "No");
-                            q.Send(character, 500);
-                            character.Question = q;
-                        }
-                        else
-                        {
-                            character.DropMessage("You can't travel to this place.");
-                        }
-                    }
-                    else
-                    {
-                        SendNPCInteraction(client, npc);
-                    }
-                }
-            }
-            else Log.WriteLine(LogLevel.Warn, "{0} selected invalid object.", character.Name);
-        }
+				}
+				else
+				{
+
+					packet.WriteByte(0);
+					packet.WriteInt(0);//unk
+					packet.WriteUShort(0);
+					packet.WriteByte(0);//unk
+				}
+				character.Client.SendPacket(packet);
+			}
+		}
+		[PacketHandler(CH8Type.Shout)]
+		public static void ShoutHandler(ZoneClient client, Packet packet)
+		{
+			ZoneCharacter character = client.Character;
+			byte len;
+			string message;
+			if (!packet.TryReadByte(out len) ||
+				!packet.TryReadString(out message, len))
+			{
+				Log.WriteLine(LogLevel.Warn, "Could not read shout from {0}.", character.Name);
+				return;
+			}
+
+			int shoutcheck = character.ShoutCheck();
+			if (shoutcheck > 0)
+			{
+				Handler2.SendChatBlock(character, shoutcheck);
+			}
+			else
+			{
+				ChatLog.Instance.LogChat(client.Character.Name, message, true);
+				using (var broad = Shout(character.Name, message))
+				{
+					character.Map.Broadcast(broad);
+				}
+			}
+		}
+
+		[PacketHandler(CH8Type.BeginInteraction)]
+		public static void BeginInteractionHandler(ZoneClient client, Packet packet)
+		{
+			ushort entityid;
+			if (!packet.TryReadUShort(out entityid))
+			{
+				Log.WriteLine(LogLevel.Warn, "Error reading interaction attempt.");
+				return;
+			}
+			ZoneCharacter character = client.Character;
 
 
-        private static void AnswerOnGateQuestion(ZoneCharacter character, byte answer)
-        {
-            NPC npc = (character.Question.Object as NPC);
-            MapInfo mi = null;
-            if (DataProvider.Instance.MapsByName.TryGetValue(npc.Gate.MapServer, out mi))
-            {
+			MapObject obj;
+			if (character.Map.Objects.TryGetValue(entityid, out obj))
+			{
 
-                switch (answer)
-                {
-                    case 0:
-                        character.ChangeMap(mi.ID, npc.Gate.Coord_X, npc.Gate.Coord_Y);
-                        break;
+				Npc npc = obj as Npc;
+				client.Character.CharacterInTarget = obj;
+				if (npc != null)
+				{
+					if (npc.Gate != null)
+					{
 
-                    case 1: break;
-                    default:
-                        Log.WriteLine(LogLevel.Warn, "Invalid gate question response.");
-                        break;
-                }
-            }
-        }
+						MapInfo mi = null;
+						if (DataProvider.Instance.MapsByName.TryGetValue(npc.Gate.MapServer, out mi))
+						{
+							Question q = new Question(string.Format("Do you want to move to {0} field?", mi.FullName), new QuestionCallback(AnswerOnGateQuestion), npc);
+							q.Add("Yes", "No");
+							q.Send(character, 500);
+							character.Question = q;
+						}
+						else
+						{
+							character.DropMessage("You can't travel to this place.");
+						}
+					}
+					else
+					{
+						SendNpcInteraction(client, npc);
+					}
+				}
+			}
+			else Log.WriteLine(LogLevel.Warn, "{0} selected invalid object.", character.Name);
+		}
 
 
-        public static void SendNPCInteraction(ZoneClient client, NPC Npc)
-        {
-         
-            switch(Npc.point.RoleArg0)
-            {
-                case"Guild":
-                    if (Npc.point.Role == "NPCMenu")
-                    {
-                        using (var packet = new Packet(SH15Type.GuildNPCReqest))
-                        {
-                            client.SendPacket(packet);
-                        }
-                    }
-                    else
-                    {
-                        using (var packet = new Packet(SH8Type.Interaction))
-                        {
-                            packet.WriteUShort(Npc.ID);
-                            client.SendPacket(packet);
-                        }
-                    }
-                    break;
-                case "Quest":
-                    //:TODO Quest Proggresion
-                    using (var packet = new Packet(SH8Type.Interaction))
-                    {
-                        packet.WriteUShort(Npc.ID);
-                        client.SendPacket(packet);
-                    }
-                    Console.WriteLine(Npc.point.RoleArg0);
-                    break;
-                default:
-            using (var packet = new Packet(SH8Type.Interaction))
-            {
-                packet.WriteUShort(Npc.ID);
-                client.SendPacket(packet);
-            }
-                    break;
-        }
-        
-        }
+		private static void AnswerOnGateQuestion(ZoneCharacter character, byte answer)
+		{
+			Npc npc = (character.Question.Object as Npc);
+			MapInfo mi = null;
+			if (DataProvider.Instance.MapsByName.TryGetValue(npc.Gate.MapServer, out mi))
+			{
 
-        [PacketHandler(CH8Type.BeginRest)]
-        public static void BeginRestHandler(ZoneClient client, Packet packet)
-        {
-            client.Character.Rest(true);
-        }
+				switch (answer)
+				{
+					case 0:
+						character.ChangeMap(mi.ID, npc.Gate.CoordX, npc.Gate.CoordY);
+						break;
 
-        [PacketHandler(CH8Type.EndRest)]
-        public static void EndRestHandler(ZoneClient client, Packet packet)
-        {
-            client.Character.Rest(false);
-        }
+					case 1: break;
+					default:
+						Log.WriteLine(LogLevel.Warn, "Invalid gate question response.");
+						break;
+				}
+			}
+		}
 
-        public static void SendEndRestResponse(ZoneClient client)
-        {
-            using (var packet = new Packet(SH8Type.EndRest))
-            {
-                packet.WriteUShort(0x0a81);
-                client.SendPacket(packet);
-            }
-        }
 
-        public static void SendBeginRestResponse(ZoneClient client, ushort value)
-        {
-            /*  0x0A81 - OK to rest
-                   0x0A82 - Can't rest on mount
-                   0x0A83 - Too close to NPC*/
-            using (var packet = new Packet(SH8Type.BeginRest))
-            {
-                packet.WriteUShort(value);
-                client.SendPacket(packet);
-            }
-        }
+		public static void SendNpcInteraction(ZoneClient client, Npc npc)
+		{
 
-        public static Packet BeginDisplayRest(ZoneCharacter character)
-        {
-            Packet packet = new Packet(SH8Type.BeginDisplayRest);
-            packet.WriteUShort(character.MapObjectID);
-            packet.WriteUShort(character.House.ItemID);
-            packet.Fill(10, 0xff);
-            return packet;
-        }
+			switch (npc.Point.RoleArg0)
+			{
+				case "Guild":
+					if (npc.Point.Role == "NPCMenu")
+					{
+						using (var packet = new Packet(SH15Type.GuildNpcReqest))
+						{
+							client.SendPacket(packet);
+						}
+					}
+					else
+					{
+						using (var packet = new Packet(SH8Type.Interaction))
+						{
+							packet.WriteUShort(npc.ID);
+							client.SendPacket(packet);
+						}
+					}
+					break;
+				case "Quest":
+					//:TODO Quest Proggresion
+					using (var packet = new Packet(SH8Type.Interaction))
+					{
+						packet.WriteUShort(npc.ID);
+						client.SendPacket(packet);
+					}
+					Console.WriteLine(npc.Point.RoleArg0);
+					break;
+				default:
+					using (var packet = new Packet(SH8Type.Interaction))
+					{
+						packet.WriteUShort(npc.ID);
+						client.SendPacket(packet);
+					}
+					break;
+			}
 
-        public static Packet EndDisplayRest(ZoneCharacter character)
-        {
-            Packet packet = new Packet(SH8Type.EndDisplayRest);
-            packet.WriteUShort(character.MapObjectID);
-            character.WriteLook(packet);
-            character.WriteEquipment(packet);
-            character.WriteRefinement(packet);
-            return packet;
-        }
+		}
 
-        [PacketHandler(CH8Type.Emote)]
-        public static void EmoteHandler(ZoneClient client, Packet packet)
-        {
-            ZoneCharacter character = client.Character;
-            byte action;
-            if (!packet.TryReadByte(out action))
-            {
-                Log.WriteLine(LogLevel.Warn, "{0} did empty emote.", character.Name);
-                return;
-            }
+		[PacketHandler(CH8Type.BeginRest)]
+		public static void BeginRestHandler(ZoneClient client, Packet packet)
+		{
+			client.Character.Rest(true);
+		}
 
-            if (action > 74)
-            {
-                character.CheatTracker.AddCheat(CheatTypes.EMOTE, 500);
-                return;
-            }
+		[PacketHandler(CH8Type.EndRest)]
+		public static void EndRestHandler(ZoneClient client, Packet packet)
+		{
+			client.Character.Rest(false);
+		}
 
-            using (var broad = Animation(character, action))
-            {
-                character.Broadcast(broad, true);
-            }
-        }
+		public static void SendEndRestResponse(ZoneClient client)
+		{
+			using (var packet = new Packet(SH8Type.EndRest))
+			{
+				packet.WriteUShort(0x0a81);
+				client.SendPacket(packet);
+			}
+		}
 
-        public static Packet Animation(ZoneCharacter character, byte id)
-        {
-            Packet packet = new Packet(SH8Type.Emote);
-            packet.WriteUShort(character.MapObjectID);
-            packet.WriteByte(id);
-            return packet;
-        }
+		public static void SendBeginRestResponse(ZoneClient client, ushort value)
+		{
+			/*  0x0A81 - OK to rest
+				   0x0A82 - Can't rest on mount
+				   0x0A83 - Too close to NPC*/
+			using (var packet = new Packet(SH8Type.BeginRest))
+			{
+				packet.WriteUShort(value);
+				client.SendPacket(packet);
+			}
+		}
 
-        public static Packet Shout(string charname, string text)
-        {
-            Packet packet = new Packet(SH8Type.Shout);
-            packet.WriteString(charname, 16);
-            packet.WriteByte(0); //color
-            packet.WriteByte((byte)text.Length);
-            packet.WriteString(text, text.Length);
-            return packet;
-        }
+		public static Packet BeginDisplayRest(ZoneCharacter character)
+		{
+			Packet packet = new Packet(SH8Type.BeginDisplayRest);
+			packet.WriteUShort(character.MapObjectID);
+			packet.WriteUShort(character.House.ItemID);
+			packet.Fill(10, 0xff);
+			return packet;
+		}
 
-        [PacketHandler(CH8Type.Jump)]
-        public static void JumpHandler(ZoneClient client, Packet packet)
-        {
-            ZoneCharacter character = client.Character;
-            if (character.State == PlayerState.Normal || character.State == PlayerState.Mount)
-            {
-                using (var broad = Jump(character))
-                {
-                    character.Broadcast(broad);
-                }
-            }
-            else character.CheatTracker.AddCheat(CheatTypes.INVALID_MOVE, 50);
-        }
+		public static Packet EndDisplayRest(ZoneCharacter character)
+		{
+			Packet packet = new Packet(SH8Type.EndDisplayRest);
+			packet.WriteUShort(character.MapObjectID);
+			character.WriteLook(packet);
+			character.WriteEquipment(packet);
+			character.WriteRefinement(packet);
+			return packet;
+		}
 
-        public static Packet Jump(ZoneCharacter character)
-        {
-            Packet packet = new Packet(SH8Type.Jump);
-            packet.WriteUShort(character.MapObjectID);
-            return packet;
-        }
+		[PacketHandler(CH8Type.Emote)]
+		public static void EmoteHandler(ZoneClient client, Packet packet)
+		{
+			ZoneCharacter character = client.Character;
+			byte action;
+			if (!packet.TryReadByte(out action))
+			{
+				Log.WriteLine(LogLevel.Warn, "{0} did empty emote.", character.Name);
+				return;
+			}
 
-        [PacketHandler(CH8Type.Run)]
-        public static void RunHandler(ZoneClient client, Packet packet)
-        {
-            HandleMovement(client.Character, packet, true);
-        }
+			if (action > 74)
+			{
+				character.CheatTracker.AddCheat(CheatTypes.Emote, 500);
+				return;
+			}
 
-        [PacketHandler(CH8Type.Stop)]
-        public static void StopHandler(ZoneClient client, Packet packet)
-        {
-            HandleMovement(client.Character, packet, true, true);
-        }
+			using (var broad = Animation(character, action))
+			{
+				character.Broadcast(broad, true);
+			}
+		}
 
-        [PacketHandler(CH8Type.Walk)]
-        public static void WalkHandler(ZoneClient client, Packet packet)
-        {
-            HandleMovement(client.Character, packet, false);
-        }
+		public static Packet Animation(ZoneCharacter character, byte id)
+		{
+			Packet packet = new Packet(SH8Type.Emote);
+			packet.WriteUShort(character.MapObjectID);
+			packet.WriteByte(id);
+			return packet;
+		}
 
-        private static void HandleMovement(ZoneCharacter character, Packet packet, bool run, bool stop = false)
-        {
-            if (character.State == PlayerState.Dead || character.State == PlayerState.Resting || character.State == PlayerState.Vendor)
-            {
-                character.CheatTracker.AddCheat(CheatTypes.INVALID_MOVE, 50);
-                return;
-            }
+		public static Packet Shout(string charname, string text)
+		{
+			Packet packet = new Packet(SH8Type.Shout);
+			packet.WriteString(charname, 16);
+			packet.WriteByte(0); //color
+			packet.WriteByte((byte)text.Length);
+			packet.WriteString(text, text.Length);
+			return packet;
+		}
 
-            int newX, oldX, newY, oldY;
-            if (!stop)
-            {
-                if (!packet.TryReadInt(out oldX) || !packet.TryReadInt(out oldY) ||
-                    !packet.TryReadInt(out newX) || !packet.TryReadInt(out newY))
-                {
-                    Log.WriteLine(LogLevel.Warn, "Invalid movement packet detected.");
-                    return;
-                }
-            }
-            else
-            {
-                if (!packet.TryReadInt(out newX) || !packet.TryReadInt(out newY))
-                {
-                    Log.WriteLine(LogLevel.Warn, "Invalid stop packet detected.");
-                    return;
-                }
-                oldX = character.Position.X;
-                oldY = character.Position.Y;
-            }
+		[PacketHandler(CH8Type.Jump)]
+		public static void JumpHandler(ZoneClient client, Packet packet)
+		{
+			ZoneCharacter character = client.Character;
+			if (character.State == PlayerState.Normal || character.State == PlayerState.Mount)
+			{
+				using (var broad = Jump(character))
+				{
+					character.Broadcast(broad);
+				}
+			}
+			else character.CheatTracker.AddCheat(CheatTypes.InvalidMove, 50);
+		}
 
-            if (character.Map.Block != null)
-            {
-                if (!character.Map.Block.CanWalk(newX, newY))
-                {
-                    Log.WriteLine(LogLevel.Debug, "Blocking walk at {0}:{1}.", newX, newY);
-                    SendPositionBlock(character, newX, newY);
-                    SendTeleportCharacter(character, oldX, oldY);
-                    return;
-                }
+		public static Packet Jump(ZoneCharacter character)
+		{
+			Packet packet = new Packet(SH8Type.Jump);
+			packet.WriteUShort(character.MapObjectID);
+			return packet;
+		}
 
-            }
+		[PacketHandler(CH8Type.Run)]
+		public static void RunHandler(ZoneClient client, Packet packet)
+		{
+			HandleMovement(client.Character, packet, true);
+		}
 
-            double distance = Vector2.Distance(newX, oldX, newY, oldY);
-            if ((run && distance > 500d) || (!run && distance > 400d)) //TODO: mounts don't check with these speeds
-            {
-                character.CheatTracker.AddCheat(Security.CheatTypes.SPEEDWALK, 50);
-                return;
-            }
+		[PacketHandler(CH8Type.Stop)]
+		public static void StopHandler(ZoneClient client, Packet packet)
+		{
+			HandleMovement(client.Character, packet, true, true);
+		}
 
-            if (!stop)
-            {
-                int deltaY = newY - character.Position.Y;
-                int deltaX = newX - character.Position.X;
-                double radians = Math.Atan((double)deltaY / deltaX);
-                double angle = radians * (180 / Math.PI);
-                character.Rotation = (byte)(angle / 2);
-            }
-            foreach (var Member in character.Party)
-            {
-                if (Member.Key != character.Name)
-                {
-                        using (var ppacket = new Packet(SH14Type.UpdatePartyMemberLoc))
-                        {
-                            ppacket.WriteByte(1);//unk
-                            ppacket.WriteString(character.Name, 16);
-                            ppacket.WriteInt(character.Position.X);
-                            ppacket.WriteInt(character.Position.Y);
-                            Member.Value.SendPacket(ppacket);
-                        }
-                }
-              
-            }
-              character.Move(oldX, oldY, newX, newY, !run, stop); // hehe
-        }
-        public static Packet MoveObject(MapObject obj, int oldx, int oldy, bool walk, ushort speed = (ushort) 115)
-        {
-            Packet packet = new Packet(walk ? SH8Type.Walk : SH8Type.Move);
-            packet.WriteUShort(obj.MapObjectID);
-            packet.WriteInt(oldx);
-            packet.WriteInt(oldy);
-            packet.WriteInt(obj.Position.X);
-            packet.WriteInt(obj.Position.Y);
-            packet.WriteUShort(speed);
-            return packet;
-        }
+		[PacketHandler(CH8Type.Walk)]
+		public static void WalkHandler(ZoneClient client, Packet packet)
+		{
+			HandleMovement(client.Character, packet, false);
+		}
 
-        public static Packet StopObject(MapObject obj)
-        {
-            Packet packet = new Packet(SH8Type.StopTele);
-            packet.WriteUShort(obj.MapObjectID);
-            packet.WriteInt(obj.Position.X);
-            packet.WriteInt(obj.Position.Y);
-            return packet;
-        }
+		private static void HandleMovement(ZoneCharacter character, Packet packet, bool run, bool stop = false)
+		{
+			if (character.State == PlayerState.Dead || character.State == PlayerState.Resting || character.State == PlayerState.Vendor)
+			{
+				character.CheatTracker.AddCheat(CheatTypes.InvalidMove, 50);
+				return;
+			}
 
-        public static void SendAdminNotice(ZoneClient client, string text)
-        {
-            using (var packet = new Packet(SH8Type.GmNotice))
-            {
-                packet.WriteByte((byte)text.Length);
-                packet.WriteString(text, text.Length);
-                client.SendPacket(packet);
-            }
-        }
+			int newX, oldX, newY, oldY;
+			if (!stop)
+			{
+				if (!packet.TryReadInt(out oldX) || !packet.TryReadInt(out oldY) ||
+					!packet.TryReadInt(out newX) || !packet.TryReadInt(out newY))
+				{
+					Log.WriteLine(LogLevel.Warn, "Invalid movement packet detected.");
+					return;
+				}
+			}
+			else
+			{
+				if (!packet.TryReadInt(out newX) || !packet.TryReadInt(out newY))
+				{
+					Log.WriteLine(LogLevel.Warn, "Invalid stop packet detected.");
+					return;
+				}
+				oldX = character.Position.X;
+				oldY = character.Position.Y;
+			}
 
-        public static void SendPositionBlock(ZoneCharacter character, int x, int y)
-        {
-            using (var packet = new Packet(SH8Type.BlockWalk))
-            {
-                packet.WriteInt(x);
-                packet.WriteInt(y);
-                character.Client.SendPacket(packet);
-            }
-        }
+			if (character.Map.Block != null)
+			{
+				if (!character.Map.Block.CanWalk(newX, newY))
+				{
+					Log.WriteLine(LogLevel.Debug, "Blocking walk at {0}:{1}.", newX, newY);
+					SendPositionBlock(character, newX, newY);
+					SendTeleportCharacter(character, oldX, oldY);
+					return;
+				}
 
-        public static void SendTeleportCharacter(ZoneCharacter character, int x, int y)
-        {
-            using (var packet = new Packet(SH8Type.Teleport))
-            {
-                packet.WriteInt(x);
-                packet.WriteInt(y);
-                character.Client.SendPacket(packet);
-            }
-        }
+			}
 
-        public static void SendNormalChat(ZoneCharacter character, string chat, byte color = (byte) 0x2a)
-        {
-            using (var packet = new Packet(SH8Type.ChatNormal))
-            {
-                packet.WriteUShort(character.MapObjectID);
-                packet.WriteByte((byte)chat.Length);
-                packet.WriteByte(color);
-                packet.WriteString(chat, chat.Length);
-                character.Broadcast(packet, true);
-            }
-        }
-    }
+			double distance = Vector2.Distance(newX, oldX, newY, oldY);
+			if ((run && distance > 500d) || (!run && distance > 400d)) //TODO: mounts don't check with these speeds
+			{
+				character.CheatTracker.AddCheat(CheatTypes.Speedwalk, 50);
+				return;
+			}
+
+			if (!stop)
+			{
+				int deltaY = newY - character.Position.Y;
+				int deltaX = newX - character.Position.X;
+				double radians = Math.Atan((double)deltaY / deltaX);
+				double angle = radians * (180 / Math.PI);
+				character.Rotation = (byte)(angle / 2);
+			}
+			foreach (var member in character.Party)
+			{
+				if (member.Key != character.Name)
+				{
+					using (var ppacket = new Packet(SH14Type.UpdatePartyMemberLoc))
+					{
+						ppacket.WriteByte(1);//unk
+						ppacket.WriteString(character.Name, 16);
+						ppacket.WriteInt(character.Position.X);
+						ppacket.WriteInt(character.Position.Y);
+						member.Value.SendPacket(ppacket);
+					}
+				}
+
+			}
+			character.Move(oldX, oldY, newX, newY, !run, stop); // hehe
+		}
+		public static Packet MoveObject(MapObject obj, int oldx, int oldy, bool walk, ushort speed = (ushort) 115)
+		{
+			Packet packet = new Packet(walk ? SH8Type.Walk : SH8Type.Move);
+			packet.WriteUShort(obj.MapObjectID);
+			packet.WriteInt(oldx);
+			packet.WriteInt(oldy);
+			packet.WriteInt(obj.Position.X);
+			packet.WriteInt(obj.Position.Y);
+			packet.WriteUShort(speed);
+			return packet;
+		}
+
+		public static Packet StopObject(MapObject obj)
+		{
+			Packet packet = new Packet(SH8Type.StopTele);
+			packet.WriteUShort(obj.MapObjectID);
+			packet.WriteInt(obj.Position.X);
+			packet.WriteInt(obj.Position.Y);
+			return packet;
+		}
+
+		public static void SendAdminNotice(ZoneClient client, string text)
+		{
+			using (var packet = new Packet(SH8Type.GmNotice))
+			{
+				packet.WriteByte((byte)text.Length);
+				packet.WriteString(text, text.Length);
+				client.SendPacket(packet);
+			}
+		}
+
+		public static void SendPositionBlock(ZoneCharacter character, int x, int y)
+		{
+			using (var packet = new Packet(SH8Type.BlockWalk))
+			{
+				packet.WriteInt(x);
+				packet.WriteInt(y);
+				character.Client.SendPacket(packet);
+			}
+		}
+
+		public static void SendTeleportCharacter(ZoneCharacter character, int x, int y)
+		{
+			using (var packet = new Packet(SH8Type.Teleport))
+			{
+				packet.WriteInt(x);
+				packet.WriteInt(y);
+				character.Client.SendPacket(packet);
+			}
+		}
+
+		public static void SendNormalChat(ZoneCharacter character, string chat, byte color = (byte) 0x2a)
+		{
+			using (var packet = new Packet(SH8Type.ChatNormal))
+			{
+				packet.WriteUShort(character.MapObjectID);
+				packet.WriteByte((byte)chat.Length);
+				packet.WriteByte(color);
+				packet.WriteString(chat, chat.Length);
+				character.Broadcast(packet, true);
+			}
+		}
+	}
 }

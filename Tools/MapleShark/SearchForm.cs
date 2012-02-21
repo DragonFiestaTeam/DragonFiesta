@@ -12,11 +12,13 @@ namespace MapleShark
 {
     public partial class SearchForm : DockContent
     {
+    	public static SearchForm Instance { get; private set; }
         public SearchForm()
         {
             InitializeComponent();
             mSequenceHex.ByteProvider = new DynamicByteProvider(new ByteCollection());
             (mSequenceHex.ByteProvider as DynamicByteProvider).Changed += mSequenceHex_ByteProviderChanged;
+        	Instance = this;
         }
 
         public MainForm MainForm { get { return ParentForm as MainForm; } }

@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-using Zepheus.FiestaLib.Data;
+﻿using System.Collections.Generic;
 
 namespace Zepheus.Zone.Game
 {
-    public class Buff
+	public class Buffs
     {
-        public DateTime Ends { get; set; }
-        public ZoneCharacter Characte { get; set; }
-        public Dictionary<StatsByte, int> Modifiers { get; set; }
-    }
-
-
-    public class Buffs
-    {
-        private ZoneCharacter _character {get;set;}
+        private ZoneCharacter Character {get;set;}
 
         public int MinDamage { get; set; }
         public int MaxDamage { get; set; }
@@ -34,14 +23,12 @@ namespace Zepheus.Zone.Game
         public int MaxHP { get; set; }
         public int MaxSP { get; set; }
 
-        private List<Buff> _currentBuffs { get; set; }
+        private List<Buff> CurrentBuffs { get; set; }
 
         public Buffs(ZoneCharacter pChar)
         {
-            _character = pChar;
-            _currentBuffs = new List<Buff>();
+            Character = pChar;
+            CurrentBuffs = new List<Buff>();
         }
-
-
     }
 }

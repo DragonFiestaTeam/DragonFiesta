@@ -251,8 +251,8 @@
         private System.Windows.Forms.HexBox mSequenceHex;
         private System.Windows.Forms.Button mNextSequenceButton;
         private System.Windows.Forms.Label label1;
-        private DevComponents.DotNetBar.Controls.TextBoxX Typebox;
+    	public DevComponents.DotNetBar.Controls.TextBoxX Typebox;
         public System.Windows.Forms.Label label2;
-        private DevComponents.DotNetBar.Controls.TextBoxX HeaderBox;
+    	public DevComponents.DotNetBar.Controls.TextBoxX HeaderBox;
     }
 }

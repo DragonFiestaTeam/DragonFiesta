@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.InterLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.Zone.Networking;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.Database;
 using System.Threading;
 
 namespace Zepheus.Zone.InterServer
 {
     public sealed class InterHandler
     {
-        [InterPacketHandler(InterHeader.ASSIGNED)]
+        [InterPacketHandler(InterHeader.Assigned)]
         public static void HandleAssigned(WorldConnector lc, InterPacket packet)
         {
             string name;
@@ -46,7 +43,7 @@ namespace Zepheus.Zone.InterServer
                 {
                     break;
                 }
-                Program.serviceInfo.MapsToLoad.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange)); ;
+                Program.serviceInfo.MapsToLoad.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
             }
 
             Console.Title = "Zepheus.Zone[" + id + "]";
@@ -64,25 +61,25 @@ namespace Zepheus.Zone.InterServer
                 {
                     for (int j = 0; j < count; j++)
                     {
-                        string Member;
-                        if (packet.TryReadString(out Member, 16))
+                        string member;
+                        if (packet.TryReadString(out member, 16))
                         {
-                            ZoneClient MemberClient = ClientManager.Instance.GetClientByName(Member);
-                            if(!MemberClient.Character.Party.ContainsKey(Member))
+                            ZoneClient memberClient = ClientManager.Instance.GetClientByName(member);
+                            if(!memberClient.Character.Party.ContainsKey(member))
                             {
-                            MemberClient.Character.Party.Add(Member, MemberClient);
-                            MemberClient.Character.IsInParty = true;
+                            memberClient.Character.Party.Add(member, memberClient);
+                            memberClient.Character.IsInParty = true;
                             ParameterizedThreadStart pts = new ParameterizedThreadStart(Handlers.Handler14.PartyHealthThread);
-                            Thread HealthThread = new Thread(pts);
-                            HealthThread.Start(MemberClient);
-                            MemberClient.Character.HealthThreadState = true;
+                            Thread healthThread = new Thread(pts);
+                            healthThread.Start(memberClient);
+                            memberClient.Character.HealthThreadState = true;
                             }
                         }
                     }
                 }
             }
         }
-        [InterPacketHandler(InterHeader.ZONECLOSED)]
+        [InterPacketHandler(InterHeader.Zoneclosed)]
         public static void HandleZoneClosed(WorldConnector lc, InterPacket packet)
         {
             byte id;
@@ -97,7 +94,7 @@ namespace Zepheus.Zone.InterServer
             }
         }
 
-        [InterPacketHandler(InterHeader.ZONEOPENED)]
+        [InterPacketHandler(InterHeader.Zoneopened)]
         public static void HandleZoneOpened(WorldConnector lc, InterPacket packet)
         {
             byte id;
@@ -120,7 +117,7 @@ namespace Zepheus.Zone.InterServer
                 {
                     break;
                 }
-                maps.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange)); ;
+                maps.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
             }
 
             ZoneData zd;
@@ -139,25 +136,25 @@ namespace Zepheus.Zone.InterServer
         public static void AddPartyMember(WorldConnector lc, InterPacket packet)
         {
             string charname;
-            string AddName;
+            string addName;
             if (packet.TryReadString(out charname, 16))
             {
-                if (packet.TryReadString(out AddName, 16))
+                if (packet.TryReadString(out addName, 16))
                 {
-                    ZoneClient Memberclient = ClientManager.Instance.GetClientByName(charname);
-                    if (!Memberclient.Character.Party.ContainsKey(AddName))
+                    ZoneClient memberclient = ClientManager.Instance.GetClientByName(charname);
+                    if (!memberclient.Character.Party.ContainsKey(addName))
                     {
-                        ZoneClient Addclient = ClientManager.Instance.GetClientByName(AddName);
-                        Memberclient.Character.Party.Add(AddName, Addclient);
-                        Addclient.Character.IsInParty = true;
-                        if (Addclient.Character.HealthThreadState == false)
+                        ZoneClient addClient = ClientManager.Instance.GetClientByName(addName);
+                        memberclient.Character.Party.Add(addName, addClient);
+                        addClient.Character.IsInParty = true;
+                        if (addClient.Character.HealthThreadState == false)
                         {
-                            foreach (var cl in Addclient.Character.Party.Values)
+                            foreach (var cl in addClient.Character.Party.Values)
                             {
 
-                                if (Addclient.Character.MapSector == cl.Character.MapSector)
+                                if (addClient.Character.MapSector == cl.Character.MapSector)
                                 {
-                                    if (cl == Addclient)
+                                    if (cl == addClient)
                                     {
                                         using (var ppacket = new Packet(SH14Type.UpdatePartyMemberStats))
                                         {
@@ -165,7 +162,7 @@ namespace Zepheus.Zone.InterServer
                                             ppacket.WriteString(cl.Character.Name, 16);
                                             ppacket.WriteUInt(cl.Character.HP);
                                             ppacket.WriteUInt(cl.Character.SP);
-                                            Addclient.Character.Client.SendPacket(ppacket);
+                                            addClient.Character.Client.SendPacket(ppacket);
                                         }
                                         using (var ppacket = new Packet(SH14Type.SetMemberStats))//when character has levelup in group
                                         {
@@ -176,7 +173,7 @@ namespace Zepheus.Zone.InterServer
                                             ppacket.WriteUInt(cl.Character.MaxHP);//maxhp
                                             ppacket.WriteUInt(cl.Character.MaxSP);//MaxSP
                                             ppacket.WriteByte(1);
-                                            Addclient.Character.Client.SendPacket(ppacket);
+                                            addClient.Character.Client.SendPacket(ppacket);
                                         }
                                     }
                                     else
@@ -185,29 +182,29 @@ namespace Zepheus.Zone.InterServer
                                         using (var ppacket = new Packet(SH14Type.UpdatePartyMemberStats))
                                         {
                                             ppacket.WriteByte(1);//unk
-                                            ppacket.WriteString(Addclient.Character.Name, 16);
-                                            ppacket.WriteUInt(Addclient.Character.HP);
-                                            ppacket.WriteUInt(Addclient.Character.SP);
+                                            ppacket.WriteString(addClient.Character.Name, 16);
+                                            ppacket.WriteUInt(addClient.Character.HP);
+                                            ppacket.WriteUInt(addClient.Character.SP);
                                             cl.Character.Client.SendPacket(ppacket);
                                         }
                                         using (var ppacket = new Packet(SH14Type.SetMemberStats))//when character has levelup in group
                                         {
                                             ppacket.WriteByte(1);
-                                            ppacket.WriteString(Addclient.Character.Name, 16);
+                                            ppacket.WriteString(addClient.Character.Name, 16);
                                             ppacket.WriteByte((byte)cl.Character.Job);
-                                            ppacket.WriteByte(Addclient.Character.Level);
-                                            ppacket.WriteUInt(Addclient.Character.MaxHP);//maxhp
-                                            ppacket.WriteUInt(Addclient.Character.MaxSP);//MaxSP
+                                            ppacket.WriteByte(addClient.Character.Level);
+                                            ppacket.WriteUInt(addClient.Character.MaxHP);//maxhp
+                                            ppacket.WriteUInt(addClient.Character.MaxSP);//MaxSP
                                             ppacket.WriteByte(1);
                                             cl.Character.Client.SendPacket(ppacket);
                                         }
                                     }
                                 }
                             }
-                            Addclient.Character.HealthThreadState = true;
+                            addClient.Character.HealthThreadState = true;
                             ParameterizedThreadStart pts = new ParameterizedThreadStart(Handlers.Handler14.PartyHealthThread);
-                            Thread HealthThread = new Thread(pts);
-                            HealthThread.Start(Addclient);
+                            Thread healthThread = new Thread(pts);
+                            healthThread.Start(addClient);
                         }
                     }
                 }
@@ -222,21 +219,21 @@ namespace Zepheus.Zone.InterServer
         public static void RemovePartyMember(WorldConnector lc, InterPacket packet)
         {
             string charname;
-            string Removename;
+            string removename;
             if (packet.TryReadString(out charname, 16))
             {
-                if (packet.TryReadString(out Removename, 16))
+                if (packet.TryReadString(out removename, 16))
                 {
-                    ZoneClient Memberclient = ClientManager.Instance.GetClientByName(charname);
-                    ZoneClient mm = ClientManager.Instance.GetClientByName(Removename);
-                    if (charname != Removename)
+                    ZoneClient memberclient = ClientManager.Instance.GetClientByName(charname);
+                    ZoneClient mm = ClientManager.Instance.GetClientByName(removename);
+                    if (charname != removename)
                     {
-                        if (Memberclient.Character.Party.ContainsKey(Removename))
+                        if (memberclient.Character.Party.ContainsKey(removename))
                         {
-                            if (Memberclient.Character.Party.Count > 2)
+                            if (memberclient.Character.Party.Count > 2)
                             {
 
-                                Memberclient.Character.Party.Remove(Removename);
+                                memberclient.Character.Party.Remove(removename);
                                 mm.Character.IsInParty = false;
                                 mm.Character.HealthThreadState = false;
                             }
@@ -245,15 +242,15 @@ namespace Zepheus.Zone.InterServer
                     else
                     {
                    
-                        Memberclient.Character.Party.Clear();
-                        Memberclient.Character.IsInParty = false;
-                        Memberclient.Character.HealthThreadState = false;
+                        memberclient.Character.Party.Clear();
+                        memberclient.Character.IsInParty = false;
+                        memberclient.Character.HealthThreadState = false;
 
                     }
                 }
             }
         }
-        [InterPacketHandler(InterHeader.ZONELIST)]
+        [InterPacketHandler(InterHeader.Zonelist)]
         public static void HandleZoneList(WorldConnector lc, InterPacket packet)
         {
             int amount;
@@ -283,7 +280,7 @@ namespace Zepheus.Zone.InterServer
                     {
                         break;
                     }
-                    maps.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange)); ;
+                    maps.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
                 }
 
                 ZoneData zd;
@@ -301,7 +298,7 @@ namespace Zepheus.Zone.InterServer
         }
 
 
-        [InterPacketHandler(InterHeader.CLIENTTRANSFER)]
+        [InterPacketHandler(InterHeader.Clienttransfer)]
         public static void HandleTransfer(WorldConnector lc, InterPacket packet)
         {
             byte v;
@@ -340,7 +337,7 @@ namespace Zepheus.Zone.InterServer
 
         public static void TryAssiging(WorldConnector lc)
         {
-            using (var p = new InterPacket(InterHeader.ASSIGN))
+            using (var p = new InterPacket(InterHeader.Assign))
             {
                 p.WriteStringLen(Settings.Instance.IP);
                 lc.SendPacket(p);
@@ -349,7 +346,7 @@ namespace Zepheus.Zone.InterServer
 
         public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
         {
-            using (var packet = new InterPacket(InterHeader.CLIENTTRANSFERZONE))
+            using (var packet = new InterPacket(InterHeader.Clienttransferzone))
             {
                 packet.WriteByte(zoneID);
                 packet.WriteInt(accountID);
@@ -365,7 +362,7 @@ namespace Zepheus.Zone.InterServer
 
         public static void SendWorldMessage(WorldMessageTypes type, string message, string to = "")
         {
-            using (var packet = new InterPacket(InterHeader.WORLDMSG))
+            using (var packet = new InterPacket(InterHeader.Worldmsg))
             {
                 packet.WriteStringLen(message);
                 packet.WriteByte((byte)type);

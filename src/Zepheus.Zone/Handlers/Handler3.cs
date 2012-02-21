@@ -1,10 +1,7 @@
-﻿
-using Zepheus.FiestaLib;
-using Zepheus.InterLib;
+﻿using Zepheus.FiestaLib;
 using Zepheus.InterLib.Networking;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Networking;
-
 
 namespace Zepheus.Zone.Handlers
 {

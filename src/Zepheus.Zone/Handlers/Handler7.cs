@@ -18,9 +18,9 @@ namespace Zepheus.Zone.Handlers
             {
                
                 var obj = objs[i];
-                if (obj is NPC)
+                if (obj is Npc)
                 {
-                    ((NPC)obj).Write(packet);
+                    ((Npc)obj).Write(packet);
                 }
                 else if (obj is Mob) // Just to be sure
                 {

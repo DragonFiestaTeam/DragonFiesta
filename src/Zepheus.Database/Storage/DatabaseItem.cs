@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Zepheus.Database.Storage
+﻿namespace Zepheus.Database.Storage
 {
-  public  class DatabaseItem
+  public abstract class DatabaseItem
     {
         public int ID { get; set; }
         public int Owner { get; set; }

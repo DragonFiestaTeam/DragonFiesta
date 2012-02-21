@@ -52,32 +52,16 @@ namespace MapleShark
             Buffer.BlockCopy(packetData, 2, packetData, 0, packetLen - 2); //remove opcode (;
             Array.Resize(ref packetData, packetLen - 2); //and fix the data array size
             Definition definition = Config.Instance.Definitions.Find(d => d.Build == 1 && d.Outbound == encrypt && d.Opcode == opcode);
-            if (SearchForm.HeaderBox != "" || SearchForm.Typebox.Text != "")
+            if (SearchForm.Instance.HeaderBox.Text != "" || SearchForm.Instance.Typebox.Text != "")
             {
-                if (SearchForm.HeaderBox.Text == Header || SearchForm.Typebox.Text == Type)
+                if (SearchForm.Instance.HeaderBox.Text == Header.ToString() || SearchForm.Instance.Typebox.Text == Type.ToString())
                 return new FiestaPacket(pTransmitted, encrypt, opcode, Type, Header, definition == null ? "" : definition.Name, packetData);
             }
             else
             return new FiestaPacket(pTransmitted, encrypt, opcode,Type,Header ,definition == null ? "" : definition.Name, packetData);
-        }
 
-      /*  public MaplePacket Read(DateTime pTransmitted, ushort pBuild)
-        {
-            if (mCursor < 4) return null;
-            if (!mAES.ConfirmHeader(mBuffer, 0)) throw new Exception("Failed to confirm packet header");
-            ushort packetSize = mAES.GetHeaderLength(mBuffer, 0);
-            if (mCursor < (packetSize + 4)) return null;
-            byte[] packetBuffer = new byte[packetSize];
-            Buffer.BlockCopy(mBuffer, 4, packetBuffer, 0, packetSize);
-            Decrypt(packetBuffer);
-            mCursor -= (packetSize + 4);
-            if (mCursor > 0) Buffer.BlockCopy(mBuffer, packetSize + 4, mBuffer, 0, mCursor);
-            ushort opcode = (ushort)(packetBuffer[0] | (packetBuffer[1] << 8));
-            Buffer.BlockCopy(packetBuffer, 2, packetBuffer, 0, packetSize - 2);
-            Array.Resize(ref packetBuffer, packetSize - 2);
-            Definition definition = Config.Instance.Definitions.Find(d => d.Build == pBuild && d.Outbound == mOutbound && d.Opcode == opcode);
-            return new MaplePacket(pTransmitted, mOutbound, pBuild, opcode, definition == null ? "" : definition.Name, packetBuffer);
-        } */
+        	return null;
+        }
 
         void Decrypt(byte[] data)
         {

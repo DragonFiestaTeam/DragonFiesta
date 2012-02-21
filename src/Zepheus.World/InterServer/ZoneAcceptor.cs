@@ -12,7 +12,7 @@ namespace Zepheus.World.InterServer
 
         public ZoneAcceptor(int port) : base(port)
         {
-            this.OnIncommingConnection += new dOnIncommingConnection(WorldAcceptor_OnIncommingConnection);
+            this.OnIncommingConnection += new OnIncomingConnectionDelegate(WorldAcceptor_OnIncommingConnection);
             Log.WriteLine(LogLevel.Info, "Listening on port {0} for zones.", port);
         }
 

@@ -7,7 +7,7 @@ namespace Zepheus.FiestaLib.Encryption
         public short XorPos { get; private set; }
         public NetCrypto(short offset)
         {
-            if (offset >= table_size) throw new IndexOutOfRangeException("Xor offset cannot be bigger than 499.");
+            if (offset >= TableSize) throw new IndexOutOfRangeException("Xor offset cannot be bigger than 499.");
             this.XorPos = offset;
         }
 
@@ -15,9 +15,9 @@ namespace Zepheus.FiestaLib.Encryption
         {
                 for (int i = 0; i < pLen; ++i)
                 {
-                    pBuffer[pOffset + i] ^= XorTable[this.XorPos];
+                    pBuffer[pOffset + i] ^= xorTable[this.XorPos];
                     ++this.XorPos;
-                    if (this.XorPos == table_size) this.XorPos = 0;
+                    if (this.XorPos == TableSize) this.XorPos = 0;
                 }
         }
 
@@ -26,8 +26,8 @@ namespace Zepheus.FiestaLib.Encryption
             Crypt(pBuffer, 0, pBuffer.Length);
         }
 
-        private const int table_size = 499;
-        private static readonly byte[] XorTable = new byte[]
+        private const int TableSize = 499;
+        private static readonly byte[] xorTable = new byte[]
         {
             0x07, 0x59, 0x69, 0x4A, 0x94, 0x11, 0x94, 0x85, 0x8C, 0x88, 0x05, 0xCB, 0xA0, 0x9E, 0xCD, 0x58, 
             0x3A, 0x36, 0x5B, 0x1A, 0x6A, 0x16, 0xFE, 0xBD, 0xDF, 0x94, 0x02, 0xF8, 0x21, 0x96, 0xC8, 0xE9, 

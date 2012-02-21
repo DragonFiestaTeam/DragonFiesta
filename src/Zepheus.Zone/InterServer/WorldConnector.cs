@@ -29,17 +29,17 @@ namespace Zepheus.Zone.InterServer
         {
             Connect(ip, port);
             Log.WriteLine(LogLevel.Info, "Connected to server @ {0}:{1}", ip, port);
-            this.client.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(client_OnPacket);
-            this.client.OnDisconnect += new EventHandler<SessionCloseEventArgs>(client_OnDisconnect);
+            this.client.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(ClientOnPacket);
+            this.client.OnDisconnect += new EventHandler<SessionCloseEventArgs>(ClientOnDisconnect);
             this.client.SendInterPass(Settings.Instance.InterPassword);
             InterHandler.TryAssiging(this);
         }
 
-        void client_OnDisconnect(object sender, SessionCloseEventArgs e)
+        void ClientOnDisconnect(object sender, SessionCloseEventArgs e)
         {
             Log.WriteLine(LogLevel.Error, "Disconnected from server.");
-            this.client.OnPacket -= new EventHandler<InterPacketReceivedEventArgs>(client_OnPacket);
-            this.client.OnDisconnect -= new EventHandler<SessionCloseEventArgs>(client_OnDisconnect);
+            this.client.OnPacket -= new EventHandler<InterPacketReceivedEventArgs>(ClientOnPacket);
+            this.client.OnDisconnect -= new EventHandler<SessionCloseEventArgs>(ClientOnDisconnect);
             if (!Program.Shutdown)
             {
                 // Try reconnect
@@ -60,7 +60,7 @@ namespace Zepheus.Zone.InterServer
             }
         }
 
-        void client_OnPacket(object sender, InterPacketReceivedEventArgs e)
+        void ClientOnPacket(object sender, InterPacketReceivedEventArgs e)
         {
             try
             {

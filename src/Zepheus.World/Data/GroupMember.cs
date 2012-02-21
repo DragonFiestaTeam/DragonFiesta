@@ -35,11 +35,4 @@ namespace Zepheus.World.Data
 
 		#endregion
 	}
-
-	public enum GroupRole
-	{
-		None = 0x0,
-		Master,
-		Member
-	}
 }

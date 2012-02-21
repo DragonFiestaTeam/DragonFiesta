@@ -73,16 +73,16 @@ namespace Zepheus.World.Data
 
             if (frenddata != null)
             {
-                foreach (DataRow Row in frenddata.Rows)
+                foreach (DataRow row in frenddata.Rows)
                 {
-                    this.friends.Add(Friend.LoadFromDatabase(Row));
+                    this.friends.Add(Friend.LoadFromDatabase(row));
                 }
             }
             if (frenddataby != null)
             {
-                foreach (DataRow Row in frenddata.Rows)
+                foreach (DataRow row in frenddata.Rows)
                 {
-                    this.friendsby.Add(Friend.LoadFromDatabase(Row));
+                    this.friendsby.Add(Friend.LoadFromDatabase(row));
                 }
             }
             foreach (var friend in this.friendsby)
@@ -94,9 +94,9 @@ namespace Zepheus.World.Data
                 }
                 if (frenddata != null)
                 {
-                    foreach (DataRow Row in frendsdata.Rows)
+                    foreach (DataRow row in frendsdata.Rows)
                     {
-                        friend.UpdateFromDatabase(Row);
+                        friend.UpdateFromDatabase(row);
                     }
                 }
             }
@@ -109,9 +109,9 @@ namespace Zepheus.World.Data
                 }
                 if (frenddata != null)
                 {
-                    foreach (DataRow Row in frendsdata.Rows)
+                    foreach (DataRow row in frendsdata.Rows)
                     {
-                        friend.UpdateFromDatabase(Row);
+                        friend.UpdateFromDatabase(row);
                     }
                 }
             }
@@ -121,13 +121,13 @@ namespace Zepheus.World.Data
         {
             foreach (var friend in friends)
             {
-                WorldClient Client = ClientManager.Instance.GetClientByCharname(friend.Name);
-                if (Client == null) return;
+                WorldClient client = ClientManager.Instance.GetClientByCharname(friend.Name);
+                if (client == null) return;
                 using (var packet = new Packet(SH21Type.FriendChangeMap))
                 {
                     packet.WriteString(this.Character.Name, 16);
                     packet.WriteString(mapname, 12);
-                    Client.SendPacket(packet);
+                    client.SendPacket(packet);
                 }
             }
         }
@@ -178,14 +178,14 @@ namespace Zepheus.World.Data
             }
             return false;
         }
-        public void UpdateFriendsStatus(bool State, WorldClient sender)
+        public void UpdateFriendsStatus(bool state, WorldClient sender)
         {
             foreach (Friend frend in friendsby)
             {
               WorldClient client =  ClientManager.Instance.GetClientByCharname(frend.Name);
               if (client != null)
               {
-                  if (State)
+                  if (state)
                   {
                       if (client != sender)
                       frend.Online(client,sender);
@@ -231,11 +231,11 @@ namespace Zepheus.World.Data
                 friend.WritePacket(pPacket);
             }
         }
-        public void Loggeout(WorldClient Pchar)
+        public void Loggeout(WorldClient pChar)
         {
             this.IsIngame = false;
-            this.UpdateFriendsStatus(false,Pchar);
-            this.UpdateFriendStates(Pchar);
+            this.UpdateFriendsStatus(false,pChar);
+            this.UpdateFriendStates(pChar);
         }
 		public void RemoveGroup()
 		{

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data;
-using Zepheus.Util;
-using Zepheus.FiestaLib.SHN;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -19,54 +14,39 @@ namespace Zepheus.FiestaLib.Data
             Effects = new List<ItemEffect>();
         }
 
-        public static ItemUseEffectInfo Load(DataRow Row, out string InxName)
+        public static ItemUseEffectInfo Load(DataRow row, out string inxName)
         {
             ItemUseEffectInfo info = new ItemUseEffectInfo();
-            InxName = (string)Row["ItemIndex"];
+            inxName = (string)row["ItemIndex"];
 
-            ItemUseEffectType typeA = (ItemUseEffectType)(uint)Row["UseEffectA"];
+            ItemUseEffectType typeA = (ItemUseEffectType)(uint)row["UseEffectA"];
             if (typeA != ItemUseEffectType.None)
             {
                 ItemEffect effect = new ItemEffect();
                 effect.Type = typeA;
-                effect.Value = (uint)Row["UseValueA"];
+                effect.Value = (uint)row["UseValueA"];
                 info.Effects.Add(effect);
             }
 
-            ItemUseEffectType typeB = (ItemUseEffectType)(uint)Row["UseEffectB"];
+            ItemUseEffectType typeB = (ItemUseEffectType)(uint)row["UseEffectB"];
             if (typeB != ItemUseEffectType.None)
             {
                 ItemEffect effect = new ItemEffect();
                 effect.Type = typeB;
-                effect.Value = (uint)Row["UseValueB"];
+                effect.Value = (uint)row["UseValueB"];
                 info.Effects.Add(effect);
             }
 
-            ItemUseEffectType typeC = (ItemUseEffectType)(uint)Row["UseEffectC"];
+            ItemUseEffectType typeC = (ItemUseEffectType)(uint)row["UseEffectC"];
             if (typeC != ItemUseEffectType.None)
             {
                 ItemEffect effect = new ItemEffect();
                 effect.Type = typeC;
-                effect.Value = (uint)Row["UseValueC"];
+                effect.Value = (uint)row["UseValueC"];
                 info.Effects.Add(effect);
             }
-            info.AbState = (string)Row["UseAbStateName"];
+            info.AbState = (string)row["UseAbStateName"];
             return info;
         }
-    }
-
-    public struct ItemEffect
-    {
-        public ItemUseEffectType Type { get; set; }
-        public uint Value { get; set; }
-    }
-
-    public enum ItemUseEffectType : byte
-    {
-        HP = 0,
-        SP = 1,
-        AbState = 4,
-        ScrollTier = 5,
-        None = 6,
     }
 }

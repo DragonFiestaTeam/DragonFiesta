@@ -10,8 +10,8 @@ namespace Zepheus.Util
     public sealed class DataTableReaderEx : IDisposable
     {
         private bool isDisposed;
-        private DataTableReader reader;
-        private Dictionary<string, int> columns = new Dictionary<string, int>();
+		private readonly DataTableReader reader;
+		private Dictionary<string, int> columns = new Dictionary<string, int>();
 
         public DataTableReaderEx(DataTable pTable)
         {

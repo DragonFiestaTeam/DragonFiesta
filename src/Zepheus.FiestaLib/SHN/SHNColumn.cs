@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Data;
-using System.IO;
 
-namespace Zepheus.FiestaLib.SHN
+namespace Zepheus.FiestaLib.Shn
 {
-    public class SHNColumn : DataColumn
+    public class ShnColumn : DataColumn
     {
         public int Length { get; private set; }
         public byte TypeByte { get; private set; }

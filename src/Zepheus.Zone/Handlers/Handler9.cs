@@ -181,8 +181,6 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            var pos = new Vector2((int)x, (int)y);
-
             if (skill.Info.MaxTargets <= 1)
             {
                 // No AoE skill :s
@@ -238,9 +236,9 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendGainEXP(ZoneCharacter who, uint amount, ushort mobid = (ushort) 0xFFFF)
+        public static void SendGainExp(ZoneCharacter who, uint amount, ushort mobid = (ushort) 0xFFFF)
         {
-            using (var packet = new Packet(SH9Type.GainEXP))
+            using (var packet = new Packet(SH9Type.GainExp))
             {
                 packet.WriteUInt(amount);
                 packet.WriteUShort(mobid);

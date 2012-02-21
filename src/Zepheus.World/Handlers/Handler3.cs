@@ -1,7 +1,6 @@
 ﻿using System;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Networking;
@@ -29,7 +28,7 @@ namespace Zepheus.World.Handlers
                 if (!client.Host.StartsWith("127.0") && !client.Host.StartsWith("192.") && transfer.HostIP != client.Host)
                 {
                     Log.WriteLine(LogLevel.Warn, "Remotehack from {0}", client.Host);
-                    SendError(client, ServerError.INVALID_CREDENTIALS);
+                    SendError(client, ServerError.InvalidCredentials);
                 }
                 else
                 {
@@ -51,7 +50,7 @@ namespace Zepheus.World.Handlers
             else
             {
                 Log.WriteLine(LogLevel.Warn, "Invalid client authentication from {0}", client.Host);
-                SendError(client, ServerError.INVALID_CREDENTIALS);
+                SendError(client, ServerError.InvalidCredentials);
             }
         }
 
@@ -89,7 +88,7 @@ namespace Zepheus.World.Handlers
         {
             if (!client.LoadCharacters())
             {
-                SendError(client, ServerError.DATABASE_ERROR);
+                SendError(client, ServerError.DatabaseError);
                 return;
             }
 

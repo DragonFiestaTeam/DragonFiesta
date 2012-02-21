@@ -1,5 +1,4 @@
 ﻿using System;
-using Zepheus.Database;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;

@@ -48,12 +48,17 @@
     <Compile Include="CreateCharError.cs" />
     <Compile Include="Data\ActiveSkillInfo.cs" />
     <Compile Include="Data\BaseStats.cs" />
+    <Compile Include="Data\BaseStatsEntry.cs" />
     <Compile Include="Data\BlockInfo.cs" />
     <Compile Include="Data\DropGroupInfo.cs" />
     <Compile Include="Data\DropInfo.cs" />
     <Compile Include="Data\FiestaBaseStat.cs" />
+    <Compile Include="Data\ItemClass.cs" />
+    <Compile Include="Data\ItemEffect.cs" />
     <Compile Include="Data\ItemInfo.cs" />
+    <Compile Include="Data\ItemType.cs" />
     <Compile Include="Data\ItemUseEffectInfo.cs" />
+    <Compile Include="Data\ItemUseEffectType.cs" />
     <Compile Include="Data\LinkTable.cs" />
     <Compile Include="Data\MapInfo.cs" />
     <Compile Include="Data\MiniHouseInfo.cs" />
@@ -61,7 +66,9 @@
     <Compile Include="Data\MobInfoServer.cs" />
     <Compile Include="Data\RecallCoordinate.cs" />
     <Compile Include="Data\ShineNPC.cs" />
-    <Compile Include="Data\SpawnNPCPoint.cs" />
+    <Compile Include="Data\GateInfo.cs" />
+    <Compile Include="Data\SpawnNpcPoint.cs" />
+    <Compile Include="Data\StatsByte.cs" />
     <Compile Include="Data\Vendor.cs" />
     <Compile Include="InventoryStatus.cs" />
     <Compile Include="ItemSlot.cs" />
@@ -73,8 +80,8 @@
     <Compile Include="Networking\Packet.cs" />
     <Compile Include="Networking\PacketHandlerAttribute.cs" />
     <Compile Include="Networking\PacketReceivedEventArgs.cs" />
-    <Compile Include="Networking\SessionClosedEventArgs.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Networking\SessionCloseEventArgs.cs" />
     <Compile Include="ObtainedItemStatus.cs" />
     <Compile Include="PacketTypeClient.cs" />
     <Compile Include="PacketTypeServer.cs" />
@@ -88,15 +95,15 @@
     <Compile Include="ShineTable\ShineTable.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SHN\SHNColumn.cs">
+    <Compile Include="SHN\ShnColumn.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SHN\SHNFile.cs">
+    <Compile Include="SHN\ShnFile.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SHN\SHNReader.cs" />
-    <Compile Include="SHN\SHNWriter.cs" />
-    <Compile Include="WorldMessageType.cs" />
+    <Compile Include="SHN\ShnReader.cs" />
+    <Compile Include="SHN\ShnWriter.cs" />
+    <Compile Include="WorldMessageTypes.cs" />
     <Compile Include="WorldStatus.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -109,11 +116,4 @@
     <None Include="Config.cfg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

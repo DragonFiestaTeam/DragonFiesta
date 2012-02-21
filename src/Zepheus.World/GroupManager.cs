@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
-using Zepheus.World.InterServer;
 using Zepheus.World.Networking;
 
 namespace Zepheus.World
@@ -34,10 +32,10 @@ namespace Zepheus.World
 		#region Properties
 		public static GroupManager Instance { get; private set; }
 
-		private List<Group> groups;
-		private Dictionary<string, Group> groupsByMaster;
-		private Dictionary<Group, List<GroupRequest>> requestsByGroup;
-		private Dictionary<long, Group> groupsById;
+		private readonly List<Group> groups;
+		private readonly Dictionary<string, Group> groupsByMaster;
+		private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
+		private readonly Dictionary<long, Group> groupsById;
 		private long maxId = 0; //  todo: needs to be saved.. :(
 		#endregion
 
@@ -103,13 +101,6 @@ namespace Zepheus.World
 			GroupRequest request = requestsByGroup[grp].Find(r => r.InvitedClient == pClient);
 			RemoveRequest(request);
 
-			using (var packet = new InterPacket(InterHeader.AddPartyMember))
-			{
-				packet.WriteString(pFrom, 16);
-				packet.WriteString(pClient.Character.Character.Name);
-				ZoneConnection zone = Program.GetZoneByMap(pClient.Character.Character.PositionInfo.Map);
-				zone.SendPacket(packet);
-			}
 			grp.RemoveInvite(request);
 			grp.MemberJoin(pClient.Character.Character.Name);
 		}
@@ -143,6 +134,12 @@ namespace Zepheus.World
 			if(pClient.Character.GroupMember.Role != GroupRole.Master)
 				return;
 			pClient.Character.Group.ChangeMaster(pClient.Character.Group.NormalMembers.Single(m => m.Name == pMastername));
+		}
+		public void CreateNewGroup(WorldClient pMaster, WorldClient pMember)
+		{
+			var grp = CreateNewGroup(pMaster);
+			grp.MemberJoin(pMember.Character.Character.Name);
+
 		}
 
 		internal void OnGroupBrokeUp(object sender, EventArgs e)

@@ -29,7 +29,7 @@ namespace Zepheus.Zone.Handlers
         }
 
         [PacketHandler(CH15Type.AnswerQuestion)]
-        public static void questionHandler(ZoneClient client, Packet packet)
+        public static void QuestionHandler(ZoneClient client, Packet packet)
         {
             byte answer;
             if (!packet.TryReadByte(out answer))

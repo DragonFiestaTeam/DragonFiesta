@@ -10,7 +10,7 @@ namespace Zepheus.FiestaLib
         Chatblock = 72,
         UpdateClientTime = 73,
         UnkTimePacket = 69,
-        unk1 = 14,
+        Unk1 = 14,
     }
 
     public enum SH3Type : byte
@@ -101,7 +101,7 @@ namespace Zepheus.FiestaLib
     public enum SH9Type : byte
     {
         StatUpdate = 2,
-        GainEXP = 11,
+        GainExp = 11,
         LevelUP = 12,
         LevelUPAnimation = 13,
         HealHP = 14,
@@ -155,7 +155,7 @@ namespace Zepheus.FiestaLib
         HanlderSkill = 10,
         HandlerStone = 5,
         HandlerTitel = 11,
-        GuildNPCReqest = 12,
+        GuildNpcReqest = 12,
     }
 
     //skills & crap?

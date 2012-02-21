@@ -47,13 +47,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="DatabaseClient.cs" />
+    <Compile Include="DatabaseException.cs" />
+    <Compile Include="DatabaseManager.cs" />
+    <Compile Include="DatabaseServer.cs" />
     <Compile Include="DataStore\ReadMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Storage\Character.cs" />
+    <Compile Include="Storage\CharacterStats.cs" />
     <Compile Include="Storage\DatabaseItem.cs" />
-    <Compile Include="Storage\Databaseskill.cs" />
+    <Compile Include="Storage\DatabaseSkill.cs" />
     <Compile Include="Storage\EquipInfo.cs" />
     <Compile Include="Storage\Guild.cs" />
+    <Compile Include="Storage\LookInfo.cs" />
+    <Compile Include="Storage\PositionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">

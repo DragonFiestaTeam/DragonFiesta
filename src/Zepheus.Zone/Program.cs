@@ -78,8 +78,8 @@ namespace Zepheus.Zone
             Database.Database db = new Database.Database(Settings.Instance.zoneMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMinPoolSize);
             DatabaseManager = new DatabaseManager(dbServer, db);
             DatabaseManager.GetClient(); //testclient
-            Database.Database CharDB = new Database.Database(Settings.Instance.WorldMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMinPoolSize);
-            CharDBManager = new DatabaseManager(dbServer, CharDB);
+            Database.Database charDB = new Database.Database(Settings.Instance.WorldMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMinPoolSize);
+            CharDBManager = new DatabaseManager(dbServer, charDB);
             CharDBManager.GetClient();
             Log.SetLogToFile(string.Format(@"Logs\Zone\{0}.log", DateTime.Now.ToString("yyyy-MM-dd HHmmss")));
             Randomizer = new Random();

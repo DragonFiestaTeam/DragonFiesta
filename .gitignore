@@ -3,7 +3,7 @@
 
 Run/*exe
 Run/*dll
-
+Run/*
 #ignore prev SVN stuff
 *.svn
 .svn/*

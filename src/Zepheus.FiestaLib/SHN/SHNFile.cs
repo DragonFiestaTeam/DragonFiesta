@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 using System.Data;
@@ -8,7 +6,7 @@ using System.Threading;
 
 using Zepheus.FiestaLib.Encryption;
 
-namespace Zepheus.FiestaLib.SHN
+namespace Zepheus.FiestaLib.Shn
 {
     public delegate void DOnSaveFinished(SHNFile file);
     public delegate void DOnSaveError(SHNFile file, string error);
@@ -135,7 +133,7 @@ namespace Zepheus.FiestaLib.SHN
                 writer.Write((short)0);     // Row Length
                 for (int colIndex = 0; colIndex < base.Columns.Count; ++colIndex)
                 {
-                    SHNColumn column = (SHNColumn)base.Columns[colIndex];
+                    ShnColumn column = (ShnColumn)base.Columns[colIndex];
                     switch (column.TypeByte)
                     {
                         case 1:
@@ -187,7 +185,7 @@ namespace Zepheus.FiestaLib.SHN
         {
             for (int i = 0; i < base.Columns.Count; ++i)
             {
-                ((SHNColumn)base.Columns[i]).Write(writer);
+                ((ShnColumn)base.Columns[i]).Write(writer);
             }
         }
 
@@ -202,7 +200,7 @@ namespace Zepheus.FiestaLib.SHN
             uint len = 2;
             for (int i = 0; i < base.Columns.Count; ++i)
             {
-                SHNColumn col = (SHNColumn)base.Columns[i];
+                ShnColumn col = (ShnColumn)base.Columns[i];
                 len += (uint)col.Length;
             }
             this.DefaultRecordLength = len;
@@ -216,7 +214,7 @@ namespace Zepheus.FiestaLib.SHN
                  uint RowLength = reader.ReadUInt16();
                  for (int j = 0; j < this.ColumnCount; ++j)
                  {
-                     switch (((SHNColumn)this.Columns[j]).TypeByte)
+                     switch (((ShnColumn)this.Columns[j]).TypeByte)
                      {
                          case 1:
                          case 12:
@@ -237,7 +235,7 @@ namespace Zepheus.FiestaLib.SHN
                              break;
                          case 9:
                          case 24:
-                             values[j] = reader.ReadPaddedString(((SHNColumn)this.Columns[j]).Length);
+                             values[j] = reader.ReadPaddedString(((ShnColumn)this.Columns[j]).Length);
                              break;
                          case 13:
                          case 21:
@@ -266,7 +264,7 @@ namespace Zepheus.FiestaLib.SHN
             int Length = 2;
             for (int i = 0; i < ColumnCount; ++i)
             {
-                SHNColumn col = new SHNColumn();
+                ShnColumn col = new ShnColumn();
                 col.Load(reader, ref unkcolumns);
                 Length += col.Length;
                 base.Columns.Add(col);

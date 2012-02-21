@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.Reflection;
 
-using Zepheus.Database;
 using Zepheus.FiestaLib;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.Login.InterServer;
 using Zepheus.InterLib.Networking;
-using Zepheus.InterLib.NetworkObjects;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 
 namespace Zepheus.Login.InterServer
@@ -28,7 +20,7 @@ namespace Zepheus.Login.InterServer
 
         public WorldConnection(Socket sock) : base(sock)
         {
-            Status = WorldStatus.LOW;
+            Status = WorldStatus.Low;
             IsAWorld = false;
             this.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(WorldConnection_OnPacket);
             this.OnDisconnect += new EventHandler<InterLib.Networking.SessionCloseEventArgs>(WorldConnection_OnDisconnect);
@@ -56,7 +48,7 @@ namespace Zepheus.Login.InterServer
         {
             if (e.Client.Assigned == false)
             {
-                if (e.Packet.OpCode == InterHeader.AUTH)
+                if (e.Packet.OpCode == InterHeader.Auth)
                 {
                     string pass;
                     if (!e.Packet.TryReadString(out pass))
@@ -108,7 +100,7 @@ namespace Zepheus.Login.InterServer
 
         public void SendTransferClientFromWorld(int accountID, string userName, byte admin, string hostIP, string hash)
         {
-            using (var packet = new InterPacket(InterHeader.CLIENTTRANSFER))
+            using (var packet = new InterPacket(InterHeader.Clienttransfer))
             {
                 packet.WriteByte(0);
                 packet.WriteInt(accountID);
@@ -122,7 +114,7 @@ namespace Zepheus.Login.InterServer
 
         public void SendTransferClientFromZone(int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
         {
-            using (var packet = new InterPacket(InterHeader.CLIENTTRANSFER))
+            using (var packet = new InterPacket(InterHeader.Clienttransfer))
             {
                 packet.WriteByte(1);
                 packet.WriteInt(accountID);

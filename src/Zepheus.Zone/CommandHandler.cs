@@ -9,6 +9,7 @@ using Zepheus.Zone.Handlers;
 using Zepheus.Zone.InterServer;
 using Zepheus.Zone.Networking;
 using Zepheus.FiestaLib;
+
 namespace Zepheus.Zone
 {
     [ServerModule(Util.InitializationStage.Metadata)]
@@ -16,7 +17,7 @@ namespace Zepheus.Zone
     {
         public static CommandHandler Instance { get; private set; }
         public delegate void Command(ZoneCharacter character, params string[] param);
-        private Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
+		private readonly Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
 
         public CommandHandler()
         {
@@ -42,8 +43,8 @@ namespace Zepheus.Zone
             RegisterCommand("&createmobspawn", CreateMobSpawn, 1, "id");
             RegisterCommand("&savemobspawns", SaveMobSpawns, 1, "mapname/all");
             RegisterCommand("&heal", Heal, 1);
-            RegisterCommand("&gg", testg, 1);
-            RegisterCommand("&clone", clone, 1);
+            RegisterCommand("&gg", Testg, 1);
+            RegisterCommand("&clone", Clone, 1);
             RegisterCommand("&test99", Test99, 1);
             RegisterCommand("&damageme", DamageMe, 1, "HP");
             RegisterCommand("&test", Test, 1, "SkillID");
@@ -54,11 +55,11 @@ namespace Zepheus.Zone
             RegisterCommand("&anim", Anim, 1, "animid");
             RegisterCommand("&animall", AnimAll, 1, "animid");
             RegisterCommand("&perf", Performance, 1);
-            RegisterCommand("&allm", allm, 1);
-            RegisterCommand("&movetome", movetome, 1,"playername");
-            RegisterCommand("&movetoplayer", movetoplayer, 1,"playername");
+            RegisterCommand("&allm", Allm, 1);
+            RegisterCommand("&movetome", Movetome, 1,"playername");
+            RegisterCommand("&movetoplayer", Movetoplayer, 1,"playername");
         }
-        private void movetoplayer(ZoneCharacter character, params string[] param)
+        private void Movetoplayer(ZoneCharacter character, params string[] param)
         {
             string player = param[1];
             ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
@@ -71,16 +72,16 @@ namespace Zepheus.Zone
         }
         private void ChangeMoney(ZoneCharacter character, params string[] param)
         {
-            long NewMoney = long.Parse(param[1].ToString());
-            character.ChangeMoney(NewMoney);
+            long newMoney = long.Parse(param[1].ToString());
+            character.ChangeMoney(newMoney);
         }
-        private void movetome(ZoneCharacter character, params string[] param)
+        private void Movetome(ZoneCharacter character, params string[] param)
         {
             string player = param[1];
           ZoneClient playerc =  ClientManager.Instance.GetClientByName(player);
           playerc.Character.ChangeMap(character.MapID, character.Position.X, character.Position.Y);
         }
-        private void allm(ZoneCharacter character, params string[] param)
+        private void Allm(ZoneCharacter character, params string[] param)
         {
             Console.WriteLine(character.IsInParty);
             Console.WriteLine(character.HealthThreadState);
@@ -94,12 +95,12 @@ namespace Zepheus.Zone
             }
             //character.Party.Clear();
         }
-        public void CanWald(ZoneCharacter Char, params string[] param)
+        public void CanWald(ZoneCharacter @char, params string[] param)
         {
           
-             Char.Map.Block.CanWalk(Char.character.PositionInfo.XPos,Char.character.PositionInfo.YPos);
+             @char.Map.Block.CanWalk(@char.character.PositionInfo.XPos,@char.character.PositionInfo.YPos);
             
-           Char.DropMessage("Unknown skill.");
+           @char.DropMessage("Unknown skill.");
         }
         private void Inv(ZoneCharacter character, params string[] param)
         {
@@ -149,26 +150,26 @@ namespace Zepheus.Zone
                 character.Broadcast(broad, true);
             }
         }
-        private void Test99(ZoneCharacter Character, params string[] param)
+        private void Test99(ZoneCharacter character, params string[] param)
         {
             using (var packet = new Packet(SH14Type.UpdatePartyMemberStats))
             {
                 packet.WriteByte(1);//unk
                 packet.WriteString("Stan", 16);
-                packet.WriteUInt(Character.HP);
-                packet.WriteUInt(Character.SP);
-                Character.Client.SendPacket(packet);
+                packet.WriteUInt(character.HP);
+                packet.WriteUInt(character.SP);
+                character.Client.SendPacket(packet);
             }
             using (var ppacket = new Packet(SH14Type.SetMemberStats))//when character has levelup in group
             {
                 ppacket.WriteByte(1);
                 ppacket.WriteString("Stan", 16);
-                ppacket.WriteByte((byte)Character.Job);
-                ppacket.WriteByte((byte)Character.Level);
-                ppacket.WriteUInt(Character.MaxHP);//maxhp
-                ppacket.WriteUInt(Character.MaxSP);//MaxSP
+                ppacket.WriteByte((byte)character.Job);
+                ppacket.WriteByte(character.Level);
+                ppacket.WriteUInt(character.MaxHP);//maxhp
+                ppacket.WriteUInt(character.MaxSP);//MaxSP
                 ppacket.WriteByte(1);
-                Character.Client.SendPacket(ppacket);
+                character.Client.SendPacket(ppacket);
 
             }
         }
@@ -202,7 +203,7 @@ namespace Zepheus.Zone
         private void ExpGet(ZoneCharacter character, params string[] param)
         {
             uint exp = param.Length >= 2 ? uint.Parse(param[1]) : 1234567;
-            character.GiveEXP(exp);
+            character.GiveExp(exp);
         }
 
         private void KillAllMobs(ZoneCharacter character, params string[] param)
@@ -293,10 +294,10 @@ namespace Zepheus.Zone
 
             switch (character.GiveItem(id, amount))
             {
-                case FiestaLib.InventoryStatus.FULL:
+                case FiestaLib.InventoryStatus.Full:
                     Handler12.InventoryFull(character);
                     return;
-                case FiestaLib.InventoryStatus.NOT_FOUND:
+                case FiestaLib.InventoryStatus.NotFound:
                     character.DropMessage("Item not found.");
                     return;
             }
@@ -409,23 +410,24 @@ namespace Zepheus.Zone
             }
             else character.DropMessage("Command not found.");
         }
-        private void clone(ZoneCharacter character, params string[] param)
+        private void Clone(ZoneCharacter character, params string[] param)
         {
-            ZoneCharacter DummyChar = new ZoneCharacter("DummyChar");
-            DummyChar.MapObjectID = 90;
-            DummyChar.Client = character.Client;
-            DummyChar.character.PositionInfo = character.character.PositionInfo;
-           Packet dummy = Handler7.SpawnSinglePlayer(DummyChar);
-           DummyChar.Client.SendPacket(dummy);
+			var dummyChar = new ZoneCharacter("DummyChar")
+			{
+			    MapObjectID = 90,
+			    Client = character.Client,
+			    character = {PositionInfo = character.character.PositionInfo}
+			};
+        	Packet dummy = Handler7.SpawnSinglePlayer(dummyChar);
+           dummyChar.Client.SendPacket(dummy);
           //character.Client.SendPacket(clone);
 
         }
-        private void testg(ZoneCharacter character, params string[] param)
+        private void Testg(ZoneCharacter character, params string[] param)
         {
             using (var packet = new Packet(14, 51))
-            {
-              ZoneClient ne =  ClientManager.Instance.GetClientByName("haha");
-                packet.WriteByte(1);
+			{
+				packet.WriteByte(1);
                 packet.WriteString("lolmama", 16);
                 packet.WriteByte((byte)character.Job);
                 packet.WriteByte(character.Level);
@@ -530,30 +532,30 @@ namespace Zepheus.Zone
 
         public CommandStatus ExecuteCommand(ZoneCharacter character, string[] command)
         {
-            if (character == null) return CommandStatus.ERROR;
+            if (character == null) return CommandStatus.Error;
             CommandInfo info;
             if (commands.TryGetValue(command[0].ToLower(), out info))
             {
                 if (info.GmLevel > character.Client.Admin)
                 {
-                    return CommandStatus.GM_LEVEL_TOO_LOW;
+                    return CommandStatus.GMLevelTooLow;
                 }
                 else
                 {
                     try
                     {
                         info.Function(character, command);
-                        return CommandStatus.DONE;
+                        return CommandStatus.Done;
                     }
                     catch (Exception ex)
                     {
                         string wholeCommand = string.Join(" ", command);
                         Log.WriteLine(LogLevel.Exception, "Exception while handling command '{0}': {1}", wholeCommand, ex.ToString());
-                        return CommandStatus.ERROR;
+                        return CommandStatus.Error;
                     }
                 }
             }
-            else return CommandStatus.NOT_FOUND;
+            else return CommandStatus.NotFound;
         }
 
         [InitializerMethod]
@@ -562,29 +564,5 @@ namespace Zepheus.Zone
             Instance = new CommandHandler();
             return true;
         }
-    }
-
-    public class CommandInfo
-    {
-        public string Command { get; private set; }
-        public CommandHandler.Command Function { get; private set; }
-        public string[] Parameters { get; private set; }
-        public byte GmLevel { get; private set; }
-
-        public CommandInfo(string command, CommandHandler.Command function, byte gmlevel, string[] param)
-        {
-            Command = command;
-            Function = function;
-            GmLevel = gmlevel;
-            Parameters = param;
-        }
-    }
-
-    public enum CommandStatus : byte
-    {
-        DONE,
-        GM_LEVEL_TOO_LOW,
-        NOT_FOUND,
-        ERROR
     }
 }

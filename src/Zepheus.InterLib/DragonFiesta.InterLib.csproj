@@ -53,6 +53,7 @@
     <Compile Include="Networking\SessionClosedEventArgs.cs" />
     <Compile Include="NetworkObjects\AbstractAcceptor.cs" />
     <Compile Include="NetworkObjects\AbstractConnector.cs" />
+    <Compile Include="NetworkObjects\OnIncomingConnectionDelegate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>

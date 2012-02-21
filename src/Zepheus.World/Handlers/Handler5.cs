@@ -82,7 +82,7 @@ namespace Zepheus.World.Handlers
             }
             else
             {
-                Handler3.SendError(client, ServerError.DATABASE_ERROR);
+                Handler3.SendError(client, ServerError.DatabaseError);
             }
         }
 

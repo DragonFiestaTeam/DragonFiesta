@@ -1,9 +1,4 @@
-﻿using System.IO;
-using System.Xml.Serialization;
-
-using Zepheus.Util;
-
-namespace Zepheus.World
+﻿namespace Zepheus.World
 {
     public sealed class Settings
     {
@@ -21,9 +16,9 @@ namespace Zepheus.World
         public bool Debug { get; set; }
         public int WorkInterval { get; set; }
 
-        public string LoginServiceURI { get; set; }
-        public string WorldServiceURI { get; set; }
-        public string GameServiceURI { get; set; }
+        public string LoginServiceUri { get; set; }
+        public string WorldServiceUri { get; set; }
+        public string GameServiceUri { get; set; }
         public string InterPassword { get; set; }
         public string LoginServerIP { get; set; }
         public ushort LoginServerPort { get; set; }
@@ -64,9 +59,9 @@ namespace Zepheus.World
                     WorldName = Zepheus.InterLib.Settings.GetString("World.Name"),
                     ID = Zepheus.InterLib.Settings.GetByte("World.ID"),
 
-                    LoginServiceURI = Zepheus.InterLib.Settings.GetString("World.LoginServiceURI"),
-                    WorldServiceURI = Zepheus.InterLib.Settings.GetString("World.WorldServiceURI"),
-                    GameServiceURI = Zepheus.InterLib.Settings.GetString("World.GameServiceURI"),
+                    LoginServiceUri = Zepheus.InterLib.Settings.GetString("World.LoginServiceURI"),
+                    WorldServiceUri = Zepheus.InterLib.Settings.GetString("World.WorldServiceURI"),
+                    GameServiceUri = Zepheus.InterLib.Settings.GetString("World.GameServiceURI"),
                     InterPassword = Zepheus.InterLib.Settings.GetString("World.InterPassword"),
                     WorldMysqlServer = Zepheus.InterLib.Settings.GetString("World.Mysql.Server"),
                     WorldMysqlPort = Zepheus.InterLib.Settings.GetInt32("World.Mysql.Port"),

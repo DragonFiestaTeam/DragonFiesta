@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using MySql.Data.MySqlClient;
-using Zepheus.Database.Storage;
-using Zepheus.Database;
+﻿using Zepheus.Database;
 using System.Data;
 
 namespace Zepheus.World.Security
@@ -10,20 +7,20 @@ namespace Zepheus.World.Security
     {
         public static bool IsCharNameUsed(string name)
         {
-            DataTable Data = null;
+            DataTable data = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                Data = dbClient.ReadDataTable("Select CharID from characters  WHERE binary Name='" + name + "'");
+                data = dbClient.ReadDataTable("Select CharID from characters  WHERE binary Name='" + name + "'");
             }
-            if (Data != null)
+            if (data != null)
             {
-                if (Data.Rows.Count == 1)
+                if (data.Rows.Count == 1)
                 {
                     return true;
                 }
                 else
                 {
-                    if (Data.Rows.Count == 0)
+                    if (data.Rows.Count == 0)
                         return false;
                 }
                 return true;

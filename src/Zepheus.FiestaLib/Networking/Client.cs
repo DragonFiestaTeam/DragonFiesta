@@ -14,14 +14,14 @@ namespace Zepheus.FiestaLib.Networking
         private const int MaxReceiveBuffer = 16384; //16kb
 
         private int mDisconnected;
-        private byte[] mReceiveBuffer;
-        private int mReceiveStart;
+		private readonly byte[] receiveBuffer;
+		private int mReceiveStart;
         private int mReceiveLength;
-        private ConcurrentQueue<ByteArraySegment> mSendSegments;
-        private int mSending;
+		private readonly ConcurrentQueue<ByteArraySegment> sendSegments;
+		private int mSending;
         private NetCrypto crypto;
         private ushort mReceivingPacketLength;
-        private byte HeaderLength = 0;
+        private byte headerLength = 0;
 
         public Socket Socket { get; private set; }
         public string Host { get; private set; }
@@ -30,10 +30,10 @@ namespace Zepheus.FiestaLib.Networking
 
         public Client(Socket socket)
         {
-            mSendSegments = new ConcurrentQueue<ByteArraySegment>();
+            sendSegments = new ConcurrentQueue<ByteArraySegment>();
             this.Socket = socket;
             Host =  ((IPEndPoint)Socket.RemoteEndPoint).Address.ToString();
-            mReceiveBuffer = new byte[MaxReceiveBuffer];
+            receiveBuffer = new byte[MaxReceiveBuffer];
             Start();
         }
 
@@ -65,7 +65,7 @@ namespace Zepheus.FiestaLib.Networking
             if (mDisconnected != 0) return;
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             args.Completed += EndReceive;
-            args.SetBuffer(mReceiveBuffer, mReceiveStart, mReceiveBuffer.Length - (mReceiveStart + mReceiveLength));
+            args.SetBuffer(receiveBuffer, mReceiveStart, receiveBuffer.Length - (mReceiveStart + mReceiveLength));
             try
             {
                 if (!this.Socket.ReceiveAsync(args))
@@ -96,13 +96,13 @@ namespace Zepheus.FiestaLib.Networking
                 //TODO: proper rewrite!
                 if (mReceivingPacketLength == 0)
                 {
-                    mReceivingPacketLength = mReceiveBuffer[mReceiveStart];
+                    mReceivingPacketLength = receiveBuffer[mReceiveStart];
                     if (mReceivingPacketLength == 0)
                     {
                         if (mReceiveLength >= 3)
                         {
-                            mReceivingPacketLength = BitConverter.ToUInt16(mReceiveBuffer, mReceiveStart + 1);
-                            HeaderLength = 3;
+                            mReceivingPacketLength = BitConverter.ToUInt16(receiveBuffer, mReceiveStart + 1);
+                            headerLength = 3;
                         }
                         else
                         {
@@ -111,15 +111,15 @@ namespace Zepheus.FiestaLib.Networking
                     }
                     else
                     {
-                        HeaderLength = 1;
+                        headerLength = 1;
                     }
                 }
 
                 //parse packets
-                if (mReceivingPacketLength > 0 && mReceiveLength >= mReceivingPacketLength + HeaderLength)
+                if (mReceivingPacketLength > 0 && mReceiveLength >= mReceivingPacketLength + headerLength)
                 {
                     byte[] packetData = new byte[mReceivingPacketLength];
-                    Buffer.BlockCopy(mReceiveBuffer, mReceiveStart + HeaderLength, packetData, 0, mReceivingPacketLength);
+                    Buffer.BlockCopy(receiveBuffer, mReceiveStart + headerLength, packetData, 0, mReceivingPacketLength);
                     crypto.Crypt(packetData, 0, mReceivingPacketLength);
                     if (OnPacket != null)
                     {
@@ -136,20 +136,20 @@ namespace Zepheus.FiestaLib.Networking
                     }
 
                     //we reset this packet
-                    mReceiveStart += mReceivingPacketLength + HeaderLength;
-                    mReceiveLength -= mReceivingPacketLength + HeaderLength;
+                    mReceiveStart += mReceivingPacketLength + headerLength;
+                    mReceiveLength -= mReceivingPacketLength + headerLength;
                     mReceivingPacketLength = 0;
                 }
                 else break;
             }
 
             if (mReceiveLength == 0) mReceiveStart = 0;
-            else if (mReceiveStart > 0 && (mReceiveStart + mReceiveLength) >= mReceiveBuffer.Length)
+            else if (mReceiveStart > 0 && (mReceiveStart + mReceiveLength) >= receiveBuffer.Length)
             {
-                Buffer.BlockCopy(mReceiveBuffer, mReceiveStart, mReceiveBuffer, 0, mReceiveLength);
+                Buffer.BlockCopy(receiveBuffer, mReceiveStart, receiveBuffer, 0, mReceiveLength);
                 mReceiveStart = 0;
             }
-            if (mReceiveLength == mReceiveBuffer.Length)
+            if (mReceiveLength == receiveBuffer.Length)
             {
                 Disconnect();
             }
@@ -181,7 +181,7 @@ namespace Zepheus.FiestaLib.Networking
                 if (offset == len) break;
             } */
             
-            mSendSegments.Enqueue(new ByteArraySegment(pBuffer));
+            sendSegments.Enqueue(new ByteArraySegment(pBuffer));
             if (Interlocked.CompareExchange(ref mSending, 1, 0) == 0)
             {
                 BeginSend();
@@ -197,7 +197,7 @@ namespace Zepheus.FiestaLib.Networking
         {
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             ByteArraySegment segment;
-            if (mSendSegments.TryPeek(out segment))
+            if (sendSegments.TryPeek(out segment))
             {
                 args.Completed += EndSend;
                 args.SetBuffer(segment.Buffer, segment.Start, segment.Length);
@@ -228,15 +228,15 @@ namespace Zepheus.FiestaLib.Networking
             }
 
             ByteArraySegment segment;
-            if (mSendSegments.TryPeek(out segment))
+            if (sendSegments.TryPeek(out segment))
             {
                 if (segment.Advance(pArguments.BytesTransferred))
                 {
                     ByteArraySegment seg;
-                    mSendSegments.TryDequeue(out seg); //we try to get it out
+                    sendSegments.TryDequeue(out seg); //we try to get it out
                 }
 
-                if (mSendSegments.Count > 0)
+                if (sendSegments.Count > 0)
                 {
                     this.BeginSend();
                 }

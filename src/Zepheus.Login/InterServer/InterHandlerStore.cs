@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.InterLib.Networking;
 
@@ -10,32 +9,32 @@ namespace Zepheus.Login.InterServer
     [ServerModule(Util.InitializationStage.Metadata)]
     public class InterHandlerStore
     {
-        private static Dictionary<InterHeader, MethodInfo> handlers;
+        private static Dictionary<InterHeader, MethodInfo> Handlers;
 
         [InitializerMethod]
         public static bool Load()
         {
-            handlers = new Dictionary<InterHeader,MethodInfo>();
+            Handlers = new Dictionary<InterHeader,MethodInfo>();
             foreach (var info in Reflector.FindMethodsByAttribute<InterPacketHandlerAttribute>())
             {
                 InterPacketHandlerAttribute attribute = info.First;
                 MethodInfo method = info.Second;
-                if (!handlers.ContainsKey(attribute.Header)) {
-                    handlers[attribute.Header] = method;
+                if (!Handlers.ContainsKey(attribute.Header)) {
+                    Handlers[attribute.Header] = method;
                 }
                 else {
                     Log.WriteLine(LogLevel.Warn, "Duplicate interhandler found: {0}", attribute.Header.ToString());
                 }
             }
 
-            Log.WriteLine(LogLevel.Info, "{0} InterHandlers loaded.", handlers.Count);
+            Log.WriteLine(LogLevel.Info, "{0} InterHandlers loaded.", Handlers.Count);
             return true;
         }
 
         public static MethodInfo GetHandler(InterHeader ih)
         {
             MethodInfo meth;
-            if (handlers.TryGetValue(ih, out meth))
+            if (Handlers.TryGetValue(ih, out meth))
             {
                 return meth;
             }

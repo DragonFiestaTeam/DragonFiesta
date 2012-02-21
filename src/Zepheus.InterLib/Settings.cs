@@ -26,11 +26,11 @@ namespace Zepheus.InterLib
     public class Settings
     {
         private const string ConfigName = "\\Config.cfg";
-        private static readonly string ConfigPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + ConfigName;
+        private static readonly string configPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + ConfigName;
 
-        private static readonly Settings Instance = new Settings();
-        public static string Comments { get { return _comments; } }
-        private static string _comments = string.Empty;
+        private static readonly Settings instance = new Settings();
+        public static string Comments { get { return comments; } }
+        private static string comments = string.Empty;
         // TS: This is otherwise known as a dictionary:
         //private static List<KeyValuePair<object, object>> Properties;
         private readonly Dictionary<string, object> properties;
@@ -49,7 +49,7 @@ namespace Zepheus.InterLib
         [InitializerMethod]
         public static bool Initialize()
         {
-            return Instance.InitializeInternal();
+            return instance.InitializeInternal();
         }
 
         private bool InitializeInternal()
@@ -57,7 +57,7 @@ namespace Zepheus.InterLib
             if (this.isInitialized) return true;
             try
             {
-                this.ParseFile(ConfigPath);
+                this.ParseFile(configPath);
             }
             catch (Exception ex)
             {
@@ -89,11 +89,11 @@ namespace Zepheus.InterLib
         /// <returns>'key's Int32 value</returns>
         public static int GetInt32(string key)
         {
-            return Convert.ToInt32(Instance.properties[key]);
+            return Convert.ToInt32(instance.properties[key]);
         }
         public static uint GetUInt32(string key)
         {
-            return Convert.ToUInt32(Instance.properties[key]);
+            return Convert.ToUInt32(instance.properties[key]);
         }
         /// <summary>
         /// Gets an Int16 type variable from the file
@@ -102,7 +102,7 @@ namespace Zepheus.InterLib
         /// <returns>'key's Int16 value</returns>
         public static short GetInt16(string key)
         {
-            return Convert.ToInt16(Instance.properties[key]);
+            return Convert.ToInt16(instance.properties[key]);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Zepheus.InterLib
         /// <returns>'key's Byte value</returns>
         public static byte GetByte(string key)
         {
-            return Convert.ToByte(Instance.properties[key]);
+            return Convert.ToByte(instance.properties[key]);
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Zepheus.InterLib
         /// <returns>'key's String vaule</returns>
         public static string GetString(string key)
         {
-            return Instance.properties[key].ToString();
+            return instance.properties[key].ToString();
         }
 
         #endregion
@@ -152,7 +152,7 @@ namespace Zepheus.InterLib
                 }
                 else
                 {
-                    _comments += Environment.NewLine + entry.Remove(0, 1);
+                    comments += Environment.NewLine + entry.Remove(0, 1);
                 }
             }
         }

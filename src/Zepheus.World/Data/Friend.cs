@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using Zepheus.Database;
+﻿using System.Data;
 using Zepheus.World.Networking;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
@@ -51,15 +46,15 @@ namespace Zepheus.World.Data
             }
             return "";
         }
-        public static Friend LoadFromDatabase(DataRow Row)
+        public static Friend LoadFromDatabase(DataRow row)
         {
             Friend friend = new Friend
             {
-                UniqueID = uint.Parse(Row["CharID"].ToString()),
-                ID = int.Parse(Row["FriendID"].ToString()),
-                Pending = Zepheus.Database.DataStore.ReadMethods.EnumToBool(Row["Pending"].ToString()),
-                Day = byte.Parse(Row["LastConnectDay"].ToString()),
-                Month = byte.Parse(Row["LastConnectMonth"].ToString()),
+                UniqueID = uint.Parse(row["CharID"].ToString()),
+                ID = int.Parse(row["FriendID"].ToString()),
+                Pending = Zepheus.Database.DataStore.ReadMethods.EnumToBool(row["Pending"].ToString()),
+                Day = byte.Parse(row["LastConnectDay"].ToString()),
+                Month = byte.Parse(row["LastConnectMonth"].ToString()),
             };
             return friend;
         }
@@ -67,13 +62,13 @@ namespace Zepheus.World.Data
         /// Updates friend status with input from characters table
         /// </summary>
         /// <param name="pReader"></param>
-        public void UpdateFromDatabase(DataRow Row)
+        public void UpdateFromDatabase(DataRow row)
         {
-            this.Name = Row["Name"].ToString();
-            this.UniqueID = uint.Parse(Row["CharID"].ToString());
-            this.Job = byte.Parse(Row["Job"].ToString());
-            this.Level = byte.Parse(Row["Level"].ToString());
-            this.Map = GetMapname(ushort.Parse(Row["Map"].ToString()));
+            this.Name = row["Name"].ToString();
+            this.UniqueID = uint.Parse(row["CharID"].ToString());
+            this.Job = byte.Parse(row["Job"].ToString());
+            this.Level = byte.Parse(row["Level"].ToString());
+            this.Map = GetMapname(ushort.Parse(row["Map"].ToString()));
         }
 
         /// <summary>
@@ -95,20 +90,20 @@ namespace Zepheus.World.Data
                 pClient.SendPacket(packet);
             }
         }
-        public void Online(WorldClient client,WorldClient Target)
+        public void Online(WorldClient client,WorldClient target)
         {
             using (var packet = new Packet(SH21Type.FriendOnline))
             {
 
-                packet.WriteString(Target.Character.Character.Name, 16);
-                packet.WriteString(Target.Character.GetMapname(Target.Character.Character.PositionInfo.Map), 12);
+                packet.WriteString(target.Character.Character.Name, 16);
+                packet.WriteString(target.Character.GetMapname(target.Character.Character.PositionInfo.Map), 12);
                 client.SendPacket(packet);
             }
         }
-        public void UpdatePending(bool Pending)
+        public void UpdatePending(bool pending)
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE SET Pending='"+Pending.ToString()+"' WHERE CharID='"+this.UniqueID+"' AND FriendID='"+this.ID+"'");
-            this.Pending = Pending;
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE SET Pending='"+pending.ToString()+"' WHERE CharID='"+this.UniqueID+"' AND FriendID='"+this.ID+"'");
+            this.Pending = pending;
         }
         public void WritePacket(Packet pPacket)
         {

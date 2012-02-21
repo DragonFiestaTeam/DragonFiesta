@@ -14,28 +14,34 @@ namespace Zepheus.World.Data
 		#region .ctor
 		public Group(long id)
 		{
-			this.Members = new List<GroupMember>();
+			this.members = new List<GroupMember>();
 			this.openRequests = new List<GroupRequest>();
 			this.Id = id;
-			this.Members = new List<GroupMember>();
+			this.members = new List<GroupMember>();
 			this.DropState = DropState.FreeForAll;
-			this._gotLastDrop = 0;
+			this.gotLastDrop = 0;
 		}
 		#endregion
 
 		#region Properties
 
-		public const int MAX_MEMBERS = 5;
-		private List<GroupMember> Members;
-		private List<GroupRequest> openRequests;
-		public GroupMember this[int index] { get { return Members[index]; }}
-		public GroupMember Master { get { return Members.Single(m => m.Role == GroupRole.Master); }}
-		public IEnumerable<GroupMember> NormalMembers { get { return from m in Members where m.Role != GroupRole.Master select m; }}
+		public const int MaxMembers = 5;
+		private readonly List<GroupMember> members;
+		private readonly List<GroupRequest> openRequests;
+		public GroupMember this[int index]
+		{
+			get
+			{
+				return members[index];
+			}
+		}
+		public GroupMember Master { get { return members.Single(m => m.Role == GroupRole.Master); }}
+		public IEnumerable<GroupMember> NormalMembers { get { return from m in members where m.Role != GroupRole.Master select m; }}
 		public DropState DropState { get; private set; }
 		public long Id { get; private set; }
 		public bool Exists { get; private set; }
 
-		private int _gotLastDrop;
+		private int gotLastDrop;
 		#endregion
 
 		#region Methods
@@ -43,11 +49,11 @@ namespace Zepheus.World.Data
 		#region Public
 		public bool HasMember(string pName)
 		{
-			return this.Members.Any(m => m.Name == pName);
+			return this.members.Any(m => m.Name == pName);
 		}
 		public bool IsFull()
 		{
-			return Members.Count() >= MAX_MEMBERS;
+			return members.Count() >= MaxMembers;
 		}
 		public void InviteNewMember(WorldCharacter pSender, string pTarget)
 		{
@@ -105,7 +111,7 @@ namespace Zepheus.World.Data
 		}
 		public void MemberLeaves(WorldClient pClient)
 		{
-			var otherMembers = from m in Members
+			var otherMembers = from m in members
 			                   where m.Name != pClient.Character.Character.Name
 			                   select m.Client;
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
@@ -115,10 +121,9 @@ namespace Zepheus.World.Data
 		}
 		public void KickMember(string pMember)
 		{
-			GroupMember mem = this.Members.First(m => m.Name == pMember);
-			var otherMembers = from m in Members
-			                   where m.Name != pMember
-			                   select m.Client;
+			var otherMembers = from m in members
+							   where m.Name != pMember
+							   select m.Client;
 			
 			SendMemberLeavesPacket(pMember, otherMembers);
 			UpdateInDatabase();
@@ -135,7 +140,7 @@ namespace Zepheus.World.Data
 
 		internal void AddMember(GroupMember pMember)
 		{
-			this.Members.Add(pMember);
+			this.members.Add(pMember);
 			pMember.Group = this;
 			SendAddMemberInterPacket(pMember);
 		}
@@ -145,7 +150,7 @@ namespace Zepheus.World.Data
 		}
 		internal void RemoveMember(GroupMember pMember)
 		{
-			this.Members.Remove(pMember);
+			this.members.Remove(pMember);
 			pMember.Character.Group = null;
 			pMember.Character.GroupMember = null;
 			
@@ -172,7 +177,7 @@ namespace Zepheus.World.Data
 			{
 				packet.WriteByte((byte) DropState);
 
-				foreach (var m in Members)
+				foreach (var m in members)
 				{
 					m.Client.SendPacket(packet);
 				}
@@ -209,14 +214,14 @@ namespace Zepheus.World.Data
 		{
 			using (var packet = new Packet(SH14Type.PartyList))
 			{
-				packet.WriteByte((byte) Members.Count);
-				foreach (var groupMember in Members)
+				packet.WriteByte((byte) members.Count);
+				foreach (var groupMember in members)
 				{
 					packet.WriteString(groupMember.Name, 16);
 					packet.WriteBool(groupMember.IsOnline);
 				}
 
-				foreach (var mem in Members.Where(m => m.IsOnline))
+				foreach (var mem in members.Where(m => m.IsOnline))
 				{
 					mem.Client.SendPacket(packet);
 				}
@@ -234,7 +239,7 @@ namespace Zepheus.World.Data
 				packet.WriteUShort(1352);
 
 				// Send to all online members
-				Members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
+				members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
 			}
 		}
 		private void SendAddMemberInterPacket(GroupMember pMember)
@@ -267,11 +272,5 @@ namespace Zepheus.World.Data
 		public event EventHandler BrokeUp;
 
 		#endregion
-	}
-
-	public enum DropState : byte
-	{
-		FreeForAll = 0,
-		InRow = 1,
 	}
 }

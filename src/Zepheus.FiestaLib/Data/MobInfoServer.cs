@@ -1,5 +1,4 @@
 ﻿using System;
-using Zepheus.Util;
 using System.Data;
 namespace Zepheus.FiestaLib.Data
 {
@@ -14,8 +13,8 @@ namespace Zepheus.FiestaLib.Data
         public UInt16 MB { get; private set; }
         public UInt32 EnemyDetectType { get; private set; }
         public UInt32 MobKillInx { get; private set; }
-        public UInt32 MonEXP { get; private set; }
-        public UInt16 EXPRange { get; private set; }
+        public UInt32 MonExp { get; private set; }
+        public UInt16 ExpRange { get; private set; }
         public UInt16 DetectCha { get; private set; }
         public Byte ResetInterval { get; private set; }
         public UInt16 CutInterval { get; private set; }
@@ -53,57 +52,57 @@ namespace Zepheus.FiestaLib.Data
         public UInt16 DmgByHealMin { get; private set; }
         public UInt16 DmgByHealMax { get; private set; }
 
-        public static MobInfoServer Load(DataRow Row)
+        public static MobInfoServer Load(DataRow row)
         {
             MobInfoServer info = new MobInfoServer
             {
-                ID = (uint)Row["ID"],
-                InxName = (string)Row["InxName"],
-                Visible = (byte)Row["Visible"],
-                AC = (ushort)Row["AC"],
-                TB = (ushort)Row["TB"],
-                MR = (ushort)Row["MR"],
-                MB = (ushort)Row["MB"],
-                EnemyDetectType = (uint)Row["EnemyDetectType"],
-                MobKillInx = (uint)Row["MobKillInx"],
-                MonEXP = (uint)Row["MonEXP"],
-                EXPRange = (ushort)Row["EXPRange"],
-                DetectCha = (ushort)Row["DetectCha"],
-                ResetInterval =(byte)Row["ResetInterval"],
-                CutInterval = (ushort)Row["CutInterval"],
-                CutNonAT = (uint)Row["CutNonAT"],
-                FollowCha = (uint)Row["FollowCha"],
-                PceHPRcvDly = (ushort)Row["PceHPRcvDly"],
-                PceHPRcv = (ushort)Row["PceHPRcv"],
-                AtkHPRcvDly = (ushort)Row["AtkHPRcvDly"],
-                AtkHPRcv = (ushort)Row["AtkHPRcv"],
-                Str = (ushort)Row["Str"],
-                Dex = (ushort)Row["Dex"],
-                Con = (ushort)Row["Con"],
-                Int = (ushort)Row["Int"],
-                Men = (ushort)Row["Men"],
-                MobRaceType = (uint)Row["MobRaceType"],
-                Rank = (byte)Row["Rank"],
-                FamilyArea = (uint)Row["FamilyArea"],
-                FamilyRescArea = (uint)Row["FamilyRescArea"],
-                FamilyRescCount = (byte)Row["FamilyRescCount"],
-                BloodingResi = (ushort)Row["BloodingResi"],
-                StunResi = (ushort)Row["StunResi"],
-                MoveSpeedResi = (ushort)Row["MoveSpeedResi"],
-                FearResi = (ushort)Row["FearResi"],
-                ResIndex = (string)Row["ResIndex"],
-                KQKillPoint = (ushort)Row["KQKillPoint"],
-                Return2Regen = (byte)Row["Return2Regen"],
-                IsRoaming = (byte)Row["IsRoaming"],
-                RoamingNumber = (byte)Row["RoamingNumber"],
-                RoamingDistance = (ushort)Row["RoamingDistance"],
-                MaxSP = (ushort)Row["MaxSP"],
-                BroadAtDead = (byte)Row["BroadAtDead"],
-                TurnSpeed = (ushort)Row["TurnSpeed"],
-                WalkChase = (ushort)Row["WalkChase"],
-                AllCanLoot = (byte)Row["AllCanLoot"],
-                DmgByHealMin =(ushort)Row["DmgByHealMin"],
-                DmgByHealMax = (ushort)Row["DmgByHealMax"],
+                ID = (uint)row["ID"],
+                InxName = (string)row["InxName"],
+                Visible = (byte)row["Visible"],
+                AC = (ushort)row["AC"],
+                TB = (ushort)row["TB"],
+                MR = (ushort)row["MR"],
+                MB = (ushort)row["MB"],
+                EnemyDetectType = (uint)row["EnemyDetectType"],
+                MobKillInx = (uint)row["MobKillInx"],
+                MonExp = (uint)row["MonEXP"],
+                ExpRange = (ushort)row["EXPRange"],
+                DetectCha = (ushort)row["DetectCha"],
+                ResetInterval =(byte)row["ResetInterval"],
+                CutInterval = (ushort)row["CutInterval"],
+                CutNonAT = (uint)row["CutNonAT"],
+                FollowCha = (uint)row["FollowCha"],
+                PceHPRcvDly = (ushort)row["PceHPRcvDly"],
+                PceHPRcv = (ushort)row["PceHPRcv"],
+                AtkHPRcvDly = (ushort)row["AtkHPRcvDly"],
+                AtkHPRcv = (ushort)row["AtkHPRcv"],
+                Str = (ushort)row["Str"],
+                Dex = (ushort)row["Dex"],
+                Con = (ushort)row["Con"],
+                Int = (ushort)row["Int"],
+                Men = (ushort)row["Men"],
+                MobRaceType = (uint)row["MobRaceType"],
+                Rank = (byte)row["Rank"],
+                FamilyArea = (uint)row["FamilyArea"],
+                FamilyRescArea = (uint)row["FamilyRescArea"],
+                FamilyRescCount = (byte)row["FamilyRescCount"],
+                BloodingResi = (ushort)row["BloodingResi"],
+                StunResi = (ushort)row["StunResi"],
+                MoveSpeedResi = (ushort)row["MoveSpeedResi"],
+                FearResi = (ushort)row["FearResi"],
+                ResIndex = (string)row["ResIndex"],
+                KQKillPoint = (ushort)row["KQKillPoint"],
+                Return2Regen = (byte)row["Return2Regen"],
+                IsRoaming = (byte)row["IsRoaming"],
+                RoamingNumber = (byte)row["RoamingNumber"],
+                RoamingDistance = (ushort)row["RoamingDistance"],
+                MaxSP = (ushort)row["MaxSP"],
+                BroadAtDead = (byte)row["BroadAtDead"],
+                TurnSpeed = (ushort)row["TurnSpeed"],
+                WalkChase = (ushort)row["WalkChase"],
+                AllCanLoot = (byte)row["AllCanLoot"],
+                DmgByHealMin =(ushort)row["DmgByHealMin"],
+                DmgByHealMax = (ushort)row["DmgByHealMax"],
             };
             return info;
         }

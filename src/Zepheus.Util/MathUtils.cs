@@ -4,8 +4,8 @@ namespace Zepheus.Util
 {
     public static class MathUtils
     {
-        private static Random rand = new Random();
-        public static int RandomizeInt(int lower, int upper)
+		private static readonly Random rand = new Random();
+		public static int RandomizeInt(int lower, int upper)
         {
             return rand.Next(lower, upper);
         }

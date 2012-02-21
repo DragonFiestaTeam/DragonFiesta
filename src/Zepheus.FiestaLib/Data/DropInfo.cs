@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Zepheus.FiestaLib.Data
+﻿namespace Zepheus.FiestaLib.Data
 {
     public sealed class DropInfo
     {

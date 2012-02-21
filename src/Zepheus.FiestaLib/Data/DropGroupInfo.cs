@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Data;
-using Zepheus.Util;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -14,13 +10,13 @@ namespace Zepheus.FiestaLib.Data
         public byte MaxCount { get; private set; }
         public List<ItemInfo> Items { get; private set; }
 
-        public static DropGroupInfo Load(DataRow Row)
+        public static DropGroupInfo Load(DataRow row)
         {
             DropGroupInfo info = new DropGroupInfo()
             {
-                GroupID = (string)Row["GroupID"],
-                MinCount = (byte)Row["MinCount"],
-                MaxCount = (byte)Row["MaxCount"],
+                GroupID = (string)row["GroupID"],
+                MinCount = (byte)row["MinCount"],
+                MaxCount = (byte)row["MaxCount"],
                 Items = new List<ItemInfo>()
             };
             return info;

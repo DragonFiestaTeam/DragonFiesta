@@ -13,14 +13,14 @@ namespace Zepheus.World.Handlers
         {
             client.Pong = true;
         }
-        public static void SendClientTime(WorldClient client, DateTime Time)
+        public static void SendClientTime(WorldClient client, DateTime time)
         {
         
             using (var packet = new Packet(SH2Type.UpdateClientTime))
             {
                 packet.WriteInt(37);
-                packet.WriteInt(Time.Minute);//minutes
-                packet.WriteInt(Time.Hour);//hourses
+                packet.WriteInt(time.Minute);//minutes
+                packet.WriteInt(time.Hour);//hourses
                 packet.WriteInt(15); //day
                 packet.WriteInt(1);//unk
                 packet.WriteInt(112);//unk
@@ -34,15 +34,15 @@ namespace Zepheus.World.Handlers
         [PacketHandler(CH2Type.Unk1)]
         public static void Handunk1(WorldClient character, Packet packet)
         {
-            using (var to = new Packet(SH2Type.unk1))
+            using (var to = new Packet(SH2Type.Unk1))
             {
                 DateTime now = DateTime.Now;
-                int Second = now.Second;
-                int Minute = now.Minute;
-                int Hour = now.Hour;
-                to.WriteByte(Convert.ToByte(Hour));
-                to.WriteByte(Convert.ToByte(Minute));
-                to.WriteByte(Convert.ToByte(Second));
+                int second = now.Second;
+                int minute = now.Minute;
+                int hour = now.Hour;
+                to.WriteByte(Convert.ToByte(hour));
+                to.WriteByte(Convert.ToByte(minute));
+                to.WriteByte(Convert.ToByte(second));
             }
         }
         public static void SendPing(WorldClient client)

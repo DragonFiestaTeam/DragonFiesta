@@ -5,7 +5,7 @@ namespace Zepheus.Login.InterServer
 {
     public sealed class InterHandler
     {
-        [InterPacketHandler(InterHeader.ASSIGN)]
+        [InterPacketHandler(InterHeader.Assign)]
         public static void HandleServerAssignement(WorldConnection wc, InterPacket packet)
         {
             byte wid;
@@ -45,7 +45,7 @@ namespace Zepheus.Login.InterServer
 
         public static void SendAssigned(WorldConnection wc)
         {
-            using (var p = new InterPacket(InterHeader.ASSIGNED))
+            using (var p = new InterPacket(InterHeader.Assigned))
             {
                 wc.SendPacket(p);
             }

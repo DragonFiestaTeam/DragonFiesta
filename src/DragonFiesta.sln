@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFiesta.Login", "Zepheus.Login\DragonFiesta.Login.csproj", "{736B1DF9-BCD1-4202-80EC-EA02DAA7650F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonFiesta.World", "Zepheus.World\DragonFiesta.World.csproj", "{741599D9-85DD-4BDF-A12D-AD5F6BF48941}"

@@ -50,10 +50,13 @@
     <Compile Include="ChatLog.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
+    <Compile Include="CommandInfo.cs" />
     <Compile Include="CommandLog.cs" />
+    <Compile Include="CommandStatus.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\MobBreedLocation.cs" />
-    <Compile Include="Game\AttackSequence__.cs" />
+    <Compile Include="Game\AttackSequence_.cs" />
+    <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\Buffs.cs" />
     <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="Game\Drop.cs" />
@@ -62,6 +65,7 @@
     <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\House.cs" />
     <Compile Include="Game\Item.cs" />
+    <Compile Include="Game\LevelUpEventArgs.cs" />
     <Compile Include="Game\Mob.cs" />
     <Compile Include="Game\NPC.cs" />
     <Compile Include="Game\Question.cs" />
@@ -88,6 +92,7 @@
     <Compile Include="InterServer\InterHandlerStore.cs" />
     <Compile Include="InterServer\WorldConnector.cs" />
     <Compile Include="MapManager.cs" />
+    <Compile Include="Networking\Security\CheatTypes.cs" />
     <Compile Include="Networking\ZoneAcceptor.cs" />
     <Compile Include="Networking\ZoneClient.cs" />
     <Compile Include="Program.cs" />

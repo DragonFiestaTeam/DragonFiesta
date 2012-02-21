@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace Zepheus.FiestaLib.Data
@@ -21,17 +16,17 @@ namespace Zepheus.FiestaLib.Data
         public int Width { get { return width * 50; } }
         public int Height { get { return (int)(height * 6.25); } }
 
-        public BlockInfo(DataRow Row, ushort mapid)
+        public BlockInfo(DataRow row, ushort mapId)
         {
-            MapID = mapid;
-            LoadBasics(Row);
+            MapID = mapId;
+            LoadBasics(row);
         }
 
-        private void LoadBasics(DataRow Row)
+        private void LoadBasics(DataRow row)
         {
-            width = (int)Row["Width"];
-            height  = (int)Row["Height"];
-            Read = (byte)(SByte)Row["Byte"];
+            width = (int)row["Width"];
+            height  = (int)row["Height"];
+            Read = (byte)(SByte)row["Byte"];
         }
 
 

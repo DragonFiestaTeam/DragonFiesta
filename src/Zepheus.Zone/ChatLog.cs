@@ -8,7 +8,7 @@ namespace Zepheus.Zone
     [ServerModule(Util.InitializationStage.DataStore)]
     public sealed class ChatLog
     {
-        private StreamWriter writer;
+        private readonly StreamWriter writer;
         public static ChatLog Instance { get; private set; }
 
         public ChatLog(string filename)
@@ -17,8 +17,8 @@ namespace Zepheus.Zone
             writer.AutoFlush = true;
         }
 
-        [InitializerMethod]
-        public static bool Load()
+		[InitializerMethod]
+		public static bool Load()
         {
             try
             {

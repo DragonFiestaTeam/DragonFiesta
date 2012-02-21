@@ -2,12 +2,11 @@
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
-using Zepheus.Services.DataContracts;
 using Zepheus.Util;
 using Zepheus.Zone.Data;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
-using Zepheus.InterLib.Networking;
+
 namespace Zepheus.Zone.Handlers
 {
     public sealed class Handler6
@@ -36,8 +35,8 @@ namespace Zepheus.Zone.Handlers
             {
                ClientManager.Instance.RemoveTransfer(characterName);
  
-                ZoneCharacter Zonecharacter = new ZoneCharacter(characterName);
-                if (Zonecharacter.character.AccountID != transfer.AccountID)
+                ZoneCharacter zonecharacter = new ZoneCharacter(characterName);
+                if (zonecharacter.character.AccountID != transfer.AccountID)
                 {
                     Log.WriteLine(LogLevel.Warn, "Character is logging in with wrong account ID.");
                     Handler4.SendConnectError(client, ConnectErrors.RequestedCharacterIDNotMatching);
@@ -49,16 +48,16 @@ namespace Zepheus.Zone.Handlers
                 client.Admin = transfer.Admin;
                 client.AccountID = transfer.AccountID;
                 client.Username = transfer.Username;
-                client.Character = Zonecharacter;
-                Zonecharacter.Client = client;
+                client.Character = zonecharacter;
+                zonecharacter.Client = client;
               
                 //Zonecharacter.Client. = ;
            
                
                 if (ClientManager.Instance.AddClient(client))
                 {
-                    Zonecharacter.SendGetIngameChunk(); //TODO: world server notification over WCF?
-                    Log.WriteLine(LogLevel.Debug, "{0} logged in successfully!", Zonecharacter.Name);
+                    zonecharacter.SendGetIngameChunk(); //TODO: world server notification over WCF?
+                    Log.WriteLine(LogLevel.Debug, "{0} logged in successfully!", zonecharacter.Name);
                 }
             }
             catch (Exception ex)
@@ -125,7 +124,7 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
-        public static void SendChangeZone(ZoneCharacter character, ushort mapid, int x, int y, string IP, ushort port, ushort randomid)
+        public static void SendChangeZone(ZoneCharacter character, ushort mapid, int x, int y, string ip, ushort port, ushort randomid)
         {
             using (var packet = new Packet(SH6Type.ChangeZone))
             {
@@ -133,7 +132,7 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteInt(x);
                 packet.WriteInt(y);
 
-                packet.WriteString(character.Client.Host == "127.0.0.1" ? "127.0.0.1" : IP, 16);
+                packet.WriteString(character.Client.Host == "127.0.0.1" ? "127.0.0.1" : ip, 16);
                 packet.WriteUShort(port);
                 packet.WriteUShort(randomid);
                 character.Client.SendPacket(packet);

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
-using Zepheus.FiestaLib.SHN;
-using Zepheus.Util;
+﻿using System.Data;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -26,35 +20,35 @@ namespace Zepheus.FiestaLib.Data
         public byte DemandType { get; private set; }
         public byte MaxTargets { get; private set; }
 
-        public static ActiveSkillInfo Load(DataRow Row)
+        public static ActiveSkillInfo Load(DataRow row)
         {
             ActiveSkillInfo inf = new ActiveSkillInfo
             {
                            
-                ID = (ushort)Row["ID"],
-                Name = (string)Row["InxName"],
-                Step = (byte)Row["Step"],
-                Required = (string)Row["DemandSk"],
-                SP = (ushort)Row["SP"],
-                HP = (ushort)Row["HP"],
-                Range = (ushort)Row["Range"],
-                CoolTime = (uint)Row["DlyTime"],
-                CastTime = (uint)Row["CastTime"],
-                DemandType = (byte)Row["DemandType"],
-                MaxTargets = (byte)Row["TargetNumber"],
+                ID = (ushort)row["ID"],
+                Name = (string)row["InxName"],
+                Step = (byte)row["Step"],
+                Required = (string)row["DemandSk"],
+                SP = (ushort)row["SP"],
+                HP = (ushort)row["HP"],
+                Range = (ushort)row["Range"],
+                CoolTime = (uint)row["DlyTime"],
+                CastTime = (uint)row["CastTime"],
+                DemandType = (byte)row["DemandType"],
+                MaxTargets = (byte)row["TargetNumber"],
             };
 
-            ushort maxdamage = (ushort)Row["MaxWC"];
+            ushort maxdamage = (ushort)row["MaxWC"];
             if (maxdamage == 0)
             {
                 inf.IsMagic = true;
-                inf.MinDamage = (ushort)Row["MinMA"];
-                inf.MaxDamage = (ushort)Row["MaxMA"];
+                inf.MinDamage = (ushort)row["MinMA"];
+                inf.MaxDamage = (ushort)row["MaxMA"];
             }
             else
             {
                 inf.MaxDamage = maxdamage;
-                inf.MinDamage = (ushort)Row["MinWC"];
+                inf.MinDamage = (ushort)row["MinWC"];
             }
             return inf;
         }

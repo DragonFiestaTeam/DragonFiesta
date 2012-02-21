@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
-using Zepheus.FiestaLib.SHN;
 using Zepheus.Util;
 using Zepheus.Database.Storage;
 using Zepheus.Database;
-using MySql.Data.MySqlClient;
 using System.Data;
 
 namespace Zepheus.World.Data
@@ -37,17 +35,17 @@ namespace Zepheus.World.Data
         private void LoadMaps()
         {
             Maps = new Dictionary<ushort, MapInfo>();
-              DataTable MapData = null;
+              DataTable mapData = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                MapData = dbClient.ReadDataTable("SELECT *FROM Mapinfo");
+                mapData = dbClient.ReadDataTable("SELECT *FROM Mapinfo");
             }
 
-            if (MapData != null)
+            if (mapData != null)
             {
-                foreach (DataRow Row in MapData.Rows)
+                foreach (DataRow row in mapData.Rows)
                 {
-                    MapInfo info = MapInfo.Load(Row);
+                    MapInfo info = MapInfo.Load(row);
                     if (Maps.ContainsKey(info.ID))
                     {
                         Log.WriteLine(LogLevel.Debug, "Duplicate map ID {0} ({1})", info.ID, info.FullName);
@@ -60,20 +58,20 @@ namespace Zepheus.World.Data
         private void LoadGuilds()
         {
             Guilds = new Dictionary<int, WorldGuild>();
-            DataTable GuildData = null;
+            DataTable guildData = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                GuildData = dbClient.ReadDataTable("SELECT *FROM Guild");
+                guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
             }
 
-            if (GuildData != null)
+            if (guildData != null)
             {
-                foreach (DataRow Row in GuildData.Rows)
+                foreach (DataRow row in guildData.Rows)
                 {
-                    Guild Guild = new Guild();
-                    Guild.Name = (string)Row["Name"];
-                    Guild.ID = (int)Row["ID"];
-                    Guilds.Add(Guild.ID, new WorldGuild(Guild));
+                    Guild guild = new Guild();
+                    guild.Name = (string)row["Name"];
+                    guild.ID = (int)row["ID"];
+                    Guilds.Add(guild.ID, new WorldGuild(guild));
                 }
             }
         }
@@ -180,16 +178,16 @@ namespace Zepheus.World.Data
         private void LoadBadNames()
         {
             BadNames = new List<string>();
-            DataTable BadNameDATA = null;
+            DataTable badNameData = null;
                 using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                 {
-                    BadNameDATA = dbClient.ReadDataTable("SELECT *FROM badnames");
+                    badNameData = dbClient.ReadDataTable("SELECT *FROM badnames");
                 }
-                if (BadNameDATA != null)
+                if (badNameData != null)
                 {
-                    foreach (DataRow Row in BadNameDATA.Rows)
+                    foreach (DataRow row in badNameData.Rows)
                     {
-                        string bad = (string)Row["BadName"];
+                        string bad = (string)row["BadName"];
                         // Columns: BadName Type
                         BadNames.Add(bad);
                     }

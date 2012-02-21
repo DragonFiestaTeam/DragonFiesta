@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using MySql.Data.MySqlClient;
-using System.Data;
+﻿using System.Collections.Generic;
 
 namespace Zepheus.Database.Storage
 {
@@ -44,50 +38,4 @@ namespace Zepheus.Database.Storage
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
 
     }
-
-   public class PositionInfo
-   {
-       public int XPos { get; set; }
-       public int YPos { get; set; }
-       public ushort Map { get; set; }
-
-       public void ReadFromDatabase(DataRow Row)
-       {
-           this.Map = (ushort)Row["Map"];
-           this.XPos = int.Parse(Row["XPos"].ToString());
-           this.YPos =  int.Parse(Row["YPos"].ToString());
-       }
-   }
-   public class CharacterStats
-   {
-       public byte StrStats { get; set; }
-       public byte EndStats { get; set; }
-       public byte DexStats { get; set; }
-       public byte IntStats { get; set; }
-       public byte SprStats { get; set; }
-
-       public void ReadFromDatabase(DataRow Row)
-       {
-           this.StrStats = byte.Parse(Row["Str"].ToString());
-           this.EndStats = byte.Parse(Row["End"].ToString());
-           this.DexStats = byte.Parse(Row["Dex"].ToString());
-           this.SprStats = byte.Parse(Row["Spr"].ToString());
-           this.IntStats = byte.Parse(Row["StrInt"].ToString());
-       }
-   }
-   public class LookInfo
-   {
-       public byte Hair { get; set; }
-       public byte HairColor { get; set; }
-       public byte Face { get; set; }
-       public bool Male { get; set; }
-
-       public void ReadFromDatabase(DataRow Row)
-       {
-           this.Male = DataStore.ReadMethods.EnumToBool(Row["Male"].ToString());
-           this.Hair = byte.Parse(Row["Hair"].ToString()); ;
-           this.HairColor =byte.Parse(Row["HairColor"].ToString());
-           this.Face = byte.Parse(Row["Face"].ToString());
-       }
-   }
 }

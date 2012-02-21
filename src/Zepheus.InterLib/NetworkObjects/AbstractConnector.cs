@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net;
 using System.Net.Sockets;
 
 using Zepheus.InterLib.Networking;
@@ -31,16 +27,16 @@ namespace Zepheus.InterLib.NetworkObjects
             TcpClient tcpClient = new TcpClient();
             tcpClient.Connect(IpAddress, Port);
             client = new InterClient(tcpClient.Client);
-            client.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(client_OnPacket);
+            client.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(ClientOnPacket);
         }
 
-        void client_OnPacket(object sender, InterPacketReceivedEventArgs e)
+        void ClientOnPacket(object sender, InterPacketReceivedEventArgs e)
         {
-            if (e.Packet.OpCode == InterHeader.PING)
+            if (e.Packet.OpCode == InterHeader.Ping)
             {
                 SendPong();
             }
-            else if (e.Packet.OpCode == InterHeader.PONG)
+            else if (e.Packet.OpCode == InterHeader.Pong)
             {
                 Pong = true;
             }
@@ -50,7 +46,7 @@ namespace Zepheus.InterLib.NetworkObjects
         public void SendPing()
         {
             Pong = false;
-            using (var packet = new InterPacket(InterHeader.PING))
+            using (var packet = new InterPacket(InterHeader.Ping))
             {
                 client.SendPacket(packet);
             }
@@ -58,7 +54,7 @@ namespace Zepheus.InterLib.NetworkObjects
 
         public void SendPong()
         {
-            using (var packet = new InterPacket(InterHeader.PONG))
+            using (var packet = new InterPacket(InterHeader.Pong))
             {
                 client.SendPacket(packet);
             }

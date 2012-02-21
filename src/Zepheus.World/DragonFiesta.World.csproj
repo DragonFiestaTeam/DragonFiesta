@@ -56,12 +56,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\DropState.cs" />
     <Compile Include="Data\Friend.cs" />
     <Compile Include="Data\Group.cs" />
     <Compile Include="Data\GroupMember.cs" />
     <Compile Include="ClientManager.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\GroupRequest.cs" />
+    <Compile Include="Data\GroupRole.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
     <Compile Include="Data\WorldGuild.cs" />
     <Compile Include="Data\ZoneInfo.cs" />

@@ -16,15 +16,15 @@ namespace Zepheus.Zone.Game
         public MapObject Target { get; set; }
         public const int MinMovement = 60;
         public const int MaxMovement = 180;
-        private MobBreedLocation Spawnplace;
-        private bool DeathTriggered;
+        private MobBreedLocation spawnplace;
+        private bool deathTriggered;
         public MobInfo Info { get; private set; }
         public MobInfoServer InfoServer { get; private set; }
 
         public override uint MaxHP { get { return Info.MaxHP; } set { return; } }
         public override uint MaxSP { get { return 100; } set { return; } } //TODO: load from mobinfoserver
 
-        private DateTime _nextUpdate;
+        private DateTime nextUpdate;
         private Vector2 boundryLT;
         private Vector2 boundryRB;
 
@@ -43,7 +43,7 @@ namespace Zepheus.Zone.Game
                 return;
             }
             Map = mbl.Map;
-            Spawnplace = mbl;
+            spawnplace = mbl;
            
             while (true)
             {
@@ -60,22 +60,22 @@ namespace Zepheus.Zone.Game
                 {
                     Map = mbl.Map;
                  // Map.Block =
-                    Spawnplace = mbl;
+                    spawnplace = mbl;
                     break;
                 }
             }
             SetBoundriesFromPointAndRange(Position, 100);
 
-            Spawnplace.CurrentMobs++;
+            spawnplace.CurrentMobs++;
         }
 
-        public Mob(ushort pID, Vector2 Pos)
+        public Mob(ushort pID, Vector2 pos)
         {
             ID = pID;
-            Position = Pos;
+            Position = pos;
             Init();
          
-            SetBoundriesFromPointAndRange(Pos, 700);
+            SetBoundriesFromPointAndRange(pos, 700);
         }
 
         private void Init()
@@ -87,10 +87,10 @@ namespace Zepheus.Zone.Game
             InfoServer = temp;
             Moving = false;
             Target = null;
-            Spawnplace = null;
+            spawnplace = null;
            
-            _nextUpdate = Program.CurrentTime;
-            DeathTriggered = false;
+            nextUpdate = Program.CurrentTime;
+            deathTriggered = false;
 
             HP = MaxHP;
             SP = MaxSP;
@@ -117,13 +117,13 @@ namespace Zepheus.Zone.Game
             boundryRB = null;
             AttackingSequence = null;
             Target = null;
-            DeathTriggered = true;
+            deathTriggered = true;
 
-            if (Spawnplace != null)
+            if (spawnplace != null)
             {
-                Spawnplace.CurrentMobs--;
+                spawnplace.CurrentMobs--;
             }
-            _nextUpdate = Program.CurrentTime.AddSeconds(3);
+            nextUpdate = Program.CurrentTime.AddSeconds(3);
         }
 
         public override void Attack(MapObject victim)
@@ -144,12 +144,12 @@ namespace Zepheus.Zone.Game
             Target = victim;
         }
 
-        public override void AttackSkillAoE(ushort skillid, uint X, uint Y)
+        public override void AttackSkillAoE(ushort skillid, uint x, uint y)
         {
-            base.AttackSkillAoE(skillid, X, Y); // lol
+            base.AttackSkillAoE(skillid, x, y); // lol
 
             if (AttackingSequence != null) return;
-            AttackingSequence = new AttackSequence(this, 0, InfoServer.Str, skillid, X, Y);
+            AttackingSequence = new AttackSequence(this, 0, InfoServer.Str, skillid, x, y);
         }
 
         public override Packet Spawn()
@@ -189,12 +189,12 @@ namespace Zepheus.Zone.Game
 
             if (IsDead)
             {
-                if (!DeathTriggered)
+                if (!deathTriggered)
                 {
                     Die();
                     return; // Wait till 3 seconds are over, then remove
                 }
-                else if (_nextUpdate <= date)
+                else if (nextUpdate <= date)
                 {
                     Map.RemoveObject(this.MapObjectID);
                     Position = null;
@@ -217,16 +217,16 @@ namespace Zepheus.Zone.Game
                 }
                 else
                 {
-                    _nextUpdate = _nextUpdate.AddDays(-1);
+                    nextUpdate = nextUpdate.AddDays(-1);
                 }
             }
 
-            if (_nextUpdate > date) return;
+            if (nextUpdate > date) return;
 
 
             if (Target != null)
             {
-                _nextUpdate = Program.CurrentTime.AddSeconds(1);
+                nextUpdate = Program.CurrentTime.AddSeconds(1);
 
                 // Try to move to target's pos
                 // Might glitch the fuck out. lol
@@ -252,7 +252,7 @@ namespace Zepheus.Zone.Game
             }
             else
             {
-                _nextUpdate = Program.CurrentTime.AddSeconds(Program.Randomizer.Next(10, 60)); // Around 10 seconds to 1 minute before new movement is made
+                nextUpdate = Program.CurrentTime.AddSeconds(Program.Randomizer.Next(10, 60)); // Around 10 seconds to 1 minute before new movement is made
 
                 // Move to random spot.
                 Vector2 newpos = new Vector2(Position);

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Linq;
 using System.Threading;
-
-using Zepheus.Database;
 using Zepheus.Util;
 
 namespace Zepheus.Zone
@@ -12,11 +9,11 @@ namespace Zepheus.Zone
     public sealed class Worker
     {
         public static Worker Instance { get; private set; }
-        private ConcurrentQueue<Action> callbacks = new ConcurrentQueue<Action>();
-        private Thread main;
-        private int sleep = 1;
-        private ulong ticksToSleep = 200;
-        public ulong TicksPerSecond { get; set; }
+		private readonly ConcurrentQueue<Action> callbacks = new ConcurrentQueue<Action>();
+		private readonly Thread main;
+		private int sleep = 1;
+		private readonly ulong ticksToSleep = 200;
+		public ulong TicksPerSecond { get; set; }
         public bool IsRunning { get; set; }
 
         public Worker()
@@ -74,9 +71,8 @@ namespace Zepheus.Zone
             ulong last = 0;
             DateTime lastCheck = DateTime.Now;
             DateTime lastPing = DateTime.Now;
-            DateTime lastGC = DateTime.Now;
-            DateTime lastWorldPing = DateTime.Now;
-            DateTime LastClientTime = DateTime.Now;
+			DateTime lastGC = DateTime.Now;
+			DateTime lastClientTime = DateTime.Now;
             for (ulong i = 0; ; i++)
             {
                 if (!this.IsRunning)
@@ -123,7 +119,7 @@ namespace Zepheus.Zone
                         GC.Collect();
                         lastGC = now;
                     }
-                    if (now.Subtract(LastClientTime).TotalSeconds >= 60)
+                    if (now.Subtract(lastClientTime).TotalSeconds >= 60)
                     {
                      
                     }

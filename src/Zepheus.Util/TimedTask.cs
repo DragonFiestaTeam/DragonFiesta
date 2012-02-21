@@ -4,22 +4,22 @@ namespace Zepheus.Util
 {
     public class TimedTask
     {
-        Action _action;
-        private TimeSpan? _repeat; // Nullable.
-        private DateTime _when;
+		readonly Action action;
+		private readonly TimeSpan? repeat; // Nullable.
+		private DateTime when;
 
         public TimedTask(Action pAction, DateTime pWhen)
         {
-            _action = pAction;
-            _when = pWhen;
-            _repeat = null;
+            action = pAction;
+            when = pWhen;
+            repeat = null;
         }
 
         public TimedTask(Action pAction, TimeSpan pInterval, TimeSpan pRepeat)
         {
-            _action = pAction;
-            _when = DateTime.Now + pInterval;
-            _repeat = pRepeat;
+            action = pAction;
+            when = DateTime.Now + pInterval;
+            repeat = pRepeat;
         }
 
         /// <summary>
@@ -30,10 +30,10 @@ namespace Zepheus.Util
 
         public bool RunTask(DateTime pCurrentTime)
         {
-            if (_when <= pCurrentTime)
+            if (when <= pCurrentTime)
             {
-                _action();
-                if (_repeat != null)
+                action();
+                if (repeat != null)
                 {
                     // This pCurrentTime.Add is done for the small chance that the server
                     // is overloaded and the function couldn't run on time. Small chance,
@@ -42,7 +42,7 @@ namespace Zepheus.Util
                     // Stupid VS, complaining about this.
                     // _repeat might be null, and Add doesn't want that, so if it's null, we make a new TimeSpan
                     // This shall never happen though lawl
-                    _when = pCurrentTime.Add(_repeat ?? new TimeSpan(0, 0, 0));
+                    when = pCurrentTime.Add(repeat ?? new TimeSpan(0, 0, 0));
                     return false;
                 }
                 return true;
