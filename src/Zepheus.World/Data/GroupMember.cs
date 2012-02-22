@@ -12,6 +12,7 @@ namespace Zepheus.World.Data
 			this.Character = client.Character;
 			this.Role = role;
 			this.Name = client.Character.Character.Name;
+            this.IsOnline = true;
 		}
 		#endregion
 		
