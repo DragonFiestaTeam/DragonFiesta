@@ -56,7 +56,8 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
+*.jtconfig
 obj/
-[Rr]elease*/
+[Rr]elease*/-
 _ReSharper*/
 [Tt]est[Rr]esult*

@@ -16,6 +16,7 @@ namespace Zepheus.World
 		public GroupManager()
 		{
 			groups = new List<Group>();
+			requestsWithoutGroup = new List<GroupRequest>();
 			groupsByMaster = new Dictionary<string, Group>();
 			groupsById = new Dictionary<long, Group>();
 			requestsByGroup = new Dictionary<Group, List<GroupRequest>>();
@@ -33,6 +34,7 @@ namespace Zepheus.World
 		public static GroupManager Instance { get; private set; }
 
 		private readonly List<Group> groups;
+		private readonly List<GroupRequest> requestsWithoutGroup;
 		private readonly Dictionary<string, Group> groupsByMaster;
 		private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
 		private readonly Dictionary<long, Group> groupsById;
@@ -56,7 +58,7 @@ namespace Zepheus.World
 			this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
 			this.groupsById.Add(grp.Id, grp);
 			this.groups.Add(grp);
-			// TODO: Add group in Database?););
+			// TODO: Add group in Database?
 
 			return grp;
 		}
@@ -68,12 +70,13 @@ namespace Zepheus.World
 
 			WorldClient invitedClient = ClientManager.Instance.GetClientByCharname(pInvited);
 
-			if(pClient.Character.Group == null)
-				pClient.Character.Group = CreateNewGroup(pClient);
+			//if(pClient.Character.Group == null)
+			//    pClient.Character.Group = CreateNewGroup(pClient);
 
 			GroupRequest request = new GroupRequest(pClient, pClient.Character.Group, pInvited);
 			AddRequest(request);
-			pClient.Character.Group.AddInvite(request);
+			if(pClient.Character.Group != null)
+				pClient.Character.Group.AddInvite(request);
 			SendInvitedPacket(invitedClient, pClient);
 		}
 		public void DeclineInvite(WorldClient pClient, string pFrom)
@@ -91,18 +94,22 @@ namespace Zepheus.World
 		}
 		public void AcceptInvite(WorldClient pClient, string pFrom)
 		{
-			if(!ClientManager.Instance.IsOnline(pFrom))
-				return;
 			WorldClient from = ClientManager.Instance.GetClientByCharname(pFrom);
-			if(!groupsByMaster.ContainsKey(pFrom))
-				return;
-
-			Group grp = groupsByMaster[pFrom];
-			GroupRequest request = requestsByGroup[grp].Find(r => r.InvitedClient == pClient);
-			RemoveRequest(request);
-
-			grp.RemoveInvite(request);
-			grp.MemberJoin(pClient.Character.Character.Name);
+			if (from.Character.Group == null)
+			{
+				// New group
+				Group g = CreateNewGroup(from, pClient);
+				var req = requestsWithoutGroup.Find(r => r.InvitedClient == pClient);
+				requestsWithoutGroup.Remove(req);
+			}
+			else
+			{
+				Group g = groupsByMaster[pFrom];
+				var req = requestsByGroup[g].Find(r => r.InvitedClient == pClient);
+				RemoveRequest(req);
+				g.RemoveInvite(req);
+				g.MemberJoin(pClient.Character.Character.Name);
+			}
 		}
 		public void LeaveParty(WorldClient pClient)
 		{
@@ -135,11 +142,12 @@ namespace Zepheus.World
 				return;
 			pClient.Character.Group.ChangeMaster(pClient.Character.Group.NormalMembers.Single(m => m.Name == pMastername));
 		}
-		public void CreateNewGroup(WorldClient pMaster, WorldClient pMember)
+		public Group CreateNewGroup(WorldClient pMaster, WorldClient pMember)
 		{
 			var grp = CreateNewGroup(pMaster);
+			SendNewGroupMasterPacket(pMaster, pMember.Character.Character.Name);
 			grp.MemberJoin(pMember.Character.Character.Name);
-
+			return grp;
 		}
 
 		internal void OnGroupBrokeUp(object sender, EventArgs e)
@@ -155,9 +163,11 @@ namespace Zepheus.World
 
 		private void AddRequest(GroupRequest pRequest)
 		{
-			if(pRequest.Group == null)
-				pRequest.Group = CreateNewGroup(pRequest.InviterClient);
-
+			if (pRequest.Group == null)
+			{
+				requestsWithoutGroup.Add(pRequest);
+			}
+			else
 			if (!this.requestsByGroup.ContainsKey(pRequest.Group))
 			{
 				this.requestsByGroup.Add(pRequest.Group, new List<GroupRequest>());
@@ -185,6 +195,15 @@ namespace Zepheus.World
 			InvideClient.SendPacket(packet);*/
 			// TODO: Sniff op code
 		}
+		private void SendNewGroupMasterPacket(WorldClient pMaster, string pMemberName)
+		{
+			using (var packet = new Packet(SH14Type.PartyInvideAsMaster))
+			{
+				packet.WriteString(pMemberName, 16);
+				packet.WriteHexAsBytes("C1 04");
+				pMaster.SendPacket(packet);
+			}
+		}	
 
 		#endregion
 	}

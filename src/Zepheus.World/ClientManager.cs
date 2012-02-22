@@ -50,16 +50,16 @@ namespace Zepheus.World
 
 			}
 		}
-        public void UpdateClientTime(DateTime dateTime)
-        {
-            lock (clients)
-            {
-                foreach (WorldClient kvp in clientsByName.Values)
-                {
-                    Handlers.Handler2.SendClientTime(kvp, dateTime);
-                }
-            }
-        }
+		public void UpdateClientTime(DateTime dateTime)
+		{
+			lock (clients)
+			{
+				foreach (WorldClient kvp in clientsByName.Values)
+				{
+					Handlers.Handler2.SendClientTime(kvp, dateTime);
+				}
+			}
+		}
 		public void AddClientByName(WorldClient client)
 		{
 			if (client.Character != null && !clientsByName.ContainsKey(client.Character.Character.Name))
