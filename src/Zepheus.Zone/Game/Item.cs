@@ -34,7 +34,16 @@ namespace Zepheus.Zone.Game
         public Item()
         {
         }
-
+        public static Item ItemInfoToItem(ItemInfo inf,short amount)
+        {
+                Item mItem = new Item
+                {
+                    ItemID = inf.ItemID,
+                    Amount = amount,
+                    Slot = (sbyte)inf.Slot,
+                };
+                return mItem;
+        }
         public virtual void Remove()
         {
             if (this != null)

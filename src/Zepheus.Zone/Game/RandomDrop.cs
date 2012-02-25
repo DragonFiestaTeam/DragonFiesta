@@ -10,55 +10,58 @@ namespace Zepheus.Zone.Game
     {
         private Random ran = new Random();
         private Mob Monster { get; set; }
+        private byte dropcounter { get; set; }
         public RandomDrop(Mob mob)
         {
-            Monster = mob;
-            GenerateDropGroups();
+            this.dropcounter = 0;
+            this.Monster = mob;
+            GenerateDrop();
         }
-        void GenerateDropGroups()
+        void GenerateDrop()
         {
-            int[] frequency = new int[this.Monster.Info.Drops.Count];
             foreach (var DropInfo in Monster.Info.Drops)
             {
-                int groupcounter = 0;
-                for (int i = 0; i < this.Monster.Info.Drops.Count; ++i)
-                {
-                    int index = (int)(ran.NextDouble() * this.Monster.Info.Drops.Count);
-                    frequency[index]++;
-                    float RandomRate = frequency[i] * 100.0f / this.Monster.Info.Drops.Count;
-                    if (RandomRate <= DropInfo.Rate && RandomRate != 0)
+                float rate = (float)(this.ran.NextDouble() * this.Monster.Info.Drops.Count);
+                float RandomRate = rate * 100.0f / this.Monster.Info.Drops.Count;
+                    if (RandomRate < DropInfo.Rate)
                     {
-                      DropItems(DropInfo.Group.Items,DropInfo.Rate,DropInfo.Group.MinCount,DropInfo.Group.MaxCount);
-                      groupcounter++;
-                    }
-                }
-            }
-        }
-        void DropItems(List<ItemInfo> Items,float Rate,byte Mincount,byte MaxCount)
-        {
-            int itemCounter = 0;
-            foreach (var Item in Items)
-            {
-                int[] frequency = new int[Items.Count];
-                for (int i = 0; i < Items.Count; ++i)
-                {
-                    int index = (int)(ran.NextDouble() * Items.Count);
-                    frequency[index]++;
-                    float RandomRate = frequency[i] * 100.0f / Items.Count;
-                    if (RandomRate <= Rate && RandomRate != 0 || itemCounter > MaxCount)
-                    {
-                        Console.WriteLine(Item.ItemID);
-                        itemCounter++;
-                        //Todo new drop
+                        if (dropcounter >= DropInfo.Group.MaxCount) return;
+                        DropItems(DropInfo.Group.Items, DropInfo.Rate, DropInfo.Group.MinCount, DropInfo.Group.MaxCount);
                     }
                     else
                     {
-                        itemCounter = 0;
-                       return;
+                        this.dropcounter = 0;
+                        return;
                     }
+            }
+        }
+        void DropItems(List<ItemInfo> Items, float Rate, byte Mincount, byte MaxCount)
+        {
+            foreach (var litem in Items)
+            {
+                if (dropcounter >= MaxCount) return;
+                int index = (int)(ran.NextDouble() * Items.Count);
+                float rate = (float)(ran.NextDouble() * Items.Count);
+                float RandomRate = rate * 100.0f / Items.Count;
+                if (RandomRate < Rate)
+                {
+                    if (litem.Type != ItemType.Equip)
+                    {
+                        short Amount = (short)new Random().Next(1, 255);
+                        this.Monster.DropItem(Item.ItemInfoToItem(litem, Amount));
+                    }
+                    else
+                    {
+                        this.Monster.DropItem(Item.ItemInfoToItem(Items[index], 1));
+                    }
+                    this.dropcounter++;
+                }
+                else
+                {
+                    this.dropcounter = 0;
+                    return;
                 }
             }
-            itemCounter = 0;
         }
     }
 }

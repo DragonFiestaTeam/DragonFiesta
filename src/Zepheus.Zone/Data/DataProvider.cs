@@ -5,6 +5,7 @@ using Zepheus.FiestaLib.Data;
 using Zepheus.Util;
 using Zepheus.Database;
 using System.Data;
+using Zepheus.Zone.Game;
 
 namespace Zepheus.Zone.Data
 {
@@ -91,7 +92,7 @@ namespace Zepheus.Zone.Data
                                 }
                                 else
                                 {
-                                    Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
+                                  //  Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
                                 }
                             }
                         }
@@ -123,7 +124,7 @@ namespace Zepheus.Zone.Data
                         DropGroupInfo info = DropGroupInfo.Load(row);
                         if (DropGroups.ContainsKey(info.GroupID))
                         {
-                            Log.WriteLine(LogLevel.Warn, "Duplicate DropGroup ID found: {0}.", info.GroupID);
+                            //Log.WriteLine(LogLevel.Warn, "Duplicate DropGroup ID found: {0}.", info.GroupID);
                             continue;
                         }
                         DropGroups.Add(info.GroupID, info);
@@ -148,15 +149,17 @@ namespace Zepheus.Zone.Data
                                 float rate = (float)row["Rate"];
                                 DropInfo info = new DropInfo(group, rate);
                                 mob.Drops.Add(info);
+                                mob.DropGroup = group;
+                              
                                 ++dropcount;
                             }
                             else
                             {
                                 //this seems to happen a lot so disable this for the heck of it.
-                                Log.WriteLine(LogLevel.Warn, "Could not find DropGroup {0}.", dropgroup);
+                                //Log.WriteLine(LogLevel.Warn, "Could not find DropGroup {0}.", dropgroup);
                             }
                         }
-                        else Log.WriteLine(LogLevel.Warn, "Could not find mobname: {0} for drop.", mobid);
+                       // else  Log.WriteLine(LogLevel.Warn, "Could not find mobname: {0} for drop.", mobid);
                     }
                 }
                 //first we load the dropgroups
