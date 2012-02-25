@@ -99,7 +99,7 @@ namespace Zepheus.Zone.Handlers
 				packet.WriteInt(character.BaseStats.HPStoneEffectID);//useeffectid
 				packet.WriteInt(character.BaseStats.MaxSoulHP);//maxhpstones
 				packet.WriteInt(character.BaseStats.PriceHPStone);//hp stines price
-				packet.WriteInt(character.BaseStats.PriceSPStone);//useeffectid
+				packet.WriteInt(character.BaseStats.SPStoneEffectID);//useeffectid
 				packet.WriteInt(character.BaseStats.MaxSoulSP);//sp max stones
 				packet.WriteInt(character.BaseStats.PriceSPStone);//spstones price
 				character.Client.SendPacket(packet);
