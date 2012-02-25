@@ -48,7 +48,7 @@ namespace Zepheus.Zone.Game
                     if (litem.Type != ItemType.Equip)
                     {
                         short Amount = (short)new Random().Next(1, 255);
-                        this.Monster.DropItem(Item.ItemInfoToItem(litem, Amount));
+                        this.Monster.DropItem(Item.ItemInfoToItem(Items[index], Amount));
                     }
                     else
                     {
