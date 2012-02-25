@@ -149,8 +149,6 @@ namespace Zepheus.Zone.Data
                                 float rate = (float)row["Rate"];
                                 DropInfo info = new DropInfo(group, rate);
                                 mob.Drops.Add(info);
-                                mob.DropGroup = group;
-                              
                                 ++dropcount;
                             }
                             else
@@ -293,11 +291,6 @@ namespace Zepheus.Zone.Data
         }
 
         public void LoadJobStats()
-        {
-            LoadJobStatsNew();
-        }
-
-        public void LoadJobStatsNew()
         {
             // Temp set a dict for every job/filename
             Dictionary<string, Job> sj = new Dictionary<string, Job>();

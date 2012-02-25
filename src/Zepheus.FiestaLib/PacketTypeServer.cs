@@ -165,7 +165,7 @@ namespace Zepheus.FiestaLib
     }
 
     public enum SH20Type : byte
-    {
+    { 
         ChangeHPStones = 3,
         ChangeSPStones = 4,
         ErrorBuyStone = 5,

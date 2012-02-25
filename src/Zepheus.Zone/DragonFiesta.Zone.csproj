@@ -55,6 +55,7 @@
     <Compile Include="CommandStatus.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\MobBreedLocation.cs" />
+    <Compile Include="Data\SoulStone.cs" />
     <Compile Include="Game\AttackSequence_.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\Buffs.cs" />

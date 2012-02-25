@@ -6,6 +6,8 @@ namespace Zepheus.FiestaLib.Data
     public sealed class FiestaBaseStat
     {
         public Job Job { get; private set; }
+        public Int32 HPStoneEffectID { get; private set; }
+        public Int32 SPStoneEffectID { get; private set; }
         public Int32 Level { get; private set; }
         public Int32 Strength { get; private set; }
         public Int32 Endurance { get; private set; }
@@ -76,6 +78,8 @@ namespace Zepheus.FiestaLib.Data
                 MaxSP = (ushort)(int)row["MaxSP"],
                 CharTitlePt = (int)row["CharTitlePt"],
                 SkillPwrPt = (int)row["SkillPwrPt"],
+                SPStoneEffectID = (int)row["SPStoneEffectID"],
+                HPStoneEffectID = (int)row["HPStoneEffectID"]
             };
            
             return info;
