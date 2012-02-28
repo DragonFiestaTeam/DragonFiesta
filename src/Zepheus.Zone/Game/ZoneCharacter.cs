@@ -508,7 +508,6 @@ namespace Zepheus.Zone.Game
 					Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.InvFull);
 					return;
 				}
-
 				drop.CanTake = false; //just to be sure
 				Map.RemoveDrop(drop);
 				Item item = null;
@@ -519,6 +518,8 @@ namespace Zepheus.Zone.Game
 				else
 				{
 					item = new Item(drop.Item, this, freeslot);
+                    //sbyte count = InventoryItems.Count+1;
+                  //  InventoryItems.Add(92, item);
 				}
 				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Obtained);
 				Handler12.ModifyInventorySlot(this, 0x24, (byte)freeslot, 0, item);
@@ -554,7 +555,7 @@ namespace Zepheus.Zone.Game
 				case 1:
 
 					break;
-
+                   
 				default:
 					Log.WriteLine(LogLevel.Warn, "Invalid dropitem response.");
 					break;

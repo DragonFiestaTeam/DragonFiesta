@@ -44,6 +44,7 @@ namespace Zepheus.World.Networking
 			if (method != null)
 			{
 				Action action = HandlerStore.GetCallback(method, this, e.Packet);
+            
 				Worker.Instance.AddCallback(action);
 			}
 			else

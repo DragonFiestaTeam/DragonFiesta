@@ -46,6 +46,7 @@ namespace Zepheus.Zone.Data
             LoadMiniHouseInfo();
             LoadActiveSkills();
             LaodVendors();
+            LoadTeleporters();
         }
 
         [InitializerMethod]
@@ -195,6 +196,36 @@ namespace Zepheus.Zone.Data
             }
             Log.WriteLine(LogLevel.Info, "Loaded {0} ActiveSkills.", ActiveSkillsByID.Count);
         }
+        private void LoadTeleporters()
+        {
+            int counter = 0;
+            foreach (var map in MapsByID.Values)
+            {
+                foreach (var npc in map.NPCs)
+                {
+                    if (npc.Flags == 2)
+                    {
+                        DataTable Data = null;
+                        using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                        {
+                            Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");
+                        }
+                        if (Data != null && Data.Rows.Count == 1)
+                        {
+                            foreach (DataRow row in Data.Rows)
+                            {
+                                Teleportnpc TeleData = Teleportnpc.Load(row);
+                                npc.TeleNpc = TeleData;
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            Log.WriteLine(LogLevel.Info, "Loaded {0} Teleporters.", counter);
+        }
+            
+        
         private void LoadRecallCoordinates()
         {
             RecallCoordinates = new Dictionary<string, RecallCoordinate>();

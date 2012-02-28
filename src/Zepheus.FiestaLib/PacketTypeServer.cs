@@ -64,6 +64,8 @@ namespace Zepheus.FiestaLib
         RemoveDrop = 5,
         ChangeMap = 9,
         ChangeZone = 10,
+        TelePorter = 27,
+
     }
 
     public enum SH7Type : byte

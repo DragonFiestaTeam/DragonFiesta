@@ -37,6 +37,7 @@ namespace Zepheus.FiestaLib
     {
         TransferKey = 1,
         ClientReady = 3,
+        Teleporter = 26,
     }
 
     public enum CH7Type : byte
