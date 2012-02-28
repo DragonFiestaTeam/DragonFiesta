@@ -33,7 +33,7 @@ namespace Zepheus.Zone.Handlers
                         client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap2, Target.Point.TeleNpc.AnswerMap2X, Target.Point.TeleNpc.AnswerMap2Y);
                         break;
                     case 3:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap2, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
                         break;
                     default:
                         Log.WriteLine(LogLevel.Warn,"Unkown Teleport Answer {1}",anwser);
@@ -80,10 +80,6 @@ namespace Zepheus.Zone.Handlers
                 client.Username = transfer.Username;
                 client.Character = zonecharacter;
                 zonecharacter.Client = client;
-              
-                //Zonecharacter.Client. = ;
-           
-               
                 if (ClientManager.Instance.AddClient(client))
                 {
                     zonecharacter.SendGetIngameChunk(); //TODO: world server notification over WCF?
