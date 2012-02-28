@@ -26,6 +26,9 @@ namespace Zepheus.Zone.Handlers
                 }
                 switch (anwser)
                 {
+                    case 0:
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap0, Target.Point.TeleNpc.AnswerMap0X, Target.Point.TeleNpc.AnswerMap0Y);
+                        break;
                     case 1:
                         client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap1, Target.Point.TeleNpc.AnswerMap1X, Target.Point.TeleNpc.AnswerMap1Y);
                         break;
@@ -80,6 +83,10 @@ namespace Zepheus.Zone.Handlers
                 client.Username = transfer.Username;
                 client.Character = zonecharacter;
                 zonecharacter.Client = client;
+              
+                //Zonecharacter.Client. = ;
+           
+               
                 if (ClientManager.Instance.AddClient(client))
                 {
                     zonecharacter.SendGetIngameChunk(); //TODO: world server notification over WCF?

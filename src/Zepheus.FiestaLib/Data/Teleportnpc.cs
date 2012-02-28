@@ -8,9 +8,12 @@ namespace Zepheus.FiestaLib.Data
 {
     public sealed class Teleportnpc
     {
+        public ushort AnswerMap0 { get; private set; }
         public ushort AnswerMap1 { get; private set; }
         public ushort AnswerMap2 { get; private set; }
         public ushort AnswerMap3 { get; private set; }
+        public ushort AnswerMap0X { get; private set; }
+        public ushort AnswerMap0Y { get; private set; }
         public ushort AnswerMap1X { get; private set; }
         public ushort AnswerMap1Y { get; private set; }
         public ushort AnswerMap2X { get; private set; }
@@ -22,6 +25,9 @@ namespace Zepheus.FiestaLib.Data
         {
             Teleportnpc Tele = new Teleportnpc
             {
+                AnswerMap0 = ushort.Parse(Row["AnswerMap0"].ToString()),
+                AnswerMap0X = ushort.Parse(Row["AnswerMap0X"].ToString()),
+                AnswerMap0Y = ushort.Parse(Row["AnswerMap0Y"].ToString()),
                 AnswerMap1 = ushort.Parse(Row["AnswerMap1"].ToString()),
                 AnswerMap1X = ushort.Parse(Row["AnswerMap1X"].ToString()),
                 AnswerMap1Y = ushort.Parse(Row["AnswerMap1Y"].ToString()),
