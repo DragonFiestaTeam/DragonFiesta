@@ -88,18 +88,20 @@ namespace Zepheus.Zone
                 SendMessageChat(chr, "NpcMaxHP :" + Targetnpc.MaxHP);
                 SendMessageChat(chr, "NpcMaxSP :" + Targetnpc.MaxSP);
                 SendMessageChat(chr, "NpCPositionx :" + Targetnpc.Position.X);
-                SendMessageChat(chr, "NpCPositionx :" + Targetnpc.Position.X);
+                SendMessageChat(chr, "NpCPositionY :" + Targetnpc.Position.Y);
                 SendMessageChat(chr, "NpRot :" + Targetnpc.Rotation);
                 SendMessageChat(chr, "NpCFlags :" + Targetnpc.Point.Flags);
             }
         }
         private void SendMessageChat(ZoneCharacter character, string chat)
         {
+            lock(chat)
             using (var packet = new Packet(SH8Type.ChatNormal))
             {
-                packet.WriteUShort(character.MapObjectID);
+               Npc ne = character.CharacterInTarget as Npc;
+                packet.WriteUShort(ne.MapObjectID);
                 packet.WriteByte((byte)chat.Length);
-                packet.WriteByte(0x2a);
+                packet.WriteByte(0x03);
                 packet.WriteString(chat, chat.Length);
                 character.Client.SendPacket(packet);
             }
@@ -346,7 +348,7 @@ namespace Zepheus.Zone
             if (param.Length == 2)
             {
                 MobBreedLocation loc = MobBreedLocation.CreateLocationFromPlayer(character, ushort.Parse(param[1]));
-                character.Map.MobBreeds.Add(loc.spawnid, loc);
+                character.Map.MobBreeds.Add(loc);
             }
         }
 
