@@ -27,7 +27,6 @@ namespace Zepheus.Zone
 
         public void LoadCommands()
         {
-            RegisterCommand("&Inv", Inv, 1);
             RegisterCommand("&GiveMoney", GiveMoney, 1, "<long>");
             RegisterCommand("&ChangeMoney", ChangeMoney, 1, "NewMoney");
             RegisterCommand("&adminlevel", AdminLevel, 1);
@@ -55,7 +54,6 @@ namespace Zepheus.Zone
             RegisterCommand("&anim", Anim, 1, "animid");
             RegisterCommand("&animall", AnimAll, 1, "animid");
             RegisterCommand("&perf", Performance, 1);
-            RegisterCommand("&allm", Allm, 1);
             RegisterCommand("&movetome", Movetome, 1, "playername");
             RegisterCommand("&movetoplayer", Movetoplayer, 1, "playername");
             RegisterCommand("&NpcInfo", NpcInfo, 1);
@@ -110,21 +108,8 @@ namespace Zepheus.Zone
         {
             string player = param[1];
             ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
+            if (playerc == null) character.DropMessage("Player not found");
             playerc.Character.ChangeMap(character.MapID, character.Position.X, character.Position.Y);
-        }
-        private void Allm(ZoneCharacter character, params string[] param)
-        {
-            Console.WriteLine(character.IsInParty);
-            Console.WriteLine(character.HealthThreadState);
-            foreach (var chaj in character.Party)
-            {
-                Console.WriteLine("key:" + chaj.Key + "char" + chaj.Value.Character.Name + "");
-                foreach (var iw in chaj.Value.Character.Party)
-                {
-                    Console.WriteLine("key:" + iw.Key + "char" + iw.Value.Character.Name + "");
-                }
-            }
-            //character.Party.Clear();
         }
         public void CanWald(ZoneCharacter @char, params string[] param)
         {
@@ -132,28 +117,6 @@ namespace Zepheus.Zone
             @char.Map.Block.CanWalk(@char.character.PositionInfo.XPos, @char.character.PositionInfo.YPos);
 
             @char.DropMessage("Unknown skill.");
-        }
-        private void Inv(ZoneCharacter character, params string[] param)
-        {
-            using (var packet = new Packet(SH14Type.UpdatePartyMemberStats))
-            {
-                packet.WriteByte(1);//unk
-                packet.WriteString("Stan", 16);
-                packet.WriteUInt(2);
-                packet.WriteUInt(400);
-                character.Client.SendPacket(packet);
-            }
-            using (var ppacket = new Packet(SH14Type.SetMemberStats))
-            {
-                ppacket.WriteByte(1);
-                ppacket.WriteString("Stan", 16);
-                ppacket.WriteByte(21);
-                ppacket.WriteByte(255);
-                ppacket.WriteUInt(2);//maxhp
-                ppacket.WriteUInt(800);//MaxSP
-                ppacket.WriteByte(1);
-                character.Client.SendPacket(ppacket);
-            }
         }
         private void Test(ZoneCharacter character, params string[] param)
         {

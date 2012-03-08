@@ -18,7 +18,7 @@ namespace Zepheus.Zone.Handlers
             if (packet.TryReadByte(out anwser))
             {
                 Npc Target = client.Character.CharacterInTarget as Npc;
-                if (Target == null|| Target.Point.Flags != 2 || Target.Point.TeleNpc == null) return;
+                if (Target == null && Target.Point.Flags != Data.Data.NpcFlags.Teleporter) return;
                 using (Packet Packet = new Packet(SH6Type.TelePorter))
                 {
                     Packet.WriteShort(6593);//code for normal teleport

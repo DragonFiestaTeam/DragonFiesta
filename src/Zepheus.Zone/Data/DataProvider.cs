@@ -203,7 +203,7 @@ namespace Zepheus.Zone.Data
             {
                 foreach (var npc in map.NPCs)
                 {
-                    if (npc.Flags == 2)
+                    if (npc.Flags == (ushort)Data.NpcFlags.Teleporter)
                     {
                         DataTable Data = null;
                         using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
@@ -570,7 +570,7 @@ namespace Zepheus.Zone.Data
             foreach (var map in MapsByID.Values)
             {
                 foreach (var npc in map.NPCs)
-                    if (npc.Flags == 1)
+                    if (npc.Flags == (ushort)Data.NpcFlags.Vendor)
                     {
                         DataTable vendorData = null;
                         using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
