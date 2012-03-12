@@ -48,7 +48,7 @@ namespace Zepheus.Login.InterServer
             int acountid;
             if (packet.TryReadInt(out acountid))
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Accounts Set Blocket='1' WHERE AccountID="+acountid+"");
+                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Accounts Set Blocked='1' WHERE ID="+acountid+"");
             }
         }
         public static void SendAssigned(WorldConnection wc)
