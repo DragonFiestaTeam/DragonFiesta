@@ -57,6 +57,16 @@ namespace Zepheus.Zone
             RegisterCommand("&movetome", Movetome, 1, "playername");
             RegisterCommand("&movetoplayer", Movetoplayer, 1, "playername");
             RegisterCommand("&NpcInfo", NpcInfo, 1);
+            RegisterCommand("&Ban", Ban, 1,"Charname");
+        }
+        private void Ban(ZoneCharacter Char, params string[] param)
+        {
+            string player = param[1];
+            ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
+            if (playerc != null)
+            {
+                playerc.Character.Ban();
+            }
         }
         private void Movetoplayer(ZoneCharacter character, params string[] param)
         {

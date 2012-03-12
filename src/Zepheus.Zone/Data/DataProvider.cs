@@ -198,14 +198,14 @@ namespace Zepheus.Zone.Data
         }
         private void LoadTeleporters()
         {
+            DataTable Data = null;
             int counter = 0;
             foreach (var map in MapsByID.Values)
             {
                 foreach (var npc in map.NPCs)
                 {
-                    if (npc.Flags == (ushort)Data.NpcFlags.Teleporter)
+                    if (npc.Flags == (ushort)Zepheus.Zone.Data.Data.NpcFlags.Teleporter)
                     {
-                        DataTable Data = null;
                         using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                         {
                             Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");

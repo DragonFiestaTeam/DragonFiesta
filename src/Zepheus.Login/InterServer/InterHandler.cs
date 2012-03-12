@@ -42,7 +42,15 @@ namespace Zepheus.Login.InterServer
             }
         }
 
-
+        [InterPacketHandler(InterHeader.BanAccount)]
+        public static void Banaccount(WorldConnection wc, InterPacket packet)
+        {
+            int acountid;
+            if (packet.TryReadInt(out acountid))
+            {
+                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Accounts Set Blocket='1' WHERE AccountID="+acountid+"");
+            }
+        }
         public static void SendAssigned(WorldConnection wc)
         {
             using (var p = new InterPacket(InterHeader.Assigned))

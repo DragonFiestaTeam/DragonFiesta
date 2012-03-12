@@ -13,6 +13,9 @@ using Zepheus.Zone.Networking;
 using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using System.Data;
+using Zepheus.InterLib;
+using Zepheus.InterLib.Networking;
+
 namespace Zepheus.Zone.Game
 {
 	public class ZoneCharacter : MapObject
@@ -740,6 +743,11 @@ namespace Zepheus.Zone.Game
 			Save();
           
 			// Program.worldService.DisconnectClient(this.Name, true); // TODO: Inter server packet.
+            using (var p = new InterPacket(InterHeader.BanAccount))
+            {
+                p.WriteString(this.character.Name, 16);
+                WorldConnector.Instance.SendPacket(p);
+            }
 			Client.Disconnect();
 		}
 

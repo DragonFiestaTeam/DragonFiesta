@@ -14,7 +14,7 @@
         RemovePartyMember = 0x097,
         AddPartyMember = 0x0096,
         Auth = 0x0010,
-        
+        BanAccount = 0x0095,
         Assign = 0x0100,
         Assigned = 0x0101,
 

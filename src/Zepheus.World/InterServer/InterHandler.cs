@@ -69,6 +69,24 @@ namespace Zepheus.World.InterServer
                 }
             }
         }
+          [InterPacketHandler(InterHeader.BanAccount)]
+        public static void BanAccount(ZoneConnection zc, InterPacket packet)
+        {
+              string playername;
+              if (packet.TryReadString(out playername, 16))
+              {
+                  WorldClient bannclient = ClientManager.Instance.GetClientByCharname(playername);
+                  if (bannclient != null)
+                  {
+                      using (var p = new InterPacket(InterHeader.BanAccount))
+                      {
+                          p.WriteInt(bannclient.AccountID);
+                          LoginConnector.Instance.SendPacket(p);
+                      }
+                      bannclient.Disconnect();
+                  }
+              }
+        }
         [InterPacketHandler(InterHeader.ChangeZone)]
         public static void ChangeZoneBeginn(ZoneConnection zc, InterPacket packet)
         {
