@@ -60,7 +60,7 @@ namespace Zepheus.Zone.Handlers
 
 			byte handlerflags;
 			packet.TryReadByte(out handlerflags);
-			if (handlerflags == 1 && character.CharacterInTarget != null)
+			if (handlerflags == (ushort)Data.Data.NpcFlags.Vendor && character.CharacterInTarget != null)
 			{
 				Npc npc = character.CharacterInTarget as Npc;
 				switch (npc.Point.RoleArg0)

@@ -11,6 +11,39 @@ namespace Zepheus.Zone.Handlers
 {
     public sealed class Handler6
     {
+         [PacketHandler(CH6Type.Teleporter)]
+        public static void UseTeleporter(ZoneClient client, Packet packet)
+        {
+            byte anwser;
+            if (packet.TryReadByte(out anwser))
+            {
+                Npc Target = client.Character.CharacterInTarget as Npc;
+                if (Target == null && Target.Point.Flags != (ushort)Data.Data.NpcFlags.Teleporter) return;
+                using (Packet Packet = new Packet(SH6Type.TelePorter))
+                {
+                    Packet.WriteShort(6593);//code for normal teleport
+                    client.SendPacket(Packet);
+                }
+                switch (anwser)
+                {
+                    case 0:
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap0, Target.Point.TeleNpc.AnswerMap0X, Target.Point.TeleNpc.AnswerMap0Y);
+                        break;
+                    case 1:
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap1, Target.Point.TeleNpc.AnswerMap1X, Target.Point.TeleNpc.AnswerMap1Y);
+                        break;
+                    case 2:
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap2, Target.Point.TeleNpc.AnswerMap2X, Target.Point.TeleNpc.AnswerMap2Y);
+                        break;
+                    case 3:
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
+                        break;
+                    default:
+                        Log.WriteLine(LogLevel.Warn,"Unkown Teleport Answer {1}",anwser);
+                        break;
+                }
+            }
+        }
         [PacketHandler(CH6Type.TransferKey)]
         public static void TransferKeyHandler(ZoneClient client, Packet packet)
         {

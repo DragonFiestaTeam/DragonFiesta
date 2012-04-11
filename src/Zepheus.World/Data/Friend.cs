@@ -100,11 +100,6 @@ namespace Zepheus.World.Data
                 client.SendPacket(packet);
             }
         }
-        public void UpdatePending(bool pending)
-        {
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE SET Pending='"+pending.ToString()+"' WHERE CharID='"+this.UniqueID+"' AND FriendID='"+this.ID+"'");
-            this.Pending = pending;
-        }
         public void WritePacket(Packet pPacket)
         {
             pPacket.WriteBool(IsOnline);	// Logged In
