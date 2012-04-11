@@ -1,4 +1,5 @@
-﻿using Zepheus.World.Networking;
+﻿using MySql.Data.MySqlClient;
+using Zepheus.World.Networking;
 
 namespace Zepheus.World.Data
 {
@@ -6,13 +7,17 @@ namespace Zepheus.World.Data
 	{
 		#region .ctor
 
+		private GroupMember()
+		{
+
+		}
 		public GroupMember(WorldClient client, GroupRole role)
 		{
 			this.Client = client;
 			this.Character = client.Character;
 			this.Role = role;
 			this.Name = client.Character.Character.Name;
-            this.IsOnline = true;
+			this.IsOnline = true;
 		}
 		#endregion
 		
@@ -34,6 +39,36 @@ namespace Zepheus.World.Data
 			return ((GroupMember) obj).Name == this.Name;
 		}
 
+		public static GroupMember LoadFromDatabase(ushort pCharId)
+		{
+			const string query = "SELECT * FROM `characters` WHERE CharId = @cid";
+			GroupMember member = new GroupMember();
+
+			using (var con = Program.DatabaseManager.GetClient())
+			using (var cmd = new MySqlCommand(query, con.Connection))
+			{
+				cmd.Parameters.AddWithValue("@cid", pCharId);
+				using (var rdr = cmd.ExecuteReader())
+				{
+					while (rdr.Read())
+					{
+						member.Name = rdr.GetString("Name");
+						member.IsOnline = ClientManager.Instance.IsOnline(member.Name);
+						member.Role = rdr.GetBoolean("IsGroupMaste") 
+											? GroupRole.Master 
+											: GroupRole.Member;
+						if (member.IsOnline)
+						{
+							member.Client = ClientManager.Instance.GetClientByCharname(member.Name);
+							member.Character = member.Client.Character;
+						}
+
+						return member;
+					}
+				}
+			}
+			return member;
+		}
 		#endregion
 	}
 }

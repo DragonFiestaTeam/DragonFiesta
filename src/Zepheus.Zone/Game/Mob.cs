@@ -17,13 +17,12 @@ namespace Zepheus.Zone.Game
         public const int MinMovement = 60;
         public const int MaxMovement = 180;
         private MobBreedLocation spawnplace;
-        private bool DropState { get; set; }
         private bool deathTriggered;
         public MobInfo Info { get; private set; }
         public MobInfoServer InfoServer { get; private set; }
 
         public override uint MaxHP { get { return Info.MaxHP; } set { return; } }
-        public override uint MaxSP { get { return InfoServer.MaxSP; } set { return; } } //TODO: load from mobinfoserver
+        public override uint MaxSP { get { return 100; } set { return; } } //TODO: load from mobinfoserver
 
         private DateTime nextUpdate;
         private Vector2 boundryLT;
@@ -109,21 +108,10 @@ namespace Zepheus.Zone.Game
             boundryLT = new Vector2(startpos.X - range, startpos.Y - range);
             boundryRB = new Vector2(startpos.X + range, startpos.Y + range);
         }
-        public void DropItem(Item Item)
-        {
-            Drop mDrop = new Drop(Item,this,this.Position.X,this.Position.Y,300);
-            this.Map.AddDrop(mDrop);
-        }
+
         public void Die()
         {
             HP = 0;
-
-            if (!DropState)
-            {
-                DropState = true;
-                new RandomDrop(this);
-                //:TODO mindroplevel && maxdroplevel
-            }
             Moving = false;
             boundryLT = null;
             boundryRB = null;
@@ -209,7 +197,6 @@ namespace Zepheus.Zone.Game
                 else if (nextUpdate <= date)
                 {
                     Map.RemoveObject(this.MapObjectID);
-                    DropState = false;
                     Position = null;
                     return;
                 }

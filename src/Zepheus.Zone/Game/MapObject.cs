@@ -8,43 +8,54 @@ namespace Zepheus.Zone.Game
 {
     public abstract class MapObject
     {
-        public byte Rotation { get; set; }
-        public Vector2 Position { get; set; }
-        public ushort MapObjectID { get; set; }
-        bool IsAdded { get; set; }
+        #region .ctor
+        public MapObject()
+        {
+            IsAttackable = true;
+            SelectedBy = new List<ZoneCharacter>();
+        }
+        ~MapObject()
+        {
+            SelectedBy.Clear();
+        }
+        #endregion
+        #region Properties
+        public bool IsAdded { get; set; }
         public bool IsAttackable { get; set; }
+        public bool IsDead { get { return HP == 0; } }
+
+
         public Map Map { get; set; }
         public Sector MapSector { get; set; }
+        public Vector2 Position { get; set; }
+        public byte Rotation { get; set; }
+        public ushort MapObjectID { get; set; }
 
         public virtual uint HP { get; set; }
         public virtual uint MaxHP { get; set; }
         public virtual uint SP { get; set; }
         public virtual uint MaxSP { get; set; }
-        public bool IsDead { get { return HP == 0; } }
 
-        // HP/SP update counter thing
-        private ushort statUpdateCounter = 0;
-        public ushort UpdateCounter { get { return ++statUpdateCounter; } }
         public List<ZoneCharacter> SelectedBy { get; private set; }
+        public ushort UpdateCounter { get { return ++statUpdateCounter; } }
 
+        // HP/SP update counter thingy
+        private ushort statUpdateCounter = 0;
+        public static readonly TimeSpan HpSpUpdateInterval = TimeSpan.FromSeconds(3);
+        protected DateTime lastHpSpUpdate = DateTime.Now; 
+        #endregion
+        #region Methods
         public virtual void Attack(MapObject victim)
         {
             if (victim != null && !victim.IsAttackable) return;
         }
-
         public virtual void AttackSkill(ushort skillid, MapObject victim)
         {
             if (victim != null && !victim.IsAttackable) return;
         }
-
         public virtual void AttackSkillAoE(ushort skillid, uint x, uint y)
         {
         }
-
-        public abstract void Update(DateTime date);
-        public abstract Packet Spawn();
-
-
         public virtual void Revive(bool totally = false)
         {
             if (totally)
@@ -54,10 +65,11 @@ namespace Zepheus.Zone.Game
             }
             else
             {
+                // Note - Why not take e.g. 10% of your MaxHp?
+                // HP = MaxHP * 0.1;
                 HP = 50;
             }
         }
-
         public virtual void Damage(MapObject bully, uint amount, bool isSP = false)
         {
             if (isSP)
@@ -95,15 +107,21 @@ namespace Zepheus.Zone.Game
             }
         }
 
-        public MapObject()
+        public abstract void Update(DateTime date);
+        public abstract Packet Spawn();
+        #endregion
+        #region Event-Stuff
+        // Event trigger
+        protected virtual void OnHpSpChanged()
         {
-            IsAttackable = true;
-            SelectedBy = new List<ZoneCharacter>();
+            if (HpSpChanged != null)
+            {
+                HpSpChanged(this, new EventArgs());
+            }
         }
 
-        ~MapObject()
-        {
-            SelectedBy.Clear();
-        }
+        // Event-Variables
+        public event EventHandler<EventArgs> HpSpChanged;
+        #endregion
     }
 }

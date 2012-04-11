@@ -13,47 +13,56 @@ namespace Zepheus.Zone.Handlers
 		[PacketHandler(CH14Type.PartyInviteGame)]
 		public static void GetPartyListFromCharserer(ZoneClient client, Packet packet)
 		{
-			using (var ppacket = new InterPacket(InterHeader.GetParty))
+			RequestGroup(client.Character.Name);
+			//if (!client.Character.HealthThreadState)
+			//{
+			//    ParameterizedThreadStart pts = new ParameterizedThreadStart(PartyHealthThread);
+			//    Thread healthThread = new Thread(pts);
+			//    healthThread.Start(client);
+			//    client.Character.HealthThreadState = true;
+			//}
+		}
+
+		private static void RequestGroup(string pName)
+		{
+			using (var packet = new InterPacket(InterHeader.GetParty))
 			{
-				ppacket.WriteString(client.Character.character.Name, 16);
-				WorldConnector.Instance.SendPacket(ppacket);
-			}
-			if (!client.Character.HealthThreadState)
-			{
-				ParameterizedThreadStart pts = new ParameterizedThreadStart(PartyHealthThread);
-				Thread healthThread = new Thread(pts);
-				healthThread.Start(client);
-				client.Character.HealthThreadState = true;
+				packet.WriteString(pName, 16);
+				WorldConnector.Instance.SendPacket(packet);
 			}
 		}
 		public static void PartyHealthThread(object charname)
 		{
-			ZoneClient @char = charname as ZoneClient;
-			uint sp = @char.Character.SP;
-			uint hp = @char.Character.HP;
-			byte level = @char.Character.Level;
-			uint maxHP = @char.Character.MaxHP;
-			uint maxSP = @char.Character.MaxSP;
-			ushort mapID = @char.Character.MapID;
-			while (@char.Character.IsInParty && @char.Character.MapID == mapID)
+			ZoneClient character = charname as ZoneClient;
+			uint sp = character.Character.SP;
+			uint hp = character.Character.HP;
+			byte level = character.Character.Level;
+			uint maxHP = character.Character.MaxHP;
+			uint maxSP = character.Character.MaxSP;
+			ushort mapID = character.Character.MapID;
+			while (character.Character.IsInParty && character.Character.MapID == mapID)
 			{
-				if (sp != @char.Character.SP || hp != @char.Character.HP)
+                // HP/SP changed
+				if (sp != character.Character.SP || hp != character.Character.HP)
 				{
-					sp = @char.Character.SP;
-					hp = @char.Character.HP;
-					level = @char.Character.Level;
-					foreach (var partyMember in @char.Character.Party)
+					sp = character.Character.SP;
+					hp = character.Character.HP;
+					level = character.Character.Level;
+                    // Announce
+					foreach (var partyMember in character.Character.Party)
 					{
 						ZoneClient memChar = ClientManager.Instance.GetClientByName(partyMember.Key);
 						Sector charSector = memChar.Character.Map.GetSectorByPos(memChar.Character.Position);
-						if (partyMember.Key != @char.Character.Name && charSector == @char.Character.MapSector)
+                        // ?
+						if (partyMember.Key != character.Character.Name && charSector == character.Character.MapSector)
 						{
+                            // Update stats-packet
 							using (var packet = new Packet(SH14Type.UpdatePartyMemberStats))
 							{
 								packet.WriteByte(1);//unk
-								packet.WriteString(@char.Character.Name, 16);
-								packet.WriteUInt(@char.Character.HP);
-								packet.WriteUInt(@char.Character.SP);
+								packet.WriteString(character.Character.Name, 16);
+								packet.WriteUInt(character.Character.HP);
+								packet.WriteUInt(character.Character.SP);
 								memChar.SendPacket(packet);
 							}
 						}
@@ -61,32 +70,34 @@ namespace Zepheus.Zone.Handlers
 					}
 
 				}
-				else if (maxHP != @char.Character.MaxHP || maxSP != @char.Character.MaxSP || level != @char.Character.Level)
+                // max hp or level
+				else if (maxHP != character.Character.MaxHP || maxSP != character.Character.MaxSP || level != character.Character.Level)
 				{
-					maxHP = @char.Character.MaxHP;
-					maxSP = @char.Character.MaxSP;
-					level = @char.Character.Level;
-					foreach (var partyMember in @char.Character.Party)
+					maxHP = character.Character.MaxHP;
+					maxSP = character.Character.MaxSP;
+					level = character.Character.Level;
+                    // announce
+					foreach (var partyMember in character.Character.Party)
 					{
-						if (partyMember.Key != @char.Character.Name)
+						if (partyMember.Key != character.Character.Name)
 						{
 							ZoneClient memChar = ClientManager.Instance.GetClientByName(partyMember.Key);
 							using (var ppacket = new Packet(SH14Type.UpdatePartyMemberStats))
 							{
 								ppacket.WriteByte(1);//unk
-								ppacket.WriteString(@char.Character.Name, 16);
-								ppacket.WriteUInt(@char.Character.HP);
-								ppacket.WriteUInt(@char.Character.SP);
+								ppacket.WriteString(character.Character.Name, 16);
+								ppacket.WriteUInt(character.Character.HP);
+								ppacket.WriteUInt(character.Character.SP);
 								memChar.SendPacket(ppacket);
 							}
 							using (var ppacket = new Packet(SH14Type.SetMemberStats))//when character has levelup in group
 							{
 								ppacket.WriteByte(1);
-								ppacket.WriteString(@char.Character.Name, 16);
-								ppacket.WriteByte((byte)@char.Character.Job);
-								ppacket.WriteByte(@char.Character.Level);
-								ppacket.WriteUInt(@char.Character.MaxHP);//maxhp
-								ppacket.WriteUInt(@char.Character.MaxSP);//MaxSP
+								ppacket.WriteString(character.Character.Name, 16);
+								ppacket.WriteByte((byte)character.Character.Job);
+								ppacket.WriteByte(character.Character.Level);
+								ppacket.WriteUInt(character.Character.MaxHP);//maxhp
+								ppacket.WriteUInt(character.Character.MaxSP);//MaxSP
 								ppacket.WriteByte(1);
 								memChar.SendPacket(ppacket);
 							}
@@ -96,9 +107,9 @@ namespace Zepheus.Zone.Handlers
 				}
 				Thread.Sleep(3000);
 			}
-			@char.Character.Party.Clear();
-			@char.Character.HealthThreadState = false;
-			@char.Character.IsInParty = false;
+			character.Character.Party.Clear();
+			character.Character.HealthThreadState = false;
+			character.Character.IsInParty = false;
 		}
 	}
 }

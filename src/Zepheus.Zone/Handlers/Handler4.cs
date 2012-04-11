@@ -237,7 +237,7 @@ namespace Zepheus.Zone.Handlers
         {
             using (var packet = new Packet(SH4Type.CharacterPoints))
             {
-                packet.WriteByte(client.Character.character.UsablePoints);
+                packet.WriteByte(client.Character.Character.UsablePoints);
                 client.SendPacket(packet);
             }
         }
@@ -252,7 +252,7 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            if (client.Character.character.UsablePoints == 0)
+            if (client.Character.Character.UsablePoints == 0)
             {
                 Log.WriteLine(LogLevel.Warn, "User tried to set stat point while not having any left. {0}", client);
             }
@@ -272,7 +272,7 @@ namespace Zepheus.Zone.Handlers
                             return;
                         }
                 }
-                client.Character.character.UsablePoints--;
+                client.Character.Character.UsablePoints--;
                 //Program.Entity.SaveChanges();
                 SendSetUsablePoint(client, stat);
             }

@@ -63,10 +63,10 @@ namespace Zepheus.Login.Handlers
 			* 0x4b - Please accept the agreement. */
 			bool banned = false;
 			DataTable loginData = null;
-			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-			{
-				loginData = dbClient.ReadDataTable("SELECT `ID`, `Username`, `Password`, `Admin`, `Blocked` FROM accounts WHERE Username= '" + username + "'");
-			}
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                loginData = dbClient.ReadDataTable("SELECT `ID`, `Username`, `Password`, `Admin`, `Blocked` FROM accounts WHERE Username= '" + username + "'");
+            }
 			if (loginData != null)
 			{
 				if (loginData.Rows.Count > 0)

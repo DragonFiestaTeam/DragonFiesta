@@ -85,19 +85,19 @@ namespace Zepheus.Zone
 		public bool AddClient(ZoneClient client)
 		{
 	  
-			if (client.Character.character == null)
+			if (client.Character.Character == null)
 			{
 				Log.WriteLine(LogLevel.Warn, "ClientManager trying to add character = null.", client.Username);
 				return false;
 			}
-			else if (clientsByName.ContainsKey(client.Character.character.Name))
+			else if (clientsByName.ContainsKey(client.Character.Character.Name))
 			{
-				Log.WriteLine(LogLevel.Warn, "Character {0} is already registered to client manager!", client.Character.character.Name);
+				Log.WriteLine(LogLevel.Warn, "Character {0} is already registered to client manager!", client.Character.Character.Name);
 				return false;
 			}
 			else
 			{
-				if (!clientsByName.TryAdd(client.Character.character.Name, client))
+				if (!clientsByName.TryAdd(client.Character.Character.Name, client))
 				{
 					Log.WriteLine(LogLevel.Warn, "Could not add client to list!");
 					return false;
@@ -110,7 +110,7 @@ namespace Zepheus.Zone
 		{
 			if(client.Character == null) return;
 			ZoneClient deleted;
-			clientsByName.TryRemove(client.Character.character.Name, out deleted);
+			clientsByName.TryRemove(client.Character.Character.Name, out deleted);
 			if (deleted != client)
 			{
 				Log.WriteLine(LogLevel.Warn, "There was a duplicate client object registered for {0}.", client.Character.Name);

@@ -16,6 +16,7 @@ namespace Zepheus.FiestaLib.Data
         public ushort Size { get; private set; }
 
         public List<DropInfo> Drops { get; private set; }
+
         public byte MinDropLevel { get; set; }
         public byte MaxDropLevel { get; set; }
 

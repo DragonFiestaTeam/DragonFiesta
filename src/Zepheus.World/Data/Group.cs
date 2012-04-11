@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MySql.Data.MySqlClient;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
@@ -28,11 +29,11 @@ namespace Zepheus.World.Data
 		public const int MaxMembers = 5;
 		private readonly List<GroupMember> members;
 		private readonly List<GroupRequest> openRequests;
-		public GroupMember this[int index]
+		public GroupMember this[string pName]
 		{
 			get
 			{
-				return members[index];
+				return this.members.Single(m => m.Name == pName);
 			}
 		}
 		public GroupMember Master { get { return members.Single(m => m.Role == GroupRole.Master); }}
@@ -89,22 +90,6 @@ namespace Zepheus.World.Data
 
 			AnnounceChangeMaster();
 		}
-
-		public override bool Equals(object obj)
-		{
-			if(!(obj is Group))
-				return false;
-			var grp = (Group) obj;
-			return grp.Id == this.Id;
-		}
-		public bool Equals(Group other)
-		{
-			return other.Id.Equals(this.Id);
-		}
-		public override int GetHashCode()
-		{
-			return 0;
-		}
 		public bool HasOpenRequestFor(string pName)
 		{
 			return openRequests.Any(r => r.InvitedClient.Character.Character.Name == pName);
@@ -112,8 +97,8 @@ namespace Zepheus.World.Data
 		public void MemberLeaves(WorldClient pClient)
 		{
 			var otherMembers = from m in members
-			                   where m.Name != pClient.Character.Character.Name
-			                   select m.Client;
+							   where m.Name != pClient.Character.Character.Name
+							   select m.Client;
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
 				ChangeMaster(otherMembers.First().Character.GroupMember);
 			SendMemberLeavesPacket(pClient.Character.Character.Name, otherMembers);
@@ -136,6 +121,47 @@ namespace Zepheus.World.Data
 
 			AnnouncePartyList();
 			UpdateInDatabase();
+		}
+		public void AnnouncePartyList()
+		{
+			using (var packet = new Packet(SH14Type.PartyList))
+			{
+				packet.WriteByte((byte)members.Count);
+				foreach (var groupMember in members)
+				{
+					packet.WriteString(groupMember.Name, 16);
+					packet.WriteBool(groupMember.IsOnline);
+				}
+
+				AnnouncePacket(packet);
+			}
+		}
+		public void Chat(WorldClient pFrom, string pMessage)
+		{
+			using (var packet = new Packet(SH8Type.PartyChat))
+			{
+				packet.WriteString(pFrom.Character.Character.Name, 16);
+				packet.WriteByte((byte) pMessage.Length);
+				packet.WriteString(pMessage);
+
+				AnnouncePacket(packet);
+			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (!(obj is Group))
+				return false;
+			var grp = (Group)obj;
+			return grp.Id == this.Id;
+		}
+		public bool Equals(Group other)
+		{
+			return other.Id.Equals(this.Id);
+		}
+		public override int GetHashCode()
+		{
+			return 0;
 		}
 
 		internal void AddMember(GroupMember pMember)
@@ -167,6 +193,31 @@ namespace Zepheus.World.Data
 		internal void CreateInDatabase()
 		{
 			
+		}
+		internal static Group ReadFromDatabase(long pId)
+		{
+			const string query = "SELECT * FROM `groups` WHERE Id = @gid";
+			Group g = new Group(pId);
+			
+			using(var con = Program.DatabaseManager.GetClient())
+			using(var cmd = new MySqlCommand(query, con.Connection))
+			{
+				cmd.Parameters.AddWithValue("@gid", pId);
+				using (var rdr = cmd.ExecuteReader())
+				{
+					while (rdr.Read())
+					{
+						for (int i = 1; i < 6; i++)
+						{
+							UInt16 mem = rdr.GetUInt16(string.Format("Member{0}", i));
+							if(mem != null)
+								g.members.Add(GroupMember.LoadFromDatabase(mem));
+						}
+					}
+				}
+			}
+
+			return g;
 		}
 		#endregion
 
@@ -210,23 +261,6 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
-		private void AnnouncePartyList()
-		{
-			using (var packet = new Packet(SH14Type.PartyList))
-			{
-				packet.WriteByte((byte) members.Count);
-				foreach (var groupMember in members)
-				{
-					packet.WriteString(groupMember.Name, 16);
-					packet.WriteBool(groupMember.IsOnline);
-				}
-
-				foreach (var mem in members.Where(m => m.IsOnline))
-				{
-					mem.Client.SendPacket(packet);
-				}
-			}
-		}
 		private void DeleteGroupByNameInDatabase(string pName)
 		{
 			DatabaseHelper.RemoveCharacterGroup(pName);
@@ -250,6 +284,13 @@ namespace Zepheus.World.Data
 				pack.WriteString(this.Master.Name, 16);
 				pack.WriteString(pMember.Name, 16);
 				con.SendPacket(pack);
+			}
+		}
+		private void AnnouncePacket(Packet pPacket)
+		{
+			foreach (var grpMem in members.Where(m => m.IsOnline))
+			{
+				grpMem.Client.SendPacket(pPacket);
 			}
 		}
 		#endregion

@@ -37,8 +37,8 @@ namespace Zepheus.Zone.Game
 			db.SkillID = (short)id;
 			db.Upgrades = 0;
 			db.IsPassive = false;
-			db.Character = c.character;
-			Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Skillist (ID,Owner,SkillID,Upgrades,IsPassive) VALUES ('" + c.character.ID + "','" + db.SkillID + "','" + db.Upgrades + "','" + Convert.ToInt32(IsPassive) + "')");
+			db.Character = c.Character;
+			Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Skillist (ID,Owner,SkillID,Upgrades,IsPassive) VALUES ('" + c.Character.ID + "','" + db.SkillID + "','" + db.Upgrades + "','" + Convert.ToInt32(IsPassive) + "')");
 			skill = db;
 		}
 

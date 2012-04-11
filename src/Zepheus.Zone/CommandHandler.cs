@@ -98,7 +98,7 @@ namespace Zepheus.Zone
         public void CanWald(ZoneCharacter @char, params string[] param)
         {
           
-             @char.Map.Block.CanWalk(@char.character.PositionInfo.XPos,@char.character.PositionInfo.YPos);
+             @char.Map.Block.CanWalk(@char.Character.PositionInfo.XPos,@char.Character.PositionInfo.YPos);
             
            @char.DropMessage("Unknown skill.");
         }
@@ -416,7 +416,7 @@ namespace Zepheus.Zone
 			{
 			    MapObjectID = 90,
 			    Client = character.Client,
-			    character = {PositionInfo = character.character.PositionInfo}
+			    Character = {PositionInfo = character.Character.PositionInfo}
 			};
         	Packet dummy = Handler7.SpawnSinglePlayer(dummyChar);
            dummyChar.Client.SendPacket(dummy);

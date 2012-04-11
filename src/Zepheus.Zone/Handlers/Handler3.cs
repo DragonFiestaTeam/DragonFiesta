@@ -12,7 +12,7 @@ namespace Zepheus.Zone.Handlers
         {
             using(var iacket = new InterPacket(InterHeader.ClientDisconect))
             {
-                iacket.WriteString(client.Character.character.Name, 16);
+                iacket.WriteString(client.Character.Character.Name, 16);
                 InterServer.WorldConnector.Instance.SendPacket(iacket);
             }
         }

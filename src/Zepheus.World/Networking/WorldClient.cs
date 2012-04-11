@@ -15,23 +15,26 @@ namespace Zepheus.World.Networking
 {
 	public sealed class WorldClient : Client
 	{
+		#region Properties
 		public bool Authenticated { get; set; }
 		public string Username { get; set; }
 		public int AccountID { get; set; }
 		public byte Admin { get; set; }
-
 		public ushort RandomID { get; set; } //this ID is used to authenticate later on.
 		public Dictionary<byte, WorldCharacter> Characters { get; private set; }
 		public WorldCharacter Character { get; set; }
 		public DateTime lastPing { get; set; }
-		public bool Pong { get; set; }
+		public bool Pong { get; set; } 
+		#endregion
+		#region .ctor
 		public WorldClient(Socket socket)
 			: base(socket)
 		{
 			base.OnPacket += new EventHandler<PacketReceivedEventArgs>(WorldClient_OnPacket);
 			base.OnDisconnect += new EventHandler<SessionCloseEventArgs>(WorldClient_OnDisconnect);
 		}
-
+		#endregion
+		#region Methods
 		void WorldClient_OnDisconnect(object sender, SessionCloseEventArgs e)
 		{
 			Log.WriteLine(LogLevel.Debug, "{0} Disconnected.", this.Host);
@@ -52,11 +55,10 @@ namespace Zepheus.World.Networking
 				Log.WriteLine(LogLevel.Debug, "Unhandled packet: {0}", e.Packet);
 			}
 		}
-
-		public bool LoadCharacters() 
+		public bool LoadCharacters()
 		{
 			if (!Authenticated) return false;
-			Characters = new Dictionary<byte,WorldCharacter>();
+			Characters = new Dictionary<byte, WorldCharacter>();
 			try
 			{
 				DataTable charData = null;
@@ -80,7 +82,7 @@ namespace Zepheus.World.Networking
 						ch.ID = int.Parse(row["CharID"].ToString());
 						ch.Job = (byte)row["Job"];
 						ch.Money = long.Parse(row["Money"].ToString());
-						ch.Exp = long.Parse(row["Exp"].ToString()) ;
+						ch.Exp = long.Parse(row["Exp"].ToString());
 						ch.HP = int.Parse(row["CurHP"].ToString());
 						ch.HPStones = 10;
 						ch.SP = int.Parse(row["CurSP"].ToString());
@@ -93,6 +95,8 @@ namespace Zepheus.World.Networking
 						ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
 						ch.QuickBar = Database.DataStore.ReadMethods.GetQuickBar(ch.ID, Program.DatabaseManager);
 						ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
+						ch.GroupId = (long)row["GroupID"];
+						ch.IsGroupMaster = (bool)row["IsGroupMaster"];
 
 						Characters.Add(ch.Slot, new WorldCharacter(ch));
 					}
@@ -104,7 +108,7 @@ namespace Zepheus.World.Networking
 				return false;
 			}
 			return true;
-		
+
 		}
 		public ClientTransfer GenerateTransfer(byte slot)
 		{
@@ -114,11 +118,12 @@ namespace Zepheus.World.Networking
 				return null;
 			}
 			WorldCharacter character;
-			if(Characters.TryGetValue(slot, out character)) {
+			if (Characters.TryGetValue(slot, out character))
+			{
 				return new ClientTransfer(AccountID, Username, character.Character.Name, RandomID, Admin, this.Host);
-			} else return null;
+			}
+			else return null;
 		}
-
 		public WorldCharacter CreateCharacter(string name, byte slot, byte hair, byte color, byte face, Job job, bool ismale)
 		{
 			if (Characters.ContainsKey(slot) || slot > 5)
@@ -159,9 +164,9 @@ namespace Zepheus.World.Networking
 				eqp.EquipID = begineqp;
 				eqp.Slot = (short)((job == Job.Archer) ? -10 : -12);
 				newchar.EquiptetItem.Add(eqp);
-		   
+
 			}
-			 Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO characters (AccountID,Name, Slot, Job, Male, Hair, HairColor, Face) VALUES ('"+newchar.AccountID+"','"+newchar.Name+"','"+newchar.Slot+"','"+newchar.Job+"','"+Convert.ToByte(newchar.LookInfo.Male)+"','"+newchar.LookInfo.Hair+"','"+newchar.LookInfo.HairColor+"','"+newchar.LookInfo.Face+"')");
+			Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO characters (AccountID,Name, Slot, Job, Male, Hair, HairColor, Face) VALUES ('" + newchar.AccountID + "','" + newchar.Name + "','" + newchar.Slot + "','" + newchar.Job + "','" + Convert.ToByte(newchar.LookInfo.Male) + "','" + newchar.LookInfo.Hair + "','" + newchar.LookInfo.HairColor + "','" + newchar.LookInfo.Face + "')");
 			WorldCharacter tadaa = new WorldCharacter(newchar, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp);
 			Characters.Add(slot, tadaa);
 			return tadaa;
@@ -197,10 +202,11 @@ namespace Zepheus.World.Networking
 
 		public override bool Equals(object obj)
 		{
-			if(!(obj is WorldClient))
+			if (!(obj is WorldClient))
 				return false;
-			WorldClient other = (WorldClient) obj;
+			WorldClient other = (WorldClient)obj;
 			return other.Username == this.Username;
 		}
+		#endregion
 	}
 }
