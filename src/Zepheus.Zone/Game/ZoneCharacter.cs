@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Linq;
 using Zepheus.Database;
 using Zepheus.FiestaLib;
@@ -234,33 +235,31 @@ namespace Zepheus.Zone.Game
 			}
 		}
 
-		public void EquipItem(Equip equip)
+		public void EquipItem(Equip equip) //Working
 		{
 			if (equip.IsEquipped || Level < equip.Info.Level) return;
 
 			sbyte oldslot = equip.Slot;
-
 			Equip oldequip;
 			EquippedItems.TryGetValue(equip.Info.Slot, out oldequip);
-
-			if (oldequip != null)
+            sbyte slotnew = equip.Slot;
+            InventoryItems.Remove(equip.Slot);
+			if (oldequip != null) // wenn im Equipslot was drin is erst unequippen..
 			{
-				oldequip.Slot = oldslot;
-				EquippedItems.Remove(equip.Info.Slot);
+                UnequipItem(oldequip.Info.Slot, slotnew);
 			}
 
-			InventoryItems.Remove(oldslot);
-			Handler12.ModifyInventorySlot(this, 0x20, (byte)oldslot, (byte)equip.Info.Slot, oldequip);
-			if (oldequip != null)
-			{
-				InventoryItems.Add(oldequip.Slot, oldequip);
-			}
-			sbyte slotnew = equip.Slot;
-			equip.Slot = (sbyte)equip.Info.Slot;
-			equip.IsEquipped = true;
-			Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Equiptet='1' WHERE Owner='" + equip.Owner.ID + "' AND EquipID='" + equip.ItemID + "' AND Slot='" + slotnew + "'");
-			EquippedItems.Add(equip.Info.Slot, equip);
+            //Slot und equipped flag in der DB ändern
+            Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Equiptet='1' , Slot='" + (byte)equip.Info.Slot + "'WHERE Owner='" + equip.Owner.ID + "' AND EquipID='" + equip.ItemID + "' AND Slot='" + equip.Slot + "'");
+            if (oldequip == null) Handler12.ModifyInventorySlot(this, (byte)0x20, (byte)0x24, 0, (byte)equip.Slot, null); //alten itemslot löschen
+          
+            //neues equip an den Client weiterleiten
 			Handler12.ModifyEquipSlot(this, (byte)equip.Info.Slot, (byte)oldslot, equip);
+
+             //Equip aus der InventoryList entfernen
+            EquippedItems.Add(equip.Info.Slot, equip); // Equip in die Equipliste hinzufügen
+            equip.IsEquipped = true; // equipped Flag setzen
+            equip.Slot = (sbyte)equip.Info.Slot; //neuen slot setzen
 			Save();
 
 			using (var broad = Handler7.Equip(this, equip))
@@ -269,7 +268,7 @@ namespace Zepheus.Zone.Game
 			}
 		}
 
-		public void MoveItem(sbyte fromslot, sbyte toslot)
+		public void MoveItem(sbyte sourcestate, sbyte destinationstate, sbyte fromslot, sbyte toslot) //Working
 		{
 			Item from;
 			if (!InventoryItems.TryGetValue(fromslot, out from))
@@ -280,29 +279,50 @@ namespace Zepheus.Zone.Game
 
 			Item to;
 			InventoryItems.TryGetValue(toslot, out to);
-
 			InventoryItems.Remove(fromslot);
-			if (to != null)
-			{
-				if (to.Info.Type == ItemType.Equip)
-				{
-					Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Equips SET Slot='" + to.Slot + "' WHERE Owner='" + to.Owner.ID + "' AND Slot='" + fromslot + "' ");
-				}
-				else
-				{
-					Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET Slot='" + to.Slot + "' WHERE Owner='" + to.Owner.ID + "' AND Slot='" + fromslot + "' ");
-				}
-				InventoryItems.Remove(toslot);
-				to.Slot = fromslot;
-				InventoryItems.Add(fromslot, to);
-			}
+            if (to == null) // Kein Item im DestinationSlot
+            {
+                if (from.Info.Type == ItemType.Equip)
+                {
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Equips SET Slot='" + toslot + "' WHERE Owner='" + from.Owner.ID + "' AND Slot='" + fromslot + "' ");
+                }
+                else
+                {
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET Slot='" + toslot + "' WHERE Owner='" + from.Owner.ID + "' AND Slot='" + fromslot + "' ");
+                }
 
-			from.Slot = toslot;
-			InventoryItems.Add(toslot, from);
-			Save();
+                Handler12.ModifyInventorySlot(this, (byte)sourcestate, (byte)destinationstate, 0, (byte)fromslot, null); //alten itemslot löschen
+                Handler12.ModifyInventorySlot(this, (byte)sourcestate, (byte)destinationstate, (byte)fromslot, (byte)toslot, from); //neuen slot befüllen
+                InventoryItems.Remove(fromslot);
+                InventoryItems.Add(toslot, from);
+                from.Slot = toslot;
+            }
+            else // Wenn ein anderes Item im DestinationSlot ist soll es mit dem SourceSlot ausgetauscht werden
+            {
+                if (from is Equip)
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Slot='" + toslot + "'WHERE Owner='" + from.Owner.ID + "' AND EquipID='" + from.ItemID + "'");
+                else
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET Slot='" + toslot + "' WHERE Owner='" + from.Owner.ID + "' AND EquipID='" + from.ItemID + "'");
 
-			Handler12.ModifyInventorySlot(this, 0x24, (byte)toslot, (byte)fromslot, from);
-			Handler12.ModifyInventorySlot(this, 0x24, (byte)fromslot, (byte)toslot, to);
+                if (to is Equip)
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Slot='" + fromslot + "'WHERE Owner='" + to.Owner.ID + "' AND EquipID='" + to.ItemID + "'");
+                else
+                    Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET Slot='" + fromslot + "' WHERE Owner='" + to.Owner.ID + "' AND EquipID='" + to.ItemID + "'");
+
+                InventoryItems.Remove((sbyte)fromslot);
+                InventoryItems.Remove((sbyte)toslot);
+                InventoryItems.Add((sbyte)toslot, from);
+                InventoryItems.Add((sbyte)fromslot, to);
+                from.Slot = toslot;
+                to.Slot = fromslot;
+                Handler12.ModifyInventorySlot(this, (byte)sourcestate, (byte)destinationstate, (byte)fromslot, (byte)toslot, from);
+                Handler12.ModifyInventorySlot(this, (byte)sourcestate, (byte)destinationstate, (byte)toslot, (byte)fromslot, to);
+            }
+
+			//Save(); -Sinnlos ?!
+
+			
+			
 		}
 
 
@@ -324,23 +344,23 @@ namespace Zepheus.Zone.Game
 					return;
 				}
 			}
-
+            
 			if (EquippedItems.Remove(source))
 			{
 				equip.Slot = destination;
+                equip.IsEquipped = false;
 				InventoryItems.Add(destination, equip);
-
 				Handler12.ModifyEquipSlot(this, (byte)source, (byte)destination, null); //unequip
-				Handler12.ModifyInventorySlot(this, 0x20, (byte)destination, (byte)source, equip);
+				Handler12.ModifyInventorySlot(this, 0x20, (byte)source, (byte)destination, equip);
 				Save();
-				Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Equiptet='0' WHERE Owner='" + equip.Owner.ID + "' AND EquipID='" + equip.ItemID + "' AND Slot='" + equip.Slot + "'");
+				Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Equiptet='0' ,Slot='" +destination+ "'WHERE Owner='" + equip.Owner.ID + "' AND EquipID='" + equip.ItemID + "'");
 				using (var broad = Handler7.Unequip(this, equip))
 				{
 					Broadcast(broad);
-				}
+				}              
 			}
 			else return;
-		}
+		} //Working
 
 		public InventoryStatus GiveItem(ushort id, byte amount = (byte) 1)
 		{
