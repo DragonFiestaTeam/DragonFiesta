@@ -218,7 +218,7 @@ namespace Zepheus.Zone.Handlers
                     Log.WriteLine(LogLevel.Warn, "Invalid item move received.");
                     return;
             }
-            client.Character.MoveItem((sbyte)from, (sbyte)to);
+            client.Character.MoveItem((sbyte) oldstate, (sbyte) newstate, (sbyte)from, (sbyte)to);
         }
 
         [PacketHandler(CH12Type.DropItem)]
@@ -301,15 +301,19 @@ namespace Zepheus.Zone.Handlers
                 character.Client.SendPacket(packet);
             }
         }
+        public static void ModifyInventorySlot(ZoneCharacter character, byte inventory, byte oldslot, byte newslot, Item item)
+        {
+            ModifyInventorySlot(character, inventory, (byte) 0x24, oldslot, newslot, item);
+        }
 
-        public static void ModifyInventorySlot(ZoneCharacter character, byte inventory, byte newslot, byte oldslot, Item item)
+        public static void ModifyInventorySlot(ZoneCharacter character, byte sourcestate, byte deststate, byte oldslot, byte newslot, Item item)
         {
             using (var packet = new Packet(SH12Type.ModifyItemSlot))
             {
                 packet.WriteByte(oldslot);
-                packet.WriteByte(inventory); //aka 'unequipped' bool
+                packet.WriteByte(sourcestate); //aka 'unequipped' bool
                 packet.WriteByte(newslot);
-                packet.WriteByte(0x24);
+                packet.WriteByte(deststate);
                 if (item == null)
                 {
                     packet.WriteUShort(0xffff);
@@ -342,8 +346,6 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteUShort(0xffff);
                 character.Client.SendPacket(packet);
             }
-            Item i;
-            character.InventoryItems.TryGetValue((sbyte)slot, out i);
             character.InventoryItems.Remove((sbyte)slot);
         }
     }

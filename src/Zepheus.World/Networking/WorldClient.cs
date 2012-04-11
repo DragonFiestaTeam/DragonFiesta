@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Collections.Generic;
 using System.Net.Sockets;
@@ -47,7 +47,6 @@ namespace Zepheus.World.Networking
 			if (method != null)
 			{
 				Action action = HandlerStore.GetCallback(method, this, e.Packet);
-            
 				Worker.Instance.AddCallback(action);
 			}
 			else
@@ -167,7 +166,6 @@ namespace Zepheus.World.Networking
 				newchar.EquiptetItem.Add(eqp);
 
 			}
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO characters (AccountID,Name, Slot, Job, Male, Hair, HairColor, Face,QuickBar,QuickBarState,Shortcuts,GameSettings,ClientSettings, InstanzeID) VALUES ('" + newchar.AccountID + "','" + newchar.Name + "','" + newchar.Slot + "','" + newchar.Job + "','" + Convert.ToByte(newchar.LookInfo.Male) + "','" + newchar.LookInfo.Hair + "','" + newchar.LookInfo.HairColor + "','" + newchar.LookInfo.Face + "','0x00','0x00','0x00','0x00','0x00','0');");
 			WorldCharacter tadaa = new WorldCharacter(newchar, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp);
 			Characters.Add(slot, tadaa);
 			return tadaa;
