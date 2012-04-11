@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Zepheus.FiestaLib.Networking;
@@ -17,7 +17,7 @@ namespace Zepheus.Zone
     {
         public static CommandHandler Instance { get; private set; }
         public delegate void Command(ZoneCharacter character, params string[] param);
-        private readonly Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
+		private readonly Dictionary<string, CommandInfo> commands = new Dictionary<string, CommandInfo>();
 
         public CommandHandler()
         {
@@ -27,8 +27,9 @@ namespace Zepheus.Zone
 
         public void LoadCommands()
         {
-            RegisterCommand("&GiveMoney", GiveMoney, 1, "<long>");
-            RegisterCommand("&ChangeMoney", ChangeMoney, 1, "NewMoney");
+            RegisterCommand("&Inv", Inv, 1);
+            RegisterCommand("&GiveMoney",GiveMoney,1,"<long>");
+            RegisterCommand("&ChangeMoney", ChangeMoney, 1,"NewMoney");
             RegisterCommand("&adminlevel", AdminLevel, 1);
             RegisterCommand("&map", ChangeMap, 1, "mapid", "x", "y");
             RegisterCommand("&pos", Pos, 1);
@@ -54,19 +55,9 @@ namespace Zepheus.Zone
             RegisterCommand("&anim", Anim, 1, "animid");
             RegisterCommand("&animall", AnimAll, 1, "animid");
             RegisterCommand("&perf", Performance, 1);
-            RegisterCommand("&movetome", Movetome, 1, "playername");
-            RegisterCommand("&movetoplayer", Movetoplayer, 1, "playername");
-            RegisterCommand("&NpcInfo", NpcInfo, 1);
-            RegisterCommand("&Ban", Ban, 1,"Charname");
-        }
-        private void Ban(ZoneCharacter Char, params string[] param)
-        {
-            string player = param[1];
-            ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
-            if (playerc != null)
-            {
-                playerc.Character.Ban();
-            }
+            RegisterCommand("&allm", Allm, 1);
+            RegisterCommand("&movetome", Movetome, 1,"playername");
+            RegisterCommand("&movetoplayer", Movetoplayer, 1,"playername");
         }
         private void Movetoplayer(ZoneCharacter character, params string[] param)
         {
@@ -77,56 +68,61 @@ namespace Zepheus.Zone
         private void GiveMoney(ZoneCharacter character, params string[] param)
         {
             long givedm = long.Parse(param[1].ToString());
-            character.ChangeMoney(character.Money += givedm);
+            character.ChangeMoney(character.Money+= givedm);
         }
         private void ChangeMoney(ZoneCharacter character, params string[] param)
         {
             long newMoney = long.Parse(param[1].ToString());
             character.ChangeMoney(newMoney);
         }
-        private void NpcInfo(ZoneCharacter chr, params string[] param)
-        {
-            if (chr.CharacterInTarget is Npc)
-            {
-                Npc Targetnpc = chr.CharacterInTarget as Npc;
-
-                SendMessageChat(chr, "NpcID :" + Targetnpc.ID);
-                SendMessageChat(chr, "NpcHP :" + Targetnpc.HP);
-                SendMessageChat(chr, "NpcSP :" + Targetnpc.SP);
-                SendMessageChat(chr, "NpcMaxHP :" + Targetnpc.MaxHP);
-                SendMessageChat(chr, "NpcMaxSP :" + Targetnpc.MaxSP);
-                SendMessageChat(chr, "NpCPositionx :" + Targetnpc.Position.X);
-                SendMessageChat(chr, "NpCPositionY :" + Targetnpc.Position.Y);
-                SendMessageChat(chr, "NpRot :" + Targetnpc.Rotation);
-                SendMessageChat(chr, "NpCFlags :" + Targetnpc.Point.Flags);
-            }
-        }
-        private void SendMessageChat(ZoneCharacter character, string chat)
-        {
-            lock(chat)
-            using (var packet = new Packet(SH8Type.ChatNormal))
-            {
-               Npc ne = character.CharacterInTarget as Npc;
-                packet.WriteUShort(ne.MapObjectID);
-                packet.WriteByte((byte)chat.Length);
-                packet.WriteByte(0x03);
-                packet.WriteString(chat, chat.Length);
-                character.Client.SendPacket(packet);
-            }
-        }
         private void Movetome(ZoneCharacter character, params string[] param)
         {
             string player = param[1];
-            ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
-            if (playerc == null) character.DropMessage("Player not found");
-            playerc.Character.ChangeMap(character.MapID, character.Position.X, character.Position.Y);
+          ZoneClient playerc =  ClientManager.Instance.GetClientByName(player);
+          playerc.Character.ChangeMap(character.MapID, character.Position.X, character.Position.Y);
+        }
+        private void Allm(ZoneCharacter character, params string[] param)
+        {
+            Console.WriteLine(character.IsInParty);
+            Console.WriteLine(character.HealthThreadState);
+            foreach (var chaj in character.Party)
+            {
+                Console.WriteLine("key:"+chaj.Key+"char"+chaj.Value.Character.Name+"");
+                foreach (var iw in chaj.Value.Character.Party)
+                {
+                    Console.WriteLine("key:" + iw.Key + "char" + iw.Value.Character.Name + "");
+                }
+            }
+            //character.Party.Clear();
         }
         public void CanWald(ZoneCharacter @char, params string[] param)
         {
-
-            @char.Map.Block.CanWalk(@char.character.PositionInfo.XPos, @char.character.PositionInfo.YPos);
-
-            @char.DropMessage("Unknown skill.");
+          
+             @char.Map.Block.CanWalk(@char.Character.PositionInfo.XPos,@char.Character.PositionInfo.YPos);
+            
+           @char.DropMessage("Unknown skill.");
+        }
+        private void Inv(ZoneCharacter character, params string[] param)
+        {
+            using (var packet = new Packet(SH14Type.UpdatePartyMemberStats))
+            {
+                packet.WriteByte(1);//unk
+                packet.WriteString("Stan", 16);
+                packet.WriteUInt(2);
+                packet.WriteUInt(400);
+                character.Client.SendPacket(packet);
+            }
+                using (var ppacket = new Packet(SH14Type.SetMemberStats))
+                {
+                    ppacket.WriteByte(1);
+                    ppacket.WriteString("Stan", 16);
+                    ppacket.WriteByte(21);
+                    ppacket.WriteByte(255);
+                    ppacket.WriteUInt(2);//maxhp
+                    ppacket.WriteUInt(800);//MaxSP
+                    ppacket.WriteByte(1);
+                    character.Client.SendPacket(ppacket);
+                }
         }
         private void Test(ZoneCharacter character, params string[] param)
         {
@@ -320,8 +316,7 @@ namespace Zepheus.Zone
         {
             if (param.Length == 2)
             {
-                MobBreedLocation loc = MobBreedLocation.CreateLocationFromPlayer(character, ushort.Parse(param[1]));
-                character.Map.MobBreeds.Add(loc);
+                character.Map.MobBreeds.Add(MobBreedLocation.CreateLocationFromPlayer(character, ushort.Parse(param[1])));
             }
         }
 
@@ -340,7 +335,7 @@ namespace Zepheus.Zone
                     foreach (var val in MapManager.Instance.Maps)
                     {
                         if (val.Value.Count > 0)
-                        {
+                        { 
 
                             val.Value[0].SaveMobBreeds();
                         }
@@ -417,41 +412,41 @@ namespace Zepheus.Zone
         }
         private void Clone(ZoneCharacter character, params string[] param)
         {
-            var dummyChar = new ZoneCharacter("DummyChar")
-            {
-                MapObjectID = 90,
-                Client = character.Client,
-                character = { PositionInfo = character.character.PositionInfo }
-            };
-            Packet dummy = Handler7.SpawnSinglePlayer(dummyChar);
-            dummyChar.Client.SendPacket(dummy);
-            //character.Client.SendPacket(clone);
+			var dummyChar = new ZoneCharacter("DummyChar")
+			{
+			    MapObjectID = 90,
+			    Client = character.Client,
+			    Character = {PositionInfo = character.Character.PositionInfo}
+			};
+        	Packet dummy = Handler7.SpawnSinglePlayer(dummyChar);
+           dummyChar.Client.SendPacket(dummy);
+          //character.Client.SendPacket(clone);
 
         }
         private void Testg(ZoneCharacter character, params string[] param)
         {
             using (var packet = new Packet(14, 51))
-            {
-                packet.WriteByte(1);
+			{
+				packet.WriteByte(1);
                 packet.WriteString("lolmama", 16);
                 packet.WriteByte((byte)character.Job);
                 packet.WriteByte(character.Level);
                 //packet.WriteHexAsBytes("0E DA 02 00 00 79 02 00 00");
-                /*packet.WriteUShort();
-                 packet.WriteUShort(0);
-                 packet.WriteUShort(20);
-                 packet.WriteUShort(0);*/
+               /*packet.WriteUShort();
+                packet.WriteUShort(0);
+                packet.WriteUShort(20);
+                packet.WriteUShort(0);*/
                 packet.WriteUInt(1);
                 packet.WriteUInt(10);
                 packet.WriteByte(1);
-                // packet.WriteHexAsBytes("DA 02 00 00 79 02 00 00 01");
+               // packet.WriteHexAsBytes("DA 02 00 00 79 02 00 00 01");
                 character.Client.SendPacket(packet);
             }
-            /* using (var packet = new Packet(7, 21))
-             {
-                 packet.WriteHexAsBytes("53 69 6E 61 66 65 74 74 00 00 00 00 00 00 00 00 C1 04");
-                 character.Client.SendPacket(packet); 
-             }*/
+           /* using (var packet = new Packet(7, 21))
+            {
+                packet.WriteHexAsBytes("53 69 6E 61 66 65 74 74 00 00 00 00 00 00 00 00 C1 04");
+                character.Client.SendPacket(packet); 
+            }*/
         }
         private void ChangeMap(ZoneCharacter character, params string[] param)
         {

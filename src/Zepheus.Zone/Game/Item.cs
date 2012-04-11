@@ -25,7 +25,7 @@ namespace Zepheus.Zone.Game
             dbi.Amount = item.Amount;
             dbi.ItemID= item.ItemID;
             dbi.Slot = pSlot;
-            dbi.Owner = pNewOwner.character;
+            dbi.Owner = pNewOwner.Character;
             Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Items (Owner,Slot,ItemID,Amount) VALUES ('" + pNewOwner.ID + "','" + pSlot + "','" + item.ItemID + "','" + item.Amount + "')");
             ItemID = item.ItemID;
             pNewOwner.InventoryItems.Add(pSlot, dbi);
@@ -34,16 +34,7 @@ namespace Zepheus.Zone.Game
         public Item()
         {
         }
-        public static Item ItemInfoToItem(ItemInfo inf,short amount)
-        {
-                Item mItem = new Item
-                {
-                    ItemID = inf.ItemID,
-                    Amount = amount,
-                    Slot = (sbyte)inf.Slot,
-                };
-                return mItem;
-        }
+
         public virtual void Remove()
         {
             if (this != null)

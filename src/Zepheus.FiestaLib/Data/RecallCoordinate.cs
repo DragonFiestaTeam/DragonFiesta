@@ -1,6 +1,5 @@
 ﻿using System;
 using Zepheus.Util;
-using System.Data;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -11,14 +10,14 @@ namespace Zepheus.FiestaLib.Data
         public Int16 LinkX { get; private set; }
         public Int16 LinkY { get; private set; }
 
-        public static RecallCoordinate Load(DataRow row)
+        public static RecallCoordinate Load(DataTableReaderEx reader)
         {
             RecallCoordinate info = new RecallCoordinate
             {
-                ItemIndex = row["ItemIndex"].ToString(),
-                MapName = row["MapName"].ToString(),
-                LinkX = Int16.Parse(row["LinkX"].ToString()),
-                LinkY = Int16.Parse(row["LinkY"].ToString()),
+                ItemIndex = reader.GetString("ItemIndex"),
+                MapName = reader.GetString("MapName"),
+                LinkX = reader.GetInt16("LinkX"),
+                LinkY = reader.GetInt16("LinkY"),
             };
             return info;
         }

@@ -72,7 +72,7 @@ namespace Zepheus.Zone.Game
 			dbeq.Upgrades = pBase.Upgrades;
 			dbeq.EquipID = pBase.ItemID;
 			dbeq.Slot = pSlot;
-			dbeq.Character = pNewOwner.character;
+			dbeq.Character = pNewOwner.Character;
 			Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO equips (Owner,Slot,EquipID,Upgrades,iSTR,iEND,iDEX,iSPR,iINT,Expires) VALUES ('" + Owner.ID + "','" + dbeq.Slot + "','" + dbeq.EquipID + "','" + dbeq.Upgrades + "','" + dbeq.IncStr + "','" + dbeq.IncEnd + "','" + dbeq.IncDex + "','" + dbeq.IncSpr + "','" + dbeq.Expires + "')");
 			equip = dbeq;
 			ItemID = (ushort)dbeq.EquipID;

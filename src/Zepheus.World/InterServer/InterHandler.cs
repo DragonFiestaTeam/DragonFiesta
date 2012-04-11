@@ -5,6 +5,7 @@ using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Handlers;
 using Zepheus.World.Networking;
+using Zepheus.World.Data;
 
 namespace Zepheus.World.InterServer
 {
@@ -51,23 +52,23 @@ namespace Zepheus.World.InterServer
         [InterPacketHandler(InterHeader.GetParty)]
         public static void HandleGetParty(ZoneConnection lc, InterPacket packet)
         {
-            string charname;
-            if (packet.TryReadString(out charname, 16))
-            {
-                WorldClient charclient = ClientManager.Instance.GetClientByCharname(charname);
-                using (var ppacket = new InterPacket(InterHeader.SendParty))
-                {
+			string charName;
+			if(!packet.TryReadString(out charName, 16))
+				return;
 
-                    ppacket.WriteByte((byte)charclient.Character.Party.Count);
-                    ppacket.WriteString(charname, 16);
-                    foreach (var member in charclient.Character.Party)
-                    {
-                        ppacket.WriteString(member, 16);
-                    }
+			WorldClient client = ClientManager.Instance.GetClientByCharname(charName);
+			var members = new List<GroupMember>();
+			members.Add(client.Character.Group.Master);
+			members.AddRange(client.Character.Group.NormalMembers);
 
-                    lc.SendPacket(ppacket);
-                }
-            }
+			using (InterPacket p = new InterPacket(InterHeader.SendParty))
+			{
+				p.WriteByte((byte) members.Count);
+				members.ForEach(m => p.WriteString(m.Name, 16));
+
+				lc.SendPacket(packet);
+			}
+
         }
           [InterPacketHandler(InterHeader.BanAccount)]
         public static void BanAccount(ZoneConnection zc, InterPacket packet)

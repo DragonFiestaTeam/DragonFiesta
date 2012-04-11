@@ -4,33 +4,23 @@ using Zepheus.World.Networking;
 
 namespace Zepheus.World.Handlers
 {
-    public class Handler8
-    {
-        [PacketHandler(CH8Type.ChatParty)]
-        public static void PartyChat(WorldClient client, Packet packet)
-        {
-            if (client.Character.Party.Count > 1)
-            {
-                byte messageLenght;
-                string message = string.Empty;
-                if (packet.TryReadByte(out messageLenght))
-                {
-                    if (packet.TryReadString(out message, messageLenght))
-                    {
-                        foreach (var member in client.Character.Party)
-                        {
-                            WorldClient memberClient = ClientManager.Instance.GetClientByCharname(member);
-                            using (var ppacket = new Packet(SH8Type.PartyChat))
-                            {
-                                ppacket.WriteString(client.Character.Character.Name, 16);
-                                ppacket.WriteByte(messageLenght);
-                                ppacket.WriteString(message,messageLenght);
-                                memberClient.SendPacket(ppacket);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
+	public class Handler8
+	{
+		[PacketHandler(CH8Type.ChatParty)]
+		public static void PartyChat(WorldClient client, Packet packet)
+		{
+			if (client.Character.Group == null)
+				return;
+			
+			byte msgLen;
+			string msg = "";
+			
+			if(!packet.TryReadByte(out msgLen))
+			if(!packet.TryReadString(out msg, msgLen))
+				return;
+
+			client.Character.Group.Chat(client, msg);
+
+		}
+	}
 }

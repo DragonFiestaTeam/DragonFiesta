@@ -96,12 +96,13 @@ namespace Zepheus.Zone.Handlers
 		{
 			using (packet = new Packet(SH15Type.HandlerStone))
 			{
-				packet.WriteInt(character.BaseStats.HPStoneEffectID);//useeffectid
-				packet.WriteInt(character.BaseStats.MaxSoulHP);//maxhpstones
-				packet.WriteInt(character.BaseStats.PriceHPStone);//hp stines price
-				packet.WriteInt(character.BaseStats.SPStoneEffectID);//useeffectid
-				packet.WriteInt(character.BaseStats.MaxSoulSP);//sp max stones
-				packet.WriteInt(character.BaseStats.PriceSPStone);//spstones price
+
+				packet.WriteInt(95);//useeffectid
+				packet.WriteInt(200);//maxhpstones
+				packet.WriteInt(2000000);//hp stines price
+				packet.WriteInt(43);//useeffectid
+				packet.WriteInt(29);//sp max stones
+				packet.WriteInt(20);//spstones price
 				character.Client.SendPacket(packet);
 			}
 		}

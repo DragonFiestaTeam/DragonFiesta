@@ -149,6 +149,20 @@ namespace Zepheus.World
 			grp.MemberJoin(pMember.Character.Character.Name);
 			return grp;
 		}
+		public Group GetGroupById(long pId)
+		{
+			if (this.groupsById.ContainsKey(pId))
+				return this.groupsById[pId];
+			else
+			{
+				Group g = Group.ReadFromDatabase(pId);
+				this.groups.Add(g);
+				this.groupsById.Add(pId, g);
+				this.groupsByMaster.Add(g.Master.Name, g);
+
+				return g;
+			}
+		}
 
 		internal void OnGroupBrokeUp(object sender, EventArgs e)
 		{

@@ -36,6 +36,7 @@ namespace Zepheus.Database.Storage
      //  public List<DatabaseItem> Inventory { get; set; }
      //  public Dictionary<short, EquipInfo> Equips { get; set; }
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
-
+       public long GroupId { get; set; }
+       public bool IsGroupMaster { get; set; }
     }
 }

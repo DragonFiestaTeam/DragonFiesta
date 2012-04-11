@@ -109,8 +109,6 @@ namespace Zepheus.FiestaLib
 
     public enum CH20Type : byte
     {
-        ByHPStone = 1,
-        BySPStone = 2,
         UseHPStone = 7,
         UseSPStone = 9,
     }
