@@ -1,0 +1,2 @@
+ALTER TABLE basestats ADD COLUMN `HPStoneEffectID` int(11) NOT NULL DEFAULT '93';
+ALTER TABLE basestats ADD COLUMN  `SPStoneEffectID` int(11) NOT NULL DEFAULT '43';

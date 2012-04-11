@@ -152,6 +152,9 @@ namespace Zepheus.World.Data
 				Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
 				friend.UpdatePending(true);
 				if (pFrendby == null) this.friendsby.Add(friend);
+            if (pFrendby == null)
+            {
+               this.friendsby.Add(friend);
 			}
 			Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
 			friends.Add(friend);
@@ -188,7 +191,7 @@ namespace Zepheus.World.Data
 			  {
 				  if (state)
 				  {
-					  if (client != sender)
+                      if (client != sender && !client.Character.IsIngame)
 					  frend.Online(client,sender);
 				  }
 				  else

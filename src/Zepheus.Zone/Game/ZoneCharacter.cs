@@ -13,6 +13,9 @@ using Zepheus.Zone.Networking;
 using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using System.Data;
+using Zepheus.InterLib;
+using Zepheus.InterLib.Networking;
+
 namespace Zepheus.Zone.Game
 {
 	public class ZoneCharacter : MapObject
@@ -209,6 +212,8 @@ namespace Zepheus.Zone.Game
 			}
 		}
 
+                    //sbyte count = InventoryItems.Count+1;
+                  //  InventoryItems.Add(92, item);
 		public void DropMessage(string text, params object[] param)
 		{
 			Handler8.SendAdminNotice(Client, String.Format(text, param));
@@ -236,7 +241,11 @@ namespace Zepheus.Zone.Game
 		{
 			Save();
 			// Program.worldService.DisconnectClient(this.Name, true); // TODO: Inter server packet.
-			// TODO: Kick + Ban in database
+            using (var p = new InterPacket(InterHeader.BanAccount))
+            {
+                p.WriteString(this.character.Name, 16);
+                WorldConnector.Instance.SendPacket(p);
+            }
 			Client.Disconnect();
 		}
 

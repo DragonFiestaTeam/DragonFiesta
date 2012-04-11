@@ -45,6 +45,7 @@ namespace Zepheus.Zone.Data
 			LoadMiniHouseInfo();
 			LoadActiveSkills();
 			LaodVendors();
+            LoadTeleporters();
 		}
 
 		[InitializerMethod]
@@ -194,8 +195,36 @@ namespace Zepheus.Zone.Data
 				}
 			Log.WriteLine(LogLevel.Info, "Loaded {0} ActiveSkills.", ActiveSkillsByID.Count);
 		}
-
-	   /* private void LoadRecallCoordinates()
+        private void LoadTeleporters()
+        {
+            DataTable Data = null;
+            int counter = 0;
+            foreach (var map in MapsByID.Values)
+            {
+                foreach (var npc in map.NPCs)
+                {
+                    if (npc.Flags == (ushort)Zepheus.Zone.Data.Data.NpcFlags.Teleporter)
+                    {
+                        using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                        {
+                            Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");
+                        }
+                        if (Data != null && Data.Rows.Count == 1)
+                        {
+                            foreach (DataRow row in Data.Rows)
+                            {
+                                Teleportnpc TeleData = Teleportnpc.Load(row);
+                                npc.TeleNpc = TeleData;
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            Log.WriteLine(LogLevel.Info, "Loaded {0} Teleporters.", counter);
+        }
+            
+        
 		{
 			RecallCoordinates = new Dictionary<string, RecallCoordinate>();
 			if (!File.Exists(folder + @"\RecallCoordinates.txt"))
@@ -552,7 +581,7 @@ namespace Zepheus.Zone.Data
 			foreach (var map in MapsByID.Values)
 			{
 				foreach (var npc in map.NPCs)
-					if (npc.Flags == 1)
+                    if (npc.Flags == (ushort)Data.NpcFlags.Vendor)
 					{
 						DataTable vendorData = null;
 						using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())

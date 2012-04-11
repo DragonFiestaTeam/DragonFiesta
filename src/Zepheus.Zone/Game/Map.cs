@@ -76,10 +76,10 @@ namespace Zepheus.Zone.Game
 					{
 						MobBreedLocation locationInfo = new MobBreedLocation()
 						{
-							MapID = (ushort)row["MapID"],
-							MobID = (ushort)row["MobID"],
-							InstanceID = (short)row["InstanceID"],
-							Position = new Vector2(),
+                            MapID = ushort.Parse(row["MapID"].ToString()),
+                            MobID = ushort.Parse(row["MobID"].ToString()),
+                            InstanceID = short.Parse(row["InstanceID"].ToString()),
+                            Position = new Vector2(),
 						};
 						locationInfo.Position.X = (int)row["PosX"];
 						locationInfo.Position.Y = (int)row["PosY"];

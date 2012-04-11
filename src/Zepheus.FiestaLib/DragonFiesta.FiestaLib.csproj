@@ -69,6 +69,7 @@
     <Compile Include="Data\GateInfo.cs" />
     <Compile Include="Data\SpawnNpcPoint.cs" />
     <Compile Include="Data\StatsByte.cs" />
+    <Compile Include="Data\Teleportnpc.cs" />
     <Compile Include="Data\Vendor.cs" />
     <Compile Include="InventoryStatus.cs" />
     <Compile Include="ItemSlot.cs" />
