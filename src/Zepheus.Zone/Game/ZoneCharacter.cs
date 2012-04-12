@@ -1063,30 +1063,34 @@ namespace Zepheus.Zone.Game
             else return;
         }
 
-        public InventoryStatus GiveItem(ushort id, byte amount = (byte) 1)
+        public InventoryStatus GiveItem(ushort id, byte amount = (byte) 1) //Working
         {
             ItemInfo info;
             if (DataProvider.Instance.ItemsByID.TryGetValue(id, out info))
             {
-                if (info.Slot == FiestaLib.ItemSlot.Normal)
+                if (info.Slot == FiestaLib.ItemSlot.Normal) //increase Stack
                 {
                     foreach (var i in InventoryItems.Values)
                     {
                         if (i.ItemID == id && i.Amount < i.Info.MaxLot)
                         {
+
                             // We found the same item and it can stack more!
-                            byte left = (byte)(i.Info.MaxLot - i.Amount);
-                            if (left > amount)
-                            {
-                                i.Amount += left;
-                                amount -= left;
-                            }
-                            else
+                            byte left = (byte)(i.Info.MaxLot - i.Amount); //zb 10 - 3 = 7
+                            if (left > amount) // if add value is smaller then the left stackplace just add these items and return 
                             {
                                 i.Amount += amount;
                                 amount = 0;
                             }
-                            Handler12.ModifyInventorySlot(this, 0x24, (byte)i.Slot, (byte)i.Slot, i);
+                            else
+                            {
+
+                                i.Amount += left;
+                                amount -= left;
+                            }
+                            Handler12.ModifyInventorySlot(this, (byte)0x24, (byte)0x24, (byte)i.Slot, (byte)i.Slot, i);
+                            Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET Amount='" + i.Amount + "' WHERE Owner='" + i.Owner.ID + "' AND Slot='" + i.Slot + "' ");
+
                             if (amount == 0)
                             {
                                 break;
@@ -1102,14 +1106,25 @@ namespace Zepheus.Zone.Game
                             if (GetFreeInventorySlot(out invslot))
                             {
                                 Item item = new Item();
-                                item.Amount = amount;
+
                                 item.Owner = Character;
                                 item.ItemID = info.ItemID;
                                 item.Slot = invslot;
+
+                                if (amount > info.MaxLot)
+                                {
+                                    item.Amount = info.MaxLot;
+                                    amount -= info.MaxLot;
+                                }
+                                else
+                                {
+                                    item.Amount = amount;
+                                    amount = 0;
+                                }
+
                                 Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Items (Owner,Slot,ItemID,Amount) VALUES ('" + item.Owner.ID + "','" + item.Slot + "','" + item.ItemID + "','" + item.Amount + "')");
                                 InventoryItems.Add(invslot, item);
-                                Handler12.ModifyInventorySlot(this, 0x24, (byte)invslot, (byte)invslot, item);
-                                amount -= info.MaxLot;
+                                Handler12.ModifyInventorySlot(this, (byte)0x24, (byte)0x24, (byte)invslot, (byte)invslot, item);
                             }
                             else return InventoryStatus.Full;
                         }
@@ -1119,6 +1134,7 @@ namespace Zepheus.Zone.Game
                 }
                 else
                 {
+
                     sbyte invslot;
                     if (GetFreeInventorySlot(out invslot))
                     {
@@ -1131,8 +1147,8 @@ namespace Zepheus.Zone.Game
                         Equip nequip = new Equip(equip);
 
                         InventoryItems.Add(invslot, nequip);
-                        Save();
-                        Handler12.ModifyInventorySlot(this, 0x24, (byte)invslot, (byte)invslot, nequip);
+                        //Save();
+                        Handler12.ModifyInventorySlot(this, 0x24, 0x24, (byte)invslot, (byte)invslot, nequip);
                         return InventoryStatus.Added;
                     }
                     else return InventoryStatus.Full;
