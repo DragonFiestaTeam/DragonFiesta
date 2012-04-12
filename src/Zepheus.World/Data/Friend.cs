@@ -18,11 +18,11 @@ namespace Zepheus.World.Data
         public bool IsOnline { get; set; }
         public byte Month { get; private set; }
         public byte Day { get; private set; }
-        public WorldClient  client { get; private set; }
+        public WorldClient client { get; private set; }
 
         public static Friend Create(WorldCharacter pCharacter)
         {
-       
+
             Friend friend = new Friend
             {
                 ID = pCharacter.Character.ID,
@@ -34,10 +34,10 @@ namespace Zepheus.World.Data
                 IsOnline = pCharacter.IsIngame,
                 client = pCharacter.client,
             };
-            
+
             return friend;
         }
-       private static string GetMapname(ushort mapid)
+        private static string GetMapname(ushort mapid)
         {
             MapInfo mapinfo;
             if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
@@ -77,12 +77,12 @@ namespace Zepheus.World.Data
         /// <param name="pCharacter">The WorldCharacter object with the new data.</param>
         public void Update(WorldCharacter pCharacter)
         {
-                    this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
-                    this.Job = pCharacter.Character.Job;
-                    this.Level = pCharacter.Character.CharLevel;
-                    this.IsOnline = ClientManager.Instance.IsOnline(pCharacter.Character.Name);
+            this.Map = GetMapname(pCharacter.Character.PositionInfo.Map);
+            this.Job = pCharacter.Character.Job;
+            this.Level = pCharacter.Character.CharLevel;
+            this.IsOnline = ClientManager.Instance.IsOnline(pCharacter.Character.Name);
         }
-        public void Offline(WorldClient pClient,string name)
+        public void Offline(WorldClient pClient, string name)
         {
             using (var packet = new Packet(SH21Type.FriendOffline))
             {
@@ -90,7 +90,7 @@ namespace Zepheus.World.Data
                 pClient.SendPacket(packet);
             }
         }
-        public void Online(WorldClient client,WorldClient target)
+        public void Online(WorldClient client, WorldClient target)
         {
             using (var packet = new Packet(SH21Type.FriendOnline))
             {
