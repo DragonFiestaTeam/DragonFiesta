@@ -18,7 +18,7 @@ namespace Zepheus.Zone.Handlers
             if (packet.TryReadByte(out anwser))
             {
                 Npc Target = client.Character.CharacterInTarget as Npc;
-                if (Target == null && Target.Point.Flags != (ushort)Data.Data.NpcFlags.Teleporter) return;
+                if (Target == null && Target.Point.Flags != (ushort)NpcFlags.Teleporter) return;
                 using (Packet Packet = new Packet(SH6Type.TelePorter))
                 {
                     Packet.WriteShort(6593);//code for normal teleport
@@ -33,7 +33,7 @@ namespace Zepheus.Zone.Handlers
                         client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap1, Target.Point.TeleNpc.AnswerMap1X, Target.Point.TeleNpc.AnswerMap1Y);
                         break;
                     case 2:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap2, Target.Point.TeleNpc.AnswerMap2X, Target.Point.TeleNpc.AnswerMap2Y);
+                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
                         break;
                     case 3:
                         client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);

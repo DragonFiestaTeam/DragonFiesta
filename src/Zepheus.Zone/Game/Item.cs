@@ -19,6 +19,25 @@ namespace Zepheus.Zone.Game
         {
         }
 
+        public static Item ItemInfoToItem(ItemInfo inf, short amount)
+        {
+
+            Item mItem = new Item
+
+            {
+
+                ItemID = inf.ItemID,
+
+                Amount = amount,
+
+                Slot = (sbyte)inf.Slot,
+
+            };
+
+            return mItem;
+
+        }
+
         public Item(DroppedItem item, ZoneCharacter pNewOwner, sbyte pSlot)
         {
          Item dbi = new Item();

@@ -58,6 +58,47 @@ namespace Zepheus.Zone
             RegisterCommand("&allm", Allm, 1);
             RegisterCommand("&movetome", Movetome, 1,"playername");
             RegisterCommand("&movetoplayer", Movetoplayer, 1,"playername");
+            RegisterCommand("&NpcInfo", NpcInfo, 1);
+            RegisterCommand("&Ban", Ban, 1, "Charname");
+        }
+        private void NpcInfo(ZoneCharacter chr, params string[] param)
+        {
+            if (chr.CharacterInTarget is Npc)
+            {
+                Npc Targetnpc = chr.CharacterInTarget as Npc;
+
+                SendMessageChat(chr, "NpcID :" + Targetnpc.ID);
+                SendMessageChat(chr, "NpcHP :" + Targetnpc.HP);
+                SendMessageChat(chr, "NpcSP :" + Targetnpc.SP);
+                SendMessageChat(chr, "NpcMaxHP :" + Targetnpc.MaxHP);
+                SendMessageChat(chr, "NpcMaxSP :" + Targetnpc.MaxSP);
+                SendMessageChat(chr, "NpCPositionx :" + Targetnpc.Position.X);
+                SendMessageChat(chr, "NpCPositionY :" + Targetnpc.Position.Y);
+                SendMessageChat(chr, "NpRot :" + Targetnpc.Rotation);
+                SendMessageChat(chr, "NpCFlags :" + Targetnpc.Point.Flags);
+            }
+        }
+        private void SendMessageChat(ZoneCharacter character, string chat)
+        {
+            lock (chat)
+                using (var packet = new Packet(SH8Type.ChatNormal))
+                {
+                    Npc ne = character.CharacterInTarget as Npc;
+                    packet.WriteUShort(ne.MapObjectID);
+                    packet.WriteByte((byte)chat.Length);
+                    packet.WriteByte(0x03);
+                    packet.WriteString(chat, chat.Length);
+                    character.Client.SendPacket(packet);
+                }
+        }
+        private void Ban(ZoneCharacter Char, params string[] param)
+        {
+            string player = param[1];
+            ZoneClient playerc = ClientManager.Instance.GetClientByName(player);
+            if (playerc != null)
+            {
+                playerc.Character.Ban();
+            }
         }
         private void Movetoplayer(ZoneCharacter character, params string[] param)
         {

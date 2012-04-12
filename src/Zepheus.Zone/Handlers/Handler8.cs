@@ -60,7 +60,7 @@ namespace Zepheus.Zone.Handlers
 
 			byte handlerflags;
 			packet.TryReadByte(out handlerflags);
-			if (handlerflags == (ushort)Data.Data.NpcFlags.Vendor && character.CharacterInTarget != null)
+			if (handlerflags == (ushort)NpcFlags.Vendor && character.CharacterInTarget != null)
 			{
 				Npc npc = character.CharacterInTarget as Npc;
 				switch (npc.Point.RoleArg0)
@@ -96,13 +96,12 @@ namespace Zepheus.Zone.Handlers
 		{
 			using (packet = new Packet(SH15Type.HandlerStone))
 			{
-
-				packet.WriteInt(95);//useeffectid
-				packet.WriteInt(200);//maxhpstones
-				packet.WriteInt(2000000);//hp stines price
-				packet.WriteInt(43);//useeffectid
-				packet.WriteInt(29);//sp max stones
-				packet.WriteInt(20);//spstones price
+                packet.WriteInt(character.BaseStats.HPStoneEffectID);//useeffectid
+                packet.WriteInt(character.BaseStats.MaxSoulHP);//maxhpstones
+                packet.WriteInt(character.BaseStats.PriceHPStone);//hp stines price
+                packet.WriteInt(character.BaseStats.SPStoneEffectID);//useeffectid
+                packet.WriteInt(character.BaseStats.MaxSoulSP);//sp max stones
+                packet.WriteInt(character.BaseStats.PriceSPStone);//spstones price
 				character.Client.SendPacket(packet);
 			}
 		}

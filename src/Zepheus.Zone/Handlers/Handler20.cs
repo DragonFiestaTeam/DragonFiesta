@@ -7,6 +7,39 @@ namespace Zepheus.Zone.Handlers
 {
     public sealed class Handler20
     {
+        [PacketHandler(CH20Type.ByHPStone)]
+        public static void ByHPStoneHandler(ZoneClient client, Packet packet)
+        {
+            short Amount;
+            if (packet.TryReadShort(out Amount))
+            {
+                client.Character.ChangeMoney(client.Character.Character.Money -= client.Character.BaseStats.PriceHPStone);
+                short am = Amount += client.Character.StonesSP;
+                client.Character.StonesSP = am;
+                using (var p = new Packet(SH20Type.ChangeHPStones))
+                {
+                    p.WriteShort(am);
+                    client.SendPacket(p);
+                }
+            }
+        }
+
+        [PacketHandler(CH20Type.BySPStone)]
+        public static void BySPStoneHandler(ZoneClient client, Packet packet)
+        {
+            short Amount;
+            if (packet.TryReadShort(out Amount))
+            {
+                client.Character.ChangeMoney(client.Character.Character.Money -= client.Character.BaseStats.PriceSPStone);
+                short Am = Amount += client.Character.StonesSP;
+                client.Character.StonesHP = Am;
+                using (var p = new Packet(SH20Type.ChangeSPStones))
+                {
+                    p.WriteShort(Am);
+                    client.SendPacket(p);
+                }
+            }
+        }
         [PacketHandler(CH20Type.UseHPStone)]
         public static void UseHPStoneHandler(ZoneClient client, Packet packet)
         {

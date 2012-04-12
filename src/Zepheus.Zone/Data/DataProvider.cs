@@ -6,6 +6,7 @@ using Zepheus.Util;
 using Zepheus.Database;
 using System.Data;
 using Zepheus.Zone.Game;
+using Zepheus.Zone.Data;
 
 namespace Zepheus.Zone.Data
 {
@@ -93,7 +94,7 @@ namespace Zepheus.Zone.Data
                                 }
                                 else
                                 {
-                                    //  Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
+                                     Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
                                 }
                             }
                         }
@@ -169,6 +170,34 @@ namespace Zepheus.Zone.Data
                 Log.WriteLine(LogLevel.Exception, "Error loading DropTable: {0}", ex);
             }
         }
+        private void LoadTeleporters()
+        {
+            DataTable Data = null;
+            int counter = 0;
+            foreach (var map in MapsByID.Values)
+            {
+                foreach (var npc in map.NPCs)
+                {
+                    if (npc.Flags == (ushort)NpcFlags.Teleporter)
+                    {
+                        using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                        {
+                            Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");
+                        }
+                        if (Data != null && Data.Rows.Count == 1)
+                        {
+                            foreach (DataRow row in Data.Rows)
+                            {
+                                Teleportnpc TeleData = Teleportnpc.Load(row);
+                                npc.TeleNpc = TeleData;
+                                counter++;
+                            }
+                        }
+                    }
+                }
+            }
+            Log.WriteLine(LogLevel.Info, "Loaded {0} Teleporters.", counter);
+        }
 
         private void LoadActiveSkills()
         {
@@ -196,36 +225,6 @@ namespace Zepheus.Zone.Data
             }
             Log.WriteLine(LogLevel.Info, "Loaded {0} ActiveSkills.", ActiveSkillsByID.Count);
         }
-        private void LoadTeleporters()
-        {
-            DataTable Data = null;
-            int counter = 0;
-            foreach (var map in MapsByID.Values)
-            {
-                foreach (var npc in map.NPCs)
-                {
-                    if (npc.Flags == (ushort)Zepheus.Zone.Data.Data.NpcFlags.Teleporter)
-                    {
-                        using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-                        {
-                            Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");
-                        }
-                        if (Data != null && Data.Rows.Count == 1)
-                        {
-                            foreach (DataRow row in Data.Rows)
-                            {
-                                Teleportnpc TeleData = Teleportnpc.Load(row);
-                                npc.TeleNpc = TeleData;
-                                counter++;
-                            }
-                        }
-                    }
-                }
-            }
-            Log.WriteLine(LogLevel.Info, "Loaded {0} Teleporters.", counter);
-        }
-
-
         private void LoadRecallCoordinates()
         {
             RecallCoordinates = new Dictionary<string, RecallCoordinate>();

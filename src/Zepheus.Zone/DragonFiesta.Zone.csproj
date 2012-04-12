@@ -72,6 +72,7 @@
     <Compile Include="Game\Mob.cs" />
     <Compile Include="Game\NPC.cs" />
     <Compile Include="Game\Question.cs" />
+    <Compile Include="Game\RandomDrop.cs" />
     <Compile Include="Game\Sector.cs" />
     <Compile Include="Game\Skill.cs" />
     <Compile Include="Game\SkillVictim.cs" />
