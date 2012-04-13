@@ -18,16 +18,19 @@ namespace Zepheus.World.Handlers
         
             using (var packet = new Packet(SH2Type.UpdateClientTime))
             {
-                packet.WriteInt(37);
+                //pPacket.WriteUInt((59 << 25) | (23 << 19) | (31 << 13) | (12 << 8) | (254));
+            // *                    Minutes   | Hours      | Days       | Months    | Years
+                packet.WriteInt(3);
                 packet.WriteInt(time.Minute);//minutes
                 packet.WriteInt(time.Hour);//hourses
-                packet.WriteInt(15); //day
-                packet.WriteInt(1);//unk
-                packet.WriteInt(112);//unk
-                packet.WriteInt(3);//unk
-                packet.WriteInt(45);
+                packet.WriteInt(time.Day);
+                packet.WriteLong(2012);
+               // packet.WriteInt(4);//unk
+                //packet.WriteInt(1);//unk
+                //packet.WriteInt(3);//unk
+                //packet.WriteInt(46);
                 packet.Fill(3, 0);//unk
-                packet.WriteByte(1);
+                packet.WriteByte(2);
                 client.SendPacket(packet);
             }
         }
@@ -43,6 +46,7 @@ namespace Zepheus.World.Handlers
                 to.WriteByte(Convert.ToByte(hour));
                 to.WriteByte(Convert.ToByte(minute));
                 to.WriteByte(Convert.ToByte(second));
+                character.SendPacket(to);
             }
         }
         public static void SendPing(WorldClient client)
