@@ -158,7 +158,8 @@ namespace Zepheus.World
 				Group g = Group.ReadFromDatabase(pId);
 				this.groups.Add(g);
 				this.groupsById.Add(pId, g);
-				this.groupsByMaster.Add(g.Master.Name, g);
+
+              //  this.groupsByMaster.Add(g.Master.Name, g); // TODO: throws
 
 				return g;
 			}

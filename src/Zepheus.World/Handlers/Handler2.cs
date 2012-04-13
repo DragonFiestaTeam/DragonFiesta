@@ -40,12 +40,9 @@ namespace Zepheus.World.Handlers
             using (var to = new Packet(SH2Type.Unk1))
             {
                 DateTime now = DateTime.Now;
-                int second = now.Second;
-                int minute = now.Minute;
-                int hour = now.Hour;
-                to.WriteByte(Convert.ToByte(hour));
-                to.WriteByte(Convert.ToByte(minute));
-                to.WriteByte(Convert.ToByte(second));
+                to.WriteByte(Convert.ToByte(now.Hour));
+                to.WriteByte(Convert.ToByte(now.Minute));
+                to.WriteByte(Convert.ToByte(now.Second));
                 character.SendPacket(to);
             }
         }
