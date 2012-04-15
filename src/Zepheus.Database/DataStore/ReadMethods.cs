@@ -132,6 +132,7 @@ namespace Zepheus.Database.DataStore
 			return false;
 		}
 		#endregion
+
 		public static Character ReadCharObjectFromDatabase(string charname, DatabaseManager dbmanager)
 		{
 			Character ch = new Character();
@@ -145,19 +146,20 @@ namespace Zepheus.Database.DataStore
 				foreach (DataRow row in charData.Rows)
 				{
 					ch.PositionInfo.ReadFromDatabase(row);
-					ch.AccountID = int.Parse(row["AccountID"].ToString());
+                    DateTime ne = DateTime.Now;
+					ch.AccountID = GetDataTypes.GetInt(row["AccountID"]);
 					ch.LookInfo.ReadFromDatabase(row);
 					ch.CharacterStats.ReadFromDatabase(row);
 					ch.Slot = (byte)row["Slot"];
 					ch.CharLevel = (byte)row["Level"];
 					ch.Name = (string)row["Name"];
-					ch.ID = int.Parse(row["CharID"].ToString());
+                    ch.ID = GetDataTypes.GetInt(row["CharID"]);
 					ch.Job = (byte)row["Job"];
-					ch.Money = long.Parse(row["Money"].ToString());
-					ch.Exp = long.Parse(row["Exp"].ToString());
-					ch.HP = int.Parse(row["CurHP"].ToString());
+					ch.Money = GetDataTypes.GetLong(row["Money"]);
+                    ch.Exp = GetDataTypes.GetLong(row["Exp"]);
+					ch.HP = GetDataTypes.GetInt(row["CurHP"]);
 					ch.HPStones = 10;
-					ch.SP = int.Parse(row["CurSP"].ToString());
+                    ch.SP = GetDataTypes.GetInt(row["CurSP"]);
 					ch.SPStones = 10;
 					ch.StatPoints = (byte)row["StatPoints"];
 					ch.UsablePoints = (byte)row["UsablePoints"];
@@ -181,7 +183,7 @@ namespace Zepheus.Database.DataStore
 			}
 
 			return ch;
-		}
-	}
+        }
+    }
 
 }

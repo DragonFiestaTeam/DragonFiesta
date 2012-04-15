@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -37,27 +38,28 @@ namespace Zepheus.FiestaLib.Data
 		{
 			ItemInfo itemInfo = new ItemInfo
 			{
-				ItemID = (ushort)row["id"],
-				Slot = (ItemSlot)row["equip"],
+				ItemID = GetDataTypes.GetUshort(row["id"]),
+				Slot = (ItemSlot)GetDataTypes.GetByte(row["equip"]),
 				InxName = (string)row["inxname"],
-				MaxLot = (byte)row["maxlot"],
-				AttackSpeed = (ushort)row["atkspeed"],
-				Level = (byte)row["demandlv"],
-				Type = (ItemType)row["type"],
-				Class = (ItemClass)row["class"],
-				UpgradeLimit = (byte)row["uplimit"],
-				Jobs = UnpackWhoEquip((uint)row["whoequip"]),
-				TwoHand = (bool)row["TwoHand"],
-				MinMagic = (ushort)row["minma"],
-				MaxMagic = (ushort)row["maxma"],
-				MinMelee = (ushort)row["minwc"],
-				MaxMelee = (ushort)row["maxwc"],
-				WeaponDef = (ushort)row["ac"],
-				MagicDef = (ushort)row["mr"],
-				UpSucRation = (ushort)row["UpSucRatio"],
-				UpResource = (ushort)row["UpResource"],
-				SellPrice = (uint)row["SellPrice"],
-				BuyPrice = (uint)row["BuyPrice"],
+				MaxLot = GetDataTypes.GetByte(row["maxlot"]),
+				AttackSpeed = GetDataTypes.GetUshort(row["atkspeed"]),
+				Level = GetDataTypes.GetByte(row["demandlv"]),
+				Type = (ItemType)GetDataTypes.GetByte(row["type"]),
+				Class = (ItemClass)GetDataTypes.GetByte(row["class"]),
+				UpgradeLimit = (byte)GetDataTypes.GetByte(row["uplimit"]),
+				Jobs = UnpackWhoEquip(GetDataTypes.GetUint(row["whoequip"])),
+				TwoHand = GetDataTypes.GetBool(row["TwoHand"]),
+				MinMagic = GetDataTypes.GetUshort(row["minma"]),
+				MaxMagic = GetDataTypes.GetUshort(row["maxma"]),
+				MinMelee = GetDataTypes.GetUshort(row["minwc"]),
+				MaxMelee = GetDataTypes.GetUshort(row["maxwc"]),
+				WeaponDef = GetDataTypes.GetUshort(row["ac"]),
+				MagicDef = GetDataTypes.GetUshort(row["mr"]),
+				UpSucRation = GetDataTypes.GetUshort(row["UpSucRatio"]),
+				UpResource = GetDataTypes.GetUshort(row["UpResource"]),
+				SellPrice =  GetDataTypes.GetUint(row["SellPrice"]),
+				BuyPrice = GetDataTypes.GetUint(row["BuyPrice"]),
+              
 			};
 			return itemInfo;
 		}

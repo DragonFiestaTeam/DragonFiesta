@@ -7,6 +7,7 @@ using Zepheus.Database;
 using System.Data;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Data;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.Zone.Data
 {
@@ -78,7 +79,7 @@ namespace Zepheus.Zone.Data
                 }
                 foreach (DataRow row in itemDataInf.Rows)
                 {
-                    ushort itemid = (ushort)row["ID"];
+                    ushort itemid = GetDataTypes.GetUshort(row["ID"]);
                     ItemInfo item;
                     if (ItemsByID.TryGetValue(itemid, out item))
                     {

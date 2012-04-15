@@ -245,15 +245,14 @@ namespace Zepheus.Database
 			pCommand.Parameters.Clear();
 			return (uint)(long)pCommand.ExecuteScalar();
 		}
-
-		public uint ReadUInt(string query)
+        #region ReadMethods
+        public uint ReadUInt(string query)
 		{
 			Command.CommandText = query;
 			uint result = uint.Parse(Command.ExecuteScalar().ToString());
 			Command.CommandText = null;
 			return result;
 		}
-
 		public Int32 ReadInt32(string query)
 		{
 			Command.CommandText = query;
@@ -275,6 +274,7 @@ namespace Zepheus.Database
 				return null;
 			}
 			return retvalue;
-		}
-	}
+        }
+        #endregion
+    }
 }

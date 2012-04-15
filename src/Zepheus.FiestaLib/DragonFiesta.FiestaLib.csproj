@@ -108,6 +108,10 @@
     <Compile Include="WorldStatus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Zepheus.Database\DragonFiesta.Database.csproj">
+      <Project>{F9E5B011-A091-431D-9455-687D6FE6BD55}</Project>
+      <Name>DragonFiesta.Database</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
       <Project>{463FA649-3E4C-42A0-AF28-9132E1BE07DB}</Project>
       <Name>DragonFiesta.Util</Name>

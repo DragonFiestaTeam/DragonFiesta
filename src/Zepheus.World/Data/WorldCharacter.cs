@@ -46,7 +46,7 @@ namespace Zepheus.World.Data
 				Equips.Add(realslot, (ushort)eqp.EquipID);
 			}
 
-            //LoadGroup();
+           // LoadGroup();
 		}
 		public List<Friend> Friends
 		{
@@ -332,7 +332,7 @@ namespace Zepheus.World.Data
 		}
 		private void LoadGroup()
 		{
-			//this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
+			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
             this.GroupMember = this.Group[this.Character.Name];
             this.UpdateGroupStatus();
 		}
