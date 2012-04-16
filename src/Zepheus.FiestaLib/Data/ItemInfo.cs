@@ -41,7 +41,7 @@ namespace Zepheus.FiestaLib.Data
 				ItemID = GetDataTypes.GetUshort(row["id"]),
 				Slot = (ItemSlot)GetDataTypes.GetByte(row["equip"]),
 				InxName = (string)row["inxname"],
-				MaxLot = GetDataTypes.Getshort(row["maxlot"]),
+				MaxLot = GetDataTypes.GetInt(row["maxlot"]),
 				AttackSpeed = GetDataTypes.GetUshort(row["atkspeed"]),
 				Level = GetDataTypes.GetByte(row["demandlv"]),
 				Type = (ItemType)GetDataTypes.GetByte(row["type"]),
