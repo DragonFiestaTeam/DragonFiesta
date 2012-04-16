@@ -12,7 +12,7 @@ namespace Zepheus.Database.DataStore
             return Convert.ToInt32(Row);
         }
         public static uint GetUint(object Row)
-        {
+        {            
             return Convert.ToUInt32(Row);
         }
         public static short Getshort(object Row)
@@ -25,7 +25,9 @@ namespace Zepheus.Database.DataStore
         }
         public static byte GetByte(object Row)
         {
-            return Convert.ToByte(Row);
+
+            if (Convert.ToUInt32(Row) >= 255) return 255;
+            else return Convert.ToByte(Row); 
         }
         public static sbyte GetSByte(object Row)
         {
