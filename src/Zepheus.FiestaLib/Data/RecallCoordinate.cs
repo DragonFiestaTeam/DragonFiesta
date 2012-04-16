@@ -15,7 +15,7 @@ namespace Zepheus.FiestaLib.Data
         {
             RecallCoordinate info = new RecallCoordinate
             {
-                ItemIndex = row["ItemIndex_"].ToString(),
+                ItemIndex = row["ItemIndex"].ToString(),
                 MapName = row["MapName"].ToString(),
                 LinkX = Int16.Parse(row["LinkX"].ToString()),
                 LinkY = Int16.Parse(row["LinkY"].ToString()),
