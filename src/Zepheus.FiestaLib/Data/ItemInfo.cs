@@ -10,7 +10,7 @@ namespace Zepheus.FiestaLib.Data
 		public ItemSlot Slot { get; private set; }
 		public bool TwoHand { get; private set; }
 		public string InxName { get; private set; }
-		public byte MaxLot { get; private set; }
+		public int MaxLot { get; private set; }
 		public ushort AttackSpeed { get; private set; }
 		public byte Level { get; private set; }
 		public ItemType Type { get; private set; }
@@ -39,12 +39,12 @@ namespace Zepheus.FiestaLib.Data
 			ItemInfo itemInfo = new ItemInfo
 			{
 				ItemID = GetDataTypes.GetUshort(row["id"]),
-				Slot = (ItemSlot)GetDataTypes.GetByte(row["equip"]),
+				//Slot = (ItemSlot)GetDataTypes.GetByte(row["equip"]),
 				InxName = (string)row["inxname"],
-				MaxLot = GetDataTypes.GetByte(row["maxlot"]),
+				MaxLot = GetDataTypes.Getshort(row["maxlot"]),
 				AttackSpeed = GetDataTypes.GetUshort(row["atkspeed"]),
 				Level = GetDataTypes.GetByte(row["demandlv"]),
-				Type = (ItemType)GetDataTypes.GetByte(row["type"]),
+				//Type = (ItemType)GetDataTypes.GetByte(row["type"]),
 				Class = (ItemClass)GetDataTypes.GetByte(row["class"]),
 				UpgradeLimit = (byte)GetDataTypes.GetByte(row["uplimit"]),
 				Jobs = UnpackWhoEquip(GetDataTypes.GetUint(row["whoequip"])),

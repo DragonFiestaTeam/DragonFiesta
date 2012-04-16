@@ -7,7 +7,7 @@ namespace Zepheus.Zone.Game
 {
     public class DroppedItem
     {
-        public short Amount { get; set; }
+        public int Amount { get; set; }
         public ushort ItemID { get; protected set; }
         public virtual DateTime? Expires { get; set; }
         public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ItemID); } }

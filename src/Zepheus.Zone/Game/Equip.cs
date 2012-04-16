@@ -16,7 +16,7 @@ namespace Zepheus.Zone.Game
 				return equip.ID;
 			}
 		}
-		public override short Amount { get { return 1; } }
+		public override int Amount { get { return 1; } }
 		public override DateTime? Expires { get { return equip.Expires; } set { equip.Expires = value; } }
 		public byte Dex { get { return equip.IncDex; } set { equip.IncDex = value; } }
 		public byte Str { get { return equip.IncStr; } set { equip.IncStr = value; } }

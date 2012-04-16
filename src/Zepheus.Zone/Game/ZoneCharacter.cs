@@ -1063,7 +1063,7 @@ namespace Zepheus.Zone.Game
             else return;
         }
 
-        public InventoryStatus GiveItem(ushort id, byte amount = (byte) 1) //Working
+        public InventoryStatus GiveItem(ushort id, int amount = 1) //Working
         {
             ItemInfo info;
             if (DataProvider.Instance.ItemsByID.TryGetValue(id, out info))

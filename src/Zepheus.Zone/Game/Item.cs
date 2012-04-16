@@ -8,7 +8,7 @@ namespace Zepheus.Zone.Game
 {
     public class Item
     {
-        public virtual short Amount { get; set; }
+        public virtual int Amount { get; set; }
         public ushort ItemID { get;  set; } 
         public virtual Character Owner { get; set; } 
         public virtual DateTime? Expires { get; set; }
