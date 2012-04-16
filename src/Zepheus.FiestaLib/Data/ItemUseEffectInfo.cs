@@ -17,7 +17,7 @@ namespace Zepheus.FiestaLib.Data
         public static ItemUseEffectInfo Load(DataRow row, out string inxName)
         {
             ItemUseEffectInfo info = new ItemUseEffectInfo();
-            inxName = (string)row["ItemIndex"];
+            inxName = (string)row["ItemIndex_"];
 
             ItemUseEffectType typeA = (ItemUseEffectType)(uint)row["UseEffectA"];
             if (typeA != ItemUseEffectType.None)

@@ -90,7 +90,7 @@ namespace Zepheus.FiestaLib.Data
                 StunResi = (ushort)row["StunResi"],
                 MoveSpeedResi = (ushort)row["MoveSpeedResi"],
                 FearResi = (ushort)row["FearResi"],
-                ResIndex = (string)row["ResIndex"],
+                ResIndex = (string)row["ResIndex_"],
                 KQKillPoint = (ushort)row["KQKillPoint"],
                 Return2Regen = (byte)row["Return2Regen"],
                 IsRoaming = (byte)row["IsRoaming"],
