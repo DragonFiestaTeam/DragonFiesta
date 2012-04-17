@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Zepheus.Util;
-
+using System.Collections.Generic;
 namespace Zepheus.Database
 {
 	public class DatabaseClient : IDisposable
@@ -64,10 +64,13 @@ namespace Zepheus.Database
 			try
 			{
 				Connection.Open();
+               
 			}
 			catch (MySqlException e)
 			{
+                Dispose();
 				throw new DatabaseException("[DBClient.Connect]: Could not open MySQL Connection - " + e.Message);
+                
 			}
 		}
 
@@ -119,20 +122,28 @@ namespace Zepheus.Database
 			Command.Parameters.AddWithValue(sParam, val);
 		}
 
-		public void ExecuteQuery(string sQuery)
-		{
-			try
-			{
-				this.Dispose();
-				Command.CommandText = sQuery;
-				Command.ExecuteScalar();
-				Command.CommandText = null;
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e + "\n (" + sQuery + ")");
-			}
-		}
+        private void AddParameters(MySqlCommand command, IEnumerable<MySqlParameter> pParams)
+        {
+            foreach (var parameter in pParams)
+            {
+                command.Parameters.Add(parameter);
+            }
+        }
+        public void ExecuteQuery(string sQuery, params MySqlParameter[] pParams)
+        {
+            try
+            {
+                this.Dispose();
+                Command.CommandText = sQuery;
+                AddParameters(Command, pParams);//commands with paramters
+                Command.ExecuteScalar();
+                Command.CommandText = null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + "\n (" + sQuery + ")");
+            }
+        }
 
 		public bool FindsResult(string sQuery)
 		{

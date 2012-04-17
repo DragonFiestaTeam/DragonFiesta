@@ -103,7 +103,7 @@ namespace Zepheus.Zone.Handlers
            {
                
                Item item;
-               character.InventoryItems.TryGetValue((sbyte)slot,out item);
+               character.Inventory.InventoryItems.TryGetValue(slot,out item);
                if (item != null)
                {
           
@@ -128,7 +128,7 @@ namespace Zepheus.Zone.Handlers
                    {
                        character.Money += fullSellPrice;
                        character.ChangeMoney(character.Money);
-                       character.InventoryItems.Remove((sbyte)slot);
+                       character.Inventory.InventoryItems.Remove(slot);
                        ResetInventorySlot(character, slot);
                        if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
                        {
@@ -158,8 +158,8 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH12Type.UseItem)]
         public static void UseHandler(ZoneClient client, Packet packet)
         {
-            sbyte slot;
-            if (!packet.TryReadSByte(out slot))
+            byte slot;
+            if (!packet.TryReadByte(out slot))
             {
                 Log.WriteLine(LogLevel.Warn, "Error reading used item slot.");
                 return;
@@ -220,7 +220,7 @@ namespace Zepheus.Zone.Handlers
             /*  0x0285 	Item cannot be equipped
                 0x0281  Item (un)equipped */
             Packet pack = new Packet();
-            pack.WriteUShort(0x3011);
+            pack.WriteUShort(3011);
             pack.WriteUShort(pMessage);
             return pack;
         }
@@ -255,10 +255,9 @@ namespace Zepheus.Zone.Handlers
             // TODO: Check, does user equip item to correct slot. Right now client only does it.
 
             ZoneClient client = pClient;
-            Packet packet;
             if (fromInfo.Level > pClient.Character.Level)
             {
-                packet = EquipUnEquipMessage(0x0285);
+                FailedEquip(client.Character, 645); // 85 02
             }
             else
             {
@@ -268,14 +267,8 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    System.Console.WriteLine("omg");
-                    //pClient.Character.EquipItem(toEquip, fromEquip);
+                    pClient.Character.SwapEquips(toEquip,fromEquip);
                 }
-                packet = EquipUnEquipMessage(0x0281);
-            }
-            using (packet)
-            {
-                client.SendPacket(packet);
             }
         }
         [PacketHandler(CH12Type.MoveItem)]
@@ -340,8 +333,8 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH12Type.DropItem)]
         public static void DropItemHandler(ZoneClient client, Packet packet)
         {
-            sbyte slot;
-            if (!packet.TryReadSByte(out slot))
+            byte slot;
+            if (!packet.TryReadByte(out slot))
             {
                 Log.WriteLine(LogLevel.Warn, "Invalid drop request.");
                 return;
@@ -352,9 +345,9 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH12Type.ItemEnhance)]
         public static void EnhancementHandler(ZoneClient client, Packet packet)
         {
-            sbyte weapslot, stoneslot;
-            if (!packet.TryReadSByte(out weapslot) ||
-                !packet.TryReadSByte(out stoneslot))
+            byte weapslot, stoneslot;
+            if (!packet.TryReadByte(out weapslot) ||
+                !packet.TryReadByte(out stoneslot))
             {
                 Log.WriteLine(LogLevel.Warn, "Invalid item enhance request.");
                 return;
@@ -398,9 +391,36 @@ namespace Zepheus.Zone.Handlers
             }
         }
 
+        public static void UpdateInventorySlot(ZoneCharacter pChar, byte pFromSlot, byte pFromInv, byte pToSlot, Item pItem)
+        {
+            using (var packet = new Packet(SH12Type.ModifyItemSlot))
+            {
+                packet.WriteByte(pFromSlot);
+                packet.WriteByte(pFromInv);
+                packet.WriteByte(pToSlot);
+                packet.WriteByte(0x24);         // pToInv
+                if (pItem == null)
+                {
+                    packet.WriteUShort(0xffff);
+                }
+                else
+                {
+                    Equip equip = pItem as Equip;
+                    if (equip != null)
+                    {
+                        equip.WriteEquipStats(packet);
+                    }
+                    else
+                    {
+                        pItem.WriteItemStats(packet);
+                    }
+                }
+                pChar.Client.SendPacket(packet);
+            }
+        }
         public static void UpdateEquipSlot(ZoneCharacter pClient, byte pFromSlot, byte pFromInv, byte pToSlot, Item pItem)
         {
-            using (var packet = new Packet((ushort)SH12Type.ModifyEquipSlot))
+            using (var packet = new Packet(SH12Type.ModifyEquipSlot))
             {
                 packet.WriteByte(pFromSlot);
                 packet.WriteByte(pFromInv);
@@ -426,7 +446,7 @@ namespace Zepheus.Zone.Handlers
         }
         public static void ModifyInventorySlot(ZoneCharacter character, byte inventory, byte oldslot, byte newslot, Item item)
         {
-            ModifyInventorySlot(character, inventory, (byte) 0x24, oldslot, newslot, item);
+            ModifyInventorySlot(character, inventory, (byte)0x24, oldslot, newslot, item);
         }
 
         public static void ModifyInventorySlot(ZoneCharacter character, byte sourcestate, byte deststate, byte oldslot, byte newslot, Item item)
@@ -469,7 +489,7 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteUShort(0xffff);
                 character.Client.SendPacket(packet);
             }
-            character.InventoryItems.Remove((sbyte)slot);
+            character.Inventory.InventoryItems.Remove(slot);
         }
     }
 }

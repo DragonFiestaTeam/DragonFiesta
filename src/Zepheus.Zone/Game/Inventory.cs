@@ -9,9 +9,6 @@ namespace Zepheus.Zone.Game
 {
     public sealed class Inventory
     {
-        private const string SelectEquippedIdByOwner =
-            "SELECT * FROM equips WHERE Owner=@ownerID AND Slot < 0";
-
         public ulong Money { get; set; }
         public List<Equip> EquippedItems { get; private set; }
         public Dictionary<byte, Item> InventoryItems { get; private set; }
@@ -42,10 +39,10 @@ namespace Zepheus.Zone.Game
                 locker.WaitOne();
                 DataTable eq = null;
                 DataTable items = null;
-                  using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                  using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
                 {
                     items = dbClient.ReadDataTable("SELECT * FROM items WHERE Owner=" + pChar.ID + "");
-                    eq = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner="+pChar.ID+"ID AND Slot >= 0");
+                    eq = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner="+pChar.ID+" AND Slot >= 0");
                 }
                 //we load unequipped equips (slot > 0)
                   if (eq != null)
@@ -71,7 +68,12 @@ namespace Zepheus.Zone.Game
                 locker.ReleaseMutex();
             }
         }
+        public Equip GetEquiptBySlot(byte slot, out Equip Eq)
+        {
 
+            Eq = this.EquippedItems.Find(d => d.Slot == slot);
+            return Eq;
+        }
         public void LoadBasic(ZoneCharacter pChar)
         {
             try
@@ -82,7 +84,6 @@ namespace Zepheus.Zone.Game
                 {
                     equips = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner=" + pChar.ID + " AND Slot < 0");
                 }
-                //SELECT * FROM equips WHERE Owner=@ownerID AND Slot < 0
                 if (equips != null)
                 {
                     foreach (DataRow row in equips.Rows)
@@ -97,34 +98,6 @@ namespace Zepheus.Zone.Game
                 locker.ReleaseMutex();
             }
 
-        }
-        public ushort GetEquippedByType(Zepheus.FiestaLib.ItemSlot pType)
-        {
-            //double check if found
-            Equip equip = EquippedItems.Find(d => d.SlotType == pType && d.IsEquipped);
-            if (equip == null)
-            {
-                return 0xffff;
-            }
-            else
-            {
-                return (ushort)equip.ID;
-            }
-        }
-
-        public byte GetEquippedUpgradesByType(Zepheus.FiestaLib.ItemSlot pType)
-        {
-            //double check if found
-
-            Equip equip = EquippedItems.Find(d => d.SlotType == pType && d.IsEquipped);
-            if (equip == null)
-            {
-                return 0;
-            }
-            else
-            {
-                return equip.Upgrades;
-            }
         }
 
         public void AddToInventory(Item pItem)

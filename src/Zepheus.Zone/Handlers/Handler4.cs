@@ -98,11 +98,11 @@ namespace Zepheus.Zone.Handlers
         {
             using (var packet = new Packet(SH4Type.CharacterItemList))
             {
-                packet.WriteByte((byte)character.EquippedItems.Count);
+                packet.WriteByte((byte)character.Inventory.EquippedItems.Count);
                 packet.WriteByte(0x08);        // Inventory number
               
                 packet.WriteByte(215);         // UNK    (In newest client it exists, in bit older, not) // might be shit from old buffers lol
-                foreach (var eqp in character.EquippedItems.Values)
+                foreach (var eqp in character.Inventory.EquippedItems)
                 {
                     eqp.WritEquipInfo(packet);
                 }
@@ -114,10 +114,10 @@ namespace Zepheus.Zone.Handlers
         {
             using (var packet = new Packet(SH4Type.CharacterItemList))
             {
-                packet.WriteByte((byte)character.InventoryItems.Count);
+                packet.WriteByte((byte)character.Inventory.InventoryItems.Count);
                 packet.WriteByte(0x09);         // Inventory number
                 packet.WriteByte(0xB7);         // UNK    (In newest client it exists, in bit older, not)
-                 foreach (var item in character.InventoryItems.Values)
+                 foreach (var item in character.Inventory.InventoryItems.Values)
                 {
                    
                     item.WriteItemInfo(packet);

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data;
+using MySql.Data.MySqlClient;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Data;
 using Zepheus.Database.Storage;
 using Zepheus.FiestaLib.Data;
 using Zepheus.Database.DataStore;
+using Zepheus.Database;
 
 namespace Zepheus.Zone.Game
 {
@@ -82,11 +84,11 @@ namespace Zepheus.Zone.Game
         public override void Save()
         {
             Console.WriteLine("save equipt");
-           /* if (UniqueID <= 0)
+           if (UniqueID <= 0)
             {
-                using (var conn = Database.GetConnection())
+                using (MySqlConnection conn = Program.CharDBManager.GetClient().Connection)
                 {
-                    conn.Open();
+         
                     using (var command = new MySqlCommand(GiveEquip, conn))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -95,7 +97,6 @@ namespace Zepheus.Zone.Game
                         command.Parameters.AddWithValue("@powner", this.Owner);
                         command.Parameters.AddWithValue("@pslot", this.Slot);
                         command.Parameters.AddWithValue("@pequipid", this.ID);
-                        command.Prepare();
                         command.ExecuteNonQuery();
                         this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
                     }
@@ -103,7 +104,7 @@ namespace Zepheus.Zone.Game
             }
             else
             {
-                using (var command = new MySqlCommand(UpdateEquip))
+                using (var command = new MySqlCommand(UpdateEquip,Program.CharDBManager.GetClient().Connection))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
@@ -115,9 +116,10 @@ namespace Zepheus.Zone.Game
                     command.Parameters.AddWithValue("@pdex", this.Dex);
                     command.Parameters.AddWithValue("@pspr", this.Spr);
                     command.Parameters.AddWithValue("@pint", this.Int);
-                    Database.ExecuteNonQuery(command);
+                    command.ExecuteNonQuery();
+                    Console.WriteLine(command.CommandText);
                 }
-            }*/
+            }
         }
         public byte CalculateDataLen()
         {
