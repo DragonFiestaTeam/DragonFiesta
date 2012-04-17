@@ -95,7 +95,7 @@ namespace Zepheus.Zone.Data
                                 }
                                 else
                                 {
-                                     Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
+                                    // Log.WriteLine(LogLevel.Warn, "{0} was assigned to unknown DropGroup {1}.", item.InxName, groupname);
                                 }
                             }
                         }
@@ -617,7 +617,21 @@ namespace Zepheus.Zone.Data
             }
             return "";
         }
-
+        public static bool GetItemInfo(ushort itemID, out ItemInfo info)
+        {
+            return Instance.ItemsByID.TryGetValue(itemID, out info);
+        }
+        public static bool GetItemType(ushort itemID, out ItemSlot pType)
+        {
+            ItemInfo item;
+            pType = ItemSlot.None;
+            bool haveValue = GetItemInfo(itemID, out item);
+            if (haveValue)
+            {
+                pType = item.Slot;
+            }
+            return haveValue;
+        }
         public string GetMapFullNameFromMapid(ushort id)
         {
             MapInfo mi = null;

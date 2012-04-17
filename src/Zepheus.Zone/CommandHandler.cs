@@ -328,7 +328,7 @@ namespace Zepheus.Zone
             {
                 amount = byte.Parse(param[2]);
             }
-
+            character.GiveItem(id,amount);
             switch (character.GiveItem(id, amount))
             {
                 case FiestaLib.InventoryStatus.Full:
