@@ -292,8 +292,8 @@ namespace Zepheus.Zone.Game
                 this.Inventory.AddToInventory(sourceEquip);
                 sourceEquip.Save();
                 destEquip.Save();
-                Handler12.UpdateEquipSlot(this, destSlot, 0x24, sourceSlot, destEquip);
-                Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, sourceEquip);
+                Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
+                Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, (byte)destEquip.SlotType, sourceEquip);
                 //TODO update bstates
             }
             finally
@@ -309,14 +309,14 @@ namespace Zepheus.Zone.Game
                this.Inventory.Enter();
                 byte sourceSlot = pEquip.Slot;
                 this.Inventory.InventoryItems.Remove(sourceSlot);
-                byte destSlot = pEquip.Slot = (byte)pEquip.GetInfo().Type;
+                byte destSlot = pEquip.Slot;
                 //byte destSlot = pEquip.Slot;
                 pEquip.IsEquipped = true;
                 this.Inventory.AddToEquipped(pEquip);
                 pEquip.Save();
 
-                Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, destSlot, pEquip);
-                Handler12.UpdateInventorySlot(this, destSlot, 0x20, sourceSlot, null);
+                Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
+                Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
                 //Handler12.ModifyEquipSlot(this, (byte)destSlot, 0x24, 0x20, sourceSlot, pEquip);
                 //client.Character.UpdateStats();
             }
@@ -329,14 +329,15 @@ namespace Zepheus.Zone.Game
         {
             try
             {
-                this.Inventory.Enter();
-                byte sourceSlot = pEquip.Slot;
-               this.Inventory.EquippedItems.Remove(pEquip);
+
+                  this.Inventory.Enter();
+                  byte sourceSlot = pEquip.Slot;
+                this.Inventory.EquippedItems.Remove(pEquip);
                 pEquip.Slot = destSlot;
                 pEquip.IsEquipped = false;
                 this.Inventory.AddToInventory(pEquip);
                 pEquip.Save();
-                Handler12.UpdateEquipSlot(this, destSlot, 0x24, sourceSlot, null);
+                Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.SlotType, null);
                 Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, pEquip);
                 //client.Character.UpdateStats();
             }

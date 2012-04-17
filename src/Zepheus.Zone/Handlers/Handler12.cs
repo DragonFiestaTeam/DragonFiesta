@@ -20,7 +20,7 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            Equip sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => e.Slot == sourceSlot);
+            Equip sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => (byte)e.SlotType == sourceSlot);
             //Item destinationItem = pClient.Character.Inventory.EquippedItems.Find(i => i.Slot == destinationSlot);// Item was searched from wrong place
             Item destinationItem;
             pClient.Character.Inventory.InventoryItems.TryGetValue(destinationSlot, out destinationItem);       // check if something there

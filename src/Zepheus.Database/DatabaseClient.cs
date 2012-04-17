@@ -63,7 +63,7 @@ namespace Zepheus.Database
 
 			try
 			{
-				Connection.Open();
+                Connect();
                
 			}
 			catch (MySqlException e)
