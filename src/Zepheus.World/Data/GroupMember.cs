@@ -31,7 +31,6 @@ namespace Zepheus.World.Data
 		#endregion
 
 		#region Methods
-
 		public override bool Equals(object obj)
 		{
 			if(!(obj is GroupMember))
@@ -54,7 +53,7 @@ namespace Zepheus.World.Data
 					{
 						member.Name = rdr.GetString("Name");
 						member.IsOnline = ClientManager.Instance.IsOnline(member.Name);
-						member.Role = rdr.GetBoolean("IsGroupMaste") 
+						member.Role = rdr.GetBoolean("IsGroupMaster") 
 											? GroupRole.Master 
 											: GroupRole.Member;
 						if (member.IsOnline)

@@ -70,7 +70,7 @@ namespace Zepheus.World.InterServer
 			}
 
         }
-          [InterPacketHandler(InterHeader.BanAccount)]
+        [InterPacketHandler(InterHeader.BanAccount)]
         public static void BanAccount(ZoneConnection zc, InterPacket packet)
         {
               string playername;
@@ -253,7 +253,6 @@ namespace Zepheus.World.InterServer
                 zc.SendPacket(packet);
             }
         }
-
         public static void SendZoneStopped(byte zoneid)
         {
             using (var packet = new InterPacket(InterHeader.Zoneclosed))

@@ -89,7 +89,7 @@ namespace Zepheus.Zone.Handlers
                
                 if (ClientManager.Instance.AddClient(client))
                 {
-                    zonecharacter.SendGetIngameChunk(); //TODO: world server notification over WCF?
+                    zonecharacter.SendGetIngameChunk(); //TODO: interserver packet?
                     Log.WriteLine(LogLevel.Debug, "{0} logged in successfully!", zonecharacter.Name);
                 }
             }

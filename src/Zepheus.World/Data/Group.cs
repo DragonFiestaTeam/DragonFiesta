@@ -59,14 +59,11 @@ namespace Zepheus.World.Data
 		public void InviteNewMember(WorldCharacter pSender, string pTarget)
 		{
 			if (!ClientManager.Instance.IsOnline(pTarget))
-			{
-				// TODO: Send Message
 				return;
-			}
 			if(Master.Name != pSender.Character.Name)
 				return;		// only the master may invite new members
 			
-			// TODO: Handle/Implement!
+			GroupManager.Instance.Invite(pSender, pTarget); // trololol
 		}
 		public void ChangeDropType(WorldCharacter pBy, byte pDropState)
 		{
@@ -78,7 +75,9 @@ namespace Zepheus.World.Data
 		}
 		public void BreakUp()
 		{
-			// TODO: Send to clients and update those in DB
+			BreakUpInDatabase();
+
+			// TODO: Send update to characters
 			
 			this.Exists = false;
 			OnBrokeUp();
@@ -181,6 +180,7 @@ namespace Zepheus.World.Data
 			pMember.Character.GroupMember = null;
 			
 			// TODO: Send packet to other members to update GroupList!
+			AnnouncePartyList();
 		}
 		internal void RemoveInvite(GroupRequest pRequest)
 		{
@@ -188,11 +188,95 @@ namespace Zepheus.World.Data
 		}
 		internal void UpdateInDatabase()
 		{
-			// TODO: Implement
+			UpdateGroupTableInDatabase();
+			UpdateMembersInDatabase();
+		}
+		internal void UpdateGroupTableInDatabase()
+		{
+			//--------------------------------------------------
+			// Queries used in this function
+			//--------------------------------------------------
+
+			const string update_group_table_query = 
+				"UPDATE `groups` " +
+				"SET " +
+					"`Member1` = {1} ," +
+					"`Member2` = {2} ," +
+					"`Member3` = {3} ," +
+					"`Member4` = {4} ," +
+					"`Member5` = {5} " +
+				"WHERE `Id` = {0}";
+
+			//--------------------------------------------------
+			// Update table
+			//--------------------------------------------------
+
+			using (var client = Program.DatabaseManager.GetClient())
+			{
+				string query = string.Format(update_group_table_query,
+								this.Id,
+								this.members[0],
+								this.members[1],
+								this.members.Count >= 3 : this.members[2] ? "NULL",
+								this.members.Count >= 4 : this.members[3] ? "NULL",
+								this.members.Count >= 5 : this.members[4] ? "NULL");
+				client.ExecuteQuery(query);
+			}
+		}
+		internal void UpdateMembersInDatabase()
+		{
+			//--------------------------------------------------
+			// Queries used in this function
+			//--------------------------------------------------
+			const string update_character_table_query =
+				"UPDATE `characters` " +
+				"SET " +
+					"`GroupID` = {1} ," +
+					"`IsGroupMaster` = {2} " +
+				"WHERE `CharID` = {0}";
+
+			//--------------------------------------------------
+			// Update table
+			//--------------------------------------------------
+			using (var client = Program.DatabaseManager.GetClient())
+			{
+				foreach (var member in this.members)
+				{
+					string query = string.Format(update_character_table_query,
+								member.Character.ID,
+								this.Id,
+								member.Character.GroupMember.Role == GroupRole.Master);
+					client.ExecuteQuery(query);
+				}
+			}
 		}
 		internal void CreateInDatabase()
 		{
-			
+			//--------------------------------------------------
+			// Queries used in this function
+			//--------------------------------------------------
+
+			const string create_group_query =
+				"INSERT INTO `groups` " +
+					"(`Id`, `Member1`, `Member2`, `Member3`, `Member4`, `Member5`) " +
+				"VALUES " +
+					"({0}, {1}, {2}, {3}, {4}, {5})";
+			//--------------------------------------------------
+			// create entry in table
+			//--------------------------------------------------
+			using (var client = Program.DatabaseManager.GetClient())
+			{
+				string query = string.Format(create_group_query,
+								this.Id,
+								this.members.Count > 0 : this.members[0] ? "NULL",
+								this.members.Count > 1 : this.members[1] ? "NULL",
+								this.members.Count > 2 : this.members[2] ? "NULL",
+								this.members.Count > 3 : this.members[3] ? "NULL",
+								this.members.Count > 4 : this.members[4] ? "NULL");
+				client.ExecuteQuery(query);
+			}
+			// keep character also up to date
+			UpdateMembersInDatabase();
 		}
 		internal static Group ReadFromDatabase(long pId)
 		{
@@ -292,6 +376,37 @@ namespace Zepheus.World.Data
 			{
 				grpMem.Client.SendPacket(pPacket);
 			}
+		}
+		private void BreakUpInDatabase()
+		{
+			//--------------------------------------------------
+			// Queries used in function
+			//--------------------------------------------------
+
+			const string break_group_query =
+				"UPDATE `groups` " +
+				"SET `Exists` = 0 " +
+				"WHERE `Id` = {0}";
+
+			const string reset_char_group_query = 
+				"UPDATE `character` "+
+				"SET `GroupID` = NULL, "+
+					"`IsMaster = NULL "+
+				"WHERE `GroupId` = {0}";
+
+			//--------------------------------------------------
+			// Execute queries
+			//--------------------------------------------------
+
+			using(var client = Program.DatabaseManager.GetClient())
+			{
+				string query = string.Format(break_group_query, this.Id)				
+				client.ExecuteQuery(query);
+
+				string query = string.Format(reset_char_group_query, this.Id);
+				client.ExecuteQuery(query);
+			}
+
 		}
 		#endregion
 		

@@ -58,7 +58,7 @@ namespace Zepheus.Zone
             try
             {
   
-               // Zepheus.Database.DatabaseHelper.Initialize(Settings.Instance.WorldConnString, "WorkerConn");
+              // Zepheus.Database.DatabaseHelper.Initialize(Settings.Instance.WorldConnString, "WorkerConn");
               //  Program.Entity.Characters.Count(); //test if database is online
                 Log.WriteLine(LogLevel.Info, "Database Initialized.");
             }

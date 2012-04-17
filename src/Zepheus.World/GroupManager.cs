@@ -7,6 +7,8 @@ using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Networking;
 
+using MySql.Data.MySqlClient;
+
 namespace Zepheus.World
 {
 	[ServerModule(InitializationStage.Clients)]
@@ -26,21 +28,22 @@ namespace Zepheus.World
 		public static bool Initialize()
 		{
 			Instance = new GroupManager();
+			Instance.maxId = GetMaxGroupIdFromDatabase();
 			return true;
 		}
 		#endregion
-
 		#region Properties
 		public static GroupManager Instance { get; private set; }
 
 		private readonly List<Group> groups;
-		private readonly List<GroupRequest> requestsWithoutGroup;
 		private readonly Dictionary<string, Group> groupsByMaster;
-		private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
 		private readonly Dictionary<long, Group> groupsById;
-		private long maxId = 0; //  todo: needs to be saved.. :(
-		#endregion
 
+		private readonly List<GroupRequest> requestsWithoutGroup;
+		private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
+
+		private long maxId = 0;
+		#endregion
 		#region Methods
 		public long GetNextId()
 		{
@@ -58,7 +61,7 @@ namespace Zepheus.World
 			this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
 			this.groupsById.Add(grp.Id, grp);
 			this.groups.Add(grp);
-			// TODO: Add group in Database?
+			grp.CreateInDatabase();
 
 			return grp;
 		}
@@ -163,6 +166,10 @@ namespace Zepheus.World
 				return g;
 			}
 		}
+		public void LoadGroupById(long pId)
+		{
+			Group grp = Group.ReadFromDatabase(pId);
+		}
 
 		internal void OnGroupBrokeUp(object sender, EventArgs e)
 		{
@@ -218,7 +225,33 @@ namespace Zepheus.World
 				pMaster.SendPacket(packet);
 			}
 		}	
+		private void AddGroup(Group pGroup)
+		{
+			this.groups.Add(pGroup);
+			this.groupsByMaster.Add(pGroup.Master.Name, pGroup);
+			this.groupsById.Add(pGroup.Id, pGroup);
+		}
+		private static int GetMaxGroupIdFromDatabase()
+		{
+			//--------------------------------------------------
+			// Queries used in function
+			//--------------------------------------------------
+			const string get_max_group_id_query = 
+							"SELECT MAX(`Id`) AS `MAX` FROM `groups`";
 
+			//--------------------------------------------------
+			// get max id from database
+			//--------------------------------------------------
+
+			int max;
+			using (var client = Program.DatabaseManager.GetClient())
+			using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
+			using (var rdr = cmd.ExecuteReader())
+			while(rdr.Read())
+				max = rdr.GetInt64("MAX");
+
+			return max;
+		}
 		#endregion
 	}
 }

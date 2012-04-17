@@ -48,7 +48,6 @@
     <Compile Include="ByteArraySegment.cs" />
     <Compile Include="ByteUtils.cs" />
     <Compile Include="ClientTransfer.cs" />
-    <Compile Include="ConcurrentList.cs" />
     <Compile Include="DataTableReaderEx.cs" />
     <Compile Include="DUpdater\DatabaseUpdater.cs" />
     <Compile Include="EntitySetting.cs" />
