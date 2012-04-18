@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Zepheus.Util;
-
+using System.Collections.Generic;
 namespace Zepheus.Database
 {
 	public class DatabaseClient : IDisposable
@@ -63,11 +63,14 @@ namespace Zepheus.Database
 
 			try
 			{
-				Connection.Open();
+                Connect();
+               
 			}
 			catch (MySqlException e)
 			{
+                Dispose();
 				throw new DatabaseException("[DBClient.Connect]: Could not open MySQL Connection - " + e.Message);
+                
 			}
 		}
 
@@ -119,20 +122,28 @@ namespace Zepheus.Database
 			Command.Parameters.AddWithValue(sParam, val);
 		}
 
-		public void ExecuteQuery(string sQuery)
-		{
-			try
-			{
-				this.Dispose();
-				Command.CommandText = sQuery;
-				Command.ExecuteScalar();
-				Command.CommandText = null;
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e + "\n (" + sQuery + ")");
-			}
-		}
+        private void AddParameters(MySqlCommand command, IEnumerable<MySqlParameter> pParams)
+        {
+            foreach (var parameter in pParams)
+            {
+                command.Parameters.Add(parameter);
+            }
+        }
+        public void ExecuteQuery(string sQuery, params MySqlParameter[] pParams)
+        {
+            try
+            {
+                this.Dispose();
+                Command.CommandText = sQuery;
+                AddParameters(Command, pParams);//commands with paramters
+                Command.ExecuteScalar();
+                Command.CommandText = null;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + "\n (" + sQuery + ")");
+            }
+        }
 
 		public bool FindsResult(string sQuery)
 		{
@@ -245,15 +256,14 @@ namespace Zepheus.Database
 			pCommand.Parameters.Clear();
 			return (uint)(long)pCommand.ExecuteScalar();
 		}
-
-		public uint ReadUInt(string query)
+        #region ReadMethods
+        public uint ReadUInt(string query)
 		{
 			Command.CommandText = query;
 			uint result = uint.Parse(Command.ExecuteScalar().ToString());
 			Command.CommandText = null;
 			return result;
 		}
-
 		public Int32 ReadInt32(string query)
 		{
 			Command.CommandText = query;
@@ -275,6 +285,7 @@ namespace Zepheus.Database
 				return null;
 			}
 			return retvalue;
-		}
-	}
+        }
+        #endregion
+    }
 }

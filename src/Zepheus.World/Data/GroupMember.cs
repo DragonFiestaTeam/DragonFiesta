@@ -23,7 +23,7 @@ namespace Zepheus.World.Data
 		
 		#region Properties
 		public WorldCharacter Character { get; private set; }
-		public string Name { get; private set; }
+		public string Name { get;  set; }
 		public Group Group { get; internal set; }
 		public GroupRole Role { get; internal set; }
 		public WorldClient Client { get; private set; }

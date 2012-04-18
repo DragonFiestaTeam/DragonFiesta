@@ -7,6 +7,8 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
 using Zepheus.World.InterServer;
 using Zepheus.World.Networking;
+using System.Data;
+using Zepheus.Database;
 
 namespace Zepheus.World.Data
 {
@@ -278,31 +280,30 @@ namespace Zepheus.World.Data
 			// keep character also up to date
 			UpdateMembersInDatabase();
 		}
-		internal static Group ReadFromDatabase(long pId)
-		{
-			const string query = "SELECT * FROM `groups` WHERE Id = @gid";
-			Group g = new Group(pId);
-			
-			using(var con = Program.DatabaseManager.GetClient())
-			using(var cmd = new MySqlCommand(query, con.Connection))
-			{
-				cmd.Parameters.AddWithValue("@gid", pId);
-				using (var rdr = cmd.ExecuteReader())
-				{
-					while (rdr.Read())
-					{
-						for (int i = 1; i < 6; i++)
-						{
-							UInt16 mem = rdr.GetUInt16(string.Format("Member{0}", i));
-							if(mem != null)
-								g.members.Add(GroupMember.LoadFromDatabase(mem));
-						}
-					}
-				}
-			}
+        internal static Group ReadFromDatabase(long pId)
+        {
+            Group g = new Group(pId);
+            DataTable gdata = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                gdata = dbClient.ReadDataTable("SELECT * FROM `groups` WHERE Id = " + pId + "");
+            }
 
-			return g;
-		}
+            if (gdata != null)
+            {
+                foreach (DataRow row in gdata.Rows)
+                {
+                    for (int i = 1; i < 4; i++)
+                    {
+                        UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
+                        if (mem != null)
+                            g.members.Add(GroupMember.LoadFromDatabase(mem));
+                    }
+                }
+            }
+
+            return g;
+        }
 		#endregion
 		#region Private
 		private void UpdateDropStateToMembers()

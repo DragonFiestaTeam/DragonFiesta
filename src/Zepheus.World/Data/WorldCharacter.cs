@@ -46,7 +46,7 @@ namespace Zepheus.World.Data
 				Equips.Add(realslot, (ushort)eqp.EquipID);
 			}
 
-          //  LoadGroup();
+           // LoadGroup();
 		}
 		public List<Friend> Friends
 		{

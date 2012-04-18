@@ -62,11 +62,12 @@ namespace Zepheus.Zone.Game
 			{
 				packet.WriteByte(1);
 				packet.WriteString(Gate.MapClient, 12);
-				packet.Fill(42, 0);
+				packet.Fill(43, 0);
+              
 			}
 			else
 			{
-				packet.Fill(55, 0); //find out later
+				packet.Fill(56, 0); //find out later
 			}
 		}
 	}

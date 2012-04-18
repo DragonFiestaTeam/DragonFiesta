@@ -10,6 +10,7 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Handlers;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.World.Networking
 {
@@ -79,9 +80,9 @@ namespace Zepheus.World.Networking
 						ch.CharLevel = (byte)row["Level"];
 						ch.AccountID = this.AccountID;
 						ch.Name = (string)row["Name"];
-						ch.ID = int.Parse(row["CharID"].ToString());
+						ch.ID = GetDataTypes.GetInt(row["CharID"]);
 						ch.Job = (byte)row["Job"];
-						ch.Money = long.Parse(row["Money"].ToString());
+						ch.Money = GetDataTypes.GetLong(row["Money"].ToString());
 						ch.Exp = long.Parse(row["Exp"].ToString());
 						ch.HP = int.Parse(row["CurHP"].ToString());
 						ch.HPStones = 10;
@@ -95,9 +96,9 @@ namespace Zepheus.World.Networking
 						ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
 						ch.QuickBar = Database.DataStore.ReadMethods.GetQuickBar(ch.ID, Program.DatabaseManager);
 						ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
-						ch.GroupId = (long)row["GroupID"];
-						ch.IsGroupMaster = (bool)row["IsGroupMaster"];
-
+						ch.GroupId = long.Parse(row["GroupID"].ToString());
+						ch.IsGroupMaster = Database.DataStore.ReadMethods.EnumToBool(row["IsGroupMaster"].ToString());
+                       
 						Characters.Add(ch.Slot, new WorldCharacter(ch));
 					}
 				}

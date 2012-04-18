@@ -1,131 +1,171 @@
 ﻿using System;
+using System.Data;
+using MySql.Data.MySqlClient;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Data;
 using Zepheus.Database.Storage;
+using Zepheus.FiestaLib.Data;
+using Zepheus.Database.DataStore;
+using Zepheus.Database;
+
 namespace Zepheus.Zone.Game
 {
-	public sealed class Equip : Item
-	{
-	 
-		private readonly EquipInfo equip;
-		public int ID
-		{
-			get
-			{
-				return equip.ID;
-			}
-		}
-		public override short Amount { get { return 1; } }
-		public override DateTime? Expires { get { return equip.Expires; } set { equip.Expires = value; } }
-		public byte Dex { get { return equip.IncDex; } set { equip.IncDex = value; } }
-		public byte Str { get { return equip.IncStr; } set { equip.IncStr = value; } }
-		public byte End { get { return equip.IncEnd; } set { equip.IncEnd = value; } }
-		public byte Int { get { return equip.IncInt; } set { equip.IncInt = value; } }
-		public byte Spr { get { return equip.IncSpr; } set { equip.IncSpr = value; } }
-		public byte Upgrades { get { return equip.Upgrades; } set { equip.Upgrades = value; } }
-		public override sbyte Slot
-		{
-			get
-			{
-				return (sbyte)equip.Slot;
-			}
-			set
-			{
-				equip.Slot = value;
-			}
-		}
-		public override Character Owner
-		{
-			get
-			{
-				return equip.Character;
-			}
-			set
-			{
-				equip.Character = value;
-			}
-		}
-		public ItemSlot SlotType
-		{
-			get
-			{
-				return DataProvider.Instance.GetItemInfo(ItemID).Slot;
-			}
-		}
-		public bool IsEquipped { get { return Slot < 0; } set { Slot = value ? (sbyte)(-1 * Math.Abs(Slot)) : Math.Abs(Slot); } }
+    public class Equip : Item
+    {
+        private const string GiveEquip = "give_equip;";
+        private const string UpdateEquip = "update_equip;";
+        private const string DeleteEquip = "DELETE FROM equips WHERE ID=@id";
+        public bool IsEquipped { get; set; }
+        public byte Upgrades { get;  set; }
 
-		public Equip(EquipInfo eqp)
-		{
-			equip = eqp;
-			ItemID = (ushort)eqp.EquipID;
-		}
+        public byte StatCount { get; private set; }
+        public ushort Str { get; private set; }
+        public ushort End { get; private set; }
+        public ushort Dex { get; private set; }
+        public ushort Int { get; private set; }
+        public ushort Spr { get; private set; }
+       // public DateTime? Expires { get { return Expires; } set { Expires = value; } }
+ 
 
-		public Equip(DroppedEquip pBase, ZoneCharacter pNewOwner, sbyte pSlot)
-		{
-			EquipInfo dbeq = new EquipInfo();
-			dbeq.IncDex = pBase.Dex;
-			dbeq.IncStr = pBase.Str;
-			dbeq.IncEnd = pBase.End;
-			dbeq.IncInt = pBase.Int;
-			dbeq.IncSpr = pBase.Spr;
-			dbeq.Upgrades = pBase.Upgrades;
-			dbeq.EquipID = pBase.ItemID;
-			dbeq.Slot = pSlot;
-			dbeq.Character = pNewOwner.Character;
-			Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO equips (Owner,Slot,EquipID,Upgrades,iSTR,iEND,iDEX,iSPR,iINT,Expires) VALUES ('" + Owner.ID + "','" + dbeq.Slot + "','" + dbeq.EquipID + "','" + dbeq.Upgrades + "','" + dbeq.IncStr + "','" + dbeq.IncEnd + "','" + dbeq.IncDex + "','" + dbeq.IncSpr + "','" + dbeq.Expires + "')");
-			equip = dbeq;
-			ItemID = (ushort)dbeq.EquipID;
-			pNewOwner.InventoryItems.Add(pSlot, this);
-			pNewOwner.Save();
-		}
+        public Equip(uint pOwner, ushort pEquipID, short pSlot) : base(pOwner, pEquipID, 1)
+        {
+            if (pSlot < 0)
+            {
+                this.Slot = (byte)-pSlot;
+                this.IsEquipped = true;
+            }
+            else
+            {
+                this.Slot = (byte)pSlot;
+            }
+        }
+        public ItemSlot SlotType
+        {
+            get
+            {
+                return DataProvider.Instance.GetItemInfo(ID).Slot;
+            }
+        }
+        private uint GetExpiringTime()
+        {
+            return 0;
+            //later
+           /* if (Expires == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return Expires.Value.ToFiestaTime();
+            }*/
+        }
+        public override bool Delete()
+        {
+            Console.WriteLine("Dell equipt");
+            return true;
+           /* if (this.UniqueID > 0)
+            {
+                using (var command = new MySqlCommand(DeleteEquip))
+                {
+                    command.Parameters.AddWithValue("@id", this.UniqueID);
+                    Database.ExecuteNonQuery(command);
+                }
+                UniqueID = 0;
+                Owner = 0;
+                return true;
+            }
+            else
+            {
+                return false;
+            }*/
+        }
 
-		public byte CalculateDataLen()
-		{
-			byte length = 0;
-			switch (this.SlotType)
-			{
-				case ItemSlot.Weapon:
-					length = 53;                // Base data length
-					break;
-				case ItemSlot.Weapon2:
-					if (Info.TwoHand)
-					{
-						//bow
-						length = 53;
-					}
-					else
-					{
-						//shield
-						length = 16;                // Base data length
-					}
-					break;
-				case ItemSlot.Helm:
-				case ItemSlot.Armor:
-				case ItemSlot.Pants:
-				case ItemSlot.Boots:
-					length = 16;                // Base data length
-					break;
-				case ItemSlot.Necklace:
-				case ItemSlot.Earings:
-				case ItemSlot.Ring:
-					length = 26;                // Base data length
-					break;
-				case ItemSlot.CostumeWeapon:
-				case ItemSlot.CostumeShield:
-					length = 8;                 // Base data length
-					break;
-				case ItemSlot.Pet:
-					length = 16;                // Base data length
-					break;
-				default:
-					length = 12;                // Base data length
-					break;
-			}
-			return length;
-		}
-
-		public override void WriteInfo(Packet packet)
+        public override void Save()
+        {
+            Console.WriteLine("save equipt");
+           if (UniqueID <= 0)
+            {
+                using (MySqlConnection conn = Program.CharDBManager.GetClient().Connection)
+                {
+         
+                    using (var command = new MySqlCommand(GiveEquip, conn))
+                    {
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
+                        command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
+                        command.Parameters.AddWithValue("@powner", this.Owner);
+                        command.Parameters.AddWithValue("@pslot", this.Slot);
+                        command.Parameters.AddWithValue("@pequipid", this.ID);
+                        command.ExecuteNonQuery();
+                        this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
+                    }
+                }
+            }
+            else
+            {
+                using (var command = new MySqlCommand(UpdateEquip,Program.CharDBManager.GetClient().Connection))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.IsEquipped ? (this.Slot * -1) : this.Slot);
+                    command.Parameters.AddWithValue("@pupgrades", this.Upgrades);
+                    command.Parameters.AddWithValue("@pstr", this.Str);
+                    command.Parameters.AddWithValue("@pend", this.End);
+                    command.Parameters.AddWithValue("@pdex", this.Dex);
+                    command.Parameters.AddWithValue("@pspr", this.Spr);
+                    command.Parameters.AddWithValue("@pint", this.Int);
+                    command.ExecuteNonQuery();
+                    Console.WriteLine(command.CommandText);
+                }
+            }
+        }
+        public byte CalculateDataLen()
+        {
+            byte length = 0;
+            switch (this.SlotType)
+            {
+                case ItemSlot.Weapon:
+                    length = 53;                // Base data length
+                    break;
+                case ItemSlot.Weapon2:
+                    if (Info.TwoHand)
+                    {
+                        //bow
+                        length = 53;
+                    }
+                    else
+                    {
+                        //shield
+                        length = 16;                // Base data length
+                    }
+                    break;
+                case ItemSlot.Helm:
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                    length = 16;                // Base data length
+                    break;
+                case ItemSlot.Necklace:
+                case ItemSlot.Earings:
+                case ItemSlot.Ring:
+                    length = 26;                // Base data length
+                    break;
+                case ItemSlot.CostumeWeapon:
+                case ItemSlot.CostumeShield:
+                    length = 8;                 // Base data length
+                    break;
+                case ItemSlot.Pet:
+                    length = 16;                // Base data length
+                    break;
+                default:
+                    length = 12;                // Base data length
+                    break;
+            }
+            return length;
+        }
+   	public void WritEquipInfo(Packet packet)
 		{
 			byte statCount = 0;
 			if (Str > 0) statCount++;
@@ -140,158 +180,142 @@ namespace Zepheus.Zone.Game
 			packet.WriteByte((byte)Math.Abs(this.Slot));
 			packet.WriteByte(IsEquipped ? (byte)0x20 : (byte)0x24);
 			WriteEquipStats(packet);
-		}
+        }
+        public void WriteEquipStats(Packet packet)
+        {
+            byte statCount = 0;
+            if (Str > 0) statCount++;
+            if (End > 0) statCount++;
+            if (Dex > 0) statCount++;
+            if (Spr > 0) statCount++;
+            if (Int > 0) statCount++;
 
-		private uint GetExpiringTime()
-		{
-			if (Expires == null)
-			{
-				return 0;
-			}
-			else
-			{
-				return Expires.Value.ToFiestaTime();
-			}
-		}
+            packet.WriteUShort(this.ID);
+            switch (this.SlotType)
+            {
+                case ItemSlot.Helm:
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                // case ItemSlot.Bow: // Shield = same
+                case ItemSlot.Weapon2:
+                case ItemSlot.Weapon:
+                    packet.WriteByte(this.Upgrades);   // Refinement
+                    packet.WriteByte(0);
+                    packet.WriteShort(0); // Or int?
+                    packet.WriteShort(0);
+                    if (this.SlotType == ItemSlot.Weapon || (this.SlotType == ItemSlot.Weapon2 &&  Info.TwoHand))
+                    {
+                        packet.WriteByte(0);
+                        // Licence data
+                        packet.WriteUShort(0xFFFF);    // Nr.1 - Mob ID
+                        packet.WriteUInt(0);           // Nr.1 - Kill count
+                        packet.WriteUShort(0xFFFF);    // Nr.2 - Mob ID
+                        packet.WriteUInt(0);           // Nr.2 - Kill count
+                        packet.WriteUShort(0xFFFF);    // Nr.3 - Mob ID
+                        packet.WriteUInt(0);           // Nr.3 - Kill count
+                        packet.WriteUShort(0xFFFF);        // UNK
+                        packet.WriteString("", 16);    // First licence adder name
+                    }
+                    packet.WriteByte(0);
+                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
+                    //packet.WriteShort(0);
+                    break;
+                case ItemSlot.Pet:
+                    packet.WriteByte(this.Upgrades);   // Pet Refinement Lol
+                    packet.Fill(2, 0);                     // UNK
+                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
+                    break;
+                case ItemSlot.Earings:
+                case ItemSlot.Necklace:
+                case ItemSlot.Ring:
+                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
+                    packet.WriteByte(this.Upgrades);   // Refinement
+                    // Stats added while refining
+                    packet.WriteUShort(0);             // it may be byte + byte too (some kind of counter when item downgrades)
+                    packet.WriteUShort(0);             // STR
+                    packet.WriteUShort(0);             // END
+                    packet.WriteUShort(0);             // DEX
+                    packet.WriteUShort(0);             // INT
+                    packet.WriteUShort(0);             // SPR
+                    break;
+                case ItemSlot.CostumeWeapon:
+                case ItemSlot.CostumeShield:
+                    packet.WriteUInt(25000);           // Skin Durability
+                    break;
+                default:
+                    packet.WriteUInt(GetExpiringTime());      // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(0);                        // Time? (1992027391 -  never expires)
+                    break;
+            }
 
-		public override void Remove()
-		{
-			if (equip != null)
-			{
-				Console.WriteLine("Eqip remove {0}", equip.ID);
-				Program.CharDBManager.GetClient().ExecuteQuery("DELETE  FROM equips WHERE Owner='" + this.Owner.ID + "' AND EquipID='" + this.ItemID + "' AND Slot='" + this.Slot + "'");
-			   // Program.Entity.DeleteObject(equip);
-			  //  Program.Entity.SaveChanges();
-			}
-		}
+            // Random stats data (Not those what were added in refinement)
+            switch (this.SlotType)
+            {                       // Stat count (StatCount << 1 | Visible(0 or 1 are stats shown or not))
+                case ItemSlot.Earings:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
+                case ItemSlot.Necklace:
+                case ItemSlot.Ring:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
+                case ItemSlot.Helm:
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                case ItemSlot.Weapon2:
+                case ItemSlot.Weapon:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
+                case ItemSlot.Pet:          // Yes!! Its possible to give stats to pet also (It overrides default one(s)).
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
+            }
+            // foreach stat
+            //pPacket.WriteByte(type);              // Stat type ( 0 = STR, 1 = END, 2 = DEX, 3 = INT, 4 = SPR )
+            //pPacket.WriteUShort(amount);          // Amount
+            // end foreach
+            if (Str > 0) { packet.WriteByte(0); packet.WriteUShort(Str); }
+            if (End > 0) { packet.WriteByte(1); packet.WriteUShort(End); }
+            if (Dex > 0) { packet.WriteByte(2); packet.WriteUShort(Dex); }
+            if (Spr > 0) { packet.WriteByte(3); packet.WriteUShort(Spr); }
+            if (Int > 0) { packet.WriteByte(4); packet.WriteUShort(Int); }
+        }
 
-		public void WriteEquipStats(Packet packet)
-		{
-			byte statCount = 0;
-			if (Str > 0) statCount++;
-			if (End > 0) statCount++;
-			if (Dex > 0) statCount++;
-			if (Spr > 0) statCount++;
-			if (Int > 0) statCount++;
 
-			packet.WriteUShort(ItemID);
-			switch (this.SlotType)
-			{
-				case ItemSlot.Helm:
-				case ItemSlot.Armor:
-				case ItemSlot.Pants:
-				case ItemSlot.Boots:
-				// case ItemSlot.Bow: // Shield = same
-				case ItemSlot.Weapon2:
-				case ItemSlot.Weapon:
-					packet.WriteByte(this.Upgrades);   // Refinement
-					packet.WriteByte(0);
-					packet.WriteShort(0); // Or int?
-					packet.WriteShort(0);
-					if (this.SlotType == ItemSlot.Weapon || (this.SlotType == ItemSlot.Weapon2 && Info.TwoHand))
-					{
-						packet.WriteByte(0);
-						// Licence data
-						packet.WriteUShort(0xFFFF);    // Nr.1 - Mob ID
-						packet.WriteUInt(0);           // Nr.1 - Kill count
-						packet.WriteUShort(0xFFFF);    // Nr.2 - Mob ID
-						packet.WriteUInt(0);           // Nr.2 - Kill count
-						packet.WriteUShort(0xFFFF);    // Nr.3 - Mob ID
-						packet.WriteUInt(0);           // Nr.3 - Kill count
-						packet.WriteUShort(0xFFFF);        // UNK
-						packet.WriteString("", 16);    // First licence adder name
-					}
-					packet.WriteByte(0);
-					packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
-					//packet.WriteShort(0);
-					break;
-				case ItemSlot.Pet:
-					packet.WriteByte(this.Upgrades);   // Pet Refinement Lol
-					packet.Fill(2, 0);                     // UNK
-					packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
-					packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
-					break;
-				case ItemSlot.Earings:
-				case ItemSlot.Necklace:
-				case ItemSlot.Ring:
-					packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
-					packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
-					packet.WriteByte(this.Upgrades);   // Refinement
-					// Stats added while refining
-					packet.WriteUShort(0);             // it may be byte + byte too (some kind of counter when item downgrades)
-					packet.WriteUShort(0);             // STR
-					packet.WriteUShort(0);             // END
-					packet.WriteUShort(0);             // DEX
-					packet.WriteUShort(0);             // INT
-					packet.WriteUShort(0);             // SPR
-					break;
-				case ItemSlot.CostumeWeapon:
-				case ItemSlot.CostumeShield:
-					packet.WriteUInt(25000);           // Skin Durability
-					break;
-				default:
-					packet.WriteUInt(GetExpiringTime());      // Expiring time (1992027391 -  never expires)
-					packet.WriteUInt(0);                        // Time? (1992027391 -  never expires)
-					break;
-			}
+        public ItemInfo GetInfo()
+        {
+            ItemInfo itemInfo;
+            DataProvider.GetItemInfo(this.ID, out itemInfo);
+            return itemInfo;
+        }
 
-			// Random stats data (Not those what were added in refinement)
-			switch (this.SlotType)
-			{                       // Stat count (StatCount << 1 | Visible(0 or 1 are stats shown or not))
-				case ItemSlot.Earings:
-					packet.WriteByte((byte)(statCount << 1 | 1));
-					break;
-				case ItemSlot.Necklace:
-				case ItemSlot.Ring:
-					packet.WriteByte((byte)(statCount << 1 | 1));
-					break;
-				case ItemSlot.Helm:
-				case ItemSlot.Armor:
-				case ItemSlot.Pants:
-				case ItemSlot.Boots:
-				case ItemSlot.Weapon2:
-				case ItemSlot.Weapon:
-					packet.WriteByte((byte)(statCount << 1 | 1));
-					break;
-				case ItemSlot.Pet:          // Yes!! Its possible to give stats to pet also (It overrides default one(s)).
-					packet.WriteByte((byte)(statCount << 1 | 1));
-					break;
-			}
-			// foreach stat
-			//pPacket.WriteByte(type);              // Stat type ( 0 = STR, 1 = END, 2 = DEX, 3 = INT, 4 = SPR )
-			//pPacket.WriteUShort(amount);          // Amount
-			// end foreach
-			if (Str > 0) { packet.WriteByte(0); packet.WriteUShort(Str); }
-			if (End > 0) { packet.WriteByte(1); packet.WriteUShort(End); }
-			if (Dex > 0) { packet.WriteByte(2); packet.WriteUShort(Dex); }
-			if (Spr > 0) { packet.WriteByte(3); packet.WriteUShort(Spr); }
-			if (Int > 0) { packet.WriteByte(4); packet.WriteUShort(Int); }
-		}
-
-		//this is used by the smaller writer (e.g. additem, unequip, equip)
-		public void WriteSmallInfo(Packet packet)
-		{
-			packet.WriteUShort(this.ItemID);
-			switch (SlotType)
-			{
-				case ItemSlot.Helm:
-				case ItemSlot.Armor:
-				case ItemSlot.Pants:
-				case ItemSlot.Boots:
-				case ItemSlot.Weapon2:
-				case ItemSlot.Weapon:
-					packet.WriteByte(Upgrades);
-					packet.Fill(6, 0);
-					packet.WriteUShort(ushort.MaxValue); //unk
-					packet.WriteUInt(GetExpiringTime());
-					packet.WriteUShort(ushort.MaxValue);
-					break;
-			  
-				default:
-					packet.WriteUInt(GetExpiringTime());
-					packet.WriteInt(0); //unk
-					break;
-			}
-		}
-	}
+        public static Equip LoadEquip(DataRow row)
+        {
+            ulong uniqueID = GetDataTypes.GetUlong(row["ID"]);
+            uint owner = GetDataTypes.GetUint(row["Owner"]);
+            ushort equipID = GetDataTypes.GetUshort(row["EquipID"]);
+            short slot = GetDataTypes.Getshort(row["Slot"]);
+            byte upgrade = GetDataTypes.GetByte(row["Upgrades"]);
+            // TS: What's the "i" stand for? It's not very pretty :<
+            ushort strByte = GetDataTypes.GetUshort(row["iSTR"]);
+            ushort endByte = GetDataTypes.GetUshort(row["iEND"]);
+            ushort dexByte = GetDataTypes.GetUshort(row["iDEX"]);
+            ushort sprByte = GetDataTypes.GetUshort(row["iSPR"]);
+            ushort intByte = GetDataTypes.GetUshort(row["iINT"]);
+            Equip equip = new Equip(owner, equipID, slot)
+            {
+                UniqueID = uniqueID,
+                Upgrades = upgrade,
+                Str = strByte,
+                End = endByte,
+                Dex = dexByte,
+                Spr = sprByte,
+                Int = intByte
+            };
+            return equip;
+        }
+    }
 }

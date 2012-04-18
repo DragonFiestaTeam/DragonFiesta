@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data;
+using Zepheus.Database.DataStore;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
@@ -6,79 +8,117 @@ using Zepheus.Zone.Data;
 using Zepheus.Database.Storage;
 namespace Zepheus.Zone.Game
 {
-    public class Item
+  public class Item
     {
-        public virtual short Amount { get; set; }
-        public ushort ItemID { get;  set; } 
-        public virtual Character Owner { get; set; } 
-        public virtual DateTime? Expires { get; set; }
-        public virtual sbyte Slot { get; set;  }
-        public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ItemID); } }
+        private const string GiveItem = "give_item;";
+        private const string UpdateItem = "update_item;";
+        private const string DeleteItem = "DELETE FROM items WHERE ID=@id";
 
-        public Item(DatabaseItem item)
+        public ulong UniqueID { get; protected set; }
+        public ushort ID { get; private set; }
+        public uint Owner { get; set; }
+       // public ItemSlot SlotType { get; private set; }
+        public byte Slot { get; set; }
+
+        public ushort Count { get; set; }
+        public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+
+        public Item(uint pOwner, ushort pID, ushort pCount)
         {
-        }
-
-        public static Item ItemInfoToItem(ItemInfo inf, short amount)
-        {
-
-            Item mItem = new Item
-
+            ItemSlot type;
+            if (!DataProvider.GetItemType(pID, out type))
             {
+                throw new InvalidOperationException("Invalid item ID.");
+            }
+            this.Slot = (byte)type;
 
-                ItemID = inf.ItemID,
-
-                Amount = amount,
-
-                Slot = (sbyte)inf.Slot,
-
-            };
-
-            return mItem;
-
+            this.Owner = pOwner;
+            this.ID = pID;
+            this.Count = pCount;
         }
 
-        public Item(DroppedItem item, ZoneCharacter pNewOwner, sbyte pSlot)
+        public virtual bool Delete()
         {
-         Item dbi = new Item();
-            dbi.Amount = item.Amount;
-            dbi.ItemID= item.ItemID;
-            dbi.Slot = pSlot;
-            dbi.Owner = pNewOwner.Character;
-            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Items (Owner,Slot,ItemID,Amount) VALUES ('" + pNewOwner.ID + "','" + pSlot + "','" + item.ItemID + "','" + item.Amount + "')");
-            ItemID = item.ItemID;
-            pNewOwner.InventoryItems.Add(pSlot, dbi);
-        }
+            // Read up on inheritance and virtual method resolution.
+            // This will NOT execute for objects of type Equip unless you call base.Delete() in Equip.Delete().
 
-        public Item()
-        {
-        }
-
-        public virtual void Remove()
-        {
-            if (this != null)
+            if (this.UniqueID > 0)
             {
-                Program.CharDBManager.GetClient().ExecuteQuery("DELETE  FROM Items WHERE Owner='" + this.Owner.ID + "' AND ItemID='" + this.ItemID + "' AND Slot='" + this.Slot + "'");
+                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID="+this.UniqueID+"");
+                UniqueID = 0;
+                Owner = 0;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        public uint GetExpirationTime()
+        public virtual void Save()
         {
-            return this.Expires.HasValue ? this.Expires.Value.ToFiestaTime() : 0;
+            Console.WriteLine("item save");
+           /* if (UniqueID == 0)
+            {
+                using (var connection = Database.GetConnection())
+                {
+                    connection.Open();
+                    using (var command = new MySqlCommand(GiveItem, connection))
+                    {
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
+                        command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
+                        command.Parameters.AddWithValue("@powner", this.Owner);
+                        command.Parameters.AddWithValue("@pslot", this.Slot);
+                        command.Parameters.AddWithValue("@pitemid", this.ID);
+                        command.Parameters.AddWithValue("@pamount", this.Count);
+                        command.Prepare();
+                        command.ExecuteNonQuery();
+                        this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
+                    }
+                }
+            }
+            else
+            {
+                using (var command = new MySqlCommand(UpdateItem))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.Slot);
+                    command.Parameters.AddWithValue("@pamount", this.Count);
+                    Database.ExecuteNonQuery(command);
+                }
+            }*/
         }
 
-        public virtual void WriteInfo(Packet packet)
+        public void WriteItemInfo(Packet pPacket)
         {
-            packet.WriteByte(5); //entry length
-            packet.WriteSByte(this.Slot);
-            packet.WriteByte(0x24); //status?
-            WriteItemStats(packet);
+            pPacket.WriteByte((byte)this.ID.ToString().Length); //entry length
+            pPacket.WriteByte(this.Slot);
+            pPacket.WriteByte(0x24); //status?
+            WriteItemStats(pPacket);
         }
 
-        public void WriteItemStats(Packet packet)
+        public void WriteItemStats(Packet pPacket)
         {
-            packet.WriteUShort(ItemID);
-            packet.WriteByte((byte)Amount);
+            pPacket.WriteUShort(this.ID);
+            pPacket.WriteByte((byte)this.Count);
+        }
+  
+        public static Item LoadItem(DataRow Row)
+        {
+            ulong id = GetDataTypes.GetUlong(Row["ID"]);
+            uint owner = GetDataTypes.GetUint(Row["Owner"]);
+            byte slot = GetDataTypes.GetByte(Row["Slot"]);
+            ushort equipID = GetDataTypes.GetUshort(Row["ItemID"]);
+            ushort amount = GetDataTypes.GetUshort(Row["Amount"]);
+            Item item = new Item(owner, equipID, amount)
+            {
+                UniqueID = id,
+                Slot = slot
+            };
+            return item;
         }
     }
 }

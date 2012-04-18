@@ -62,7 +62,7 @@ namespace Zepheus.Zone.Handlers
             //B2 00 - AB 38 - 07 - 0D 00 04
             Packet packet = new Packet(SH7Type.ShowEquip);
             packet.WriteUShort(character.MapObjectID);
-            packet.WriteUShort(equip.ItemID);
+            packet.WriteUShort(equip.ID);
             packet.WriteByte(equip.Upgrades);
             packet.Fill(3, 0xff);
             return packet;
