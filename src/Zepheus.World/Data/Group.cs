@@ -13,6 +13,7 @@ namespace Zepheus.World.Data
 	public class Group
 	{
 		#region .ctor
+
 		public Group(long id)
 		{
 			this.members = new List<GroupMember>();
@@ -22,8 +23,8 @@ namespace Zepheus.World.Data
 			this.DropState = DropState.FreeForAll;
 			this.gotLastDrop = 0;
 		}
-		#endregion
 
+		#endregion
 		#region Properties
 
 		public const int MaxMembers = 5;
@@ -44,7 +45,6 @@ namespace Zepheus.World.Data
 
 		private int gotLastDrop;
 		#endregion
-
 		#region Methods
 
 		#region Public
@@ -75,11 +75,10 @@ namespace Zepheus.World.Data
 		}
 		public void BreakUp()
 		{
-			BreakUpInDatabase();
-
-			// TODO: Send update to characters
-			
 			this.Exists = false;
+			GroupMember[] mems = new GroupMember[this.members.Count];
+			this.members.CopyTo(mems);
+			BreakUpInDatabase();
 			OnBrokeUp();
 		}
 		public void ChangeMaster(GroupMember pNewMaster)
@@ -178,8 +177,9 @@ namespace Zepheus.World.Data
 			this.members.Remove(pMember);
 			pMember.Character.Group = null;
 			pMember.Character.GroupMember = null;
-			
-			// TODO: Send packet to other members to update GroupList!
+			// TEMP
+			KickMember(pMember);
+			// NOTE: Send packet to other members to update GroupList!
 			AnnouncePartyList();
 		}
 		internal void RemoveInvite(GroupRequest pRequest)
@@ -304,7 +304,6 @@ namespace Zepheus.World.Data
 			return g;
 		}
 		#endregion
-
 		#region Private
 		private void UpdateDropStateToMembers()
 		{
@@ -408,8 +407,7 @@ namespace Zepheus.World.Data
 			}
 
 		}
-		#endregion
-		
+		#endregion		
 		#region EventExecuter
 		protected virtual void OnBrokeUp()
 		{
@@ -417,12 +415,11 @@ namespace Zepheus.World.Data
 				BrokeUp(this, new EventArgs());
 		}
 		#endregion
-
 		#region EventHandler
 
 		#endregion
-		#endregion
 
+		#endregion
 		#region Events
 
 		public event EventHandler BrokeUp;

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Zepheus.Zone.Data;
+using Zepheus.Zone.Game;
 using System;
+using MySql.Data.MySqlClient;
 
 namespace Zepheus.Zone
 {
@@ -49,6 +51,58 @@ namespace Zepheus.Zone
 			// this will make it into a loop w/ the worker
 			Worker.Instance.AddCallback(Update);
 		}
+
+		internal bool CheckCharacterHasGroup(ZoneCharacter pCharacter)
+		{
+			//--------------------------------------------------
+			// Queries used 
+			//--------------------------------------------------
+			const string get_group_id_query = 
+				"SELECT `GroupId` " +
+				"FROM `characters` " +
+				"WHERE `CharId` = {0}";
+			//--------------------------------------------------
+			// Get group id and check if char haz group
+			//--------------------------------------------------
+			string query = string.Format(get_group_id_query, pCharacter.ID);
+			using(var client = Program.DatabaseManager.GetClient())
+			using(var cmd = new MySqlCommand(query, client.Connection))
+			using(var reader = cmd.ExecuteReader())
+			{
+				long id = null;
+				while(reader.Read())
+					id = reader.GetInt64(0);
+
+				if(id == -1 || id == null)
+					return false;
+			}
+		}
+		internal Group GetGroupForCharacter(ZoneCharacter pCharacter)
+		{
+			//--------------------------------------------------
+			// Quries used in function
+			//--------------------------------------------------
+			const string get_group_id_query = 
+				"SELECT `GroupId` FROM `characters` " + 
+				"WHERE `CharId` = {0} ";
+			
+			//--------------------------------------------------
+			// get group id
+			//--------------------------------------------------
+			string query = string.Format(get_group_id_query, pCharacter.ID);
+			long groupId = null;
+			using(var client = Program.DatabaseManager.GetClient())
+			using(var cmd = new MySqlCommand(query, client.Connection))
+			using(var reader = cmd.ExecuteReader())
+			{
+				while(reader.Read())
+					groupId = reader.GetInt64(0);
+			}
+
+			LoadGroupFromDatabase(groupId);
+			return groupsById[groupId];
+		}
+
 		private void UpdateGroup(Group grp
 		{
 			grp.Update();

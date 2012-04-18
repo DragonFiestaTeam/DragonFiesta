@@ -84,8 +84,11 @@ namespace Zepheus.Zone.Data
 		}
 		public void Update()
 		{
-			// TODO: add update logic
+			/* Note										*
+			 * Add more update logic here if needed.	*
+			 * this will automatically repeated.		*/
 
+			UpdateGroupPositions();
 			this.LastUpdate = DateTime.Now;
 		}
 		public void UpdateCharacterLevel(ZoneCharacter pChar)
