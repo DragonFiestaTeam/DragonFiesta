@@ -83,13 +83,9 @@ namespace Zepheus.Zone.Game
 
         public override void Save()
         {
-            Console.WriteLine("save equipt");
            if (UniqueID <= 0)
             {
-                using (MySqlConnection conn = Program.CharDBManager.GetClient().Connection)
-                {
-         
-                    using (var command = new MySqlCommand(GiveEquip, conn))
+                    using (var command = new MySqlCommand(GiveEquip))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
                         command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
@@ -97,14 +93,13 @@ namespace Zepheus.Zone.Game
                         command.Parameters.AddWithValue("@powner", this.Owner);
                         command.Parameters.AddWithValue("@pslot", this.Slot);
                         command.Parameters.AddWithValue("@pequipid", this.ID);
-                        command.ExecuteNonQuery();
+                       Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                         this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
                     }
-                }
             }
             else
             {
-                using (var command = new MySqlCommand(UpdateEquip,Program.CharDBManager.GetClient().Connection))
+                using (var command = new MySqlCommand(UpdateEquip))
                 {
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
@@ -116,8 +111,7 @@ namespace Zepheus.Zone.Game
                     command.Parameters.AddWithValue("@pdex", this.Dex);
                     command.Parameters.AddWithValue("@pspr", this.Spr);
                     command.Parameters.AddWithValue("@pint", this.Int);
-                    command.ExecuteNonQuery();
-                    Console.WriteLine(command.CommandText);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                 }
             }
         }
