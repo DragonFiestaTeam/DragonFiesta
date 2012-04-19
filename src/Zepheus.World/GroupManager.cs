@@ -159,13 +159,13 @@ namespace Zepheus.World
 			else
 			{
 				Group g = Group.ReadFromDatabase(pId);
-                if(g != null)
-                {
+				if(g != null)
+				{
 				this.groups.Add(g);
 				this.groupsById.Add(g.Id, g);
-                g.Master.Name = "testklo";
-               this.groupsByMaster.Add(g.Master.Name, g); // TODO: throws
-                }
+				g.Master.Name = "testklo";
+			   this.groupsByMaster.Add(g.Master.Name, g); // TODO: throws
+				}
 
 				return g;
 			}

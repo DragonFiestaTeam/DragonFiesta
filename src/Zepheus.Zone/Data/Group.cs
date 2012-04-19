@@ -14,17 +14,17 @@ namespace Zepheus.Zone.Data
 		#region .ctor
 		public Group()
 		{
-			this.members = new List<GroupMember>();
+			this.Members = new List<GroupMember>();
 			this.LastUpdate = DateTime.Now;
 		}
 		#endregion
 		#region Properties
 		public long Id { get; private set; }
-		public GroupMember Master { get { return this.members.Single(m => m.IsMaster); } }
-		public IEnumerable<GroupMember> NormalMembers { get { return this.members.Where(m => !m.IsMaster); } }
+		public GroupMember Master { get { return this.Members.Single(m => m.IsMaster); } }
+		public IEnumerable<GroupMember> NormalMembers { get { return this.Members.Where(m => !m.IsMaster); } }
 		public DateTime LastUpdate { get; private set; }
 
-		private readonly List<GroupMember> members;
+		public readonly List<GroupMember> Members;
 		#endregion
 		#region Methods
 		public static Group LoadGroupFromDatabaseById(long pId)
@@ -63,7 +63,7 @@ namespace Zepheus.Zone.Data
 						foreach(long? m in members)
 						{
 							if(m != null)
-								grp.members.Add(ReadGroupMemberFromDatabase(m));
+								grp.Members.Add(ReadGroupMemberFromDatabase(m.Value));
 						}
 					}
 				}
@@ -80,7 +80,7 @@ namespace Zepheus.Zone.Data
 			mem.Name = pCharacter.Name;
 			pCharacter.GroupMember = mem;
 			pCharacter.LevelUp += OnCharacterLevelUp;
-			this.members.Add(mem);
+			this.Members.Add(mem);
 		}
 		public void Update()
 		{
@@ -120,7 +120,7 @@ namespace Zepheus.Zone.Data
 		}
 		public void UpdateGroupPositions()
 		{
-			foreach(var m in members.Where(mem => mem.IsOnline))
+			foreach(var m in Members.Where(mem => mem.IsOnline))
 			{
 				UpdateMemberPosition(m);
 			}
@@ -128,7 +128,7 @@ namespace Zepheus.Zone.Data
 		#region Private
 		private void AnnouncePacket(Packet pPacket)
 		{
-			foreach (var mem in this.members)
+			foreach (var mem in this.Members)
 			{
 				mem.Character.Client.SendPacket(pPacket);
 			}

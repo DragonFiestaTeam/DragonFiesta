@@ -111,6 +111,7 @@ namespace Zepheus.Zone
 			if(client.Character == null) return;
 			ZoneClient deleted;
 			clientsByName.TryRemove(client.Character.Character.Name, out deleted);
+			GroupManager.Instance.OnCharacterRemove(client.Character);
 			if (deleted != client)
 			{
 				Log.WriteLine(LogLevel.Warn, "There was a duplicate client object registered for {0}.", client.Character.Name);

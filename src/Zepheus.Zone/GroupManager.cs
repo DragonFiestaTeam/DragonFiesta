@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zepheus.Zone.Data;
 using Zepheus.Zone.Game;
+using System.Linq;
 using System;
 using MySql.Data.MySqlClient;
 
@@ -15,11 +16,12 @@ namespace Zepheus.Zone
 			this.groups = new List<Group>();
 			this.groupsById = new Dictionary<long, Group>();
 			this.groupsByMaster = new Dictionary<string, Group>();
+			this.updateQueue = new Queue<Group>();
 		}
 		#endregion
 		#region Properties
 		public static readonly TimeSpan GroupUpdateInterval = TimeSpan.FromSeconds(3); 
-		public static GroupManager Instance { get; privat set; }
+		public static GroupManager Instance { get; private set; }
 
 		private List<Group> groups;
 		private Dictionary<string, Group> groupsByMaster;
@@ -36,6 +38,8 @@ namespace Zepheus.Zone
 		}
 		public void LoadGroupFromDatabase(long pId)
 		{
+			if(groups.Any(g => g.Id == pId))
+				return;
 			Group group = Group.LoadGroupFromDatabaseById(pId);
 			this.AddGroup(group);
 		}
@@ -51,8 +55,15 @@ namespace Zepheus.Zone
 			// this will make it into a loop w/ the worker
 			Worker.Instance.AddCallback(Update);
 		}
+		public Group GetGroupForCharacter(long pCharId)
+		{
+			long groupId = GetGroupIdForCharacter(pCharId);
+			if(!groupsById.ContainsKey(groupId))
+				LoadGroupFromDatabase(groupId);
+			return groupsById[groupId];
+		}
 
-		internal bool CheckCharacterHasGroup(ZoneCharacter pCharacter)
+		internal bool CheckCharacterHasGroup(long pCharId)
 		{
 			//--------------------------------------------------
 			// Queries used 
@@ -64,18 +75,19 @@ namespace Zepheus.Zone
 			//--------------------------------------------------
 			// Get group id and check if char haz group
 			//--------------------------------------------------
-			string query = string.Format(get_group_id_query, pCharacter.ID);
+			string query = string.Format(get_group_id_query, pCharId);
 			using(var client = Program.DatabaseManager.GetClient())
 			using(var cmd = new MySqlCommand(query, client.Connection))
 			using(var reader = cmd.ExecuteReader())
 			{
-				long id = null;
+				long? id = null;
 				while(reader.Read())
 					id = reader.GetInt64(0);
 
 				if(id == -1 || id == null)
 					return false;
 			}
+			return true;
 		}
 		internal Group GetGroupForCharacter(ZoneCharacter pCharacter)
 		{
@@ -90,7 +102,7 @@ namespace Zepheus.Zone
 			// get group id
 			//--------------------------------------------------
 			string query = string.Format(get_group_id_query, pCharacter.ID);
-			long groupId = null;
+			long groupId = -1;
 			using(var client = Program.DatabaseManager.GetClient())
 			using(var cmd = new MySqlCommand(query, client.Connection))
 			using(var reader = cmd.ExecuteReader())
@@ -102,12 +114,50 @@ namespace Zepheus.Zone
 			LoadGroupFromDatabase(groupId);
 			return groupsById[groupId];
 		}
-
-		private void UpdateGroup(Group grp
+		internal void OnCharacterRemove(ZoneCharacter pCharacter)
 		{
+			if(pCharacter.Group == null)
+				return;
+			if(pCharacter.Group.Members.Where(m => m.Name != pCharacter.Name && m.IsOnline).Count() > 0)
+				return;
+			RemoveGroup(pCharacter.Group);			
+		}
+
+		private void UpdateGroup(Group grp)
+		{
+			if(!groups.Contains(grp))
+				return;
 			grp.Update();
 			updateQueue.Enqueue(grp);
-		})
+		}
+		private void RemoveGroup(Group grp)
+		{
+			this.groups.Remove(grp);
+			this.groupsByMaster.Remove(grp.Master.Name);
+			this.groupsById.Remove(grp.Id);
+		}
+		private long GetGroupIdForCharacter(long pCharacterId)
+		{
+			//--------------------------------------------------
+			// Queries used in this function
+			//--------------------------------------------------
+			const string get_group_id_query = 
+				"SELECT `GroupId` FROM `characters` " +
+				"WHERE `CharId` = {0} ";
+
+			//--------------------------------------------------
+			// get groupId
+			//--------------------------------------------------
+			long? groupId = null;
+			using(var client = Program.DatabaseManager.GetClient())
+			using(var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.Connection))
+			using(var reader = cmd.ExecuteReader())
+			{
+				while(reader.Read())
+					groupId = reader.GetInt64(0);
+			}
+			return groupId ?? -1;
+		}
 		#endregion
 	}
 }

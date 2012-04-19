@@ -219,9 +219,9 @@ namespace Zepheus.World.Data
 								this.Id,
 								this.members[0],
 								this.members[1],
-								this.members.Count >= 3 : this.members[2] ? "NULL",
-								this.members.Count >= 4 : this.members[3] ? "NULL",
-								this.members.Count >= 5 : this.members[4] ? "NULL");
+								((this.members.Count >= 3) : this.members[2] ? "NULL"),
+								((this.members.Count >= 4) : this.members[3] ? "NULL"),
+								((this.members.Count >= 5) : this.members[4] ? "NULL"));
 				client.ExecuteQuery(query);
 			}
 		}
@@ -280,30 +280,30 @@ namespace Zepheus.World.Data
 			// keep character also up to date
 			UpdateMembersInDatabase();
 		}
-        internal static Group ReadFromDatabase(long pId)
-        {
-            Group g = new Group(pId);
-            DataTable gdata = null;
-            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-            {
-                gdata = dbClient.ReadDataTable("SELECT * FROM `groups` WHERE Id = " + pId + "");
-            }
+		internal static Group ReadFromDatabase(long pId)
+		{
+			Group g = new Group(pId);
+			DataTable gdata = null;
+			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+			{
+				gdata = dbClient.ReadDataTable("SELECT * FROM `groups` WHERE Id = " + pId + "");
+			}
 
-            if (gdata != null)
-            {
-                foreach (DataRow row in gdata.Rows)
-                {
-                    for (int i = 1; i < 4; i++)
-                    {
-                        UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
-                        if (mem != null)
-                            g.members.Add(GroupMember.LoadFromDatabase(mem));
-                    }
-                }
-            }
+			if (gdata != null)
+			{
+				foreach (DataRow row in gdata.Rows)
+				{
+					for (int i = 1; i < 4; i++)
+					{
+						UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
+						if (mem != null)
+							g.members.Add(GroupMember.LoadFromDatabase(mem));
+					}
+				}
+			}
 
-            return g;
-        }
+			return g;
+		}
 		#endregion
 		#region Private
 		private void UpdateDropStateToMembers()
