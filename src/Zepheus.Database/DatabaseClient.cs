@@ -58,7 +58,7 @@ namespace Zepheus.Database
         {
             if (Connection == null)
                 throw new DatabaseException("[DBClient.Connect]: Connection instance of database client " + Handle + " holds no value.");
-            if (this.Manager.CommandCacheCount > 5000)
+            if (this.Manager.CommandCacheCount > 10)
                 Log.WriteLine(LogLevel.Warn, "[DBClient.Database]: The QuerysCache Overloaded");
             if (Connection.State != ConnectionState.Closed)
                 throw new DatabaseException("[DBClient.Connect]: Connection instance of database client " + Handle + " requires to be closed before it can open again.");
@@ -131,7 +131,7 @@ namespace Zepheus.Database
         {
             try
             {
-                this.Dispose();
+               // this.Dispose();
                 Command.CommandText = sQuery;
                 if (this.Command.Connection.State != ConnectionState.Open)
                 {
@@ -159,9 +159,10 @@ namespace Zepheus.Database
         {
             try
             {
-                this.Dispose();
+                //this.Dispose();
                 AddParameters(Cmd, pParams);
                 Command = Cmd;
+                Command.Connection = this.Connection;
                 if (this.Command.Connection.State != ConnectionState.Open)
                 {
                     this.Manager.PushCommand(Command);
