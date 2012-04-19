@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Zepheus.Zone.Game;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib;
@@ -133,9 +134,18 @@ namespace Zepheus.Zone.Data
 				mem.Character.Client.SendPacket(pPacket);
 			}
 		}
-		private static GroupMember ReadGroupMemberFromDatabase(long id)
+		private static GroupMember ReadGroupMemberFromDatabase(long pCharId)
 		{
-			return null;
+			// TODO
+			throw new NotImplementedException();
+
+			//--------------------------------------------------
+			// Quries used in this function
+			//--------------------------------------------------
+			const string get_groupmem_query = 
+				"SELECT `Name`, `IsMaster` FROM `characters` " +
+				"WHERE `GroupId` = {0}";
+
 		}
 		private void UpdateMemberPosition(GroupMember member)
 		{
@@ -144,8 +154,8 @@ namespace Zepheus.Zone.Data
 			using(var packet = new Packet(SH14Type.UpdatePartyMemberLoc))
 			{
 				packet.WriteString(member.Name, 0x10);
-				packet.WriteString(member.Character.Position.X);
-				packet.WriteString(member.Character.Position.Y);
+				packet.WriteInt(member.Character.Position.X);
+				packet.WriteInt(member.Character.Position.Y);
 
 				AnnouncePacket(packet);
 			}

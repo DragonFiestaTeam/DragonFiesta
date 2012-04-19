@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using MySql.Data.MySqlClient;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
@@ -65,7 +64,7 @@ namespace Zepheus.World.Data
 			if(Master.Name != pSender.Character.Name)
 				return;		// only the master may invite new members
 			
-			GroupManager.Instance.Invite(pSender, pTarget); // trololol
+			GroupManager.Instance.Invite(pSender.Client, pTarget); // trololol
 		}
 		public void ChangeDropType(WorldCharacter pBy, byte pDropState)
 		{
@@ -180,7 +179,7 @@ namespace Zepheus.World.Data
 			pMember.Character.Group = null;
 			pMember.Character.GroupMember = null;
 			// TEMP
-			KickMember(pMember);
+			KickMember(pMember.Name);
 			// NOTE: Send packet to other members to update GroupList!
 			AnnouncePartyList();
 		}
@@ -219,9 +218,9 @@ namespace Zepheus.World.Data
 								this.Id,
 								this.members[0],
 								this.members[1],
-								((this.members.Count >= 3) : this.members[2] ? "NULL"),
-								((this.members.Count >= 4) : this.members[3] ? "NULL"),
-								((this.members.Count >= 5) : this.members[4] ? "NULL"));
+								(this.members.Count >= 3 ? this.members[2].CharId.ToString() : "NULL"),
+								(this.members.Count >= 4 ? this.members[3].CharId.ToString() : "NULL"),
+								(this.members.Count >= 5 ? this.members[4].CharId.ToString() : "NULL"));
 				client.ExecuteQuery(query);
 			}
 		}
@@ -270,11 +269,11 @@ namespace Zepheus.World.Data
 			{
 				string query = string.Format(create_group_query,
 								this.Id,
-								this.members.Count > 0 : this.members[0] ? "NULL",
-								this.members.Count > 1 : this.members[1] ? "NULL",
-								this.members.Count > 2 : this.members[2] ? "NULL",
-								this.members.Count > 3 : this.members[3] ? "NULL",
-								this.members.Count > 4 : this.members[4] ? "NULL");
+								this.members.Count > 0 ? this.members[0].CharId.ToString() : "NULL",
+								this.members.Count > 1 ? this.members[1].CharId.ToString() : "NULL",
+								this.members.Count > 2 ? this.members[2].CharId.ToString() : "NULL",
+								this.members.Count > 3 ? this.members[3].CharId.ToString() : "NULL",
+								this.members.Count > 4 ? this.members[4].CharId.ToString() : "NULL");
 				client.ExecuteQuery(query);
 			}
 			// keep character also up to date
@@ -282,6 +281,7 @@ namespace Zepheus.World.Data
 		}
 		internal static Group ReadFromDatabase(long pId)
 		{
+			// Note - put datatables int using statements!
 			Group g = new Group(pId);
 			DataTable gdata = null;
 			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
@@ -290,17 +290,13 @@ namespace Zepheus.World.Data
 			}
 
 			if (gdata != null)
-			{
 				foreach (DataRow row in gdata.Rows)
-				{
 					for (int i = 1; i < 4; i++)
 					{
 						UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
-						if (mem != null)
+						if(mem != null)
 							g.members.Add(GroupMember.LoadFromDatabase(mem));
 					}
-				}
-			}
 
 			return g;
 		}
@@ -400,10 +396,10 @@ namespace Zepheus.World.Data
 
 			using(var client = Program.DatabaseManager.GetClient())
 			{
-				string query = string.Format(break_group_query, this.Id)				
+				string query = string.Format(break_group_query, this.Id);		
 				client.ExecuteQuery(query);
 
-				string query = string.Format(reset_char_group_query, this.Id);
+				query = string.Format(reset_char_group_query, this.Id);
 				client.ExecuteQuery(query);
 			}
 

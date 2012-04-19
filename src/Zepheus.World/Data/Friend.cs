@@ -32,7 +32,7 @@ namespace Zepheus.World.Data
                 Map = GetMapname(pCharacter.Character.PositionInfo.Map),
                 UniqueID = (uint)pCharacter.Character.AccountID,
                 IsOnline = pCharacter.IsIngame,
-                client = pCharacter.client,
+                client = pCharacter.Client,
             };
 
             return friend;

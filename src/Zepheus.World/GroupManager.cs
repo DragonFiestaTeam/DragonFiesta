@@ -235,7 +235,7 @@ namespace Zepheus.World
 			this.groupsByMaster.Add(pGroup.Master.Name, pGroup);
 			this.groupsById.Add(pGroup.Id, pGroup);
 		}
-		private static int GetMaxGroupIdFromDatabase()
+		private static long GetMaxGroupIdFromDatabase()
 		{
 			//--------------------------------------------------
 			// Queries used in function
@@ -247,7 +247,7 @@ namespace Zepheus.World
 			// get max id from database
 			//--------------------------------------------------
 
-			int max;
+			long max = 0;
 			using (var client = Program.DatabaseManager.GetClient())
 			using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
 			using (var rdr = cmd.ExecuteReader())

@@ -23,12 +23,17 @@ namespace Zepheus.Zone
 		public static readonly TimeSpan GroupUpdateInterval = TimeSpan.FromSeconds(3); 
 		public static GroupManager Instance { get; private set; }
 
-		private List<Group> groups;
-		private Dictionary<string, Group> groupsByMaster;
-		private Dictionary<long, Group> groupsById;
-		private Queue<Group> updateQueue;
+		private readonly List<Group> groups;
+		private readonly Dictionary<string, Group> groupsByMaster;
+		private readonly Dictionary<long, Group> groupsById;
+		private readonly Queue<Group> updateQueue;
 		#endregion
 		#region Methods
+		public void NewGroupCreated(long pGroupId)
+		{
+			// TODO: Implement! 
+			throw new NotImplementedException();
+		}
 		public void AddGroup(Group grp)
 		{
 			groups.Add(grp);
@@ -60,7 +65,7 @@ namespace Zepheus.Zone
 			long groupId = GetGroupIdForCharacter(pCharId);
 			if(!groupsById.ContainsKey(groupId))
 				LoadGroupFromDatabase(groupId);
-			return groupsById[groupId];
+			return groupsById.ContainsKey(groupId) ? groupsById[groupId] : null;
 		}
 
 		internal bool CheckCharacterHasGroup(long pCharId)
@@ -118,6 +123,10 @@ namespace Zepheus.Zone
 		{
 			if(pCharacter.Group == null)
 				return;
+
+			pCharacter.GroupMember.IsOnline = false;
+			pCharacter.GroupMember.Character = null;
+			pCharacter.GroupMember = null;
 			if(pCharacter.Group.Members.Where(m => m.Name != pCharacter.Name && m.IsOnline).Count() > 0)
 				return;
 			RemoveGroup(pCharacter.Group);			

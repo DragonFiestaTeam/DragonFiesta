@@ -15,6 +15,7 @@ namespace Zepheus.World.Data
 		{
 			this.Client = client;
 			this.Character = client.Character;
+			this.CharId = client.Character.ID;
 			this.Role = role;
 			this.Name = client.Character.Character.Name;
 			this.IsOnline = true;
@@ -27,6 +28,7 @@ namespace Zepheus.World.Data
 		public Group Group { get; internal set; }
 		public GroupRole Role { get; internal set; }
 		public WorldClient Client { get; private set; }
+		public int CharId { get; private set; }
 		public bool IsOnline { get; set; }
 		#endregion
 

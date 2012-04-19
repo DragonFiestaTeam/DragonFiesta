@@ -44,8 +44,8 @@ namespace Zepheus.Zone.Game
 				LoadSkills();
 				if (IsDead)
 				{
-					HP = MaxHP / 4;         // uhm no?
-					Exp = Exp / 2;          // uhm no?
+					HP = MaxHP / 4;         // uhm no? TODO: fix
+					Exp = Exp / 2;          // uhm no? TODO: fix
 					MapInfo mi;
 					DataProvider.Instance.MapsByID.TryGetValue(MapID, out mi);
 					if (mi != null)
@@ -55,7 +55,15 @@ namespace Zepheus.Zone.Game
 					}
 				}
 				SetMap(MapID);
-				// TODO: add loading of group	
+				// TODO: add loading of group
+				this.Group = GroupManager.Instance.GetGroupForCharacter(this.ID);
+				if (this.Group != null)
+				{
+					this.GroupMember = this.Group.Members.Single(m => m.Name == this.Name);
+					this.GroupMember.IsOnline = true;
+					this.GroupMember.Character = this;
+				}
+				
 			}
 			catch (Exception ex)
 			{

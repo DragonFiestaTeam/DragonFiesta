@@ -15,8 +15,8 @@ namespace Zepheus.World.Data
 	public class WorldCharacter
 	{
 		public Character Character { get; set;  }
-		public WorldClient client { get; set; }
-	   // public Character Character { get { return _character ?? (_character = LazyLoadMe()); } set { _character = value; } }
+		public WorldClient Client { get; set; }
+	//	public Character Character { get { return _character ?? (_character = LazyLoadMe()); } set { _character = value; } }
 		public int ID { get; private set; }
 		public Dictionary<byte, ushort> Equips { get; private set; }
 		public bool IsDeleted { get; private set; }
@@ -31,7 +31,7 @@ namespace Zepheus.World.Data
 		public WorldCharacter(Character ch)
 		{
 			Character = ch;
-			client = ClientManager.Instance.GetClientByCharname(ch.Name);
+			Client = ClientManager.Instance.GetClientByCharname(ch.Name);
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
 		   
@@ -46,7 +46,7 @@ namespace Zepheus.World.Data
 				Equips.Add(realslot, (ushort)eqp.EquipID);
 			}
 
-           // LoadGroup();
+		   // LoadGroup();
 		}
 		public List<Friend> Friends
 		{
@@ -57,7 +57,7 @@ namespace Zepheus.World.Data
 					LoadFriends(ClientManager.Instance.GetClientByCharname(this.Character.Name));
 				}
 				return this.friends;
-		   }
+			}
 		}
 		public void LoadFriends(WorldClient c)
 		{
@@ -141,66 +141,66 @@ namespace Zepheus.World.Data
 			}
 			return "";
 		}
-        public Friend AddFriend(WorldCharacter pChar)
-        {
+		public Friend AddFriend(WorldCharacter pChar)
+		{
 
-            Friend pFrend = pChar.friends.Find(f => f.Name == pChar.Character.Name);
-            Friend pFrendby = pChar.friendsby.Find(f => f.Name == pChar.Character.Name);
-            Friend friend = Friend.Create(pChar);
-            if (pFrend != null)
-            {
-                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
+			Friend pFrend = pChar.friends.Find(f => f.Name == pChar.Character.Name);
+			Friend pFrendby = pChar.friendsby.Find(f => f.Name == pChar.Character.Name);
+			Friend friend = Friend.Create(pChar);
+			if (pFrend != null)
+			{
+				Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID,Pending) VALUES ('" + pChar.Character.ID + "','" + this.Character.ID + "','1')");
 
-            }
-            if (pFrendby == null)
-            {
-                this.friendsby.Add(friend);
-            }
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
-            friends.Add(friend);
+			}
+			if (pFrendby == null)
+			{
+				this.friendsby.Add(friend);
+			}
+			Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Friends (CharID,FriendID) VALUES ('" + this.Character.ID + "','" + pChar.Character.ID + "')");
+			friends.Add(friend);
 
-            return friend;
-        }
-        public bool DeleteFriend(string pName)
-        {
-            Friend friend = this.friends.Find(f => f.Name == pName);
-            Friend friendby = this.friendsby.Find(f => f.Name == pName);
-            if (friend != null)
-            {
-                bool result = this.friends.Remove(friend);
-                if (result)
-                {
-                    if (friendsby != null)
-                    {
-                        Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
-                        this.friendsby.Remove(friendby);
-                    }
-                    Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + friend.ID);
-                }
-                UpdateFriendStates(friend.client);
-                return result;
-            }
-            return false;
-        }
-        public void UpdateFriendsStatus(bool state, WorldClient sender)
-        {
-            foreach (Friend frend in friendsby)
-            {
-                WorldClient client = ClientManager.Instance.GetClientByCharname(frend.Name);
-                if (client != null)
-                {
-                    if (state)
-                    {
-                        if (client != sender && !client.Character.IsIngame)
-                            frend.Online(client, sender);
-                    }
-                    else
-                    {
-                        frend.Offline(client, this.Character.Name);
-                    }
-                }
-            }
-        }
+			return friend;
+		}
+		public bool DeleteFriend(string pName)
+		{
+			Friend friend = this.friends.Find(f => f.Name == pName);
+			Friend friendby = this.friendsby.Find(f => f.Name == pName);
+			if (friend != null)
+			{
+				bool result = this.friends.Remove(friend);
+				if (result)
+				{
+					if (friendsby != null)
+					{
+						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
+						this.friendsby.Remove(friendby);
+					}
+					Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + friend.ID);
+				}
+				UpdateFriendStates(friend.client);
+				return result;
+			}
+			return false;
+		}
+		public void UpdateFriendsStatus(bool state, WorldClient sender)
+		{
+			foreach (Friend frend in friendsby)
+			{
+				WorldClient client = ClientManager.Instance.GetClientByCharname(frend.Name);
+				if (client != null)
+				{
+					if (state)
+					{
+						if (client != sender && !client.Character.IsIngame)
+							frend.Online(client, sender);
+					}
+					else
+					{
+						frend.Offline(client, this.Character.Name);
+					}
+				}
+			}
+		}
 		public void UpdateFriendStates(WorldClient pclient)
 		{
 			List<Friend> unknowns = new List<Friend>();
@@ -333,8 +333,8 @@ namespace Zepheus.World.Data
 		private void LoadGroup()
 		{
 			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
-            this.GroupMember = this.Group[this.Character.Name];
-            this.UpdateGroupStatus();
+			this.GroupMember = this.Group[this.Character.Name];
+			this.UpdateGroupStatus();
 		}
 	}
 }

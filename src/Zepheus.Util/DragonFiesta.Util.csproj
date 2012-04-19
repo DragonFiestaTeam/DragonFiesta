@@ -53,6 +53,7 @@
     <Compile Include="EntitySetting.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="InitializationStage.cs" />
+    <Compile Include="InvalidPacketException.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogLevel.cs" />
     <Compile Include="MathUtils.cs" />

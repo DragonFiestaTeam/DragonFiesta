@@ -14,6 +14,7 @@
 		UpdateParty = 0x098,
 		RemovePartyMember = 0x097,
 		AddPartyMember = 0x0096,
+		NewPartyCreated =0x00101,	// WORLD -> ZONE
 
 		Auth = 0x0010,
 		BanAccount = 0x0095,
