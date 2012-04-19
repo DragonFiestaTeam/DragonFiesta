@@ -144,6 +144,7 @@ namespace Zepheus.World
 			Database.Database db = new Database.Database(Settings.Instance.WorldMysqlDatabase, Settings.Instance.WorldDBMinPoolSize, Settings.Instance.WorldDBMinPoolSize);
 			DatabaseManager = new DatabaseManager(dbServer, db);
 			DatabaseManager.GetClient(); //testclient
+            DatabaseManager.StartClientMonitor();
 			Log.SetLogToFile(string.Format(@"Logs\World\{0}.log", DateTime.Now.ToString("d_M_yyyy HH_mm_ss")));
 
 			try

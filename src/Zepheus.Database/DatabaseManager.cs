@@ -3,6 +3,7 @@ using System.Data;
 using System.Threading;
 using MySql.Data.MySqlClient;
 using Zepheus.Util;
+using Zepheus.Database.Storage;
 
 namespace Zepheus.Database
 {
@@ -14,7 +15,8 @@ namespace Zepheus.Database
 		public DatabaseClient[] Clients;
 		public Boolean[] AvailableClients;
 		public int ClientStarvation;
-
+        public PriorityQueue<MySqlCommand> Commands;
+        int CommandCacheCount; 
 		public Thread ClientMonitor;
 
 		public string ConnectionString
@@ -40,11 +42,11 @@ namespace Zepheus.Database
 		{
 			Server = server;
 			Database = database;
-
+            Commands  = new PriorityQueue<MySqlCommand>();
 			Clients = new DatabaseClient[0];
 			AvailableClients = new Boolean[0];
 			ClientStarvation = 0;
-
+            CommandCacheCount = 0;
 			StartClientMonitor();
 		}
 
@@ -198,7 +200,11 @@ namespace Zepheus.Database
 				return anonymous;
 			}
 		}
-
+        public void PushCommand(MySqlCommand command)
+        {
+            CommandCacheCount++;
+            Commands.Enqueue(command,CommandCacheCount);
+        }
 		public void SetClientAmount(uint amount)
 		{
 			lock (this.Clients)

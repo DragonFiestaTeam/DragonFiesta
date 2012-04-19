@@ -72,6 +72,7 @@ namespace Zepheus.Login
             Database.Database db = new Database.Database(Settings.Instance.LoginMysqlDatabase, Settings.Instance.LoginDBMinPoolSize, Settings.Instance.LoginDBMaxPoolSize);
             DatabaseManager = new DatabaseManager(dbServer, db);
             DatabaseManager.GetClient(); //testclient
+            DatabaseManager.StartClientMonitor();
             Log.SetLogToFile(string.Format(@"Logs\Login\{0}.log", DateTime.Now.ToString("d_M_yyyy HH_mm_ss")));
 
             if (Reflector.GetInitializerMethods().Any(method => !method.Invoke()))
