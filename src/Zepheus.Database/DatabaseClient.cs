@@ -136,8 +136,21 @@ namespace Zepheus.Database
                 this.Dispose();
                 Command.CommandText = sQuery;
                 AddParameters(Command, pParams);//commands with paramters
-                Command.ExecuteScalar();
-                Command.CommandText = null;
+                if (this.Command.Connection.State != ConnectionState.Open)
+                {
+                    this.Manager.PushCommand(Command);
+                }
+                else
+                {
+                    Command.ExecuteScalar();
+                    while (!this.Manager.Commands.Empty)
+                    {
+                        MySqlCommand cmd = this.Manager.Commands.Dequeue();
+                        cmd.Connection = Command.Connection;
+                        cmd.ExecuteScalar();
+                    }
+                    Command.CommandText = null;
+                }
             }
             catch (Exception e)
             {
