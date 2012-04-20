@@ -35,9 +35,10 @@ namespace Zepheus.Zone.InterServer
 		#region Methods
 
 		[InitializerMethod]
-		public void Initialize()
+		public bool Initialize()
 		{
 			Instance = new InterFunctionCallbackProvider();
+			return true;
 		}
 		public object QueuePacket(Func<long, InterPacket> getPacket, Func<InterPacket, object> readFromPacket)
 		{
