@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data;
+using MySql.Data.MySqlClient;
 using Zepheus.Database.DataStore;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Data;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Zone.Data;
 using Zepheus.Database.Storage;
+
 namespace Zepheus.Zone.Game
 {
   public class Item
@@ -44,7 +46,7 @@ namespace Zepheus.Zone.Game
 
             if (this.UniqueID > 0)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID="+this.UniqueID+"");
+                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID="+this.UniqueID+" AND Slot='"+this.Slot+"'");
                 UniqueID = 0;
                 Owner = 0;
                 return true;
@@ -57,13 +59,9 @@ namespace Zepheus.Zone.Game
 
         public virtual void Save()
         {
-            Console.WriteLine("item save");
-           /* if (UniqueID == 0)
+            if (UniqueID == 0)
             {
-                using (var connection = Database.GetConnection())
-                {
-                    connection.Open();
-                    using (var command = new MySqlCommand(GiveItem, connection))
+                    using (var command = new MySqlCommand(GiveItem))
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
                         command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
@@ -73,10 +71,9 @@ namespace Zepheus.Zone.Game
                         command.Parameters.AddWithValue("@pitemid", this.ID);
                         command.Parameters.AddWithValue("@pamount", this.Count);
                         command.Prepare();
-                        command.ExecuteNonQuery();
+                        Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                         this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
                     }
-                }
             }
             else
             {
@@ -87,9 +84,9 @@ namespace Zepheus.Zone.Game
                     command.Parameters.AddWithValue("@powner", this.Owner);
                     command.Parameters.AddWithValue("@pslot", this.Slot);
                     command.Parameters.AddWithValue("@pamount", this.Count);
-                    Database.ExecuteNonQuery(command);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                 }
-            }*/
+            }
         }
 
         public void WriteItemInfo(Packet pPacket)

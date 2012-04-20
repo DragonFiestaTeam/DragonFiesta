@@ -25,7 +25,7 @@ namespace Zepheus.Zone.Game
         public ushort Dex { get; private set; }
         public ushort Int { get; private set; }
         public ushort Spr { get; private set; }
-       // public DateTime? Expires { get { return Expires; } set { Expires = value; } }
+        public DateTime? Expires { get { return Expires; } set { Expires = value; } }
  
 
         public Equip(uint pOwner, ushort pEquipID, short pSlot) : base(pOwner, pEquipID, 1)
@@ -49,27 +49,23 @@ namespace Zepheus.Zone.Game
         }
         private uint GetExpiringTime()
         {
-            return 0;
-            //later
-           /* if (Expires == null)
+           if (Expires == null)
             {
                 return 0;
             }
             else
             {
                 return Expires.Value.ToFiestaTime();
-            }*/
+            }
         }
         public override bool Delete()
         {
-            Console.WriteLine("Dell equipt");
-            return true;
-           /* if (this.UniqueID > 0)
+           if(this.UniqueID > 0)
             {
                 using (var command = new MySqlCommand(DeleteEquip))
                 {
                     command.Parameters.AddWithValue("@id", this.UniqueID);
-                    Database.ExecuteNonQuery(command);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                 }
                 UniqueID = 0;
                 Owner = 0;
@@ -78,7 +74,7 @@ namespace Zepheus.Zone.Game
             else
             {
                 return false;
-            }*/
+            }
         }
 
         public override void Save()

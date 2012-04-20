@@ -115,14 +115,6 @@ namespace Zepheus.Zone.Handlers
                        Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
                        character.Money += fullSellPrice;
                        character.ChangeMoney(character.Money);
-                       if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
-                       {
-                           Program.CharDBManager.GetClient().ExecuteQuery("UPDATE equips SET Amount='" + item.Count + "' WHERE Owner='" + item.UniqueID + "' AND EquipID='" + item.ID + "' AND Slot='" + item.Slot + "'");
-                       }
-                       else
-                       {
-                           Program.CharDBManager.GetClient().ExecuteQuery("UPDATE items SET Amount='" + item.Count + "' WHERE Owner='" + item.UniqueID + "' AND ItemID='" + item.ID + "' AND Slot='" + item.Slot + "'");
-                       }
                    }
                    else
                    {
@@ -130,14 +122,6 @@ namespace Zepheus.Zone.Handlers
                        character.ChangeMoney(character.Money);
                        character.Inventory.InventoryItems.Remove(slot);
                        ResetInventorySlot(character, slot);
-                       if (item.Info.Type == FiestaLib.Data.ItemType.Equip)
-                       {
-                           Program.CharDBManager.GetClient().ExecuteQuery("DELETE  FROM equips WHERE Owner='" + item.UniqueID + "' AND EquipID='" + item.ID + "' AND Slot='" + item.Slot + "'");
-                       }
-                       else
-                       {
-                           Program.CharDBManager.GetClient().ExecuteQuery("DELETE  FROM Items WHERE Owner='" + item.UniqueID + "' AND ItemID='" + item.ID + "' AND Slot='" + item.Slot + "'");
-                       }
                    }
                    System.Console.WriteLine(item.Info.Type);
                }

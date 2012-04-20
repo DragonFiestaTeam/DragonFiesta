@@ -49,7 +49,7 @@ namespace Zepheus.Zone.Game
                     {
                         //fix later
                         short Amount = (short)new Random().Next(1, 255);
-                       // this.Monster.DropItem(Item.ItemInfoToItem(Items[index], Amount));
+                       //this.Monster.DropItem(Item.ItemInfoToItem(Items[index], Amount));
                     }
                     else
                     {
