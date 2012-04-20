@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -32,13 +33,13 @@ namespace Zepheus.FiestaLib.Data
         {
             MapInfo info = new MapInfo
             {
-                ID = (ushort)row["ID"],
+                ID = GetDataTypes.GetUshort(row["ID"]),
                 ShortName = (string)row["MapName"],
                 FullName = (string)row["Name"],
-                RegenX = (Int32)row["RegenX"],
-                RegenY = (Int32)row["RegenY"],
-                Kingdom = (byte)(SByte)row["KingdomMap"],
-                ViewRange = (ushort)row["Sight"],
+                RegenX = GetDataTypes.GetInt(row["RegenX"]),
+                RegenY = GetDataTypes.GetInt(row["RegenY"]),
+                Kingdom = GetDataTypes.GetByte(row["KingdomMap"]),
+                ViewRange = GetDataTypes.GetUshort(row["Sight"]),
             };
             return info;
         }

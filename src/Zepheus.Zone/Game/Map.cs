@@ -9,6 +9,7 @@ using Zepheus.Zone.Data;
 using Zepheus.Zone.Handlers;
 using System.Data;
 using Zepheus.Database;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.Zone.Game
 {
@@ -76,13 +77,13 @@ namespace Zepheus.Zone.Game
 					{
 						MobBreedLocation locationInfo = new MobBreedLocation()
 						{
-                            MapID = ushort.Parse(row["MapID"].ToString()),
-                            MobID = ushort.Parse(row["MobID"].ToString()),
-                            InstanceID = short.Parse(row["InstanceID"].ToString()),
+                            MapID = GetDataTypes.GetUshort(row["MapID"]),
+                            MobID = GetDataTypes.GetUshort(row["MobID"]),
+                            InstanceID = GetDataTypes.Getshort(row["InstanceID"]),
                             Position = new Vector2(),
 						};
-						locationInfo.Position.X = (int)row["PosX"];
-						locationInfo.Position.Y = (int)row["PosY"];
+						locationInfo.Position.X = GetDataTypes.GetInt(row["PosX"]);
+						locationInfo.Position.Y = GetDataTypes.GetInt(row["PosY"]);
 						MobBreeds.Add(locationInfo);
 					}
 				}

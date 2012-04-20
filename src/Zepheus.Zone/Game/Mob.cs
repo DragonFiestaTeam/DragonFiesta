@@ -76,7 +76,7 @@ namespace Zepheus.Zone.Game
             ID = pID;
             Position = pos;
             Init();
-         
+      
             SetBoundriesFromPointAndRange(pos, 700);
         }
 

@@ -250,16 +250,16 @@ namespace Zepheus.Zone.Data
             {
                 MobsByID = new Dictionary<ushort, MobInfo>();
                 MobsByName = new Dictionary<string, MobInfo>();
-                DataTable createtureNames = null;
-                DataTable creatureProto = null;
+                DataTable data_mobinfo = null;
+                DataTable data_MobInfoServer = null;
                 using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
                 {
-                    createtureNames = dbClient.ReadDataTable("SELECT  *FROM creature_names");
-                    creatureProto = dbClient.ReadDataTable("SELECT  *FROM creature_proto");
+                    data_mobinfo = dbClient.ReadDataTable("SELECT  *FROM data_mobinfo");
+                    data_MobInfoServer = dbClient.ReadDataTable("SELECT  *FROM data_MobInfoServer");
                 }
-                if (createtureNames != null)
+                if (data_mobinfo != null)
                 {
-                    foreach (DataRow row in createtureNames.Rows)
+                    foreach (DataRow row in data_mobinfo.Rows)
                     {
                         MobInfo info = MobInfo.Load(row);
                         if (MobsByID.ContainsKey(info.ID) || MobsByName.ContainsKey(info.Name))
@@ -273,9 +273,9 @@ namespace Zepheus.Zone.Data
                     }
                 }
                 MobData = new Dictionary<string, MobInfoServer>();
-                if (creatureProto != null)
+                if (data_MobInfoServer != null)
                 {
-                    foreach (DataRow row in creatureProto.Rows)
+                    foreach (DataRow row in data_MobInfoServer.Rows)
                     {
                         MobInfoServer info = MobInfoServer.Load(row);
                         if (MobData.ContainsKey(info.InxName))
@@ -286,6 +286,13 @@ namespace Zepheus.Zone.Data
                         //  Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Vendors SET NPCID='" + info.ID + "' WHERE NPCID='" + info.InxName + "'");
                         MobData.Add(info.InxName, info);
                     }
+                   /* foreach (string mobs in MobsByName.Keys)//check mobdata this is for database devs
+                    {
+                        if(!MobData.ContainsKey(mobs))
+                            {
+                                Console.WriteLine(mobs);
+                            }
+                    }*/
                 }
                 Log.WriteLine(LogLevel.Info, "Loaded {0} mobs.", MobsByID.Count);
 
