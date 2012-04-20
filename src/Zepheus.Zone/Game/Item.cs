@@ -19,6 +19,8 @@ namespace Zepheus.Zone.Game
         public ulong UniqueID { get; protected set; }
         public ushort ID { get; private set; }
         public uint Owner { get; set; }
+        public virtual DateTime? Expires { get; set; }
+
        // public ItemSlot SlotType { get; private set; }
         public byte Slot { get; set; }
 
@@ -56,6 +58,10 @@ namespace Zepheus.Zone.Game
                 return false;
             }
         }
+        public uint GetExpirationTime()
+        {
+            return this.Expires.HasValue ? this.Expires.Value.ToFiestaTime() : 0;
+        }
 
         public virtual void Save()
         {
@@ -70,7 +76,6 @@ namespace Zepheus.Zone.Game
                         command.Parameters.AddWithValue("@pslot", this.Slot);
                         command.Parameters.AddWithValue("@pitemid", this.ID);
                         command.Parameters.AddWithValue("@pamount", this.Count);
-                        command.Prepare();
                         Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
                         this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
                     }

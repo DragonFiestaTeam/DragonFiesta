@@ -47,7 +47,6 @@ namespace Zepheus.World.Handlers
             using (var packet = new Packet(SH4Type.ServerIP))
             {
                 packet.WriteString(client.Host == "127.0.0.1" ? "127.0.0.1" : info.IP, 16);
-                ClientManager.Instance.GetClientByCharname("") ;
                 packet.WriteUShort(info.Port);
                 client.SendPacket(packet);
             }

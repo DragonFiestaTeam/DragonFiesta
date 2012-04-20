@@ -1028,6 +1028,7 @@ namespace Zepheus.Zone.Game
 				if (drop.Item is DroppedEquip)
 				{
 				    item = new Equip((uint)this.ID,drop.ID, freeslot);
+                    //item.UniqueID = this.AccountID;
                     this.Inventory.EquippedItems.Add((Equip)item);
 				}
 				else
