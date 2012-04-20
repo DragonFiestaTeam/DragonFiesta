@@ -9,7 +9,7 @@ namespace Zepheus.Zone.Game
 {
     public sealed class Inventory
     {
-        public ulong Money { get; set; }
+        public long Money { get; set; }
         public List<Equip> EquippedItems { get; private set; }
         public Dictionary<byte, Item> InventoryItems { get; private set; }
         public byte InventoryCount { get; private set; }

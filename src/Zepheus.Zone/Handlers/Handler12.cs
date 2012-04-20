@@ -66,8 +66,8 @@ namespace Zepheus.Zone.Handlers
                {
                    if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
                    {
-                       character.Money -= amount * buyItem.BuyPrice;
-                       character.ChangeMoney(character.Money);
+                       character.Inventory.Money -= amount * buyItem.BuyPrice;
+                       character.ChangeMoney(character.Inventory.Money);
                    }
                }
                else
@@ -76,15 +76,15 @@ namespace Zepheus.Zone.Handlers
                    {
                        if (character.GiveItem(buyItemID, 255) != InventoryStatus.Full)
                        {
-                           character.Money -= amount * buyItem.BuyPrice;
-                           character.ChangeMoney(character.Money);
+                           character.Inventory.Money -= amount * buyItem.BuyPrice;
+                           character.ChangeMoney(character.Inventory.Money);
                        }
                        if (amount < 255)
                        {
                            if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
                            {
-                               character.Money -= amount * buyItem.BuyPrice;
-                               character.ChangeMoney(character.Money);
+                               character.Inventory.Money -= amount * buyItem.BuyPrice;
+                               character.ChangeMoney(character.Inventory.Money);
                            }
                            break;
                        }
@@ -113,13 +113,13 @@ namespace Zepheus.Zone.Handlers
                        item.Count-= (ushort)sellcount;
                        byte Slot = (byte)item.Slot;
                        Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
-                       character.Money += fullSellPrice;
-                       character.ChangeMoney(character.Money);
+                       character.Inventory.Money += fullSellPrice;
+                       character.ChangeMoney(character.Inventory.Money);
                    }
                    else
                    {
-                       character.Money += fullSellPrice;
-                       character.ChangeMoney(character.Money);
+                       character.Inventory.Money += fullSellPrice;
+                       character.ChangeMoney(character.Inventory.Money);
                        character.Inventory.InventoryItems.Remove(slot);
                        ResetInventorySlot(character, slot);
                    }

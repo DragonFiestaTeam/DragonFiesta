@@ -99,7 +99,6 @@ namespace Zepheus.Zone.Game
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
-		public long Money { get { return Character.Money; } set { Character.Money = value; } }
 		public byte Hair { get { return Character.LookInfo.Hair; } set { Character.LookInfo.Hair = value; } }
 		public byte HairColor { get { return Character.LookInfo.HairColor; } set { Character.LookInfo.HairColor = value; } }
 		public byte Face { get { return Character.LookInfo.Face; } set { Character.LookInfo.Face = value; } }
@@ -780,7 +779,7 @@ namespace Zepheus.Zone.Game
 			pPacket.WriteUInt(this.HP);
 			pPacket.WriteUInt(this.SP);
 			pPacket.WriteInt(this.Fame);                // Fame
-			pPacket.WriteLong(this.Money); //TODO: inventory class
+			pPacket.WriteLong(this.Inventory.Money); //TODO: inventory class
 			pPacket.WriteString(this.Map.MapInfo.ShortName, 12);
 			pPacket.WriteInt(this.Position.X);
 			pPacket.WriteInt(this.Position.Y);
@@ -1028,13 +1027,13 @@ namespace Zepheus.Zone.Game
 				Item item = null;
 				if (drop.Item is DroppedEquip)
 				{
-				   // item = new Equip(drop.Item as DroppedEquip, this, freeslot);
+				    item = new Equip((uint)this.ID,drop.ID, freeslot);
+                    this.Inventory.EquippedItems.Add((Equip)item);
 				}
 				else
 				{
-				  //  item = new Item(drop.Item, this, freeslot);
-					//sbyte count = InventoryItems.Count+1;
-					//  InventoryItems.Add(92, item);
+                    item = new Item((uint)this.ID, drop.ID, (ushort)drop.Item.Amount);
+                    this.Inventory.InventoryItems.Add((byte)freeslot, item);
 				}
 				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Obtained);
 				Handler12.ModifyInventorySlot(this, 0x24, (byte)freeslot, 0, item);

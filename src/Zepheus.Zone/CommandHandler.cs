@@ -109,7 +109,7 @@ namespace Zepheus.Zone
         private void GiveMoney(ZoneCharacter character, params string[] param)
         {
             long givedm = long.Parse(param[1].ToString());
-            character.ChangeMoney(character.Money+= givedm);
+            character.ChangeMoney(character.Inventory.Money+= givedm);
         }
         private void ChangeMoney(ZoneCharacter character, params string[] param)
         {
