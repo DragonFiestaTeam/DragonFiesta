@@ -5,6 +5,9 @@ using System.Linq;
 using Zepheus.Zone.Game;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib;
+using Zepheus.InterLib;
+using Zepheus.InterLib.Networking;
+using Zepheus.Zone.InterServer;
 
 using MySql.Data.MySqlClient;
 
@@ -136,9 +139,6 @@ namespace Zepheus.Zone.Data
 		}
 		private static GroupMember ReadGroupMemberFromDatabase(long pCharId)
 		{
-			// TODO
-			throw new NotImplementedException();
-
 			//--------------------------------------------------
 			// Quries used in this function
 			//--------------------------------------------------
@@ -146,6 +146,42 @@ namespace Zepheus.Zone.Data
 				"SELECT `Name`, `IsMaster` FROM `characters` " +
 				"WHERE `GroupId` = {0}";
 
+			//--------------------------------------------------
+			// Read member from database.
+			//--------------------------------------------------
+			string name = "";
+			bool isOnline = false;
+			bool isMaster = false;
+
+			using(var client = Program.DatabaseManager.GetClient())
+			using (var cmd = new MySqlCommand(string.Format(get_groupmem_query, pCharId), client.Connection))
+			using (var reader = cmd.ExecuteReader())
+			{
+				while (reader.Read())
+				{
+					name = reader.GetString("Name");
+					isMaster = reader.GetBoolean("IsMaster");
+				}
+			}
+
+			//--------------------------------------------------
+			// Get IsOnline from worldserver
+			//--------------------------------------------------
+
+			isOnline = (bool)InterFunctionCallbackProvider.Instance.QueuePacket(id =>
+						{
+							var packet = new InterPacket(InterHeader.FunctionCharIsOnline);
+							packet.WriteLong(id);
+							packet.WriteString(name, 16);
+							return packet;
+						}, packet =>
+						{
+							bool value = false;
+							packet.TryReadBool(out value);
+							return value;
+						});
+			GroupMember member = new GroupMember(name, isMaster, isOnline);
+			return member;
 		}
 		private void UpdateMemberPosition(GroupMember member)
 		{

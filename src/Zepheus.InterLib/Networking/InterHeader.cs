@@ -29,5 +29,8 @@
 		Zonelist = 0x2002,
 
 		Worldmsg = 0x3000,
+
+		FunctionAnswer = 0x4000,
+		FunctionCharIsOnline = 0x4001,
 	}
 }

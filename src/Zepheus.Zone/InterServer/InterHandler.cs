@@ -12,6 +12,16 @@ namespace Zepheus.Zone.InterServer
 {
 	public sealed class InterHandler
 	{
+	
+		[InterPacketHandler(InterHeader.FunctionAnswer)]
+		public static void FunctionAnswer(WorldConnector pConnector, InterPacket pPacket)
+		{
+			long id;
+			if(!pPacket.TryReadLong(out id))
+				throw new InvalidPacketException();
+			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
+			InterFunctionCallbackProvider.Instance.OnResult(id, result);
+		}
 		[InterPacketHandler(InterHeader.Assigned)]
 		public static void HandleAssigned(WorldConnector lc, InterPacket packet)
 		{

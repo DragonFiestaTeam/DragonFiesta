@@ -94,6 +94,7 @@
     <Compile Include="Handlers\Handler8.cs" />
     <Compile Include="Handlers\Handler9.cs" />
     <Compile Include="Handlers\HandlerStore.cs" />
+    <Compile Include="InterServer\InterFunctionCallbackProvider.cs" />
     <Compile Include="InterServer\InterHandler.cs" />
     <Compile Include="InterServer\InterHandlerStore.cs" />
     <Compile Include="InterServer\WorldConnector.cs" />

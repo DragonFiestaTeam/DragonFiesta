@@ -191,6 +191,26 @@ namespace Zepheus.World.InterServer
 			}
 		}
 
+		[InterPacketHandler(InterHeader.FunctionCharIsOnline)]
+		public static void FunctionGetCharacterOnline(ZoneConnection pConnection, InterPacket pPacket)
+		{
+			long id;
+			string charName;
+
+			if(!pPacket.TryReadLong(out id))
+				throw new InvalidPacketException();
+			if(!pPacket.TryReadString(out charName, 16))
+				throw new InvalidPacketException();
+
+			bool isOnline = ClientManager.Instance.IsOnline(charName);
+			using (InterPacket packet = new InterPacket(InterHeader.FunctionAnswer))
+			{
+				packet.WriteLong(id);
+				packet.WriteBool(isOnline);
+				pConnection.SendPacket(packet);
+			}
+		}
+
 		public static void TryAssiging(LoginConnector lc)
 		{
 			using (var p = new InterPacket(InterHeader.Assign))
