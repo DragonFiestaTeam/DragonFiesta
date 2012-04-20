@@ -82,6 +82,15 @@ namespace Zepheus.Zone
 			}
 		}
 
+		public bool HasClient(string charName)
+		{
+			return clientsByName.ContainsKey(charName);
+		}
+		public ZoneClient GetClientByCharName(string pCharName)
+		{
+			return clientsByName[pCharName];
+		}
+
 		public bool AddClient(ZoneClient client)
 		{
 	  

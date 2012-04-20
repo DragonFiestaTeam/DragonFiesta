@@ -5,7 +5,6 @@ using System.Linq;
 using Zepheus.Zone.Game;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib;
-using Zepheus.InterLib;
 using Zepheus.InterLib.Networking;
 using Zepheus.Zone.InterServer;
 
@@ -164,23 +163,26 @@ namespace Zepheus.Zone.Data
 				}
 			}
 
-			//--------------------------------------------------
-			// Get IsOnline from worldserver
-			//--------------------------------------------------
-
-			isOnline = (bool)InterFunctionCallbackProvider.Instance.QueuePacket(id =>
-						{
-							var packet = new InterPacket(InterHeader.FunctionCharIsOnline);
-							packet.WriteLong(id);
-							packet.WriteString(name, 16);
-							return packet;
-						}, packet =>
-						{
-							bool value = false;
-							packet.TryReadBool(out value);
-							return value;
-						});
 			GroupMember member = new GroupMember(name, isMaster, isOnline);
+			if (ClientManager.Instance.HasClient(name))
+			{
+				var client = ClientManager.Instance.GetClientByCharName(name);
+				member.IsOnline = true;
+				member.Character = client.Character;
+			}
+			else
+				member.IsOnline = (bool)InterFunctionCallbackProvider.Instance.QueuePacket(id =>
+				{
+					var packet = new InterPacket(InterHeader.FunctionCharIsOnline);
+					packet.WriteLong(id);
+					packet.WriteString(name, 16);
+					return packet;
+				}, packet =>
+				{
+					bool value = false;
+					packet.TryReadBool(out value);
+					return value;
+				});
 			return member;
 		}
 		private void UpdateMemberPosition(GroupMember member)

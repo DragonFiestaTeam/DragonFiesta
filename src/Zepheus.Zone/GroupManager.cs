@@ -31,6 +31,8 @@ namespace Zepheus.Zone
 		#region Methods
 		public void NewGroupCreated(long pGroupId)
 		{
+			LoadGroupFromDatabase(pGroupId);	
+
 			// TODO: Implement! 
 			throw new NotImplementedException();
 		}

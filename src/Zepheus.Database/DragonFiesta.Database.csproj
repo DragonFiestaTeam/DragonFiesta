@@ -62,6 +62,8 @@
     <Compile Include="Storage\Guild.cs" />
     <Compile Include="Storage\LookInfo.cs" />
     <Compile Include="Storage\PositionInfo.cs" />
+    <Compile Include="Storage\PriorityQueue.cs" />
+    <Compile Include="Storage\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
