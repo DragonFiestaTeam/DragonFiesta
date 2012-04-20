@@ -35,7 +35,7 @@ namespace Zepheus.Zone.InterServer
 		#region Methods
 
 		[InitializerMethod]
-		public bool Initialize()
+		public static bool Initialize()
 		{
 			Instance = new InterFunctionCallbackProvider();
 			return true;

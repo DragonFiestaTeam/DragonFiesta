@@ -237,7 +237,6 @@ namespace Zepheus.World
 		}
 		private static long GetMaxGroupIdFromDatabase()
 		{
-            return 0;
 			//--------------------------------------------------
 			// Queries used in function
 			//--------------------------------------------------
