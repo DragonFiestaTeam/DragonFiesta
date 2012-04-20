@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -25,14 +26,14 @@ namespace Zepheus.FiestaLib.Data
             MobInfo inf = new MobInfo
             {
                 Name = (string)row["InxName"],
-                ID = (ushort)row["ID"],
-                Level = (byte)row["Level"],
-                MaxHP = (uint)row["MaxHP"],
-                RunSpeed = (ushort)row["RunSpeed"],
-                IsNpc = (bool)row["IsNPC"],
-                Size = (ushort)row["Size"],
-                Type = (byte)row["Type"],
-                IsAggro = (bool)row["IsPlayerSide"],
+                ID = GetDataTypes.GetUshort(row["ID"]),
+                Level = GetDataTypes.GetByte(row["Level"]),
+                MaxHP = GetDataTypes.GetUint(row["MaxHP"]),
+                RunSpeed = GetDataTypes.GetUshort(row["RunSpeed"]),
+                IsNpc = GetDataTypes.GetBool(row["IsNPC"]),
+                Size =  GetDataTypes.GetUshort(row["Size"]),
+                Type = GetDataTypes.GetByte(row["Type"]),
+                IsAggro = GetDataTypes.GetBool(row["IsPlayerSide"]),
                 Drops = new List<DropInfo>()
             };
             return inf;

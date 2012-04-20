@@ -52,6 +52,7 @@ namespace Zepheus.World.Data
                         Maps.Remove(info.ID);
                     }
                     Maps.Add(info.ID, info);
+                  //  Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE data_mobcoordinate SET mapname=" + info.ID + " WHERE mapname='" + info.ShortName + "'");
                 }
             }
         }

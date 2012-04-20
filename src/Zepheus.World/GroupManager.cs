@@ -28,7 +28,7 @@ namespace Zepheus.World
 		public static bool Initialize()
 		{
 			Instance = new GroupManager();
-			Instance.maxId = GetMaxGroupIdFromDatabase();
+			//Instance.maxId = GetMaxGroupIdFromDatabase(); :Todo Fix Eror
 			return true;
 		}
 		#endregion
@@ -237,6 +237,7 @@ namespace Zepheus.World
 		}
 		private static long GetMaxGroupIdFromDatabase()
 		{
+            return 0;
 			//--------------------------------------------------
 			// Queries used in function
 			//--------------------------------------------------
