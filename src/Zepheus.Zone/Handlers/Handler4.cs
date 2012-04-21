@@ -105,9 +105,6 @@ namespace Zepheus.Zone.Handlers
                 foreach (var eqp in character.Inventory.EquippedItems)
                 {
                     eqp.WritEquipInfo(packet);
-                } foreach (var item in character.Inventory.InventoryItems)
-                {
-                    item.Value.WriteItemInfo(packet);
                 }
                 character.Client.SendPacket(packet);
             }

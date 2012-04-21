@@ -39,10 +39,12 @@ namespace Zepheus.Zone.Game
                 locker.WaitOne();
                 DataTable eq = null;
                 DataTable items = null;
+                DataTable Equipped = null;
                   using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
                 {
                     items = dbClient.ReadDataTable("SELECT * FROM items WHERE Owner=" + pChar.ID + "");
                     eq = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner="+pChar.ID+" AND Slot >= 0");
+                    Equipped = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner=" + pChar.ID + " AND Slot < 0");
                 }
                 //we load unequipped equips (slot > 0)
                   if (eq != null)
@@ -53,6 +55,17 @@ namespace Zepheus.Zone.Game
                         this.AddToInventory(loaded);
                     }
                 }
+                  //we load all equippeditem
+
+                  if (Equipped != null)
+                  {
+                      foreach (DataRow row in eq.Rows)
+                      {
+                          Equip loaded = Equip.LoadEquip(row);
+                          loaded.IsEquipped = true;
+                          this.EquippedItems.Add(loaded);
+                      }
+                  }
                 //we load inventory slots
                   if (items != null)
                   {
@@ -73,31 +86,6 @@ namespace Zepheus.Zone.Game
 
             Eq = this.EquippedItems.Find(d => d.Slot == slot);
             return Eq;
-        }
-        public void LoadBasic(ZoneCharacter pChar)
-        {
-            try
-            {
-                locker.WaitOne();
-                DataTable equips = null;
-                using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-                {
-                    equips = dbClient.ReadDataTable("SELECT * FROM equips WHERE Owner=" + pChar.ID + " AND Slot < 0");
-                }
-                if (equips != null)
-                {
-                    foreach (DataRow row in equips.Rows)
-                    {
-                        Equip loaded = Equip.LoadEquip(row);
-                        EquippedItems.Add(loaded);
-                    }
-                }
-            }
-            finally
-            {
-                locker.ReleaseMutex();
-            }
-
         }
 
         public void AddToInventory(Item pItem)

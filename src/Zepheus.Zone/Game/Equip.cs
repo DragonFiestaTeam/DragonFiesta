@@ -16,7 +16,7 @@ namespace Zepheus.Zone.Game
         private const string GiveEquip = "give_equip;";
         private const string UpdateEquip = "update_equip;";
         private const string DeleteEquip = "DELETE FROM equips WHERE ID=@id";
-        private EquipInfo equip;
+
 
         public override DateTime? Expires { get;  set; }
         public byte Upgrades { get; set; }
@@ -29,16 +29,18 @@ namespace Zepheus.Zone.Game
         public ushort Spr { get; private set; }
    
 
-        public Equip(uint pOwner, ushort pEquipID, short pSlot) : base(pOwner, pEquipID, 1)
+        public Equip(uint pOwner, ushort pEquipID, sbyte pSlot) : base(pOwner, pEquipID, 1)
         {
             if (pSlot < 0)
             {
-                this.Slot = (byte)-pSlot;
+                this.Slot = pSlot;
                 this.IsEquipped = true;
+                this.Owner = pOwner;
+             
             }
             else
             {
-                this.Slot = (byte)pSlot;
+                this.Slot = (sbyte)pSlot;
             }
         }
         public ItemSlot SlotType
@@ -288,7 +290,7 @@ namespace Zepheus.Zone.Game
             ulong uniqueID = GetDataTypes.GetUlong(row["ID"]);
             uint owner = GetDataTypes.GetUint(row["Owner"]);
             ushort equipID = GetDataTypes.GetUshort(row["EquipID"]);
-            short slot = GetDataTypes.Getshort(row["Slot"]);
+           sbyte slot = GetDataTypes.GetSByte(row["Slot"]);
             byte upgrade = GetDataTypes.GetByte(row["Upgrades"]);
             // TS: What's the "i" stand for? It's not very pretty :<
             ushort strByte = GetDataTypes.GetUshort(row["iSTR"]);

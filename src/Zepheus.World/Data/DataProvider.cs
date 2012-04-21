@@ -195,7 +195,6 @@ namespace Zepheus.World.Data
                 }
             Log.WriteLine(LogLevel.Info, "Loaded {0} bad names.", BadNames.Count);
         }
-
         public bool IsBadName(string input)
         {
             input = input.ToLower();

@@ -285,7 +285,7 @@ namespace Zepheus.Zone.Handlers
             {
                 pClient.Character.Inventory.InventoryItems.Remove(oldslot);
                 source.Delete(); //TODO: make a drop
-                Handler12.ModifyInventorySlot(pClient.Character, oldslot, oldstate, source.Slot, null);
+                Handler12.ModifyInventorySlot(pClient.Character, oldslot, oldstate, (byte)source.Slot, null);
             }
 
             Item destination;
@@ -294,8 +294,8 @@ namespace Zepheus.Zone.Handlers
                 //item swap
                 pClient.Character.Inventory.InventoryItems.Remove(oldslot);
                 pClient.Character.Inventory.InventoryItems.Remove(newslot);
-                source.Slot = newslot;
-                destination.Slot = oldslot;
+                source.Slot = (sbyte)newslot;
+                destination.Slot = (sbyte)oldslot;
                 pClient.Character.Inventory.InventoryItems.Add(newslot, source);
                 pClient.Character.Inventory.InventoryItems.Add(oldslot, destination);
                 source.Save();
@@ -308,7 +308,7 @@ namespace Zepheus.Zone.Handlers
                 //item moved to empty slot
                 pClient.Character.Inventory.InventoryItems.Remove(oldslot);
                 pClient.Character.Inventory.InventoryItems.Add(newslot, source);
-                source.Slot = newslot;
+                source.Slot = (sbyte)newslot;
                 source.Save();
                 Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, null);
                 Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);

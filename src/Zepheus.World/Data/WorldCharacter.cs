@@ -27,6 +27,7 @@ namespace Zepheus.World.Data
 		public GroupMember GroupMember { get; internal set; }
 		private List<Friend> friends;
 		private List<Friend> friendsby;
+        public Inventory Inventory = new Inventory();
 
 		public WorldCharacter(Character ch)
 		{
@@ -34,18 +35,8 @@ namespace Zepheus.World.Data
 			Client = ClientManager.Instance.GetClientByCharname(ch.Name);
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
-		   
-			foreach (var eqp in ch.EquiptetItem.Where(eq => eq.Slot < 0))
-			{
-				byte realslot = (byte)(eqp.Slot * -1);
-				if (Equips.ContainsKey(realslot))
-				{
-					Log.WriteLine(LogLevel.Warn, "{0} has duplicate equip in slot {1}", ch.Name, realslot);
-					Equips.Remove(realslot);
-				}
-				Equips.Add(realslot, (ushort)eqp.EquipID);
-			}
-
+            Inventory.LoadBasic(this);
+            LoadEqupippet();
 		   // LoadGroup();
 		}
 		public List<Friend> Friends
@@ -132,6 +123,20 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
+
+        public void LoadEqupippet()
+        {
+            foreach (var eqp in this.Inventory.EquippedItems.Where(eq => eq.Slot < 0))
+            {
+                byte realslot = (byte)(eqp.Slot * -1);
+                if (Equips.ContainsKey(realslot))
+                {
+                    Log.WriteLine(LogLevel.Warn, "{0} has duplicate equip in slot {1}", eqp.EquipID, realslot);
+                    Equips.Remove(realslot);
+                }
+                Equips.Add(realslot, (ushort)eqp.EquipID);
+            }
+        }
 		public string GetMapname(ushort mapid)
 		{
 			MapInfo mapinfo;

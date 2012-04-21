@@ -30,11 +30,6 @@ namespace Zepheus.Database.Storage
        public byte[] ClientSettings { get; set; }
        public CharacterStats CharacterStats = new CharacterStats();
        public int GuildID { get; set; }
-       public List<EquipInfo> EquiptetItem = new List<EquipInfo>();
-       public List<EquipInfo> Equips = new List<EquipInfo>();
-       public List<DatabaseItem> Items = new List<DatabaseItem>();
-     //  public List<DatabaseItem> Inventory { get; set; }
-     //  public Dictionary<short, EquipInfo> Equips { get; set; }
 
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
        public long GroupId { get; set; }

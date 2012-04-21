@@ -58,7 +58,7 @@
                    
                     WorldName = Zepheus.InterLib.Settings.GetString("World.Name"),
                     ID = Zepheus.InterLib.Settings.GetByte("World.ID"),
-
+                    ShowEquips = true,
                     LoginServiceUri = Zepheus.InterLib.Settings.GetString("World.LoginServiceURI"),
                     WorldServiceUri = Zepheus.InterLib.Settings.GetString("World.WorldServiceURI"),
                     GameServiceUri = Zepheus.InterLib.Settings.GetString("World.GameServiceURI"),

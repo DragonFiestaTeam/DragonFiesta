@@ -164,7 +164,7 @@ namespace Zepheus.World.Networking
 				Database.Storage.EquipInfo eqp = new Database.Storage.EquipInfo();
 				eqp.EquipID = begineqp;
 				eqp.Slot = (short)((job == Job.Archer) ? -10 : -12);
-				newchar.EquiptetItem.Add(eqp);
+				//newchar.EquiptetItem.Add(eqp);
 
 			}
             Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO characters (AccountID,Name, Slot, Job, Male, Hair, HairColor, Face,QuickBar,QuickBarState,Shortcuts,GameSettings,ClientSettings, InstanzeID) VALUES ('" + newchar.AccountID + "','" + newchar.Name + "','" + newchar.Slot + "','" + newchar.Job + "','" + Convert.ToByte(newchar.LookInfo.Male) + "','" + newchar.LookInfo.Hair + "','" + newchar.LookInfo.HairColor + "','" + newchar.LookInfo.Face + "','0x00','0x00','0x00','0x00','0x00','0');");

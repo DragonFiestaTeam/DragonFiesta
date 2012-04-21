@@ -20,9 +20,8 @@ namespace Zepheus.Zone.Game
         public ushort ID { get; private set; }
         public uint Owner { get; set; }
         public virtual DateTime? Expires { get; set; }
-
        // public ItemSlot SlotType { get; private set; }
-        public byte Slot { get; set; }
+        public sbyte Slot { get; set; }
 
         public ushort Count { get; set; }
         public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
@@ -34,7 +33,7 @@ namespace Zepheus.Zone.Game
             {
                 throw new InvalidOperationException("Invalid item ID.");
             }
-            this.Slot = (byte)type;
+            this.Slot = (sbyte)type;
 
             this.Owner = pOwner;
             this.ID = pID;
@@ -97,7 +96,7 @@ namespace Zepheus.Zone.Game
         public void WriteItemInfo(Packet pPacket)
         {
             pPacket.WriteByte((byte)this.ID.ToString().Length); //entry length
-            pPacket.WriteByte(this.Slot);
+            pPacket.WriteByte((byte)this.Slot);
             pPacket.WriteByte(0x24); //status?
             WriteItemStats(pPacket);
         }
@@ -112,7 +111,7 @@ namespace Zepheus.Zone.Game
         {
             ulong id = GetDataTypes.GetUlong(Row["ID"]);
             uint owner = GetDataTypes.GetUint(Row["Owner"]);
-            byte slot = GetDataTypes.GetByte(Row["Slot"]);
+            sbyte slot = GetDataTypes.GetSByte(Row["Slot"]);
             ushort equipID = GetDataTypes.GetUshort(Row["ItemID"]);
             ushort amount = GetDataTypes.GetUshort(Row["Amount"]);
             Item item = new Item(owner, equipID, amount)

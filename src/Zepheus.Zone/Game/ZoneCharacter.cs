@@ -278,10 +278,10 @@ namespace Zepheus.Zone.Game
 			try
 			{
 				this.Inventory.Enter();
-				byte sourceSlot = sourceEquip.Slot;
-				byte destSlot = destEquip.Slot;
+				sbyte sourceSlot = sourceEquip.Slot;
+				sbyte destSlot = destEquip.Slot;
 				this.Inventory.EquippedItems.Remove(sourceEquip);
-				this.Inventory.InventoryItems.Remove(destEquip.Slot);
+				this.Inventory.InventoryItems.Remove((byte)destEquip.Slot);
 				sourceEquip.Slot = destSlot;
 				sourceEquip.IsEquipped = false;
 				destEquip.Slot = sourceSlot;
@@ -290,8 +290,8 @@ namespace Zepheus.Zone.Game
 				this.Inventory.AddToInventory(sourceEquip);
 				sourceEquip.Save();
 				destEquip.Save();
-				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
-				Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, (byte)destEquip.SlotType, sourceEquip);
+				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
+				Handler12.UpdateInventorySlot(this, (byte)sourceSlot, 0x20, (byte)destEquip.SlotType, sourceEquip);
 				//TODO update bstates
 			}
 			finally
@@ -305,17 +305,14 @@ namespace Zepheus.Zone.Game
 			{
 				if (pEquip.IsEquipped || Level < pEquip.Info.Level) return;
 			   this.Inventory.Enter();
-				byte sourceSlot = pEquip.Slot;
+				byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.InventoryItems.Remove(sourceSlot);
-				byte destSlot = pEquip.Slot;
-				//byte destSlot = pEquip.Slot;
 				pEquip.IsEquipped = true;
 				this.Inventory.AddToEquipped(pEquip);
 				pEquip.Save();
 
 				Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
 				Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
-				//Handler12.ModifyEquipSlot(this, (byte)destSlot, 0x24, 0x20, sourceSlot, pEquip);
 				//client.Character.UpdateStats();
 			}
 			finally
@@ -327,11 +324,11 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-
+                if (pEquip == null) this.Inventory.Release();
 				  this.Inventory.Enter();
-				  byte sourceSlot = pEquip.Slot;
+				  byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.EquippedItems.Remove(pEquip);
-				pEquip.Slot = destSlot;
+				pEquip.Slot = (sbyte)destSlot;
 				pEquip.IsEquipped = false;
 				this.Inventory.AddToInventory(pEquip);
 				pEquip.Save();
@@ -474,7 +471,7 @@ namespace Zepheus.Zone.Game
 			}
 			else
 			{
-				if (this.Inventory.InventoryItems.Remove(item.Slot))
+				if (this.Inventory.InventoryItems.Remove((byte)item.Slot))
 				{
 					item.Delete();
 					Handler12.ModifyInventorySlot(this, 0x24, sendslot, sendslot, null);
@@ -962,9 +959,9 @@ namespace Zepheus.Zone.Game
 			byte newslot;
 			if (Inventory.GetEmptySlot(out newslot))
 			{
-				pItem.Slot = newslot;
+				pItem.Slot = (sbyte)newslot;
 				pItem.Owner = (uint)this.ID;
-				Inventory.AddToInventory(pItem);Handler12.ModifyInventorySlot(this, pItem.Slot, 0x24, pItem.Slot, pItem);
+				Inventory.AddToInventory(pItem);Handler12.ModifyInventorySlot(this, (byte)pItem.Slot, 0x24, (byte)pItem.Slot, pItem);
 				return true;
 			}
 			else return false;
@@ -983,7 +980,7 @@ namespace Zepheus.Zone.Game
 				if (inf.Slot == ItemSlot.Normal)//testing?
 				{      // Stackable item
 					Item item = new Item((uint)this.ID, inf.ItemID, pCount);
-					item.Slot = targetSlot;     // Else it adds item to first slot, and overwrites it
+					item.Slot = (sbyte)targetSlot;     // Else it adds item to first slot, and overwrites it
 					item.Save();
 					Inventory.AddToInventory(item);
 					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, item);
@@ -991,7 +988,7 @@ namespace Zepheus.Zone.Game
 				}
 				else
 				{
-					Equip equip = new Equip((uint)this.ID, inf.ItemID, targetSlot);
+					Equip equip = new Equip((uint)this.ID, inf.ItemID, (sbyte)targetSlot);
 					equip.Save();
 					Inventory.AddToInventory(equip);
 					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, equip);
@@ -1138,7 +1135,7 @@ namespace Zepheus.Zone.Game
 				drop = new Drop(item, this, Position.X, Position.Y, 120);
 
 			}
-			this.Inventory.InventoryItems.Remove(item.Slot);
+			this.Inventory.InventoryItems.Remove((byte)item.Slot);
 			item.Delete();
 			Handler12.ModifyInventorySlot(this, 0x24, (byte)item.Slot, 0, null);
 			Map.AddDrop(drop);
