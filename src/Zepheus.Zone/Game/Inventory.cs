@@ -29,7 +29,11 @@ namespace Zepheus.Zone.Game
 
         public void Release()
         {
-            locker.ReleaseMutex();
+            try
+            {
+                locker.ReleaseMutex();
+            }
+            catch { }
         }
 
         public void LoadFull(ZoneCharacter pChar)
@@ -62,7 +66,7 @@ namespace Zepheus.Zone.Game
                       foreach (DataRow row in Equipped.Rows)
                       {
                           Equip loaded = Equip.LoadEquip(row);
-                          loaded.IsEquipped = true;
+                          loaded.Owner = (uint)pChar.ID;
                           this.EquippedItems.Add(loaded);
                       }
                   }

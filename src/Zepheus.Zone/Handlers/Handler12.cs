@@ -48,6 +48,7 @@ namespace Zepheus.Zone.Handlers
             }
             else
             {
+                if(sourceEquip == null) Handler12.UpdateEquipSlot(pClient.Character, destinationSlot, 0x24, 0, null);
                 pClient.Character.UnequipItem(sourceEquip, destinationSlot);
             }
         }

@@ -291,7 +291,7 @@ namespace Zepheus.Zone.Game
 				sourceEquip.Save();
 				destEquip.Save();
 				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
-				Handler12.UpdateInventorySlot(this, (byte)sourceSlot, 0x20, (byte)destEquip.SlotType, sourceEquip);
+				Handler12.UpdateInventorySlot(this, (byte)sourceEquip.SlotType, 0x20, (byte)destEquip.Slot, sourceEquip);
 				//TODO update bstates
 			}
 			finally
@@ -303,17 +303,27 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-				if (pEquip.IsEquipped || Level < pEquip.Info.Level) return;
-			   this.Inventory.Enter();
-				byte sourceSlot = (byte)pEquip.Slot;
-				this.Inventory.InventoryItems.Remove(sourceSlot);
-				pEquip.IsEquipped = true;
-				this.Inventory.AddToEquipped(pEquip);
-				pEquip.Save();
+                if (pEquip == null) new ArgumentNullException();
+                if (!pEquip.IsEquipped || Level > pEquip.Info.Level) //:Todo Get race
+                {
+                    Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pEquip.SlotType && d.IsEquipped);
+                    if (equip != null)
+                    {
+                        SwapEquips(pEquip, equip);
+                    }
+                    else
+                        this.Inventory.Enter();
+                    byte sourceSlot = (byte)pEquip.Slot;
+                    this.Inventory.InventoryItems.Remove(sourceSlot);
+                    pEquip.IsEquipped = true;
+                    pEquip.Slot = (sbyte)pEquip.SlotType;
+                    this.Inventory.AddToEquipped(pEquip);
+                    pEquip.Save();
 
-				Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
-				Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
-				//client.Character.UpdateStats();
+                    Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
+                    Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
+                    //client.Character.UpdateStats();
+                }
 			}
 			finally
 			{
@@ -324,7 +334,7 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-                if (pEquip == null) this.Inventory.Release();
+               
 				  this.Inventory.Enter();
 				  byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.EquippedItems.Remove(pEquip);
