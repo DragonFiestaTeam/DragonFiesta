@@ -39,9 +39,7 @@ namespace Zepheus.World.Data
 			DataTable mapData = null;
 			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
 			{
-				dbClient.ExecuteQuery(string.Format("USE `{0}`", Settings.Instance.zoneMysqlDatabase));
-				mapData = dbClient.ReadDataTable("SELECT * FROM `mapinfo`");
-				dbClient.ExecuteQuery(string.Format("USE `{0}`", Settings.Instance.WorldMysqlDatabase));
+				mapData = dbClient.ReadDataTable(string.Format("USE `{0}`; SELECT * FROM `mapinfo`; USE `{1}`", Settings.Instance.zoneMysqlDatabase, Settings.Instance.WorldMysqlDatabase));
 			}
 
 			if (mapData != null)
