@@ -66,6 +66,7 @@ namespace Zepheus.Zone.Game
                       foreach (DataRow row in Equipped.Rows)
                       {
                           Equip loaded = Equip.LoadEquip(row);
+                          loaded.IsEquipped = true;
                           loaded.Owner = (uint)pChar.ID;
                           this.EquippedItems.Add(loaded);
                       }
