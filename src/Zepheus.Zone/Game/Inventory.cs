@@ -59,7 +59,7 @@ namespace Zepheus.Zone.Game
 
                   if (Equipped != null)
                   {
-                      foreach (DataRow row in eq.Rows)
+                      foreach (DataRow row in Equipped.Rows)
                       {
                           Equip loaded = Equip.LoadEquip(row);
                           loaded.IsEquipped = true;
