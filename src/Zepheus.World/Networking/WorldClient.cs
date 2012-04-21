@@ -96,8 +96,16 @@ namespace Zepheus.World.Networking
 						ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
 						ch.QuickBar = Database.DataStore.ReadMethods.GetQuickBar(ch.ID, Program.DatabaseManager);
 						ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
-						ch.GroupId = long.Parse(row["GroupID"].ToString());
-						ch.IsGroupMaster = Database.DataStore.ReadMethods.EnumToBool(row["IsGroupMaster"].ToString());
+
+						if(row.IsNull("GroupID"))
+							ch.GroupId = -1;
+						else
+							ch.GroupId = (long) row["GroupID"];
+
+						if(row.IsNull("IsGroupMaster"))
+							ch.IsGroupMaster = false;
+						else
+							ch.IsGroupMaster = (bool) row["IsGroupMaster"];
 					   
 						Characters.Add(ch.Slot, new WorldCharacter(ch));
 					}
