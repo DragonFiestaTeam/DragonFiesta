@@ -20,7 +20,7 @@ namespace Zepheus.World.Handlers
             if (!DataProvider.Instance.Maps.TryGetValue(wchar.Character.PositionInfo.Map, out mapinfo))
             {
                 Log.WriteLine(LogLevel.Warn, "{0} has an invalid MapID ({1})", wchar.Character.Name, wchar.Character.PositionInfo.Map);
-                wchar.Character.PositionInfo.Map = 0;//we reset
+                wchar.Character.PositionInfo.Map = 0; 
                 packet.FillPadding(mapinfo.ShortName, 0x0D); //townname
             }
             else
@@ -51,8 +51,7 @@ namespace Zepheus.World.Handlers
 
         public static void WriteLook(WorldCharacter wchar, Packet packet)
         {
-            packet.WriteByte(Convert.ToByte(0x01 | (wchar.Character.Job << 2) | (Convert.ToByte(wchar.Character.LookInfo.Male)) << 7))
-;
+            packet.WriteByte(Convert.ToByte(0x01 | (wchar.Character.Job << 2) | (Convert.ToByte(wchar.Character.LookInfo.Male)) << 7));
             packet.WriteByte(wchar.Character.LookInfo.Hair);
             packet.WriteByte(wchar.Character.LookInfo.HairColor);
             packet.WriteByte(wchar.Character.LookInfo.Face);
