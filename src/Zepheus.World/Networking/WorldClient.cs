@@ -98,7 +98,7 @@ namespace Zepheus.World.Networking
 						ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
 						ch.GroupId = long.Parse(row["GroupID"].ToString());
 						ch.IsGroupMaster = Database.DataStore.ReadMethods.EnumToBool(row["IsGroupMaster"].ToString());
-                       
+					   
 						Characters.Add(ch.Slot, new WorldCharacter(ch));
 					}
 				}
@@ -167,8 +167,23 @@ namespace Zepheus.World.Networking
 				//newchar.EquiptetItem.Add(eqp);
 
 			}
-			// TODO: make it fcking cleaner
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO characters (AccountID,Name, Slot, Job, Male, Hair, HairColor, Face,QuickBar,QuickBarState,Shortcuts,GameSettings,ClientSettings, InstanzeID) VALUES ('" + newchar.AccountID + "','" + newchar.Name + "','" + newchar.Slot + "','" + newchar.Job + "','" + Convert.ToByte(newchar.LookInfo.Male) + "','" + newchar.LookInfo.Hair + "','" + newchar.LookInfo.HairColor + "','" + newchar.LookInfo.Face + "','0x00','0x00','0x00','0x00','0x00','0');");
+			using (var client = Program.DatabaseManager.GetClient())
+			{
+				string query = 
+					"INSERT INTO `characters` " + 
+					"(`AccountID`,`Name`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`)"+
+					"VALUES "+
+						"('" +		newchar.AccountID + 
+						"', '" +	newchar.Name + 
+						"', " +		newchar.Slot +
+						", " +		newchar.Job  +
+						", " +		Convert.ToByte(newchar.LookInfo.Male) +
+						", " +		newchar.LookInfo.Hair +
+						", " +		newchar.LookInfo.HairColor +
+						", " +		newchar.LookInfo.Face + 
+						")";
+				client.ExecuteQuery(query);
+			}
 			WorldCharacter tadaa = new WorldCharacter(newchar, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp);
 			Characters.Add(slot, tadaa);
 			return tadaa;
