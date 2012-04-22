@@ -50,6 +50,8 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteByte(1); //enabled list
                 packet.WriteByte(0); //count (analyzed in separate TXT)
                 //TODO: load quest list from database
+                //NOTE: Questlist is way to far right now
+                //      write it on the To-add list
                 character.Client.SendPacket(packet);
             }
         }

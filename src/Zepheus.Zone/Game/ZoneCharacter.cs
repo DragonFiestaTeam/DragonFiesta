@@ -55,7 +55,7 @@ namespace Zepheus.Zone.Game
 					}
 				}
 				SetMap(MapID);
-				// TODO: add loading of group
+				
 				this.Group = GroupManager.Instance.GetGroupForCharacter(this.ID);
 				if (this.Group != null)
 				{
@@ -303,27 +303,27 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-                if (pEquip == null) new ArgumentNullException();
-                if (!pEquip.IsEquipped || Level > pEquip.Info.Level) //:Todo Get race
-                {
-                    Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pEquip.SlotType && d.IsEquipped);
-                    if (equip != null)
-                    {
-                        SwapEquips(pEquip, equip);
-                    }
-                    else
-                        this.Inventory.Enter();
-                    byte sourceSlot = (byte)pEquip.Slot;
-                    this.Inventory.InventoryItems.Remove(sourceSlot);
-                    pEquip.IsEquipped = true;
-                    pEquip.Slot = (sbyte)pEquip.SlotType;
-                    this.Inventory.AddToEquipped(pEquip);
-                    pEquip.Save();
+				if (pEquip == null) new ArgumentNullException();
+				if (!pEquip.IsEquipped || Level > pEquip.Info.Level) //:Todo Get race
+				{
+					Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pEquip.SlotType && d.IsEquipped);
+					if (equip != null)
+					{
+						SwapEquips(pEquip, equip);
+					}
+					else
+						this.Inventory.Enter();
+					byte sourceSlot = (byte)pEquip.Slot;
+					this.Inventory.InventoryItems.Remove(sourceSlot);
+					pEquip.IsEquipped = true;
+					pEquip.Slot = (sbyte)pEquip.SlotType;
+					this.Inventory.AddToEquipped(pEquip);
+					pEquip.Save();
 
-                    Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
-                    Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
-                    //client.Character.UpdateStats();
-                }
+					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
+					Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
+					//client.Character.UpdateStats();
+				}
 			}
 			finally
 			{
@@ -334,7 +334,7 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-               
+			   
 				  this.Inventory.Enter();
 				  byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.EquippedItems.Remove(pEquip);
@@ -785,19 +785,19 @@ namespace Zepheus.Zone.Game
 			pPacket.WriteShort(this.StonesSP);
 			pPacket.WriteUInt(this.HP);
 			pPacket.WriteUInt(this.SP);
-			pPacket.WriteInt(this.Fame);                // Fame
-			pPacket.WriteLong(this.Inventory.Money); //TODO: inventory class
+            pPacket.WriteInt(this.Fame);
+			pPacket.WriteLong(this.Inventory.Money);
 			pPacket.WriteString(this.Map.MapInfo.ShortName, 12);
 			pPacket.WriteInt(this.Position.X);
 			pPacket.WriteInt(this.Position.Y);
 			pPacket.WriteByte(this.Rotation);
-			pPacket.WriteByte(this.Str);   // Str bonus
-			pPacket.WriteByte(this.End);   // End bonus
-			pPacket.WriteByte(this.Dex);   // Dex bonus
-			pPacket.WriteByte(this.Int);   // Int bonus 
-			pPacket.WriteByte(this.Spr);   // Spr bonus
+			pPacket.WriteByte(this.Str);//  -.  
+			pPacket.WriteByte(this.End);//   |   
+			pPacket.WriteByte(this.Dex);//   |  Boni
+			pPacket.WriteByte(this.Int);//   |   
+			pPacket.WriteByte(this.Spr);//  -'   
 			pPacket.WriteShort(0);               // UNK
-			pPacket.WriteUInt(0);               // Killpoints
+			pPacket.WriteUInt(0);               // Killpoints (TODO)
 			pPacket.Fill(7, 0);                 // UNK
 		}
 		public void WriteLook(Packet packet)
@@ -1034,14 +1034,14 @@ namespace Zepheus.Zone.Game
 				Item item = null;
 				if (drop.Item is DroppedEquip)
 				{
-				    item = new Equip((uint)this.ID,drop.ID, freeslot);
-                    //item.UniqueID = this.AccountID;
-                    this.Inventory.EquippedItems.Add((Equip)item);
+					item = new Equip((uint)this.ID,drop.ID, freeslot);
+					//item.UniqueID = this.AccountID;
+					this.Inventory.EquippedItems.Add((Equip)item);
 				}
 				else
 				{
-                    item = new Item((uint)this.ID, drop.ID, (ushort)drop.Item.Amount);
-                    this.Inventory.InventoryItems.Add((byte)freeslot, item);
+					item = new Item((uint)this.ID, drop.ID, (ushort)drop.Item.Amount);
+					this.Inventory.InventoryItems.Add((byte)freeslot, item);
 				}
 				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Obtained);
 				Handler12.ModifyInventorySlot(this, 0x24, (byte)freeslot, 0, item);

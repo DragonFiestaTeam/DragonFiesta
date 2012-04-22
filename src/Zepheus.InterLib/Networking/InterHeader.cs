@@ -9,8 +9,6 @@
 		ChangeZone = 0x004,
 		ClientDisconect = 0x005,
 
-		GetParty = 0x0099,
-		SendParty = 0x0100,
 		UpdateParty = 0x098,
 		RemovePartyMember = 0x097,
 		AddPartyMember = 0x0096,

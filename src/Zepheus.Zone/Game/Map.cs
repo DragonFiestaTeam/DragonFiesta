@@ -55,7 +55,10 @@ namespace Zepheus.Zone.Game
 			foreach (var spawn in MapInfo.NPCs)
 			{
 				Npc npc = new Npc(spawn);
-				FullAddObject(npc);
+				if(npc == null)
+					Log.WriteLine(LogLevel.Warn, "NULL value for {0} {1}:{2} of mob {3}", spawn.Map, spawn.CoordX, spawn.CoordY, spawn.MobName);
+					else
+					FullAddObject(npc);
 			}
 		}
 
@@ -77,10 +80,10 @@ namespace Zepheus.Zone.Game
 					{
 						MobBreedLocation locationInfo = new MobBreedLocation()
 						{
-                            MapID = GetDataTypes.GetUshort(row["MapID"]),
-                            MobID = GetDataTypes.GetUshort(row["MobID"]),
-                            InstanceID = GetDataTypes.Getshort(row["InstanceID"]),
-                            Position = new Vector2(),
+							MapID = GetDataTypes.GetUshort(row["MapID"]),
+							MobID = GetDataTypes.GetUshort(row["MobID"]),
+							InstanceID = GetDataTypes.Getshort(row["InstanceID"]),
+							Position = new Vector2(),
 						};
 						locationInfo.Position.X = GetDataTypes.GetInt(row["PosX"]);
 						locationInfo.Position.Y = GetDataTypes.GetInt(row["PosY"]);

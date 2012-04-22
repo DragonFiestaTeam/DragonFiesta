@@ -28,7 +28,7 @@ namespace Zepheus.World.Data
 			LoadMaps();
 			LoadBasestats();
 			LoadBadNames();
-		   // DatabaseHelper.Initialize(Settings.Instance.ConnString, "CharConn");
+			// DatabaseHelper.Initialize(Settings.Instance.ConnString, "CharConn");
 			//settings instanz return to charconnectiondb
 
 		}

@@ -49,27 +49,7 @@ namespace Zepheus.World.InterServer
 				}
 			}
 		}
-		[InterPacketHandler(InterHeader.GetParty)]
-		public static void HandleGetParty(ZoneConnection lc, InterPacket packet)
-		{
-			string charName;
-			if(!packet.TryReadString(out charName, 16))
-				return;
 
-			WorldClient client = ClientManager.Instance.GetClientByCharname(charName);
-			var members = new List<GroupMember>();
-			members.Add(client.Character.Group.Master);
-			members.AddRange(client.Character.Group.NormalMembers);
-
-			using (InterPacket p = new InterPacket(InterHeader.SendParty))
-			{
-				p.WriteByte((byte) members.Count);
-				members.ForEach(m => p.WriteString(m.Name, 16));
-
-				lc.SendPacket(packet);
-			}
-
-		}
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{

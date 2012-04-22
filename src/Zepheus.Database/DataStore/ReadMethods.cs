@@ -146,20 +146,20 @@ namespace Zepheus.Database.DataStore
 				foreach (DataRow row in charData.Rows)
 				{
 					ch.PositionInfo.ReadFromDatabase(row);
-                    DateTime ne = DateTime.Now;
+					DateTime ne = DateTime.Now;
 					ch.AccountID = GetDataTypes.GetInt(row["AccountID"]);
 					ch.LookInfo.ReadFromDatabase(row);
 					ch.CharacterStats.ReadFromDatabase(row);
 					ch.Slot = (byte)row["Slot"];
 					ch.CharLevel = (byte)row["Level"];
 					ch.Name = (string)row["Name"];
-                    ch.ID = GetDataTypes.GetInt(row["CharID"]);
+					ch.ID = GetDataTypes.GetInt(row["CharID"]);
 					ch.Job = (byte)row["Job"];
 					ch.Money = GetDataTypes.GetLong(row["Money"]);
-                    ch.Exp = GetDataTypes.GetLong(row["Exp"]);
+					ch.Exp = GetDataTypes.GetLong(row["Exp"]);
 					ch.HP = GetDataTypes.GetInt(row["CurHP"]);
 					ch.HPStones = 10;
-                    ch.SP = GetDataTypes.GetInt(row["CurSP"]);
+					ch.SP = GetDataTypes.GetInt(row["CurSP"]);
 					ch.SPStones = 10;
 					ch.StatPoints = (byte)row["StatPoints"];
 					ch.UsablePoints = (byte)row["UsablePoints"];
@@ -183,7 +183,7 @@ namespace Zepheus.Database.DataStore
 			}
 
 			return ch;
-        }
-    }
+		}
+	}
 
 }

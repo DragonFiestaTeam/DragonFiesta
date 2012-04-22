@@ -90,7 +90,7 @@ namespace Zepheus.World.Networking
 						ch.SPStones = 10;
 						ch.StatPoints = (byte)row["StatPoints"];
 						ch.UsablePoints = (byte)row["UsablePoints"];
-						ch.Fame = 0;
+						ch.Fame = 0;	// TODO
 						ch.GameSettings = Database.DataStore.ReadMethods.GetGameSettings(ch.ID, Program.DatabaseManager);
 						ch.ClientSettings = Database.DataStore.ReadMethods.GetClientSettings(ch.ID, Program.DatabaseManager);
 						ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
@@ -138,11 +138,13 @@ namespace Zepheus.World.Networking
 			if (Characters.ContainsKey(slot) || slot > 5)
 				return null;
 			//TODO: check if hair etc are actual beginner ones! (premium hack)
-			//NOTE: Check the SHN's for this
+			//NOTE: Check the SHN's for this -> Moved to database
 			BaseStatsEntry stats = DataProvider.Instance.JobBasestats[job];
 			if (stats == null)
 			{
-				Log.WriteLine(LogLevel.Warn, "Houston, we have a problem! Jobstats not found for job {0}", job.ToString());
+                //NOTE be serious.. please
+				// Log.WriteLine(LogLevel.Warn, "Houston, we have a problem! Jobstats not found for job {0}", job.ToString()); 
+                Log.WriteLine(LogLevel.Error, "Jobstats not found for job {0}", job.ToString());
 				return null;
 			}
 			Database.Storage.LookInfo newLook = new Database.Storage.LookInfo();

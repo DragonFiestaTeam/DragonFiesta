@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Zepheus.Zone.Data;
 using Zepheus.Zone.Game;
 using System.Linq;
 using System;
 using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Zepheus.Zone
 {
@@ -31,10 +31,22 @@ namespace Zepheus.Zone
 		#region Methods
 		public void NewGroupCreated(long pGroupId)
 		{
-			LoadGroupFromDatabase(pGroupId);	
+            LoadGroupFromDatabase(pGroupId);
+            if(!groupsById.ContainsKey(pGroupId))
+                return;
+            Group group = groupsById[pGroupId];
+            foreach (var member in group.Members)
+            {
+                if(ClientManager.Instance.HasClient(member.Name))
+                {
+                    var client = ClientManager.Instance.GetClientByCharName(member.Name);
+                    var chara = client.Character;
 
-			// TODO: Implement! 
-			throw new NotImplementedException();
+                    member.Character = chara;
+                    chara.Group = group;
+                    chara.GroupMember = member;
+                }
+            }
 		}
 		public void AddGroup(Group grp)
 		{
@@ -46,6 +58,8 @@ namespace Zepheus.Zone
 		public void LoadGroupFromDatabase(long pId)
 		{
 			if(groups.Any(g => g.Id == pId))
+				return;
+			if(pId == -1) // means null-group
 				return;
 			Group group = Group.LoadGroupFromDatabaseById(pId);
 			this.AddGroup(group);
@@ -159,15 +173,18 @@ namespace Zepheus.Zone
 			//--------------------------------------------------
 			// get groupId
 			//--------------------------------------------------
-			long? groupId = null;
 			using(var client = Program.DatabaseManager.GetClient())
-			using(var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.Connection))
-			using(var reader = cmd.ExecuteReader())
+			using (var table = client.ReadDataTable(string.Format(get_group_id_query, pCharacterId)))
 			{
-				while(reader.Read())
-					groupId = reader.GetInt64(0);
+				foreach (DataRow row in table.Rows)
+				{
+					if(row.IsNull("GroupId"))
+						return -1;
+					else
+						return (long) row["GroupId"];			
+				}
 			}
-			return groupId ?? -1;
+			return -1;
 		}
 		#endregion
 	}

@@ -53,17 +53,17 @@ namespace Zepheus.Zone.Game
 		public void Write(Packet packet)
 		{
 			packet.WriteUShort(this.MapObjectID);
-			packet.WriteByte(2); //always 2 (type i bet shown / transparent?)
+			packet.WriteByte(2); //always 2 (type i bet shown / transparent?) -> test it
 			packet.WriteUShort(this.ID);
 			packet.WriteInt(this.Position.X);
 			packet.WriteInt(this.Position.Y);
-			packet.WriteByte(this.Rotation); //TODO: rotation for NPC (from txt official files?)
+			packet.WriteByte(this.Rotation);
 			if (Gate != null)
 			{
 				packet.WriteByte(1);
 				packet.WriteString(Gate.MapClient, 12);
 				packet.Fill(43, 0);
-              
+			  
 			}
 			else
 			{
