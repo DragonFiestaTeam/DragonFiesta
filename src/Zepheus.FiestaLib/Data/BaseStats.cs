@@ -9,37 +9,7 @@ namespace Zepheus.FiestaLib.Data
 	//to update player stats, have to find out more later
 	public sealed class BaseStats
     {
-        /*
-         * 
-        public static int GetStatValue(WorldCharacter pCharacter, StatsByte pByte)
-        {
-            switch (pByte)
-            {
-                case StatsByte.MinMelee:
-                    return pCharacter.MinDamage;
-                case StatsByte.MaxMelee:
-                    return pCharacter.MaxDamage;
-                case StatsByte.MinMagic:
-                    return pCharacter.MinMagic;
-                case StatsByte.MaxMagic:
-                    return pCharacter.MaxMagic;
-                case StatsByte.WDef:
-                    return pCharacter.WeaponDef;
-                case StatsByte.MDef:
-                    return pCharacter.MagicDef;
-                case StatsByte.Aim:
-                    return 5; //TODO load additional equip stats
-                case StatsByte.Evasion:
-                    return 5;
-                case StatsByte.StrBonus:
-                    return pCharacter.StrBonus;
-                case StatsByte.EndBonus:
-                    return pCharacter.EndBonus;
-                default:
-                    return 0;
-            }
-        }
-        */
+
 
         public BaseStatsEntry this[byte level] {
             get
@@ -51,6 +21,7 @@ namespace Zepheus.FiestaLib.Data
         }
         public Job Job { get; set; }
         public readonly SerializableDictionary<byte, BaseStatsEntry> Entries = new SerializableDictionary<byte, BaseStatsEntry>();
+
 
         public BaseStats()
         {
@@ -85,6 +56,22 @@ namespace Zepheus.FiestaLib.Data
                 Log.WriteLine(LogLevel.Exception, "Exception while loading stats from job {0}: {1}", pFile, ex.ToString());
                 return false;
             }
+        }
+        public enum StatsByte : byte
+        {
+            MinMelee = 0x06,
+            MaxMelee = 0x07,
+            WDef = 0x08,
+
+            Aim = 0x09,
+            Evasion = 0x0a,
+
+            MinMagic = 0x0b,
+            MaxMagic = 0x0c,
+            MDef = 0x0d,
+
+            StrBonus = 0x13,
+            EndBonus = 0x19
         }
     }
 }

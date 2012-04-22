@@ -102,16 +102,32 @@ namespace Zepheus.Zone.Game
 		public byte Hair { get { return Character.LookInfo.Hair; } set { Character.LookInfo.Hair = value; } }
 		public byte HairColor { get { return Character.LookInfo.HairColor; } set { Character.LookInfo.HairColor = value; } }
 		public byte Face { get { return Character.LookInfo.Face; } set { Character.LookInfo.Face = value; } }
-		public byte StatPoints { get { return Character.StatPoints; } set { Character.StatPoints = value; } }
+        #endregion
+        #region States
+        public byte StatPoints { get { return Character.StatPoints; } set { Character.StatPoints = value; } }
 		public byte Str { get { return Character.CharacterStats.StrStats; } set { Character.CharacterStats.StrStats = value; } }
 		public byte Dex { get { return Character.CharacterStats.DexStats; } set { Character.CharacterStats.DexStats = value; } }
 		public byte Int { get { return Character.CharacterStats.IntStats; } set { Character.CharacterStats.IntStats = value; } }
 		public byte Spr { get { return Character.CharacterStats.SprStats; } set { Character.CharacterStats.SprStats = value; } }
 		public byte End { get { return Character.CharacterStats.EndStats; } set { Character.CharacterStats.EndStats = value; } }
+
+        public byte StrBonus { get { return Character.CharacterStats.StrBonus; } set { Character.CharacterStats.StrBonus = value; } }
+        public byte DexBonus { get { return Character.CharacterStats.DexBonus; } set { Character.CharacterStats.DexBonus = value; } }
+        public byte IntBonus { get { return Character.CharacterStats.IntBonus; } set { Character.CharacterStats.IntBonus = value; } }
+        public byte SprBonus { get { return Character.CharacterStats.SprBonus; } set { Character.CharacterStats.SprBonus = value; } }
+        public byte EndBonus { get { return Character.CharacterStats.EndBonus; } set { Character.CharacterStats.EndBonus = value; } }
+
 		public override uint MaxHP { get { return (uint)(BaseStats.MaxHP + GetMaxHPBuff()); } set { return; } }
-		public override uint MaxSP { get { return (uint)(BaseStats.MaxSP + GetMaxSPBuff()); } set { return; } } 
-		#endregion
-		//Parrty Shit
+		public override uint MaxSP { get { return (uint)(BaseStats.MaxSP + GetMaxSPBuff()); } set { return; } }
+
+        public ushort MinDamage { get { return Character.CharacterStats.MinDamage; } set { Character.CharacterStats.MinDamage = value; } }
+        public ushort MaxDamage { get { return Character.CharacterStats.MaxDamage; } set { Character.CharacterStats.MaxDamage = value; } }
+        public ushort MinMagic { get { return Character.CharacterStats.MinMagic; } set { Character.CharacterStats.MinMagic = value; } }
+        public ushort MaxMagic { get { return Character.CharacterStats.MaxMagic; } set { Character.CharacterStats.MaxMagic = value; } }
+        public ushort WeaponDef { get { return Character.CharacterStats.WeaponDef; } set { Character.CharacterStats.WeaponDef = value; } }
+        public ushort MagicDef { get { return Character.CharacterStats.MagicDef; } set { Character.CharacterStats.MagicDef = value; } }
+        #endregion
+        //Parrty Shit
 		public Dictionary<string, ZoneClient> Party = new Dictionary<string, ZoneClient>();
 		public bool IsInParty { get; set; } //check variabel for heath update
 		public bool HealthThreadState { get; set; }
@@ -292,7 +308,7 @@ namespace Zepheus.Zone.Game
 				destEquip.Save();
 				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
 				Handler12.UpdateInventorySlot(this, (byte)sourceEquip.SlotType, 0x20, (byte)destEquip.Slot, sourceEquip);
-				//TODO update bstates
+                this.UpdateStats();
 			}
 			finally
 			{
@@ -322,7 +338,7 @@ namespace Zepheus.Zone.Game
 
 					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
 					Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
-					//client.Character.UpdateStats();
+                    this.UpdateStats();
 				}
 			}
 			finally
@@ -344,7 +360,7 @@ namespace Zepheus.Zone.Game
 				pEquip.Save();
 				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.SlotType, null);
 				Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, pEquip);
-				//client.Character.UpdateStats();
+				this.UpdateStats();
 			}
 			finally
 			{
@@ -871,6 +887,76 @@ namespace Zepheus.Zone.Game
 				packet.WriteInt(this.Position.Y);
 			}
 		}
+        public void UpdateStats()
+        {
+            CalculateDefense();
+            CalculateDamage();
+            using (var packet = UpdateStats(this, this.statsToUpdate))
+            {
+                this.Client.SendPacket(packet);
+            }
+            // :TODO calcutelate basestates
+        }
+        private void CalculateDamage()
+        {
+            this.MinDamage = 1;
+            this.MaxDamage = 5;
+            //ushort id = this.Inventory.GetEquippedByType(ItemType.Weapon);
+            ushort id = 0;
+            if (id == 0)
+            {
+                //fix later
+               // id = this.Inventory.GetEquiptBySlot(ItemClass.Shield); //or bow
+            }
+
+            if (id > 0)
+            {
+                ItemInfo weapon;
+                if (DataProvider.GetItemInfo(id, out weapon))
+                {
+
+                    //dex increases your min damage
+                    this.MinDamage =
+                        (ushort)(weapon.MinMelee * (1 + this.Str * 0.02) * (1 + this.Dex * 0.01));
+                    this.MaxDamage =
+                        (ushort)(weapon.MaxMelee * (1 + this.Str * 0.03) * (1 + this.Dex * 0.02));
+
+                    this.MinMagic =
+                        (ushort)(weapon.MinMagic * (1 + this.Int * 0.02) * (1 + this.Spr * 0.01));
+                    this.MaxMagic =
+                        (ushort)(weapon.MaxMagic * (1 + this.Int * 0.03) * (1 + this.Spr * 0.02));
+                }
+            }
+        }
+        private StatsByte[] statsToUpdate = new[] {
+            StatsByte.MinMelee, 
+            StatsByte.MaxMelee, 
+            StatsByte.MDef, 
+            StatsByte.WDef, 
+            StatsByte.MinMagic, 
+            StatsByte.MaxMagic
+        };
+        private void CalculateDefense()
+        {
+            try
+            {
+                ushort wdef = 1;
+                ushort mdef = 1; //TODO magic
+                foreach (ItemInfo itemInfo in Inventory.EquippedItems.Select(e => e.GetInfo()))
+                {
+                    wdef += itemInfo.WeaponDef;
+                    mdef += itemInfo.MagicDef;
+                }
+                this.Character.CharacterStats.WeaponDef = wdef;
+                this.MagicDef = mdef;
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(LogLevel.Warn, "Error calculating defense. {0}", ex.Message);
+                this.WeaponDef = 1;
+                this.MagicDef = 1;
+            }
+        }
 		public void WriteUpdateStats(Packet packet)
 		{
 			packet.WriteUInt(this.HP);
@@ -880,7 +966,18 @@ namespace Zepheus.Zone.Game
 			packet.WriteByte(this.Level);
 			packet.WriteUShort(this.UpdateCounter);
 		}
+        public static Packet UpdateStats(ZoneCharacter pChar, StatsByte[] pUpdate)
+        {
+            Packet packet = new Packet(SH53Type.UpdateStats);
+            packet.WriteByte((byte)pUpdate.Length);
+            for (int i = 0; i < pUpdate.Length; ++i)
+            {
+                packet.WriteByte((byte)pUpdate[i]);
 
+                packet.WriteInt(Zepheus.Zone.Data.BaseStats.GetStatValue(pChar, pUpdate[i]));
+            }
+            return packet;
+        }
 		public int GetMaxHPBuff()
 		{
 			return Buffs.MaxHP;

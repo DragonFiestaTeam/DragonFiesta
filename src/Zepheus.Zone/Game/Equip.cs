@@ -195,7 +195,7 @@ namespace Zepheus.Zone.Game
                 case ItemSlot.Weapon:
                     packet.WriteByte(this.Upgrades);   // Refinement
                     packet.WriteByte(0);
-                    packet.WriteShort(0); // Or int?
+                    packet.WriteInt(0); // Or int?
                     packet.WriteShort(0);
                     if (this.SlotType == ItemSlot.Weapon || (this.SlotType == ItemSlot.Weapon2 &&  Info.TwoHand))
                     {
@@ -256,6 +256,9 @@ namespace Zepheus.Zone.Game
                     break;
                 case ItemSlot.Helm:
                 case ItemSlot.Armor:
+                case ItemSlot.Wing:
+                    packet.WriteByte(0);
+                    break;
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
                 case ItemSlot.Weapon2:
