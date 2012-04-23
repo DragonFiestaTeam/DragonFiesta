@@ -53,6 +53,7 @@
     <Compile Include="CommandInfo.cs" />
     <Compile Include="CommandLog.cs" />
     <Compile Include="CommandStatus.cs" />
+    <Compile Include="Data\BaseStats.cs" />
     <Compile Include="Data\Data.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Game\Group.cs" />

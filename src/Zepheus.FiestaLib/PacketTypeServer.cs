@@ -210,4 +210,8 @@ namespace Zepheus.FiestaLib
     {
         LoadUnkown = 7,
     }
+    public enum SH53Type : byte
+    {
+        UpdateStats = 4,
+    }
 }
