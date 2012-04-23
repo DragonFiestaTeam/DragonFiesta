@@ -891,25 +891,24 @@ namespace Zepheus.Zone.Game
         {
             CalculateDefense();
             CalculateDamage();
-            using (var packet = UpdateStats(this, this.statsToUpdate))
+            using (var packet = new Packet(SH53Type.UpdateStats))
             {
+                UpdateStatsPacket(packet);
                 this.Client.SendPacket(packet);
             }
             // :TODO calcutelate basestates
         }
         private void CalculateDamage()
         {
-            this.MinDamage = 1;
-            this.MaxDamage = 5;
-            //ushort id = this.Inventory.GetEquippedByType(ItemType.Weapon);
-            ushort id = 0;
+
+            ushort id = this.Inventory.GetEquippedBySlot(ItemSlot.Weapon);
             if (id == 0)
             {
-                //fix later
-               // id = this.Inventory.GetEquiptBySlot(ItemClass.Shield); //or bow
+                id = this.Inventory.GetEquippedBySlot(ItemSlot.Weapon2); //shield or bow
+ 
             }
 
-            if (id > 0)
+            if (id > 0 && id != ushort.MaxValue)
             {
                 ItemInfo weapon;
                 if (DataProvider.GetItemInfo(id, out weapon))
@@ -927,6 +926,18 @@ namespace Zepheus.Zone.Game
                         (ushort)(weapon.MaxMagic * (1 + this.Int * 0.03) * (1 + this.Spr * 0.02));
                 }
             }
+            else
+            {
+                //:TODO make buffs in defaults
+
+                //make defaul damage
+                int dmg = this.BaseStats.Strength / 10; 
+                int magicdmg = this.BaseStats.Intelligence / 10;
+                this.MinDamage = (ushort)dmg;
+                this.MaxDamage = (ushort)dmg;
+                this.MinMagic = (ushort)magicdmg;
+                this.MaxMagic = (ushort)magicdmg;
+            }
         }
         private StatsByte[] statsToUpdate = new[] {
             StatsByte.MinMelee, 
@@ -940,14 +951,14 @@ namespace Zepheus.Zone.Game
         {
             try
             {
-                ushort wdef = 1;
-                ushort mdef = 1; //TODO magic
+                ushort wdef = 0;
+                ushort mdef = 0; //TODO magic
                 foreach (ItemInfo itemInfo in Inventory.EquippedItems.Select(e => e.GetInfo()))
                 {
                     wdef += itemInfo.WeaponDef;
                     mdef += itemInfo.MagicDef;
                 }
-                this.Character.CharacterStats.WeaponDef = wdef;
+                this.WeaponDef = wdef;
                 this.MagicDef = mdef;
             }
             catch (Exception ex)
@@ -966,15 +977,17 @@ namespace Zepheus.Zone.Game
 			packet.WriteByte(this.Level);
 			packet.WriteUShort(this.UpdateCounter);
 		}
-        public static Packet UpdateStats(ZoneCharacter pChar, StatsByte[] pUpdate)
+        public  Packet UpdateStatsPacket(Packet packet)
         {
-            Packet packet = new Packet(SH53Type.UpdateStats);
-            packet.WriteByte((byte)pUpdate.Length);
+            StatsByte[] pUpdate = this.statsToUpdate;
+         
+            int lange = pUpdate.Length;
+            packet.WriteByte((byte)lange);
             for (int i = 0; i < pUpdate.Length; ++i)
             {
                 packet.WriteByte((byte)pUpdate[i]);
 
-                packet.WriteInt(Zepheus.Zone.Data.BaseStats.GetStatValue(pChar, pUpdate[i]));
+                packet.WriteInt(Zepheus.Zone.Data.BaseStats.GetStatValue(this, pUpdate[i]));
             }
             return packet;
         }

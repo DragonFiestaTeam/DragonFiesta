@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Zepheus.FiestaLib.Data;
+using Zepheus.FiestaLib;
 using MySql.Data.MySqlClient;
 using System.Threading;
 using System.Data;
@@ -128,7 +129,19 @@ namespace Zepheus.Zone.Game
                 locker.ReleaseMutex();
             }
         }
-
+        public ushort GetEquippedBySlot(ItemSlot pSlot)
+        {
+            //double check if found
+            Equip equip = EquippedItems.Find(d => d.SlotType == pSlot && d.IsEquipped);
+            if (equip == null)
+            {
+                return 0xffff;
+            }
+            else
+            {
+                return equip.ID;
+            }
+        }
         public bool GetEmptySlot(out byte pSlot) //cpu intensive?
         {
             pSlot = 0;
