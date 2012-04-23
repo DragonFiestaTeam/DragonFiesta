@@ -102,7 +102,7 @@ namespace Zepheus.World.Networking
 						else
 							ch.GroupId = (long) row["GroupID"];
 
-						if(row.IsNull("IsGroupMaster"))
+						if(ch.GroupId == -1 || row.IsNull("IsGroupMaster"))
 							ch.IsGroupMaster = false;
 						else
 							ch.IsGroupMaster = (bool) row["IsGroupMaster"];
