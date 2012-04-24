@@ -18,7 +18,7 @@ namespace Zepheus.Zone.Game
         private const string DeleteEquip = "DELETE FROM equips WHERE ID=@id";
 
 
-        public override DateTime? Expires { get;  set; }
+        public override DateTime? Expires { get; set; }
         public byte Upgrades { get; set; }
         public byte StatCount { get; private set; }
         public bool IsEquipped { get; set; }
@@ -27,16 +27,17 @@ namespace Zepheus.Zone.Game
         public ushort Dex { get; private set; }
         public ushort Int { get; private set; }
         public ushort Spr { get; private set; }
-   
 
-        public Equip(uint pOwner, ushort pEquipID, sbyte pSlot) : base(pOwner, pEquipID, 1)
+
+        public Equip(uint pOwner, ushort pEquipID, sbyte pSlot)
+            : base(pOwner, pEquipID, 1)
         {
             if (pSlot < 0)
             {
                 this.Slot = pSlot;
                 this.IsEquipped = true;
                 this.Owner = pOwner;
-             
+
             }
             else
             {
@@ -52,7 +53,7 @@ namespace Zepheus.Zone.Game
         }
         private uint GetExpiringTime()
         {
-           if (Expires == null)
+            if (Expires == null)
             {
                 return 0;
             }
@@ -63,7 +64,7 @@ namespace Zepheus.Zone.Game
         }
         public override bool Delete()
         {
-           if(this.UniqueID > 0)
+            if (this.UniqueID > 0)
             {
                 using (var command = new MySqlCommand(DeleteEquip))
                 {
@@ -82,19 +83,19 @@ namespace Zepheus.Zone.Game
 
         public override void Save()
         {
-           if (UniqueID <= 0)
+            if (UniqueID <= 0)
             {
-                    using (var command = new MySqlCommand(GiveEquip))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
-                        command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
-                        command.Parameters.AddWithValue("@powner", this.Owner);
-                        command.Parameters.AddWithValue("@pslot", this.Slot);
-                        command.Parameters.AddWithValue("@pequipid", this.ID);
-                       Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
-                        this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
-                    }
+                using (var command = new MySqlCommand(GiveEquip))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
+                    command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.Slot);
+                    command.Parameters.AddWithValue("@pequipid", this.ID);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
+                    this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
+                }
             }
             else
             {
@@ -158,21 +159,21 @@ namespace Zepheus.Zone.Game
             }
             return length;
         }
-   	public void WritEquipInfo(Packet packet)
-		{
-			byte statCount = 0;
-			if (Str > 0) statCount++;
-			if (End > 0) statCount++;
-			if (Dex > 0) statCount++;
-			if (Spr > 0) statCount++;
-			if (Int > 0) statCount++;
+        public void WritEquipInfo(Packet packet)
+        {
+            byte statCount = 0;
+            if (Str > 0) statCount++;
+            if (End > 0) statCount++;
+            if (Dex > 0) statCount++;
+            if (Spr > 0) statCount++;
+            if (Int > 0) statCount++;
 
-			byte length = CalculateDataLen();
-			length += (byte)(statCount * 3);    // Stat data length
-			packet.WriteByte(length);
-			packet.WriteByte((byte)Math.Abs(this.Slot));
-			packet.WriteByte(IsEquipped ? (byte)0x20 : (byte)0x24);
-			WriteEquipStats(packet);
+            byte length = CalculateDataLen();
+            length += (byte)(statCount * 3);    // Stat data length
+            packet.WriteByte(length);
+            packet.WriteByte((byte)Math.Abs(this.Slot));
+            packet.WriteByte(IsEquipped ? (byte)0x20 : (byte)0x24);
+            WriteEquipStats(packet);
         }
         public void WriteEquipStats(Packet packet)
         {
@@ -190,25 +191,29 @@ namespace Zepheus.Zone.Game
                 case ItemSlot.Armor:
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
+                case ItemSlot.Wing:
+                    //todo wing
+                    break;
+
                 // case ItemSlot.Bow: // Shield = same
                 case ItemSlot.Weapon2:
                 case ItemSlot.Weapon:
-                    packet.WriteByte(this.Upgrades);   // Refinement
-                    packet.WriteByte(0);
-                    packet.WriteInt(0); // Or int?
-                    packet.WriteShort(0);
-                    if (this.SlotType == ItemSlot.Weapon || (this.SlotType == ItemSlot.Weapon2 &&  Info.TwoHand))
+                    packet.WriteByte(this.Upgrades); //refement?
+                    packet.WriteUShort(0);//unk
+                    packet.WriteUInt(0); //unk
+                    if (this.SlotType == ItemSlot.Weapon || (this.SlotType == ItemSlot.Weapon2 && Info.TwoHand))
                     {
-                        packet.WriteByte(0);
-                        // Licence data
-                        packet.WriteUShort(0xFFFF);    // Nr.1 - Mob ID
-                        packet.WriteUInt(0);           // Nr.1 - Kill count
+
+                        packet.WriteUShort(0);    // Nr.1 - Mob ID
+                        packet.WriteUInt(0xFFFF);           // Nr.1 - Kill count
                         packet.WriteUShort(0xFFFF);    // Nr.2 - Mob ID
                         packet.WriteUInt(0);           // Nr.2 - Kill count
                         packet.WriteUShort(0xFFFF);    // Nr.3 - Mob ID
                         packet.WriteUInt(0);           // Nr.3 - Kill count
-                        packet.WriteUShort(0xFFFF);        // UNK
-                        packet.WriteString("", 16);    // First licence adder name
+                        packet.WriteUShort(0);        // UNK
+                        // packet.WriteUInt(1992027391);
+                        packet.WriteString("1234567891234567", 16); //lencen name
+                        packet.WriteByte(0);//unk
                     }
                     packet.WriteByte(0);
                     packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
@@ -255,6 +260,8 @@ namespace Zepheus.Zone.Game
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Helm:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
                 case ItemSlot.Armor:
                 case ItemSlot.Wing:
                     packet.WriteByte(0);
@@ -293,7 +300,7 @@ namespace Zepheus.Zone.Game
             ulong uniqueID = GetDataTypes.GetUlong(row["ID"]);
             uint owner = GetDataTypes.GetUint(row["Owner"]);
             ushort equipID = GetDataTypes.GetUshort(row["EquipID"]);
-           sbyte slot = GetDataTypes.GetSByte(row["Slot"]);
+            sbyte slot = GetDataTypes.GetSByte(row["Slot"]);
             byte upgrade = GetDataTypes.GetByte(row["Upgrades"]);
             // TS: What's the "i" stand for? It's not very pretty :<
             ushort strByte = GetDataTypes.GetUshort(row["iSTR"]);
