@@ -118,14 +118,25 @@ namespace Zepheus.Zone.Handlers
 
             using (var packet = new Packet(SH4Type.CharacterItemList))
             {
-                packet.WriteByte((byte)character.Inventory.InventoryItems.Count);
-                packet.WriteByte(0x09);         // Inventory number
-                packet.WriteByte(115);         // UNK    (In newest client it exists, in bit older, not)
-                foreach (var item in character.Inventory.InventoryItems.Values)
+                /*packet.WriteByte(1);//count
+                packet.WriteByte(0x09);//inv
+                packet.WriteByte(115);
+                packet.WriteHexAsBytes("0C 02 24 4C 7E 00 00 00 00 00 00 00 00");
+                character.Client.SendPacket(packet);*/
+                 foreach (var item in character.Inventory.InventoryItems.Values)
                 {
-
-                    item.WriteItemInfo(packet);
+                    if (item is Equip)
+                    {
+                        Equip eq = item as Equip;
+                        eq.WritEquipInfo(packet);
+                    }
+                    else
+                    {
+                        item.WriteItemInfo(packet);
+                    }
+                  // 
                 }
+                 character.Client.SendPacket(packet);
             }
         }
 

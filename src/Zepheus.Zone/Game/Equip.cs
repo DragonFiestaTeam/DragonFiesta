@@ -191,9 +191,7 @@ namespace Zepheus.Zone.Game
                 case ItemSlot.Armor:
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
-                case ItemSlot.Wing:
-                    //todo wing
-                    break;
+
 
                 // case ItemSlot.Bow: // Shield = same
                 case ItemSlot.Weapon2:
@@ -244,8 +242,8 @@ namespace Zepheus.Zone.Game
                     packet.WriteUInt(25000);           // Skin Durability
                     break;
                 default:
-                    packet.WriteUInt(GetExpiringTime());      // Expiring time (1992027391 -  never expires)
-                    packet.WriteUInt(0);                        // Time? (1992027391 -  never expires)
+                    packet.WriteUInt(1992027391);      // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(1992027391);                        // Time? (1992027391 -  never expires)
                     break;
             }
 
