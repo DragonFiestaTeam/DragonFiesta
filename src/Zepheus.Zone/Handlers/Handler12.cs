@@ -403,6 +403,7 @@ namespace Zepheus.Zone.Handlers
                 pChar.Client.SendPacket(packet);
             }
         }
+
         public static void UpdateEquipSlot(ZoneCharacter pClient, byte pFromSlot, byte pFromInv, byte pToSlot, Item pItem)
         {
             using (var packet = new Packet(SH12Type.ModifyEquipSlot))

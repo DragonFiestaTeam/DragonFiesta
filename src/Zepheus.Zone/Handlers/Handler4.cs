@@ -102,7 +102,7 @@ namespace Zepheus.Zone.Handlers
             {
                 packet.WriteByte((byte)character.Inventory.InventoryItems.Count);
                 packet.WriteByte(0x08);        // Inventory number
-              
+
                 packet.WriteByte(215);         // UNK    (In newest client it exists, in bit older, not) // might be shit from old buffers lol
                 foreach (var eqp in character.Inventory.EquippedItems)
                 {
@@ -114,17 +114,29 @@ namespace Zepheus.Zone.Handlers
 
         public static void SendInventoryList(ZoneCharacter character)
         {
+
+
             using (var packet = new Packet(SH4Type.CharacterItemList))
             {
-                packet.WriteByte((byte)character.Inventory.InventoryItems.Count);
-                packet.WriteByte(0x09);         // Inventory number
-                packet.WriteByte(0xB7);         // UNK    (In newest client it exists, in bit older, not)
+                /*packet.WriteByte(1);//count
+                packet.WriteByte(0x09);//inv
+                packet.WriteByte(115);
+                packet.WriteHexAsBytes("0C 02 24 4C 7E 00 00 00 00 00 00 00 00");
+                character.Client.SendPacket(packet);*/
                  foreach (var item in character.Inventory.InventoryItems.Values)
                 {
-                   
-                    item.WriteItemInfo(packet);
+                    if (item is Equip)
+                    {
+                        Equip eq = item as Equip;
+                        eq.WritEquipInfo(packet);
+                    }
+                    else
+                    {
+                        item.WriteItemInfo(packet);
+                    }
+                  // 
                 }
-                character.Client.SendPacket(packet);
+                 character.Client.SendPacket(packet);
             }
         }
 
@@ -171,7 +183,8 @@ namespace Zepheus.Zone.Handlers
 
         public static void SendPremiumItemList(ZoneCharacter character)
         {
-            using(var packet = new Packet(SH4Type.CharacterItemList)) {
+            using (var packet = new Packet(SH4Type.CharacterItemList))
+            {
                 ushort count = 0;
                 packet.WriteUShort(count);   // Count
                 for (ushort i = 0; i < count; i++)

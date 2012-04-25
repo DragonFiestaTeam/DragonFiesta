@@ -10,7 +10,7 @@ using Zepheus.Database.Storage;
 
 namespace Zepheus.Zone.Game
 {
-  public class Item
+    public class Item
     {
         private const string GiveItem = "give_item;";
         private const string UpdateItem = "update_item;";
@@ -20,11 +20,12 @@ namespace Zepheus.Zone.Game
         public ushort ID { get; private set; }
         public uint Owner { get; set; }
         public virtual DateTime? Expires { get; set; }
-       // public ItemSlot SlotType { get; private set; }
+        // public ItemSlot SlotType { get; private set; }
         public sbyte Slot { get; set; }
 
         public ushort Count { get; set; }
         public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+
 
         public Item(uint pOwner, ushort pID, ushort pCount)
         {
@@ -47,7 +48,7 @@ namespace Zepheus.Zone.Game
 
             if (this.UniqueID > 0)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID="+this.UniqueID+" AND Slot='"+this.Slot+"'");
+                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID=" + this.UniqueID + " AND Slot='" + this.Slot + "'");
                 UniqueID = 0;
                 Owner = 0;
                 return true;
@@ -66,18 +67,18 @@ namespace Zepheus.Zone.Game
         {
             if (UniqueID == 0)
             {
-                    using (var command = new MySqlCommand(GiveItem))
-                    {
-                        command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
-                        command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
-                        command.Parameters.AddWithValue("@powner", this.Owner);
-                        command.Parameters.AddWithValue("@pslot", this.Slot);
-                        command.Parameters.AddWithValue("@pitemid", this.ID);
-                        command.Parameters.AddWithValue("@pamount", this.Count);
-                        Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
-                        this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
-                    }
+                using (var command = new MySqlCommand(GiveItem))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
+                    command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.Slot);
+                    command.Parameters.AddWithValue("@pitemid", this.ID);
+                    command.Parameters.AddWithValue("@pamount", this.Count);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
+                    this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
+                }
             }
             else
             {
@@ -92,12 +93,11 @@ namespace Zepheus.Zone.Game
                 }
             }
         }
-
         public void WriteItemInfo(Packet pPacket)
         {
-            pPacket.WriteByte((byte)this.ID.ToString().Length); //entry length
+            pPacket.WriteByte(5);//lenght
             pPacket.WriteByte((byte)this.Slot);
-            pPacket.WriteByte(0x24); //status?
+            pPacket.WriteByte(0x24);//status
             WriteItemStats(pPacket);
         }
 
@@ -106,7 +106,7 @@ namespace Zepheus.Zone.Game
             pPacket.WriteUShort(this.ID);
             pPacket.WriteByte((byte)this.Count);
         }
-  
+
         public static Item LoadItem(DataRow Row)
         {
             ulong id = GetDataTypes.GetUlong(Row["ID"]);
@@ -117,7 +117,7 @@ namespace Zepheus.Zone.Game
             Item item = new Item(owner, equipID, amount)
             {
                 UniqueID = id,
-                Slot = slot
+                Slot = slot,
             };
             return item;
         }
