@@ -113,15 +113,21 @@ namespace Zepheus.Zone.InterServer
 		}
 		[InterPacketHandler(InterHeader.AddPartyMember)]
 		public static void AddPartyMember(WorldConnector lc, InterPacket packet)
-		{   
-            // TODO: Implement
-            throw new NotImplementedException();
+		{
+			long groupId = 0;
+			string charName = "";
+			if (!packet.TryReadLong(out groupId) && 
+				!packet.TryReadString(out charName, 16))
+			{
+				throw new InvalidPacketException();
+			}
+			GroupManager.Instance.AddMemberToGroup(groupId, charName);
 		}
 		[InterPacketHandler(InterHeader.RemovePartyMember)]
 		public static void RemovePartyMember(WorldConnector lc, InterPacket packet)
 		{
-            // TODO: Implement
-            throw new NotImplementedException();
+			// TODO: Implement
+			throw new NotImplementedException();
 		}
 		[InterPacketHandler(InterHeader.Zonelist)]
 		public static void HandleZoneList(WorldConnector lc, InterPacket packet)

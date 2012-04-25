@@ -82,7 +82,9 @@ namespace Zepheus.Zone.Game
 						{
 							MapID = GetDataTypes.GetUshort(row["MapID"]),
 							MobID = GetDataTypes.GetUshort(row["MobID"]),
-							InstanceID = GetDataTypes.Getshort(row["InstanceID"]),
+							//InstanceID = GetDataTypes.Getshort(row["InstanceID"]),
+							//NOTE from db throws;
+							InstanceID = 0,
 							Position = new Vector2(),
 						};
 						locationInfo.Position.X = GetDataTypes.GetInt(row["PosX"]);

@@ -116,6 +116,8 @@ namespace Zepheus.World.Data
 		{
 			WorldClient client = ClientManager.Instance.GetClientByCharname(pMember);
 			GroupMember gMember = new GroupMember(client, GroupRole.Member);
+			client.Character.GroupMember = gMember;
+			client.Character.Group = this;
 			AddMember(gMember);
 
 			AnnouncePartyList();
@@ -167,6 +169,7 @@ namespace Zepheus.World.Data
 		{
 			this.members.Add(pMember);
 			pMember.Group = this;
+			UpdateInDatabase();
 			SendAddMemberInterPacket(pMember);
 		}
 		internal void AddInvite(GroupRequest pRequest)
@@ -216,8 +219,8 @@ namespace Zepheus.World.Data
 			{
 				string query = string.Format(update_group_table_query,
 								this.Id,
-								this.members[0],
-								this.members[1],
+								this.members[0].CharId,
+								(this.members.Count >= 2 ? this.members[1].CharId.ToString() : "NULL"),
 								(this.members.Count >= 3 ? this.members[2].CharId.ToString() : "NULL"),
 								(this.members.Count >= 4 ? this.members[3].CharId.ToString() : "NULL"),
 								(this.members.Count >= 5 ? this.members[4].CharId.ToString() : "NULL"));
@@ -361,7 +364,7 @@ namespace Zepheus.World.Data
 			ZoneConnection con = Program.GetZoneByMap(pMember.Character.Character.PositionInfo.Map);
 			using (var pack = new InterPacket(InterHeader.AddPartyMember))
 			{
-				pack.WriteString(this.Master.Name, 16);
+				pack.WriteLong(this.Id);
 				pack.WriteString(pMember.Name, 16);
 				con.SendPacket(pack);
 			}

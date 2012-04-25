@@ -60,6 +60,7 @@ namespace Zepheus.World
             Group grp = new Group(GetNextId());
             GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
             pMaster.Character.GroupMember = mstr;
+			pMaster.Character.Group = grp;
             grp.AddMember(mstr);
 
             this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);

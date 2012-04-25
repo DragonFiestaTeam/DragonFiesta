@@ -3,6 +3,7 @@ using Zepheus.Zone.Game;
 using System.Linq;
 using System;
 using MySql.Data.MySqlClient;
+using Zepheus.Util;
 using System.Data;
 
 namespace Zepheus.Zone
@@ -11,6 +12,13 @@ namespace Zepheus.Zone
 	public class GroupManager
 	{
 		#region .ctor
+		[Util.InitializerMethod]
+		public static bool Initialize()
+		{
+			Instance = new GroupManager();
+			Log.WriteLine(LogLevel.Debug, "GroupManager initialized");
+			return true;
+		}
 		private GroupManager()
 		{
 			this.groups = new List<Group>();
@@ -31,22 +39,22 @@ namespace Zepheus.Zone
 		#region Methods
 		public void NewGroupCreated(long pGroupId)
 		{
-            LoadGroupFromDatabase(pGroupId);
-            if(!groupsById.ContainsKey(pGroupId))
-                return;
-            Group group = groupsById[pGroupId];
-            foreach (var member in group.Members)
-            {
-                if(ClientManager.Instance.HasClient(member.Name))
-                {
-                    var client = ClientManager.Instance.GetClientByCharName(member.Name);
-                    var chara = client.Character;
+			LoadGroupFromDatabase(pGroupId);
+			if(!groupsById.ContainsKey(pGroupId))
+				return;
+			Group group = groupsById[pGroupId];
+			foreach (var member in group.Members)
+			{
+				if(ClientManager.Instance.HasClient(member.Name))
+				{
+					var client = ClientManager.Instance.GetClientByCharName(member.Name);
+					var chara = client.Character;
 
-                    member.Character = chara;
-                    chara.Group = group;
-                    chara.GroupMember = member;
-                }
-            }
+					member.Character = chara;
+					chara.Group = group;
+					chara.GroupMember = member;
+				}
+			}
 		}
 		public void AddGroup(Group grp)
 		{
@@ -75,6 +83,16 @@ namespace Zepheus.Zone
 
 			// this will make it into a loop w/ the worker
 			Worker.Instance.AddCallback(Update);
+		}
+		public void AddMemberToGroup(long pGroupId, string pCharName)
+		{
+			if(!this.groupsById.ContainsKey(pGroupId))
+				LoadGroupFromDatabase(pGroupId);
+			if(!this.groupsById.ContainsKey(pGroupId))
+				return;
+
+			Group group = this.groupsById[pGroupId];
+			group.AddMember(pCharName, false);
 		}
 		public Group GetGroupForCharacter(long pCharId)
 		{
@@ -167,6 +185,7 @@ namespace Zepheus.Zone
 			// Queries used in this function
 			//--------------------------------------------------
 			const string get_group_id_query = 
+				"USE `fiesta_world`; " +
 				"SELECT `GroupId` FROM `characters` " +
 				"WHERE `CharId` = {0} ";
 

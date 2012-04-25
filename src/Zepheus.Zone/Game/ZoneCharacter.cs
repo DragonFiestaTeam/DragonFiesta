@@ -1,7 +1,6 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
 using Zepheus.Database;
 using Zepheus.FiestaLib;
@@ -329,6 +328,7 @@ namespace Zepheus.Zone.Game
 					}
 					else
 						this.Inventory.Enter();
+
 					byte sourceSlot = (byte)pEquip.Slot;
 					this.Inventory.InventoryItems.Remove(sourceSlot);
 					pEquip.IsEquipped = true;
@@ -986,11 +986,39 @@ namespace Zepheus.Zone.Game
             for (int i = 0; i < pUpdate.Length; ++i)
             {
                 packet.WriteByte((byte)pUpdate[i]);
-
-                packet.WriteInt(Zepheus.Zone.Data.BaseStats.GetStatValue(this, pUpdate[i]));
+				// THIS BUGS.
+				packet.WriteInt(this.GetStatValue(pUpdate[i]));
             }
             return packet;
         }
+		public int GetStatValue(StatsByte pStat)
+		{
+			switch(pStat)
+			{
+				case StatsByte.MinMelee:
+					return this.MinDamage;
+				case StatsByte.MaxMelee:
+					return this.MaxDamage;
+				case StatsByte.MinMagic:
+					return this.MinMagic;
+				case StatsByte.MaxMagic:
+					return this.MaxMagic;
+				case StatsByte.Aim:
+					return this.GetAim();
+				case StatsByte.EndBonus:
+					return this.EndBonus;
+				case StatsByte.StrBonus:
+					return this.StrBonus;
+				case StatsByte.Evasion:
+					return this.GetEvasion();
+				case StatsByte.WDef:
+					return this.WeaponDef;
+				case StatsByte.MDef:
+					return this.MagicDef;
+				default:
+					return 0;
+			}
+		}
 		public int GetMaxHPBuff()
 		{
 			return Buffs.MaxHP;
