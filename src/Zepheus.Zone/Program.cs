@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using Zepheus.Database;
 using Zepheus.FiestaLib.Data;
 using Zepheus.Util;
@@ -12,7 +14,7 @@ namespace Zepheus.Zone
 {
     class Program
     {
-        public static ZoneData serviceInfo { get { return Zones[0]; } set { Zones[0] = value; } }
+        public static ZoneData ServiceInfo { get { return Zones[0]; } set { Zones[0] = value; } }
         public static ConcurrentDictionary<byte, ZoneData> Zones { get; set; }
         //public static WorldEntity Entity { get; set; }
         public static Random Randomizer { get; set; }
@@ -26,7 +28,10 @@ namespace Zepheus.Zone
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += MyHandler;
             Console.Title = "Zepheus.Zone[Registering]";
-            
+#if DEBUG
+            // so the startup works
+            Thread.Sleep(TimeSpan.FromSeconds(3));
+#endif
             Zones = new ConcurrentDictionary<byte, ZoneData>();
             Zones.TryAdd(0, new ZoneData());
 
@@ -156,7 +161,7 @@ namespace Zepheus.Zone
         {
             try
             {
-                return serviceInfo.MapsToLoad.Count(m => m.ID == mapid) > 0;
+                return ServiceInfo.MapsToLoad.Count(m => m.ID == mapid) > 0;
             }
             catch { return false; }
         }

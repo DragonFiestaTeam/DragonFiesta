@@ -30,7 +30,7 @@ namespace Zepheus.Zone.Networking
         {
             try
             {
-                Instance = new ZoneAcceptor(Program.serviceInfo.Port);
+                Instance = new ZoneAcceptor(Program.ServiceInfo.Port);
                 return true;
             }
             catch (Exception ex)

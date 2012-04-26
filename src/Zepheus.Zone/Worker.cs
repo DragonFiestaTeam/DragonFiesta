@@ -51,7 +51,7 @@ namespace Zepheus.Zone
 
         private void Work()
         {
-            while (Program.serviceInfo == null)
+            while (Program.ServiceInfo == null)
             {
                 System.Threading.Thread.Sleep(200); // Wait..
             }

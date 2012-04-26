@@ -201,7 +201,7 @@ namespace Zepheus.World.Data
 			// Queries used in this function
 			//--------------------------------------------------
 
-			const string update_group_table_query = 
+			const string updateGroupTableQuery = 
 				"UPDATE `groups` " +
 				"SET " +
 					"`Member1` = {1} ," +
@@ -217,7 +217,7 @@ namespace Zepheus.World.Data
 
 			using (var client = Program.DatabaseManager.GetClient())
 			{
-				string query = string.Format(update_group_table_query,
+				string query = string.Format(updateGroupTableQuery,
 								this.Id,
 								this.members[0].CharId,
 								(this.members.Count >= 2 ? this.members[1].CharId.ToString() : "NULL"),

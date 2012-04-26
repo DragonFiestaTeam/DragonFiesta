@@ -33,7 +33,7 @@ namespace Zepheus.Zone.InterServer
 				return;
 			}
 
-			Program.serviceInfo = new ZoneData
+			Program.ServiceInfo = new ZoneData
 			{
 		  
 				ID = id,
@@ -51,7 +51,7 @@ namespace Zepheus.Zone.InterServer
 				{
 					break;
 				}
-				Program.serviceInfo.MapsToLoad.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
+				Program.ServiceInfo.MapsToLoad.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
 			}
 
 			Console.Title = "Zepheus.Zone[" + id + "]";
