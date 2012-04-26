@@ -24,11 +24,8 @@ namespace Zepheus.Zone
         static void Main(string[] args)
         {
             AppDomain currentDomain = AppDomain.CurrentDomain;
-            currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
+            currentDomain.UnhandledException += MyHandler;
             Console.Title = "Zepheus.Zone[Registering]";
-            // Lets wait a sec
-            System.Threading.Thread.Sleep(10000);
-
             
             Zones = new ConcurrentDictionary<byte, ZoneData>();
             Zones.TryAdd(0, new ZoneData());
