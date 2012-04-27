@@ -16,7 +16,8 @@ namespace Zepheus.FiestaLib.Data
         public ushort speed { get; set; }
         public DateTime Tick { get; set; }
         public ushort Food { get; set; }
-
+        public int CastTime { get; set; }
+        public ushort Cooldown { get; set; }
         public static Mount LoadMount(DataRow Data)
         {
             Mount Mouninf = new Mount
@@ -26,7 +27,9 @@ namespace Zepheus.FiestaLib.Data
                 TickSpeed = GetDataTypes.GetInt(Data["Tickspeed"]),
                 Handle = GetDataTypes.GetUshort(Data["Handle"]),
                 Food = GetDataTypes.GetUshort(Data["Food"]),
-                speed = GetDataTypes.GetUshort(Data["Speed"]), 
+                speed = GetDataTypes.GetUshort(Data["Speed"]),
+                CastTime = GetDataTypes.GetInt(Data["CastTime"]),
+                Cooldown = GetDataTypes.GetUshort(Data["Cooldown"]),
             };
             return Mouninf;
         }

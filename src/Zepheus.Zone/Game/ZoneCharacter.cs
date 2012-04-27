@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,6 +86,8 @@ namespace Zepheus.Zone.Game
 		public static readonly TimeSpan HpSpUpdateRate = TimeSpan.FromSeconds(3);
         #region Mount
         public ushort MountID { get; set; } //for saving in database
+        public bool IsInCasting { get; set; }
+        public DateTime LastUse { get; set; }
         public Mount Mount { get; set; }
         #endregion
         public int ID { get { return Character.ID; } }
@@ -350,25 +353,44 @@ namespace Zepheus.Zone.Game
 			   this.Inventory.Release();
 			}
 		}
+        public void MountCasting()
+        {
+            using (var packet = new Packet(8,71))
+            {
+                packet.WriteUShort((ushort)this.Mount.CastTime);
+                this.Client.SendPacket(packet);
+            }
+            Thread.Sleep(this.Mount.CastTime-500);
+            this.IsInCasting = false;
+            this.State = PlayerState.Mount;
+            this.MountID = Mount.Handle;
+            this.Mount.Tick = System.DateTime.Now;
+            this.Mount.Food = 1000;//later as item
+            this.UpdateMountFood();
+            using (var packet = new Packet(SH8Type.Mounting))
+            {
+                packet.WriteUShort(this.Mount.Handle);
+                this.Client.SendPacket(packet);
+            }
+        }
         public void Mounting(ushort pHandle)
         {
             Mount pMount = null;
             DataProvider.Instance.MountyByHandleID.TryGetValue(pHandle, out pMount);
             if (pMount != null && this.Mount == null)
             {
-                this.State = PlayerState.Mount;
-                this.Mount = pMount;
-                this.MountID = Mount.Handle;
-                this.Mount.Tick = System.DateTime.Now;
-                using (var packet = new Packet(SH8Type.Mounting))
+              //  this.LastUse = DateTime.Now;
+                if (!this.IsInCasting)
                 {
-                    packet.WriteUShort(pHandle);
-                    this.Client.SendPacket(packet);
+                    this.Mount = pMount;
+                    this.IsInCasting = true;
+                    Thread CastingThread = new Thread(MountCasting);
+                    CastingThread.Start();
                 }
             }
             else
             {
-        
+                this.Mount = null;
                 //TODO Mounting Failed
             }
         }
@@ -469,18 +491,31 @@ namespace Zepheus.Zone.Game
 				}
                 else if (item.Info.Class == ItemClass.Rider)
                 {
+                    Handler12.SendItemUsed(this, item);
                     if (this.Mount == null)
                     {
                         Zepheus.FiestaLib.Data.Mount pMount = null;
                         if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out pMount))
                         {
-                            this.Mount = pMount;
-                            this.Mounting(Mount.Handle);
+                           
+                            this.UnMount();
+                            this.Mounting(pMount.Handle);
                         }
                     }
                     else
                     {
-                        this.UnMount();
+                        if (this.LastUse.Subtract(DateTime.Now).TotalSeconds >= this.Mount.Cooldown)
+                        {
+                            Zepheus.FiestaLib.Data.Mount mMount = null;
+                            if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out mMount))
+                            {
+                                
+                                this.UnMount();
+                                this.Mount = mMount;
+
+                                this.Mounting(Mount.Handle);
+                            }
+                        }
                     }
                 }
                 else if (item.Info.Class == ItemClass.Skillbook)

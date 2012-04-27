@@ -101,6 +101,7 @@ namespace Zepheus.FiestaLib
         Mounting = 63,
         Unmount = 66,
         UpdateMountFood = 70,
+        CastItem = 72,
         BlockWalk = 74,
     }
 
