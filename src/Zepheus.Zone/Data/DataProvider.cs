@@ -29,7 +29,8 @@ namespace Zepheus.Zone.Data
 		public Dictionary<string, RecallCoordinate> RecallCoordinates { get; private set; }
 		public Dictionary<byte, ulong> ExpTable { get; private set; }
 		public Dictionary<ushort, MiniHouseInfo> MiniHouses { get; private set; }
-
+        public Dictionary<ushort, Mount> MountyByItemID { get; private set; }
+        public Dictionary<ushort, Mount> MountyByHandleID { get; private set; }
 		public Dictionary<ushort, ActiveSkillInfo> ActiveSkillsByID { get; private set; }
 		public Dictionary<string, ActiveSkillInfo> ActiveSkillsByName { get; private set; }
 		public static DataProvider Instance { get; private set; }
@@ -49,6 +50,7 @@ namespace Zepheus.Zone.Data
 			LoadActiveSkills();
 			LoadVendors();
 			LoadTeleporters();
+            LoadMounts();
 		}
 
 		[InitializerMethod]
@@ -171,6 +173,28 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading DropTable: {0}", ex);
 			}
 		}
+        private void LoadMounts()
+        {
+            MountyByItemID = new Dictionary<ushort, Mount>();
+            MountyByHandleID = new Dictionary<ushort, Mount>();
+            DataTable MountData = null;
+            int Mountcounter = 0;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                MountData = dbClient.ReadDataTable("SELECT  *FROM Mounts");
+            }
+            if (MountData != null)
+            {
+                foreach (DataRow row in MountData.Rows)
+                {
+                    Mount mount = Mount.LoadMount(row);
+                    MountyByItemID.Add(mount.ItemID, mount);
+                    MountyByHandleID.Add(mount.Handle, mount);
+                    Mountcounter++;
+                }
+                Log.WriteLine(LogLevel.Info, "Loaded {0} Mounts.", Mountcounter);
+            }
+        }
 		private void LoadTeleporters()
 		{
 			DataTable Data = null;

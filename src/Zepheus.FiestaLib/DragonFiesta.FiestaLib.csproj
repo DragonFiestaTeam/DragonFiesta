@@ -64,6 +64,7 @@
     <Compile Include="Data\MiniHouseInfo.cs" />
     <Compile Include="Data\MobInfo.cs" />
     <Compile Include="Data\MobInfoServer.cs" />
+    <Compile Include="Data\Mount.cs" />
     <Compile Include="Data\RecallCoordinate.cs" />
     <Compile Include="Data\ShineNPC.cs" />
     <Compile Include="Data\GateInfo.cs" />

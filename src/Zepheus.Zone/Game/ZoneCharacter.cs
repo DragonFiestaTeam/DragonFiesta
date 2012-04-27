@@ -83,8 +83,11 @@ namespace Zepheus.Zone.Game
 		public const byte ChatDelay = 0;
 		public const byte ShoutDelay = 10;
 		public static readonly TimeSpan HpSpUpdateRate = TimeSpan.FromSeconds(3);
-
-		public int ID { get { return Character.ID; } }
+        #region Mount
+        public ushort MountID { get; set; } //for saving in database
+        public Mount Mount { get; set; }
+        #endregion
+        public int ID { get { return Character.ID; } }
 		public int AccountID { get { return Character.AccountID; } }
 		public string Name { get { return Character.Name; } set { Character.Name = value; } }
 		public byte Slot { get { return Character.Slot; } }
@@ -195,7 +198,8 @@ namespace Zepheus.Zone.Game
 						+ " , StrInt=" + Character.CharacterStats.IntStats 
 						+ " , Spr=" + Character.CharacterStats.StrStats 
 						+ " , GuildID=" + Character.GuildID 
-						+ " , UsablePoints=" + Character.UsablePoints 
+						+ " , UsablePoints=" + Character.UsablePoints
+                        + " , MountID=" + this.MountID
 						+ " WHERE CharID=" + Character.ID + "");
 
 				TimeSpan savetime = DateTime.Now - start;
@@ -346,6 +350,60 @@ namespace Zepheus.Zone.Game
 			   this.Inventory.Release();
 			}
 		}
+        public void Mounting(ushort pHandle)
+        {
+            Mount pMount = null;
+            DataProvider.Instance.MountyByHandleID.TryGetValue(pHandle, out pMount);
+            if (pMount != null && this.Mount == null)
+            {
+                this.State = PlayerState.Mount;
+                this.Mount = pMount;
+                this.MountID = Mount.Handle;
+                this.Mount.Tick = System.DateTime.Now;
+                using (var packet = new Packet(SH8Type.Mounting))
+                {
+                    packet.WriteUShort(pHandle);
+                    this.Client.SendPacket(packet);
+                }
+            }
+            else
+            {
+        
+                //TODO Mounting Failed
+            }
+        }
+        public void UpdateMountFood()
+        {
+            if (this.Mount != null)
+            {
+
+                if (this.Mount.Food >= 0)
+                {
+                    using (var packet = new Packet(SH8Type.UpdateMountFood))
+                    {
+                        packet.WriteUShort(this.Mount.Food);
+                        this.Client.SendPacket(packet);
+                    }
+                    this.Mount.Food--;
+                }
+                else
+                {
+                    this.UnMount();
+                }
+            }
+
+        }
+        public void UnMount()
+        {
+            using (var packet = new Packet(SH8Type.Unmount))
+            {
+              this.Client.SendPacket(packet);
+            }
+            this.MountID = 0;
+            this.State = PlayerState.Normal;
+            this.Mount = null;
+        }
+
 		public void UnequipItem(Equip pEquip, byte destSlot)
 		{
 			try
@@ -409,77 +467,93 @@ namespace Zepheus.Zone.Game
 						Handler12.SendItemUsed(this, item, 1811);
 					}
 				}
-				else if (item.Info.Class == ItemClass.Skillbook)
-				{
-					//TODO: passive skills!
-					ActiveSkillInfo info;
-					if (DataProvider.Instance.ActiveSkillsByName.TryGetValue(item.Info.InxName, out info))
-					{
-						if (SkillsActive.ContainsKey(info.ID))
-						{
-							Handler12.SendItemUsed(this, item, 1811);
-							//character has this skill already
-						}
-						else
-						{
-							Handler12.SendItemUsed(this, item);
-							UseOneItemStack(item);
-							DatabaseSkill dskill = new DatabaseSkill();
-							dskill.Character = Character;
-							dskill.SkillID = (short)info.ID;
-							dskill.IsPassive = false;
-							dskill.Upgrades = 0;
-							Character.SkillList.Add(dskill);
-							Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Skillist (ID,Owner,SkillID,Upgrades,IsPassive) VALUES ('" + dskill.ID + "','" + dskill.Character.ID + "','" + dskill.SkillID + "','" + dskill.Upgrades + "','" + Convert.ToInt32(dskill.IsPassive) + "')");
-							Save();
-							Skill skill = new Skill(dskill);
-							SkillsActive.Add(skill.ID, skill);
-							Handler18.SendSkillLearnt(this, skill.ID);
-							//TODO: broadcast the animation of learning to others
-						}
-					}
-					else
-					{
-						Log.WriteLine(LogLevel.Error, "Character tried to use skillbook but ActiveSkill does not exist.");
-						Handler12.SendItemUsed(this, item, 1811);
-					}
-				}
-				else
-				{
-					ItemUseEffectInfo effects;
-					if (!DataProvider.Instance.ItemUseEffects.TryGetValue(item.ID, out effects))
-					{
-						Log.WriteLine(LogLevel.Warn, "Missing ItemUseEffect for ID {0}", item.ID);
-						Handler12.SendItemUsed(this, item, 1811);
-						return;
-					}
+                else if (item.Info.Class == ItemClass.Rider)
+                {
+                    if (this.Mount == null)
+                    {
+                        Zepheus.FiestaLib.Data.Mount pMount = null;
+                        if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out pMount))
+                        {
+                            this.Mount = pMount;
+                            this.Mounting(Mount.Handle);
+                        }
+                    }
+                    else
+                    {
+                        this.UnMount();
+                    }
+                }
+                else if (item.Info.Class == ItemClass.Skillbook)
+                {
+                    //TODO: passive skills!
+                    ActiveSkillInfo info;
+                    if (DataProvider.Instance.ActiveSkillsByName.TryGetValue(item.Info.InxName, out info))
+                    {
+                        if (SkillsActive.ContainsKey(info.ID))
+                        {
+                            Handler12.SendItemUsed(this, item, 1811);
+                            //character has this skill already
+                        }
+                        else
+                        {
+                            Handler12.SendItemUsed(this, item);
+                            UseOneItemStack(item);
+                            DatabaseSkill dskill = new DatabaseSkill();
+                            dskill.Character = Character;
+                            dskill.SkillID = (short)info.ID;
+                            dskill.IsPassive = false;
+                            dskill.Upgrades = 0;
+                            Character.SkillList.Add(dskill);
+                            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO Skillist (ID,Owner,SkillID,Upgrades,IsPassive) VALUES ('" + dskill.ID + "','" + dskill.Character.ID + "','" + dskill.SkillID + "','" + dskill.Upgrades + "','" + Convert.ToInt32(dskill.IsPassive) + "')");
+                            Save();
+                            Skill skill = new Skill(dskill);
+                            SkillsActive.Add(skill.ID, skill);
+                            Handler18.SendSkillLearnt(this, skill.ID);
+                            //TODO: broadcast the animation of learning to others
+                        }
+                    }
+                    else
+                    {
+                        Log.WriteLine(LogLevel.Error, "Character tried to use skillbook but ActiveSkill does not exist.");
+                        Handler12.SendItemUsed(this, item, 1811);
+                    }
+                }
+                else
+                {
+                    ItemUseEffectInfo effects;
+                    if (!DataProvider.Instance.ItemUseEffects.TryGetValue(item.ID, out effects))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Missing ItemUseEffect for ID {0}", item.ID);
+                        Handler12.SendItemUsed(this, item, 1811);
+                        return;
+                    }
 
-					Handler12.SendItemUsed(this, item); //No idea what this does, but normally it's sent.
-					UseOneItemStack(item);
-					foreach (ItemEffect effect in effects.Effects)
-					{
-						switch (effect.Type)
-						{
-							case ItemUseEffectType.AbState: //TOOD: add buffs for itemuse
-								continue;
+                    Handler12.SendItemUsed(this, item); //No idea what this does, but normally it's sent.
+                    UseOneItemStack(item);
+                    foreach (ItemEffect effect in effects.Effects)
+                    {
+                        switch (effect.Type)
+                        {
+                            case ItemUseEffectType.AbState: //TOOD: add buffs for itemuse
+                                continue;
 
-							case ItemUseEffectType.HP:
-								HealHP(effect.Value);
-								break;
+                            case ItemUseEffectType.HP:
+                                HealHP(effect.Value);
+                                break;
 
-							case ItemUseEffectType.SP:
-								HealSP(effect.Value);
-								break;
-							case ItemUseEffectType.ScrollTier:
+                            case ItemUseEffectType.SP:
+                                HealSP(effect.Value);
+                                break;
+                            case ItemUseEffectType.ScrollTier:
 
-								break;
+                                break;
 
-							default:
-								Log.WriteLine(LogLevel.Warn, "Invalid item effect for ID {0}: {1}", item.ID, effect.Type.ToString());
-								break;
-						}
-					}
-				}
+                            default:
+                                Log.WriteLine(LogLevel.Warn, "Invalid item effect for ID {0}: {1}", item.ID, effect.Type.ToString());
+                                break;
+                        }
+                    }
+                }
 			}
 			else
 			{
@@ -891,7 +965,7 @@ namespace Zepheus.Zone.Game
         {
             CalculateDefense();
             CalculateDamage();
-            using (var packet = new Packet(SH53Type.UpdateStats))
+            using (var packet = new Packet(SH4Type.UpdateStats))
             {
                 UpdateStatsPacket(packet);
                 this.Client.SendPacket(packet);
@@ -1462,8 +1536,8 @@ namespace Zepheus.Zone.Game
 			{
 				ushort speed = 0;
 				if (walk) speed = 60;
-				else speed = 115;
-				// else if (horse) speed = 165
+				else if(Mount != null) speed = this.Mount.speed;
+                else speed = 115;
 				foreach (var member in this.Party)
 				{
 					if (member.Value.Character.Name != this.Character.Name)

@@ -30,6 +30,7 @@ namespace Zepheus.FiestaLib
     public enum SH4Type : byte
     {
         Money = 51,
+        UpdateStats = 53,
         ConnectError = 2,
         ServerIP = 3,
         CharacterGuildinfo = 18,
@@ -97,6 +98,9 @@ namespace Zepheus.FiestaLib
         BeginDisplayRest = 41,
         EndRest = 43,
         EndDisplayRest = 44,
+        Mounting = 63,
+        Unmount = 66,
+        UpdateMountFood = 70,
         BlockWalk = 74,
     }
 
@@ -209,9 +213,5 @@ namespace Zepheus.FiestaLib
     public enum SH31Type : byte
     {
         LoadUnkown = 7,
-    }
-    public enum SH53Type : byte
-    {
-        UpdateStats = 4,
     }
 }

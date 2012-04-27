@@ -73,6 +73,7 @@ namespace Zepheus.Zone
             DateTime lastPing = DateTime.Now;
 			DateTime lastGC = DateTime.Now;
 			DateTime lastClientTime = DateTime.Now;
+            DateTime LastMountCheck = DateTime.Now;
             for (ulong i = 0; ; i++)
             {
                 if (!this.IsRunning)
@@ -123,7 +124,11 @@ namespace Zepheus.Zone
                     {
                      
                     }
-
+                    if (now.Subtract(LastMountCheck).TotalSeconds >= 30)
+                    {
+                        ClientManager.Instance.UpdateMountTicks(now);
+                        LastMountCheck = now;
+                    }
                     if (i % 2000 == 0 && MapManager.Instance != null)
                     {
                         foreach (var val in MapManager.Instance.Maps)

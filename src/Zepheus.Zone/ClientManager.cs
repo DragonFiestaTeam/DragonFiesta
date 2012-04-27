@@ -1,9 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
 using Zepheus.Util;
 using Zepheus.Zone.Networking;
-
 namespace Zepheus.Zone
 {
 	[ServerModule(Util.InitializationStage.DataStore)]
@@ -90,7 +90,25 @@ namespace Zepheus.Zone
 		{
 			return clientsByName[pCharName];
 		}
-
+        public void UpdateMountTicks(DateTime now)
+        {
+            lock (clientsByName)
+            {
+                foreach (ZoneClient cclient in clientsByName.Values)
+                {
+                   if(cclient.Character.Mount != null)
+                   {
+                       int hmm = (int)now.Subtract(cclient.Character.Mount.Tick).TotalMilliseconds;
+                      if (now.Subtract(cclient.Character.Mount.Tick).TotalSeconds >= cclient.Character.Mount.TickSpeed)
+                       {
+                           cclient.Character.Mount.Tick = now;
+                           double was = now.Subtract(cclient.Character.Mount.Tick).TotalMilliseconds;
+                           cclient.Character.UpdateMountFood();
+                       }
+                   }
+                }
+            }
+        }
 		public bool AddClient(ZoneClient client)
 		{
 	  
