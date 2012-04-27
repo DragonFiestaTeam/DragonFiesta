@@ -213,8 +213,8 @@ namespace Zepheus.Zone.Game
                         packet.WriteString("1234567891234567", 16); //lencen name
                         packet.WriteByte(0);//unk
                     }
+                    packet.WriteUInt(GetExpirationTime());               // Expiring time (1992027391 -  never expires)
                     packet.WriteByte(0);
-                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
                     //packet.WriteShort(0);
                     break;
                 case ItemSlot.Pet:
