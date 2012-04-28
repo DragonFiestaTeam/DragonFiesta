@@ -25,7 +25,7 @@ namespace Zepheus.World.Networking
 		public Dictionary<byte, WorldCharacter> Characters { get; private set; }
 		public WorldCharacter Character { get; set; }
 		public DateTime lastPing { get; set; }
-		public bool Pong { get; set; } 
+		public bool Pong { get; set; }
 		#endregion
 		#region .ctor
 		public WorldClient(Socket socket)
@@ -227,7 +227,8 @@ namespace Zepheus.World.Networking
 			return equipID;
 		}
 
-		public override bool Equals(object obj)
+
+        public override bool Equals(object obj)
 		{
 			if (!(obj is WorldClient))
 				return false;
