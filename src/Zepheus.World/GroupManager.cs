@@ -249,7 +249,10 @@ namespace Zepheus.World
             using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
             using (var rdr = cmd.ExecuteReader())
                 while (rdr.Read())
-                    max = rdr.GetInt64("MAX") + 1;
+                {
+                    if (!rdr.IsDBNull(0))
+                        max = rdr.GetInt64(0);
+                }
 
             return max;
         }
