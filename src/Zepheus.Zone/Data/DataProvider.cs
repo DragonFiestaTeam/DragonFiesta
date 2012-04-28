@@ -188,9 +188,13 @@ namespace Zepheus.Zone.Data
                 foreach (DataRow row in MountData.Rows)
                 {
                     Mount mount = Mount.LoadMount(row);
-                    MountyByItemID.Add(mount.ItemID, mount);
-                    MountyByHandleID.Add(mount.Handle, mount);
-                    Mountcounter++;
+
+                    if (!MountyByItemID.ContainsKey(mount.ItemID))
+                    {
+                        MountyByItemID.Add(mount.ItemID, mount);
+                        MountyByHandleID.Add(mount.Handle, mount);
+                        Mountcounter++;
+                    }
                 }
                 Log.WriteLine(LogLevel.Info, "Loaded {0} Mounts.", Mountcounter);
             }
