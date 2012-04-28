@@ -10,8 +10,8 @@ namespace Zepheus.Zone.Handlers
 		[PacketHandler(CH14Type.PartyInviteGame)]
 		public static void GetPartyListFromCharserer(ZoneClient client, Packet packet)
 		{
-            //TODO: Sniff and implement!
-            throw new NotImplementedException();
+            // NOTE: seems as here just happens nothing I guess?
+            // TODO: Implement if nesseccery
 		}
 	}
 }

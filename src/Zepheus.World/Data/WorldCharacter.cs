@@ -28,6 +28,7 @@ namespace Zepheus.World.Data
 		private List<Friend> friends;
 		private List<Friend> friendsby;
 		public Inventory Inventory = new Inventory();
+        public event EventHandler GotIngame;
 
 		public WorldCharacter(Character ch)
 		{
@@ -37,7 +38,6 @@ namespace Zepheus.World.Data
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
 			LoadEqupippet();
-		   // LoadGroup();
 		}
 		public List<Friend> Friends
 		{
@@ -122,6 +122,12 @@ namespace Zepheus.World.Data
 					client.SendPacket(packet);
 				}
 			}
+		}
+        public void LoadGroup()
+		{
+			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
+			this.GroupMember = this.Group[this.Character.Name];
+			this.UpdateGroupStatus();
 		}
 
 		public void LoadEqupippet()
@@ -330,16 +336,17 @@ namespace Zepheus.World.Data
 			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + data+ "' WHERE CharID='" + Character.ID + "';");
 		}
 
+        internal void OnGotIngame()
+        {
+            LoadGroup();
+            if (GotIngame != null)
+                GotIngame(this, new EventArgs());
+        }
+
 		private void UpdateGroupStatus()
 		{
-			this.GroupMember.IsOnline = false;
+			this.GroupMember.IsOnline = this.IsIngame;
 			this.Group.AnnouncePartyList();
-		}
-		private void LoadGroup()
-		{
-			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
-			this.GroupMember = this.Group[this.Character.Name];
-			this.UpdateGroupStatus();
 		}
 	}
 }

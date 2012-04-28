@@ -89,7 +89,6 @@ namespace Zepheus.Zone.Game
 			pCharacter.GroupMember = mem;
 			this.Members.Add(mem);
 		}
-		
 		public void AddMember(string pName, bool pIsMaster = false)
 		{
 			GroupMember mem = new GroupMember();
@@ -111,7 +110,6 @@ namespace Zepheus.Zone.Game
 
 			this.Members.Add(mem);
 		}
-
 		public void Update()
 		{
 			/* Note									*
@@ -120,7 +118,6 @@ namespace Zepheus.Zone.Game
 			UpdateGroupPositions();
 			this.LastUpdate = DateTime.Now;
 		}
-
 		public void UpdateCharacterLevel(ZoneCharacter pChar)
 		{
 			using (Packet packet = new Packet(SH14Type.SetMemberStats))
@@ -136,7 +133,6 @@ namespace Zepheus.Zone.Game
 				AnnouncePacket(packet);
 			}
 		}
-
 		public void UpdateCharacterHpSp(ZoneCharacter pChar)
 		{
 			using (Packet packet = new Packet(SH14Type.UpdatePartyMemberStats))
@@ -149,7 +145,6 @@ namespace Zepheus.Zone.Game
 				AnnouncePacket(packet);
 			}
 		}
-
 		public void UpdateGroupPositions()
 		{
 			foreach (var m in Members.Where(mem => mem.IsOnline))
@@ -163,7 +158,8 @@ namespace Zepheus.Zone.Game
 			// Quries used in this function
 			//--------------------------------------------------
 			const string get_groupmem_query =
-							"SELECT `Name`, `IsGroupMaster` FROM `characters` " +
+							"SELECT `Name`, `IsGroupMaster` " +
+                            "FROM `fiesta_world`.`characters` " +
 							"WHERE `GroupId` = {0}";
 
 			//--------------------------------------------------

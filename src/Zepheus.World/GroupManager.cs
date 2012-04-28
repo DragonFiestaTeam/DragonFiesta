@@ -23,12 +23,11 @@ namespace Zepheus.World
             groupsById = new Dictionary<long, Group>();
             requestsByGroup = new Dictionary<Group, List<GroupRequest>>();
         }
-
         [InitializerMethod]
         public static bool Initialize()
         {
             Instance = new GroupManager();
-            //Instance.maxId = GetMaxGroupIdFromDatabase(); :Todo Fix Eror
+            Instance.maxId = GetMaxGroupIdFromDatabase();
             return true;
         }
 
@@ -40,7 +39,6 @@ namespace Zepheus.World
         private readonly List<Group> groups;
         private readonly Dictionary<string, Group> groupsByMaster;
         private readonly Dictionary<long, Group> groupsById;
-
         private readonly List<GroupRequest> requestsWithoutGroup;
         private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
 
@@ -54,21 +52,6 @@ namespace Zepheus.World
             long tmp = maxId;
             maxId++;
             return tmp;
-        }
-        public Group CreateNewGroup(WorldClient pMaster)
-        {
-            Group grp = new Group(GetNextId());
-            GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
-            pMaster.Character.GroupMember = mstr;
-			pMaster.Character.Group = grp;
-            grp.AddMember(mstr);
-
-            this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
-            this.groupsById.Add(grp.Id, grp);
-            this.groups.Add(grp);
-            grp.CreateInDatabase();
-
-            return grp;
         }
         public void Invite(WorldClient pClient, string pInvited)
         {
@@ -150,6 +133,11 @@ namespace Zepheus.World
                 return;
             pClient.Character.Group.ChangeMaster(pClient.Character.Group.NormalMembers.Single(m => m.Name == pMastername));
         }
+        public void LoadGroupById(long pId)
+        {
+            Group grp = Group.ReadFromDatabase(pId);
+            AddGroup(grp);
+        }
         public Group CreateNewGroup(WorldClient pMaster, WorldClient pMember)
         {
             var grp = CreateNewGroup(pMaster);
@@ -164,10 +152,20 @@ namespace Zepheus.World
             else
                 return null;
         }
-        public void LoadGroupById(long pId)
+        public Group CreateNewGroup(WorldClient pMaster)
         {
-            Group grp = Group.ReadFromDatabase(pId);
-            AddGroup(grp);
+            Group grp = new Group(GetNextId());
+            GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
+            pMaster.Character.GroupMember = mstr;
+            pMaster.Character.Group = grp;
+            grp.AddMember(mstr);
+
+            this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
+            this.groupsById.Add(grp.Id, grp);
+            this.groups.Add(grp);
+            grp.CreateInDatabase();
+
+            return grp;
         }
 
         internal void OnGroupBrokeUp(object sender, EventArgs e)
@@ -209,11 +207,13 @@ namespace Zepheus.World
         }
         private void SendInviteDeclinedPacket(WorldClient pInviter, WorldClient pInvited)
         {
-            /*WorldClient InvideClient = ClientManager.Instance.GetClientByCharname(InviteChar);
-            packet.WriteString(InvideClient.Character.Character.Name);
-            packet.WriteUShort(1217);
-            InvideClient.SendPacket(packet);*/
-            // TODO: Sniff op code
+            // NOTE - See Comment on SH14Type.
+            using (var packet = new Packet(0x3807))
+            {
+                packet.WriteString(pInvited.Character.Character.Name, 16);
+                packet.WriteUShort(1217);   // UNKNOWN
+                pInviter.SendPacket(packet);
+            }
 
             throw new NotImplementedException();
         }
@@ -249,7 +249,7 @@ namespace Zepheus.World
             using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
             using (var rdr = cmd.ExecuteReader())
                 while (rdr.Read())
-                    max = rdr.GetInt64("MAX");
+                    max = rdr.GetInt64("MAX") + 1;
 
             return max;
         }

@@ -31,12 +31,14 @@ namespace Zepheus.World.Handlers
                client.SendPacket(pp);
 
            }
+           // dafuq no op code..
            using (var p = new Packet())
            {
                p.WriteShort(0x581C);
                p.WriteUInt(0x4d0bc167);   // 21h
                client.SendPacket(p);
            }
+           // dafuq no op code..
            using (var p3 = new Packet())
            {
                p3.WriteShort(0x581D);
@@ -63,6 +65,7 @@ namespace Zepheus.World.Handlers
            }
           // client.Character.UpdateFriendStates(client);
            client.Character.IsIngame = true;
+           client.Character.OnGotIngame();
 
        }
     }
