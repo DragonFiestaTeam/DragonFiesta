@@ -27,7 +27,7 @@ namespace Zepheus.World
         public static bool Initialize()
         {
             Instance = new GroupManager();
-            //Instance.maxId = GetMaxGroupIdFromDatabase(); :Todo Fix Eror
+            Instance.maxId = GetMaxGroupIdFromDatabase(); :Todo Fix Eror
             return true;
         }
 
@@ -52,21 +52,6 @@ namespace Zepheus.World
             long tmp = maxId;
             maxId++;
             return tmp;
-        }
-        public Group CreateNewGroup(WorldClient pMaster)
-        {
-            Group grp = new Group(GetNextId());
-            GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
-            pMaster.Character.GroupMember = mstr;
-			pMaster.Character.Group = grp;
-            grp.AddMember(mstr);
-
-            this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
-            this.groupsById.Add(grp.Id, grp);
-            this.groups.Add(grp);
-            grp.CreateInDatabase();
-
-            return grp;
         }
         public void Invite(WorldClient pClient, string pInvited)
         {
@@ -148,6 +133,11 @@ namespace Zepheus.World
                 return;
             pClient.Character.Group.ChangeMaster(pClient.Character.Group.NormalMembers.Single(m => m.Name == pMastername));
         }
+        public void LoadGroupById(long pId)
+        {
+            Group grp = Group.ReadFromDatabase(pId);
+            AddGroup(grp);
+        }
         public Group CreateNewGroup(WorldClient pMaster, WorldClient pMember)
         {
             var grp = CreateNewGroup(pMaster);
@@ -162,10 +152,20 @@ namespace Zepheus.World
             else
                 return null;
         }
-        public void LoadGroupById(long pId)
+        public Group CreateNewGroup(WorldClient pMaster)
         {
-            Group grp = Group.ReadFromDatabase(pId);
-            AddGroup(grp);
+            Group grp = new Group(GetNextId());
+            GroupMember mstr = new GroupMember(pMaster, GroupRole.Master);
+            pMaster.Character.GroupMember = mstr;
+            pMaster.Character.Group = grp;
+            grp.AddMember(mstr);
+
+            this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
+            this.groupsById.Add(grp.Id, grp);
+            this.groups.Add(grp);
+            grp.CreateInDatabase();
+
+            return grp;
         }
 
         internal void OnGroupBrokeUp(object sender, EventArgs e)
