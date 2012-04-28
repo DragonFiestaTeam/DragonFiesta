@@ -27,7 +27,7 @@ namespace Zepheus.World
         public static bool Initialize()
         {
             Instance = new GroupManager();
-            Instance.maxId = GetMaxGroupIdFromDatabase(); :Todo Fix Eror
+            Instance.maxId = GetMaxGroupIdFromDatabase();
             return true;
         }
 
