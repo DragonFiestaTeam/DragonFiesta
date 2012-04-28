@@ -27,6 +27,7 @@ obj
 
 #builds
 
+src/Run/**
 *Run/*.pdb
 *Run/*.dll
 *Run/*.exe
