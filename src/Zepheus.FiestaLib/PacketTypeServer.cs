@@ -99,9 +99,11 @@ namespace Zepheus.FiestaLib
         EndRest = 43,
         EndDisplayRest = 44,
         Mounting = 63,
+        MapMount = 64,
         Unmount = 66,
+        MapUnmount = 67,
         UpdateMountFood = 70,
-        CastItem = 72,
+        CastItem = 71,
         BlockWalk = 74,
     }
 

@@ -19,7 +19,7 @@ namespace Zepheus.FiestaLib.Data
         public int CastTime { get; set; }
         public ushort Cooldown { get; set; }
         public byte ItemSlot { get; set; }
-
+        public bool permanent { get; set; }
         public static Mount LoadMount(DataRow Data)
         {
             
@@ -33,6 +33,7 @@ namespace Zepheus.FiestaLib.Data
                 speed = GetDataTypes.GetUshort(Data["Speed"]),
                 CastTime = GetDataTypes.GetInt(Data["CastTime"]),
                 Cooldown = GetDataTypes.GetUshort(Data["Cooldown"]),
+                permanent = GetDataTypes.GetBool(Data["permanent"]),
             };
             return Mouninf;
         }

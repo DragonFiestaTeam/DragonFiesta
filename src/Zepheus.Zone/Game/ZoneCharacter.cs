@@ -370,7 +370,7 @@ namespace Zepheus.Zone.Game
             bool Casting = Convert.ToBoolean(Cast.ToString());
             if (!Casting)
             {
-                using (var packet = new Packet(8, 71))
+                using (var packet = new Packet(SH8Type.CastItem))
                 {
                     packet.WriteUShort((ushort)this.Mount.CastTime);
                     this.Client.SendPacket(packet);
@@ -379,6 +379,12 @@ namespace Zepheus.Zone.Game
                 this.IsInCasting = false;
                 this.State = PlayerState.Mount;
                 this.Mount.Tick = System.DateTime.Now;
+                using (var packet = new Packet(SH8Type.MapMount))
+                {
+                    packet.WriteUShort(this.MapObjectID);
+                    packet.WriteUShort(this.Mount.Handle);
+                    this.Map.Broadcast(packet);
+                }
 
             }
             using (var packet = new Packet(SH8Type.Mounting))
@@ -416,12 +422,15 @@ namespace Zepheus.Zone.Game
 
                 if (this.Mount.Food >= 0)
                 {
-                    using (var packet = new Packet(SH8Type.UpdateMountFood))
+                    if (!this.Mount.permanent)
                     {
-                        packet.WriteUShort(this.Mount.Food);
-                        this.Client.SendPacket(packet);
+                        using (var packet = new Packet(SH8Type.UpdateMountFood))
+                        {
+                            packet.WriteUShort(this.Mount.Food);
+                            this.Client.SendPacket(packet);
+                        }
+                        this.Mount.Food--;
                     }
-                    this.Mount.Food--;
                 }
                 else
                 {
@@ -437,9 +446,14 @@ namespace Zepheus.Zone.Game
               this.Client.SendPacket(packet);
             }
             Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET fuelcount="+this.Mount.Food+" WHERE Owner="+this.ID+" AND ItemID="+this.Mount.ItemID+" AND Slot="+this.Mount.ItemSlot+";");
-          
             this.State = PlayerState.Normal;
             this.Mount = null;
+            using (var packet = new Packet(SH8Type.MapUnmount))
+            {
+
+                packet.WriteUShort(this.MapObjectID);
+                this.Map.Broadcast(packet);
+            }
         }
 
 		public void UnequipItem(Equip pEquip, byte destSlot)
@@ -539,6 +553,26 @@ namespace Zepheus.Zone.Game
 
                                 this.Mounting(Mount.Handle,false);
                             }
+                        }
+                    }
+                }
+                else if (item.Info.Class == ItemClass.RiderFood)
+                {
+                    if (this.Mount != null)
+                    {
+                        Mount cMount = null;
+                        if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out cMount))
+                        {
+                            int newfoodcount = this.Mount.Food += 250;
+                            if (cMount.Food >= newfoodcount)
+                            {
+                                this.Mount.Food = (ushort)newfoodcount;
+                            }
+                            else
+                            {
+                                this.Mount.Food = cMount.Food;
+                            }
+                            this.UpdateMountFood();
                         }
                     }
                 }

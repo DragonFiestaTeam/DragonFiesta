@@ -141,9 +141,17 @@ namespace Zepheus.Zone
         }
         private void Inv(ZoneCharacter character, params string[] param)
         {
-            using (var packet = new Packet(8,71))
+            using (var packet = new Packet(8,67))
             {
-                packet.WriteShort(3000);
+               
+                packet.WriteUShort(23);
+                character.Client.SendPacket(packet);
+            }
+            using (var packet = new Packet(8, 64))
+            {
+
+                packet.WriteUShort(23);
+                packet.WriteUShort(0);
                 character.Client.SendPacket(packet);
             }
         }
