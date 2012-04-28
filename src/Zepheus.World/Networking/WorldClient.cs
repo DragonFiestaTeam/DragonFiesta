@@ -227,7 +227,6 @@ namespace Zepheus.World.Networking
 			return equipID;
 		}
 
-
         public override bool Equals(object obj)
 		{
 			if (!(obj is WorldClient))
