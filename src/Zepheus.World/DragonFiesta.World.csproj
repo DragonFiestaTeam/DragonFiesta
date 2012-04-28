@@ -100,19 +100,19 @@
   <ItemGroup>
     <ProjectReference Include="..\Zepheus.Database\DragonFiesta.Database.csproj">
       <Project>{F9E5B011-A091-431D-9455-687D6FE6BD55}</Project>
-      <Name>Zepheus.Database</Name>
+      <Name>DragonFiesta.Database</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zepheus.FiestaLib\DragonFiesta.FiestaLib.csproj">
       <Project>{0F8F0F42-7562-4BF5-B2D6-8AA2FF13A97F}</Project>
-      <Name>Zepheus.FiestaLib</Name>
+      <Name>DragonFiesta.FiestaLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zepheus.InterLib\DragonFiesta.InterLib.csproj">
       <Project>{230A65F7-93AC-4EE3-8D20-95BF0651E288}</Project>
-      <Name>Zepheus.InterLib</Name>
+      <Name>DragonFiesta.InterLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
       <Project>{463FA649-3E4C-42A0-AF28-9132E1BE07DB}</Project>
-      <Name>Zepheus.Util</Name>
+      <Name>DragonFiesta.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
