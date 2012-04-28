@@ -126,8 +126,17 @@ namespace Zepheus.Zone.InterServer
 		[InterPacketHandler(InterHeader.RemovePartyMember)]
 		public static void RemovePartyMember(WorldConnector lc, InterPacket packet)
 		{
-			// TODO: Implement
-			throw new NotImplementedException();
+            string name = "";
+            if (!packet.TryReadString(out name, 16))
+            {
+                throw new InvalidPacketException();
+            }
+
+            if (!ClientManager.Instance.HasClient(name))
+                return;
+            var client = ClientManager.Instance.GetClientByCharName(name);
+            var group = GroupManager.Instance.GetGroupForCharacter(client.Character.ID);
+            group.RemoveMember(name);
 		}
 		[InterPacketHandler(InterHeader.Zonelist)]
 		public static void HandleZoneList(WorldConnector lc, InterPacket packet)

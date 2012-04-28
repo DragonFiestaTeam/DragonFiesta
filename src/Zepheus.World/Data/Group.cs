@@ -340,11 +340,10 @@ namespace Zepheus.World.Data
 			if (isOnline)
 			{
 				ZoneConnection z = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
-				using (var interleave = new InterPacket(InterHeader.RemovePartyMember))
+				using (var packet = new InterPacket(InterHeader.RemovePartyMember))
 				{
-					interleave.WriteString(client.Character.Character.Name, 16);
-					interleave.WriteString(client.Character.Character.Name, 16);
-					z.SendPacket(interleave);
+					packet.WriteString(client.Character.Character.Name, 16);
+					z.SendPacket(packet);
 				}
 			}
 		}

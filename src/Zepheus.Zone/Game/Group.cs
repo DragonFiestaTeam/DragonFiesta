@@ -203,6 +203,19 @@ namespace Zepheus.Zone.Game
 			return member;
 		}
 
+        internal void RemoveMember(string name)
+        {
+            var client = ClientManager.Instance.GetClientByCharName(name);
+            var chara = client.Character;
+
+            chara.Group = null;
+            this.Members.Remove(chara.GroupMember);
+            chara.GroupMember = null;
+
+            // Forced update.
+            Update();
+        }
+
 		#region Private
 		private void AnnouncePacket(Packet pPacket)
 		{
@@ -234,5 +247,5 @@ namespace Zepheus.Zone.Game
 		}
 		#endregion
 		#endregion
-	}
+    }
 }
