@@ -207,11 +207,13 @@ namespace Zepheus.World
         }
         private void SendInviteDeclinedPacket(WorldClient pInviter, WorldClient pInvited)
         {
-            /*WorldClient InvideClient = ClientManager.Instance.GetClientByCharname(InviteChar);
-            packet.WriteString(InvideClient.Character.Character.Name);
-            packet.WriteUShort(1217);
-            InvideClient.SendPacket(packet);*/
-            // TODO: Sniff op code
+            // NOTE - See Comment on SH14Type.
+            using (var packet = new Packet(0x3807))
+            {
+                packet.WriteString(pInvited.Character.Character.Name, 16);
+                packet.WriteUShort(1217);   // UNKNOWN
+                pInviter.SendPacket(packet);
+            }
 
             throw new NotImplementedException();
         }
