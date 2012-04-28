@@ -39,7 +39,6 @@ namespace Zepheus.World
         private readonly List<Group> groups;
         private readonly Dictionary<string, Group> groupsByMaster;
         private readonly Dictionary<long, Group> groupsById;
-
         private readonly List<GroupRequest> requestsWithoutGroup;
         private readonly Dictionary<Group, List<GroupRequest>> requestsByGroup;
 
@@ -248,7 +247,7 @@ namespace Zepheus.World
             using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
             using (var rdr = cmd.ExecuteReader())
                 while (rdr.Read())
-                    max = rdr.GetInt64("MAX");
+                    max = rdr.GetInt64("MAX") + 1;
 
             return max;
         }
