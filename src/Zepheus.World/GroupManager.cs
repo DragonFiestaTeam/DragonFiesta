@@ -23,7 +23,6 @@ namespace Zepheus.World
             groupsById = new Dictionary<long, Group>();
             requestsByGroup = new Dictionary<Group, List<GroupRequest>>();
         }
-
         [InitializerMethod]
         public static bool Initialize()
         {
