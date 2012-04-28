@@ -18,8 +18,11 @@ namespace Zepheus.FiestaLib.Data
         public ushort Food { get; set; }
         public int CastTime { get; set; }
         public ushort Cooldown { get; set; }
+        public byte ItemSlot { get; set; }
+
         public static Mount LoadMount(DataRow Data)
         {
+            
             Mount Mouninf = new Mount
             {
                 MinLevel = GetDataTypes.GetByte(Data["Level"]),

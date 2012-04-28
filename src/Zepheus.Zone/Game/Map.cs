@@ -302,6 +302,11 @@ namespace Zepheus.Zone.Game
 			using (var packet = Handler7.SpawnMultiPlayer(characters, character))
 			{
 				character.Client.SendPacket(packet);
+                if (character.Mount != null)
+                {
+                    character.Mounting(character.Mount.Handle,true);
+                  
+                }
 			}
 
 			//we send character to all players in region

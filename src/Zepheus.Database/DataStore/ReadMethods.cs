@@ -161,6 +161,8 @@ namespace Zepheus.Database.DataStore
 					ch.HPStones = 10;
 					ch.SP = GetDataTypes.GetInt(row["CurSP"]);
 					ch.SPStones = 10;
+                    ch.MountFood = GetDataTypes.GetInt(row["MountFood"]);
+                    ch.MountID= GetDataTypes.GetInt(row["MountID"]);
 					ch.StatPoints = (byte)row["StatPoints"];
 					ch.UsablePoints = (byte)row["UsablePoints"];
 					ch.Fame = 0;

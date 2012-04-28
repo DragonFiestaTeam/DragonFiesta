@@ -98,11 +98,9 @@ namespace Zepheus.Zone
                 {
                    if(cclient.Character.Mount != null)
                    {
-                       int hmm = (int)now.Subtract(cclient.Character.Mount.Tick).TotalMilliseconds;
-                      if (now.Subtract(cclient.Character.Mount.Tick).TotalSeconds >= cclient.Character.Mount.TickSpeed)
+                      if (now.Subtract(cclient.Character.Mount.Tick).TotalMilliseconds >= cclient.Character.Mount.TickSpeed)
                        {
                            cclient.Character.Mount.Tick = now;
-                           double was = now.Subtract(cclient.Character.Mount.Tick).TotalMilliseconds;
                            cclient.Character.UpdateMountFood();
                        }
                    }

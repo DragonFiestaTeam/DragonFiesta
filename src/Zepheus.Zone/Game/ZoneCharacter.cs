@@ -63,6 +63,11 @@ namespace Zepheus.Zone.Game
 					this.GroupMember.IsOnline = true;
 					this.GroupMember.Character = this;
 				}
+                if (Character.MountID != 0xffff)
+                {
+                    Mount DBMount = DataProvider.Instance.GetMountByHandleid((ushort)Character.MountID);
+                    this.Mount = DBMount;
+                }
 				
 			}
 			catch (Exception ex)
@@ -85,7 +90,6 @@ namespace Zepheus.Zone.Game
 		public const byte ShoutDelay = 10;
 		public static readonly TimeSpan HpSpUpdateRate = TimeSpan.FromSeconds(3);
         #region Mount
-        public ushort MountID { get; set; } //for saving in database
         public bool IsInCasting { get; set; }
         public DateTime LastUse { get; set; }
         public Mount Mount { get; set; }
@@ -178,8 +182,15 @@ namespace Zepheus.Zone.Game
 			}
 
 			DateTime start = DateTime.Now;
+            ushort Mountfood = 0;
+            ushort MountID = 0xffff;
 			try
 			{
+                if(this.Mount != null)
+                {
+                    Mountfood = this.Mount.Food;
+                    MountID = this.Mount.Handle;
+                }
 				Program.CharDBManager.GetClient().
 					ExecuteQuery(
 						"UPDATE Characters SET XPos=" + Character.PositionInfo.XPos 
@@ -202,7 +213,8 @@ namespace Zepheus.Zone.Game
 						+ " , Spr=" + Character.CharacterStats.StrStats 
 						+ " , GuildID=" + Character.GuildID 
 						+ " , UsablePoints=" + Character.UsablePoints
-                        + " , MountID=" + this.MountID
+                        + " , MountID=" + MountID
+                        + " , MountFood=" + Mountfood
 						+ " WHERE CharID=" + Character.ID + "");
 
 				TimeSpan savetime = DateTime.Now - start;
@@ -353,39 +365,42 @@ namespace Zepheus.Zone.Game
 			   this.Inventory.Release();
 			}
 		}
-        public void MountCasting()
+        private void MountCasting(object Cast)
         {
-            using (var packet = new Packet(8,71))
+            bool Casting = Convert.ToBoolean(Cast.ToString());
+            if (!Casting)
             {
-                packet.WriteUShort((ushort)this.Mount.CastTime);
-                this.Client.SendPacket(packet);
+                using (var packet = new Packet(8, 71))
+                {
+                    packet.WriteUShort((ushort)this.Mount.CastTime);
+                    this.Client.SendPacket(packet);
+                }
+                Thread.Sleep(this.Mount.CastTime - 500);
+                this.IsInCasting = false;
+                this.State = PlayerState.Mount;
+                this.Mount.Tick = System.DateTime.Now;
+
             }
-            Thread.Sleep(this.Mount.CastTime-500);
-            this.IsInCasting = false;
-            this.State = PlayerState.Mount;
-            this.MountID = Mount.Handle;
-            this.Mount.Tick = System.DateTime.Now;
-            this.Mount.Food = 1000;//later as item
-            this.UpdateMountFood();
             using (var packet = new Packet(SH8Type.Mounting))
             {
                 packet.WriteUShort(this.Mount.Handle);
                 this.Client.SendPacket(packet);
             }
+            this.UpdateMountFood();
         }
-        public void Mounting(ushort pHandle)
+        public void Mounting(ushort pHandle,bool Casting)
         {
             Mount pMount = null;
             DataProvider.Instance.MountyByHandleID.TryGetValue(pHandle, out pMount);
-            if (pMount != null && this.Mount == null)
+            if (pMount != null && this.Mount != null)
             {
-              //  this.LastUse = DateTime.Now;
                 if (!this.IsInCasting)
                 {
-                    this.Mount = pMount;
+                   
                     this.IsInCasting = true;
-                    Thread CastingThread = new Thread(MountCasting);
-                    CastingThread.Start();
+                    ParameterizedThreadStart pts = new ParameterizedThreadStart(this.MountCasting);
+                    Thread CastingThread = new Thread(pts);
+                    CastingThread.Start(Casting);
                 }
             }
             else
@@ -421,7 +436,8 @@ namespace Zepheus.Zone.Game
             {
               this.Client.SendPacket(packet);
             }
-            this.MountID = 0;
+            Program.CharDBManager.GetClient().ExecuteQuery("UPDATE Items SET fuelcount="+this.Mount.Food+" WHERE Owner="+this.ID+" AND ItemID="+this.Mount.ItemID+" AND Slot="+this.Mount.ItemSlot+";");
+          
             this.State = PlayerState.Normal;
             this.Mount = null;
         }
@@ -494,17 +510,25 @@ namespace Zepheus.Zone.Game
                     Handler12.SendItemUsed(this, item);
                     if (this.Mount == null)
                     {
-                        Zepheus.FiestaLib.Data.Mount pMount = null;
-                        if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out pMount))
+     
+                        if (item.Mount != null)
                         {
-                           
-                            this.UnMount();
-                            this.Mounting(pMount.Handle);
+                            this.Mount = item.Mount;
+                            this.Mount.Food = item.Mount.Food;
+                            this.Mounting(item.Mount.Handle,false);
+                        }
+                        else
+                        {
+                            //no mount data found
                         }
                     }
                     else
                     {
-                        if (this.LastUse.Subtract(DateTime.Now).TotalSeconds >= this.Mount.Cooldown)
+                        if (this.Mount != null)
+                        {
+                            UnMount();
+                        }
+                        else if (this.LastUse.Subtract(DateTime.Now).TotalSeconds >= this.Mount.Cooldown)
                         {
                             Zepheus.FiestaLib.Data.Mount mMount = null;
                             if (DataProvider.Instance.MountyByItemID.TryGetValue(item.ID, out mMount))
@@ -513,7 +537,7 @@ namespace Zepheus.Zone.Game
                                 this.UnMount();
                                 this.Mount = mMount;
 
-                                this.Mounting(Mount.Handle);
+                                this.Mounting(Mount.Handle,false);
                             }
                         }
                     }
@@ -856,8 +880,9 @@ namespace Zepheus.Zone.Game
 				this.House.WritePacket(packet);
 			}
 			WriteRefinement(packet);
-
-			packet.WriteUShort(0xffff);  // Mount Handle
+            //(IsMale ? 1 : 0)
+            int mount = (this.Mount != null) ? this.Mount.Handle: 0xffff;
+			packet.WriteUShort((ushort)mount);  // Mount Handle
 			packet.WriteUShort(0xffff);
 			packet.WriteByte(0xff);          // Emote (0xff = nothing)
 			packet.WriteUShort(0xffff);
@@ -865,7 +890,7 @@ namespace Zepheus.Zone.Game
 			packet.WriteUShort(0);             // Mob ID (title = 10)
 
 			packet.Fill(53, 0);                // Buff Bits? Something like that
-			packet.WriteInt(90);      // Guild ID
+			packet.WriteInt(this.Character.GuildID);      // Guild ID
 			packet.WriteByte(0x02);            // UNK (0x02)
 			packet.WriteBool(false);            // In Guild Academy (0 - No, 1 - Yes)
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
@@ -1216,6 +1241,11 @@ namespace Zepheus.Zone.Game
 			byte newslot;
 			if (Inventory.GetEmptySlot(out newslot))
 			{
+                if (pItem.Info.Class == ItemClass.Rider)
+                {
+                    pItem.Mount = DataProvider.Instance.GetMountByItemID(pItem.ID);
+                    pItem.Mount.ItemSlot = newslot;
+                }
 				pItem.Slot = (sbyte)newslot;
 				pItem.Owner = (uint)this.ID;
 				Inventory.AddToInventory(pItem);Handler12.ModifyInventorySlot(this, (byte)pItem.Slot, 0x24, (byte)pItem.Slot, pItem);
@@ -1235,10 +1265,16 @@ namespace Zepheus.Zone.Game
 				}
 
 				if (inf.Slot == ItemSlot.Normal)//testing?
-				{      // Stackable item
+				{ 
+                    // Stackable item
 					Item item = new Item((uint)this.ID, inf.ItemID, pCount);
 					item.Slot = (sbyte)targetSlot;     // Else it adds item to first slot, and overwrites it
-					item.Save();
+                    if (inf.Class == ItemClass.Rider)
+                    {
+                     item.Mount = DataProvider.Instance.GetMountByItemID(inf.ItemID);
+                     item.Mount.ItemSlot = targetSlot;
+                    }
+                    item.Save();
 					Inventory.AddToInventory(item);
 					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, item);
 					

@@ -25,7 +25,7 @@ namespace Zepheus.Zone.Game
 
         public ushort Count { get; set; }
         public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
-
+        public Mount Mount { get; set; }
 
         public Item(uint pOwner, ushort pID, ushort pCount)
         {

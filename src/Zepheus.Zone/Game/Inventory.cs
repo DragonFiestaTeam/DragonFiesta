@@ -5,6 +5,7 @@ using MySql.Data.MySqlClient;
 using System.Threading;
 using System.Data;
 using Zepheus.Database;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.Zone.Game
 {
@@ -78,7 +79,21 @@ namespace Zepheus.Zone.Game
                       foreach (DataRow row in items.Rows)
                       {
                         Item loaded = Item.LoadItem(row);
-                        this.AddToInventory(loaded);
+                        if (loaded.Info.Class == ItemClass.Rider)
+                        {
+                            Mount mount = Data.DataProvider.Instance.GetMountByItemID(loaded.ID);
+                            if (mount != null)
+                            {
+                                loaded.Mount = mount;
+                                loaded.Mount.Food = GetDataTypes.GetUshort(row["fuelcount"]);
+                                loaded.Mount.ItemSlot = (byte)loaded.Slot;
+                            }
+                            this.AddToInventory(loaded);
+                        }
+                        else
+                        {
+                            this.AddToInventory(loaded);
+                        }
                     }
                 }
             }

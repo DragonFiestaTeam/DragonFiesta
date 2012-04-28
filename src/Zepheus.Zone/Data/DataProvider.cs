@@ -639,7 +639,26 @@ namespace Zepheus.Zone.Data
 			}
 			return 0;
 		}
-
+        public Mount GetMountByHandleid(ushort id)
+        {
+            Mount pMount = null;
+            if (this.MountyByHandleID.TryGetValue(id, out pMount))
+            {
+                return pMount;
+            }
+            new DataException("Mount By ItemID " + id + " not found");
+            return null;
+        }
+        public Mount GetMountByItemID(ushort id)
+        {
+            Mount pMount = null;
+            if(this.MountyByItemID.TryGetValue(id,out pMount))
+            {
+                return pMount;
+            }
+            new DataException("Mount By ItemID " + id + " not found");
+            return null;
+        }
 		public string GetMapShortNameFromMapid(ushort id)
 		{
 			MapInfo mi = null;

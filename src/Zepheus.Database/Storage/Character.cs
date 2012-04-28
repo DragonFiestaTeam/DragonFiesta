@@ -28,6 +28,8 @@ namespace Zepheus.Database.Storage
        public PositionInfo PositionInfo = new PositionInfo();
        public byte[] GameSettings { get; set; }
        public byte[] ClientSettings { get; set; }
+       public int MountID { get; set; }
+       public int MountFood { get; set; }
        public CharacterStats CharacterStats = new CharacterStats();
        public int GuildID { get; set; }
 

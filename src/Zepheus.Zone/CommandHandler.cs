@@ -141,25 +141,11 @@ namespace Zepheus.Zone
         }
         private void Inv(ZoneCharacter character, params string[] param)
         {
-            using (var packet = new Packet(SH14Type.UpdatePartyMemberStats))
+            using (var packet = new Packet(8,71))
             {
-                packet.WriteByte(1);//unk
-                packet.WriteString("Stan", 16);
-                packet.WriteUInt(2);
-                packet.WriteUInt(400);
+                packet.WriteShort(3000);
                 character.Client.SendPacket(packet);
             }
-                using (var ppacket = new Packet(SH14Type.SetMemberStats))
-                {
-                    ppacket.WriteByte(1);
-                    ppacket.WriteString("Stan", 16);
-                    ppacket.WriteByte(21);
-                    ppacket.WriteByte(255);
-                    ppacket.WriteUInt(2);//maxhp
-                    ppacket.WriteUInt(800);//MaxSP
-                    ppacket.WriteByte(1);
-                    character.Client.SendPacket(ppacket);
-                }
         }
         private void Test(ZoneCharacter character, params string[] param)
         {
