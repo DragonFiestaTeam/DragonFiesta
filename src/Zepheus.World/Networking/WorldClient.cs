@@ -181,7 +181,8 @@ namespace Zepheus.World.Networking
 			{
 				string query = 
 					"INSERT INTO `characters` " + 
-					"(`AccountID`,`Name`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`)"+
+					"(`AccountID`,`Name`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`,"+ 
+                    " `QuickBar`, `QuickBarState`, `ShortCuts`, `GameSettings`, `ClientSettings`) "+
 					"VALUES "+
 						"('" +		newchar.AccountID + 
 						"', '" +	newchar.Name + 
@@ -190,7 +191,12 @@ namespace Zepheus.World.Networking
 						", " +		Convert.ToByte(newchar.LookInfo.Male) +
 						", " +		newchar.LookInfo.Hair +
 						", " +		newchar.LookInfo.HairColor +
-						", " +		newchar.LookInfo.Face + 
+						", " +		newchar.LookInfo.Face +
+                        ", " +      "0" +
+                        ", " +      "0" +
+                        ", " +      "0" +
+                        ", " +      "0" +
+                        ", " +      "0" +
 						")";
 				client.ExecuteQuery(query);
 			}
