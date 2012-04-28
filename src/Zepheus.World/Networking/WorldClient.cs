@@ -238,7 +238,7 @@ namespace Zepheus.World.Networking
 			if (!(obj is WorldClient))
 				return false;
 			WorldClient other = (WorldClient)obj;
-			return other.Username == this.Username;
+            return other.AccountID == this.AccountID;
 		}
 		#endregion
 	}
