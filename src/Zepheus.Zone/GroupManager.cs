@@ -8,7 +8,7 @@ using System.Data;
 
 namespace Zepheus.Zone
 {
-	[Util.ServerModule(Util.InitializationStage.Clients)]
+	[ServerModule(InitializationStage.Clients)]
 	public class GroupManager
 	{
 		#region .ctor
@@ -192,17 +192,12 @@ namespace Zepheus.Zone
 			//--------------------------------------------------
 			// get groupId
 			//--------------------------------------------------
-			using(var client = Program.DatabaseManager.GetClient())
-			using (var table = client.ReadDataTable(string.Format(get_group_id_query, pCharacterId)))
-			{
-				foreach (DataRow row in table.Rows)
-				{
-					if(row.IsNull("GroupId"))
-						return -1;
-					else
-						return (long) row["GroupId"];			
-				}
-			}
+            using (var client = Program.DatabaseManager.GetClient())
+            using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.Connection))
+            using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
+                    return reader.GetInt64("GroupId");
+            
 			return -1;
 		}
 		#endregion
