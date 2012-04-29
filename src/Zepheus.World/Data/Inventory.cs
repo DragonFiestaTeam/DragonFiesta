@@ -24,7 +24,18 @@ namespace Zepheus.World.Data
         {
             locker.ReleaseMutex();
         }
-
+        public void AddToEquipped(Equip pEquip)
+        {
+            try
+            {
+                locker.WaitOne();
+                EquippedItems.Add(pEquip);
+            }
+            finally
+            {
+                locker.ReleaseMutex();
+            }
+        }
         public void LoadBasic(WorldCharacter pChar)
         {
             try
