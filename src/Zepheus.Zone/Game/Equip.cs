@@ -136,11 +136,13 @@ namespace Zepheus.Zone.Game
                     }
                     break;
                 case ItemSlot.Helm:
+                    length = 16;
+                    break;
                 case ItemSlot.Armor:
+                    length = 16;
+                    break;
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
-                    length = 16;                // Base data length
-                    break;
                 case ItemSlot.Necklace:
                 case ItemSlot.Earings:
                 case ItemSlot.Ring:
@@ -188,10 +190,20 @@ namespace Zepheus.Zone.Game
             switch (this.SlotType)
             {
                 case ItemSlot.Helm:
+                    packet.WriteByte(1);//refmient
+                    packet.WriteUInt(0);
+                    packet.WriteUInt(0);//times?
+                    packet.WriteUShort(0);//unk
+                   
+                    break;
                 case ItemSlot.Armor:
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
-
+                    packet.WriteByte(1);//refmient
+                    packet.WriteUInt(0);
+                    packet.WriteUInt(0);//times?
+                    packet.WriteUShort(0);//unk
+                    break;
 
                 // case ItemSlot.Bow: // Shield = same
                 case ItemSlot.Weapon2:
@@ -266,6 +278,8 @@ namespace Zepheus.Zone.Game
                     break;
                 case ItemSlot.Pants:
                 case ItemSlot.Boots:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
                 case ItemSlot.Weapon2:
                 case ItemSlot.Weapon:
                     packet.WriteByte((byte)(statCount << 1 | 1));

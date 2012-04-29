@@ -112,9 +112,6 @@ namespace Zepheus.Zone.Game
                 case ItemClass.Emotion:
                     lenght = 8;
                     break;
-                case ItemClass.Accessory:
-                    length = 99;
-                    break;
                 case ItemClass.Furniture:
                     length = 8;
                     break;
@@ -126,6 +123,9 @@ namespace Zepheus.Zone.Game
                     break;
                 case ItemClass.ReturnScroll:
                     //Todo Sniff
+                    break;
+                case ItemClass.Accessory:
+                    length = 12;
                     break;
                 default:
                     length = 5;
@@ -171,6 +171,10 @@ namespace Zepheus.Zone.Game
                     break;
                 case ItemClass.PremiumItem:
                     //todo sniff
+                    break;
+                case ItemClass.Accessory:
+                      pPacket.WriteUInt(0); //time shit
+                    pPacket.WriteUInt(0);
                     break;
                 case ItemClass.Furniture:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
