@@ -5,6 +5,7 @@ namespace Zepheus.Zone.Game
     public class GroupMember
     {
         #region .ctor
+
         public GroupMember()
         {
             IsMaster = false;
@@ -13,7 +14,6 @@ namespace Zepheus.Zone.Game
             Name = "";
             Character = null;
         }
-
         public GroupMember(string pName, bool pIsMaster, bool pIsOnline)
         {
             this.Name = pName;
@@ -29,8 +29,7 @@ namespace Zepheus.Zone.Game
         public Group Group { get; internal set; }
         public string Name { get; internal set; }
         public ZoneCharacter Character { get; internal set; }
-        #endregion
-        #region Methods
+
         #endregion
     }
 }
