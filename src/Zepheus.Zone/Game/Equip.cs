@@ -142,7 +142,11 @@ namespace Zepheus.Zone.Game
                     length = 16;
                     break;
                 case ItemSlot.Pants:
+                    length = 16;
+                    break;
                 case ItemSlot.Boots:
+                    length = 16;
+                    break;
                 case ItemSlot.Necklace:
                 case ItemSlot.Earings:
                 case ItemSlot.Ring:
@@ -190,23 +194,43 @@ namespace Zepheus.Zone.Game
             switch (this.SlotType)
             {
                 case ItemSlot.Helm:
-                    packet.WriteByte(1);//refmient
-                    packet.WriteUInt(0);
-                    packet.WriteUInt(0);//times?
-                    packet.WriteUShort(0);//unk
-                   
+                    WriteStandartEquip(packet);
                     break;
                 case ItemSlot.Armor:
-                case ItemSlot.Pants:
-                case ItemSlot.Boots:
-                    packet.WriteByte(1);//refmient
-                    packet.WriteUInt(0);
-                    packet.WriteUInt(0);//times?
-                    packet.WriteUShort(0);//unk
+                    WriteStandartEquip(packet);
                     break;
-
-                // case ItemSlot.Bow: // Shield = same
+                case ItemSlot.Pants:
+                    WriteStandartEquip(packet);
+                    break;
+                case ItemSlot.Boots:
+                    WriteStandartEquip(packet);
+                    break;
                 case ItemSlot.Weapon2:
+                    if (Info.TwoHand)
+                    {
+                        //bow
+                        packet.WriteByte(this.Upgrades); //refement?
+                        packet.WriteUShort(0);//unk
+                        packet.WriteUInt(0); //unk
+                        packet.WriteUShort(0);    // Nr.1 - Mob ID
+                        packet.WriteUInt(0xFFFF);           // Nr.1 - Kill count
+                        packet.WriteUShort(0xFFFF);    // Nr.2 - Mob ID
+                        packet.WriteUInt(0);           // Nr.2 - Kill count
+                        packet.WriteUShort(0xFFFF);    // Nr.3 - Mob ID
+                        packet.WriteUInt(0);           // Nr.3 - Kill count
+                        packet.WriteUShort(0);        // UNK
+                        packet.WriteString("1234567891234567", 16); //lencen name
+                        packet.WriteByte(0);//unk
+
+                        packet.WriteUInt(GetExpirationTime());               // Expiring time (1992027391 -  never expires)
+                        packet.WriteByte(0);
+                    }
+                    else
+                    {
+                        //shield
+                        WriteStandartEquip(packet);
+                    }
+                    break;
                 case ItemSlot.Weapon:
                     packet.WriteByte(this.Upgrades); //refement?
                     packet.WriteUShort(0);//unk
@@ -273,14 +297,20 @@ namespace Zepheus.Zone.Game
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Armor:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
                 case ItemSlot.Wing:
                     packet.WriteByte(0);
                     break;
                 case ItemSlot.Pants:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
                 case ItemSlot.Boots:
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Weapon2:
+                    packet.WriteByte((byte)(statCount << 1 | 1));
+                    break;
                 case ItemSlot.Weapon:
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
@@ -306,7 +336,13 @@ namespace Zepheus.Zone.Game
             DataProvider.GetItemInfo(this.ID, out itemInfo);
             return itemInfo;
         }
-
+        private void WriteStandartEquip(Packet packet)
+        {
+            packet.WriteByte(this.Upgrades);//refmient
+            packet.WriteUInt(0);
+            packet.WriteUInt(0);//times?
+            packet.WriteUShort(0);//unk
+        }
         public static Equip LoadEquip(DataRow row)
         {
             ulong uniqueID = GetDataTypes.GetUlong(row["ID"]);
