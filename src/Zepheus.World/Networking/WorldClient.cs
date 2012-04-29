@@ -168,17 +168,8 @@ namespace Zepheus.World.Networking
 			newchar.LookInfo = newLook;
 			newchar.PositionInfo = newPos;
 			int charID = newchar.ID;
-			ushort begineqp = GetBeginnerEquip(job);
-			if (begineqp > 0)
-			{
-				Database.Storage.EquipInfo eqp = new Database.Storage.EquipInfo();
-				eqp.EquipID = begineqp;
-				eqp.Slot = (short)((job == Job.Archer) ? -10 : -12);
-				//newchar.EquiptetItem.Add(eqp);
+			 DatabaseClient client = Program.DatabaseManager.GetClient();
 
-			}
-			using (var client = Program.DatabaseManager.GetClient())
-			{
 				string query = 
 					"INSERT INTO `characters` " + 
 					"(`AccountID`,`Name`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`,"+ 
@@ -199,8 +190,16 @@ namespace Zepheus.World.Networking
                         ", " +      "0" +
 						")";
 				client.ExecuteQuery(query);
-			}
-			WorldCharacter tadaa = new WorldCharacter(newchar, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp);
+			
+			WorldCharacter tadaa = new WorldCharacter(newchar);
+            ushort begineqp = GetBeginnerEquip(job);
+            if (begineqp > 0)
+            {
+                sbyte eqp_slot = (sbyte)((job == Job.Archer) ? -10 : -12); //, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp)
+                Equip eqp = new Equip((uint)newchar.ID, begineqp, eqp_slot);
+                tadaa.Inventory.AddToEquipped(eqp);
+                client.ExecuteQuery("INSERT INTO equips (owner,slot,EquipID) VALUES ('"+tadaa.ID+"','"+eqp_slot+"','"+eqp.EquipID+"')");
+            }
 			Characters.Add(slot, tadaa);
 			return tadaa;
 		}
