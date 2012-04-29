@@ -9,6 +9,8 @@ using Zepheus.World.Networking;
 using System.Data;
 using Zepheus.Database;
 
+using MySql.Data.MySqlClient;
+
 namespace Zepheus.World.Data
 {
 	public class Group
@@ -277,9 +279,8 @@ namespace Zepheus.World.Data
 								this.members.Count > 2 ? this.members[2].CharId.ToString() : "NULL",
 								this.members.Count > 3 ? this.members[3].CharId.ToString() : "NULL",
 								this.members.Count > 4 ? this.members[4].CharId.ToString() : "NULL");
-                using (var cmd = new MySql.Data.MySqlClient.MySqlCommand(query, client.Connection))
+                using (var cmd = new MySqlCommand(query, client.Connection))
                 {
-                    // ExecuteNonReader(); ?
                     cmd.ExecuteNonQuery();
                 }
 			}

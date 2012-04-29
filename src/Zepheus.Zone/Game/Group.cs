@@ -48,7 +48,8 @@ namespace Zepheus.Zone.Game
 			//--------------------------------------------------
 			const string read_group_query =
 				"USE `fiesta_world`; "	+				
-				"SELECT * FROM `groups` " +
+				"SELECT (`Id`, `Member1`, `Member2`, `Member3`, `Member4`, `Member5`) " +
+				"FROM `groups` " +
 				"WHERE `Id` = {0}";
 
 			//--------------------------------------------------
@@ -59,15 +60,18 @@ namespace Zepheus.Zone.Game
 			grp.Id = pId;
 
 			using (var client = Program.DatabaseManager.GetClient())
-			using (var table = client.ReadDataTable(string.Format(read_group_query, pId)))
 			{
-				foreach (DataRow row in table.Rows)
-				{
-					for (int i = 1; i < 6; i++)
+				string query = string.Format(read_group_query, pId);
+				using(var cmd = new MySqlCommand(query, client.Connection))
+				using(var reader = cmd.ExecuteReader())
+		 	    {
+					while(reader.Read ())
 					{
-						string colName = string.Format("Member{0}", i);
-						if(!row.IsNull(colName))
-							grp.Members.Add(ReadGroupMemberFromDatabase((long) row[colName]));
+						for(int i = 1; i < 6; i++)
+						{
+							if(!reader.IsDBNull(i))
+								grp.Members.Add(ReadGroupMemberFromDatabase(reader.GetInt64(i)));
+						}
 					}
 				}
 			}
