@@ -109,9 +109,23 @@ namespace Zepheus.Zone.Game
                 case ItemClass.Rider:
                     length = 16;
                     break;
-                case ItemClass.PremiumItem:
+                case ItemClass.Emotion:
+                    lenght = 8;
                     break;
-                   case ItemClass.Skillbook:
+                case ItemClass.Accessory:
+                    length = 99;
+                    break;
+                case ItemClass.Furniture:
+                    length = 8;
+                    break;
+                case ItemClass.PremiumItem:
+                //Todo Sniff
+                    break;
+                case ItemClass.House:
+                    lenght = 8;
+                    break;
+                case ItemClass.ReturnScroll:
+                    //Todo Sniff
                     break;
                 default:
                     length = 5;
@@ -154,7 +168,31 @@ namespace Zepheus.Zone.Game
                     pPacket.Fill(2, 0);                     // UNK
                     pPacket.WriteUInt(1992027391);               // Expiring time (1992027391 -  never expires)
                     pPacket.WriteUInt(1992027391);               // Time? (1992027391 -  never expires)
-                    pPacket.WriteByte(1);
+                    break;
+                case ItemClass.PremiumItem:
+                    //todo sniff
+                    break;
+                case ItemClass.Furniture:
+                    pPacket.WriteUInt(0);//expires time 0 = 0 never
+                    break;
+                case ItemClass.Skillbook:
+                    break;
+                case ItemClass.Emotion:
+                    pPacket.WriteUInt(0);//expires time 0 = 0 never
+                    break;
+                case ItemClass.ReturnScroll:
+                    //todo sniff
+                    break;
+                case ItemClass.House:
+                    pPacket.WriteUInt(0);//expires time 0 = 0 never
+                    break;
+                default:
+                    break;
+            }
+            switch (this.Info.Class)
+            {                       // Stat count (StatCount << 1 | Visible(0 or 1 are stats shown or not))
+                case ItemClass.Rider:
+                    pPacket.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemClass.PremiumItem:
                     break;
