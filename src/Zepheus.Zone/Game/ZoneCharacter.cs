@@ -915,7 +915,7 @@ namespace Zepheus.Zone.Game
 			}
 			WriteRefinement(packet);
             //(IsMale ? 1 : 0)
-            int mount = (this.Mount != null) ? this.Mount.Handle: 0xffff;
+            int mount = (this.Mount != null) ? (int) this.Mount.Handle : (int)0xffff;
 			packet.WriteUShort((ushort)mount);  // Mount Handle
 			packet.WriteUShort(0xffff);
 			packet.WriteByte(0xff);          // Emote (0xff = nothing)

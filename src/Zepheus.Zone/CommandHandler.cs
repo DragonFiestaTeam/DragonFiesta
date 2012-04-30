@@ -391,7 +391,7 @@ namespace Zepheus.Zone
             ushort id = ushort.Parse(param[1]);
             if (DataProvider.Instance.MobsByID.ContainsKey(id))
             {
-                Mob mob = new Mob((ushort)(param.Length == 2 ? id : 1045), new Vector2(character.Position));
+                Mob mob = new Mob((ushort)(param.Length == 2 ? id : (ushort) 1045), new Vector2(character.Position));
                 character.Map.FullAddObject(mob);
             }
             else character.DropMessage("Monster ID not found.");
