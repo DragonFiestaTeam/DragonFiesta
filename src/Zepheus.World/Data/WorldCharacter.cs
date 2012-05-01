@@ -126,7 +126,7 @@ namespace Zepheus.World.Data
         public void LoadGroup()
 		{
 			//this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
-		//	this.GroupMember = this.Group[this.Character.Name];
+			//this.GroupMember = this.Group[this.Character.Name];
 			//this.UpdateGroupStatus();
 		}
 
