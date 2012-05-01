@@ -135,8 +135,11 @@ namespace Zepheus.Zone.Game
                         length = 16;                // Base data length
                     }
                     break;
+                case ItemSlot.CostumeHelm:
+                    length = 8;                 // Base data length
+                    break;
                 case ItemSlot.Helm:
-                    length = 16;
+                    length = 26;
                     break;
                 case ItemSlot.Armor:
                     length = 16;
@@ -148,11 +151,15 @@ namespace Zepheus.Zone.Game
                     length = 16;
                     break;
                 case ItemSlot.Necklace:
+                    length = 26;
+                    break;
                 case ItemSlot.Earings:
                 case ItemSlot.Ring:
                     length = 26;                // Base data length
                     break;
                 case ItemSlot.CostumeWeapon:
+                    length = 53;
+                    break;
                 case ItemSlot.CostumeShield:
                     length = 8;                 // Base data length
                     break;
@@ -189,7 +196,6 @@ namespace Zepheus.Zone.Game
             if (Dex > 0) statCount++;
             if (Spr > 0) statCount++;
             if (Int > 0) statCount++;
-
             packet.WriteUShort(this.ID);
             switch (this.SlotType)
             {
@@ -199,11 +205,19 @@ namespace Zepheus.Zone.Game
                 case ItemSlot.Armor:
                     WriteStandartEquip(packet);
                     break;
+                case ItemSlot.CostumeArmor:
+                    packet.WriteUInt(0);
+                    packet.WriteUInt(0);
+                    break;
                 case ItemSlot.Pants:
                     WriteStandartEquip(packet);
                     break;
                 case ItemSlot.Boots:
                     WriteStandartEquip(packet);
+                    break;
+                case ItemSlot.CostumeHelm:
+                    packet.Fill(7, 0);//unk
+                    packet.WriteByte(1);
                     break;
                 case ItemSlot.Weapon2:
                     if (Info.TwoHand)
@@ -220,7 +234,6 @@ namespace Zepheus.Zone.Game
                         packet.WriteUInt(0);           // Nr.3 - Kill count
                         packet.WriteUShort(0);        // UNK
                         packet.WriteString("1234567891234567", 16); //lencen name
-                        packet.WriteByte(0);//unk
 
                         packet.WriteUInt(GetExpirationTime());               // Expiring time (1992027391 -  never expires)
                         packet.WriteByte(0);
@@ -247,20 +260,53 @@ namespace Zepheus.Zone.Game
                         packet.WriteUShort(0);        // UNK
                         // packet.WriteUInt(1992027391);
                         packet.WriteString("1234567891234567", 16); //lencen name
-                        packet.WriteByte(0);//unk
                     }
                     packet.WriteUInt(GetExpirationTime());               // Expiring time (1992027391 -  never expires)
                     packet.WriteByte(0);
                     //packet.WriteShort(0);
+                    int lol2 = packet.Length;
+                    if (lol2 != 55) { Console.WriteLine("lol"); }
                     break;
+                case ItemSlot.CostumeWeapon:
+
+                    packet.WriteUInt(9000);
+                    packet.WriteByte(1);
+
+                    packet.WriteUShort(0xffff);
+                    packet.WriteUInt(0);
+                    packet.WriteUShort(0xffff);
+                    packet.WriteUInt(0);
+                    packet.WriteUShort(0xffff);
+                    packet.WriteUInt(0);
+                    packet.WriteUShort(0);
+                    packet.WriteUInt(10);
+                    packet.WriteString("", 16);
+                  //  packet.WriteHexAsBytes("00 00 00 00 00 00 00 00 00 00 00 00");//  00 00 00 00 01");
+                    packet.WriteUInt(0);//time or max halt
+                    packet.WriteByte(1);
+                    int lol = packet.Length;
+                    if (lol != 55) { Console.WriteLine("lol"); }
+                    break;
+
                 case ItemSlot.Pet:
-                    packet.WriteByte(this.Upgrades);   // Pet Refinement Lol
+                    packet.WriteByte(1);   // Pet Refinement Lol
                     packet.Fill(2, 0);                     // UNK
-                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
-                    packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
+                    packet.WriteUInt(1992027391);               // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(1992027391);              // Time? (1992027391 -  never expires)
                     break;
                 case ItemSlot.Earings:
                 case ItemSlot.Necklace:
+                    packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
+                    packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
+                    packet.WriteByte(10);   // Refinement
+                    // Stats added while refining
+                    packet.WriteUShort(0);             // it may be byte + byte too (some kind of counter when item downgrades)
+                    packet.WriteUShort(10);             // STR
+                    packet.WriteUShort(10);             // END
+                    packet.WriteUShort(0);             // DEX
+                    packet.WriteUShort(0);             // INT
+                    packet.WriteUShort(0);             // SPR
+                    break;
                 case ItemSlot.Ring:
                     packet.WriteUInt(GetExpiringTime());               // Expiring time (1992027391 -  never expires)
                     packet.WriteUInt(0);               // Time? (1992027391 -  never expires)
@@ -273,11 +319,11 @@ namespace Zepheus.Zone.Game
                     packet.WriteUShort(0);             // INT
                     packet.WriteUShort(0);             // SPR
                     break;
-                case ItemSlot.CostumeWeapon:
                 case ItemSlot.CostumeShield:
                     packet.WriteUInt(25000);           // Skin Durability
                     break;
                 default:
+                    statCount = 0;
                     packet.WriteUInt(1992027391);      // Expiring time (1992027391 -  never expires)
                     packet.WriteUInt(1992027391);                        // Time? (1992027391 -  never expires)
                     break;
@@ -297,10 +343,13 @@ namespace Zepheus.Zone.Game
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Armor:
+                    packet.WriteByte((byte)2);
+                    break;
+                case ItemSlot.CostumeArmor:
                     packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Wing:
-                    packet.WriteByte(0);
+                    packet.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 case ItemSlot.Pants:
                     packet.WriteByte((byte)(statCount << 1 | 1));
@@ -338,8 +387,8 @@ namespace Zepheus.Zone.Game
         }
         private void WriteStandartEquip(Packet packet)
         {
-            packet.WriteByte(this.Upgrades);//refmient
-            packet.WriteUInt(0);
+            packet.WriteByte(1);//refmient
+            packet.WriteUInt(1992027391);
             packet.WriteUInt(0);//times?
             packet.WriteUShort(0);//unk
         }
