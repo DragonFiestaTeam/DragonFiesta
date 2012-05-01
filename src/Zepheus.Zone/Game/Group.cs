@@ -48,7 +48,7 @@ namespace Zepheus.Zone.Game
 			//--------------------------------------------------
 			const string read_group_query =
 				"USE `fiesta_world`; "	+				
-				"SELECT (`Id`, `Member1`, `Member2`, `Member3`, `Member4`, `Member5`) " +
+				"SELECT `Id`, `Member1`, `Member2`, `Member3`, `Member4`, `Member5` " +
 				"FROM `groups` " +
 				"WHERE `Id` = {0}";
 
