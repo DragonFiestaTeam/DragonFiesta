@@ -22,7 +22,7 @@ namespace Zepheus.Zone.Game
         public virtual DateTime? Expires { get; set; }
         // public ItemSlot SlotType { get; private set; }
         public sbyte Slot { get; set; }
-        private byte lenght {  get;  set; }
+
         public ushort Count { get; set; }
         public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public Mount Mount { get; set; }
@@ -110,22 +110,22 @@ namespace Zepheus.Zone.Game
                     length = 16;
                     break;
                 case ItemClass.Emotion:
-                    lenght = 8;
+                   length = 8;
                     break;
                 case ItemClass.Furniture:
                     length = 8;
                     break;
-                case ItemClass.PremiumItem:
-                //Todo Sniff
-                    break;
                 case ItemClass.House:
-                    lenght = 8;
+                    length = 8;
                     break;
-                case ItemClass.ReturnScroll:
-                    //Todo Sniff
+                case ItemClass.SilverWingsOnly:
+                    length = 15;
                     break;
                 case ItemClass.Accessory:
                     length = 12;
+                    break;
+                case ItemClass.PresentBox:
+                    length = 29;
                     break;
                 default:
                     length = 5;
@@ -136,17 +136,18 @@ namespace Zepheus.Zone.Game
         public void WriteItemInfo(Packet pPacket)
         {
             byte lenght = CalculateDataLen();
-            this.lenght = lenght;
             pPacket.WriteByte(lenght);//lenght
             pPacket.WriteByte((byte)this.Slot);
-            pPacket.WriteByte(0x24);//status
+           // pPacket.WriteByte(1);
+           pPacket.WriteByte(0x24);//status
             WriteItemStats(pPacket);
         }
 
         public void WriteItemStats(Packet pPacket)
         {
+            byte lengt = CalculateDataLen();
             pPacket.WriteUShort(this.ID);
-            if (this.lenght == 5)
+            if (lengt == 5)
             {
                 pPacket.WriteByte((byte)this.Count);
             }
@@ -184,8 +185,14 @@ namespace Zepheus.Zone.Game
                 case ItemClass.Emotion:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
                     break;
-                case ItemClass.ReturnScroll:
-                    //todo sniff
+                case ItemClass.SilverWingsOnly:
+                    //now Client crashing?
+                    pPacket.WriteHexAsBytes("90 C8 09 01 FF FF 10 27 00 00 10 27 00 00 0F");
+                    break;
+                case ItemClass.PresentBox:
+                    pPacket.WriteByte(10);
+                    pPacket.WriteHexAsBytes("00 0C 98 3A A7 ED C4 00 00 0C 9C 3A A7 ED C4 00 00 0C A0 3A A7 ED C4 00");
+                  
                     break;
                 case ItemClass.House:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
@@ -201,6 +208,12 @@ namespace Zepheus.Zone.Game
                 case ItemClass.PremiumItem:
                     break;
                 case ItemClass.Skillbook:
+                    break;
+                case ItemClass.PresentBox:
+                 //   pPacket.WriteByte((byte)(statCount << 1 | 1));
+                    break;
+                case ItemClass.CraftStones:
+                    pPacket.WriteByte((byte)(statCount << 1 | 1));
                     break;
                 default:
                     break;
