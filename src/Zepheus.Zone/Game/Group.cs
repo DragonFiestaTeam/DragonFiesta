@@ -164,7 +164,7 @@ namespace Zepheus.Zone.Game
 			const string get_groupmem_query =
 							"SELECT `Name`, `IsGroupMaster` " +
                             "FROM `fiesta_world`.`characters` " +
-							"WHERE `GroupId` = {0}";
+							"WHERE `GroupId` = '{0}'";
 
 			//--------------------------------------------------
 			// Read member from database.

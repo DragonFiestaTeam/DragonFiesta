@@ -389,13 +389,13 @@ namespace Zepheus.World.Data
 			const string break_group_query =
 				"UPDATE `groups` " +
 				"SET `Exists` = 0 " +
-				"WHERE `Id` = {0}";
+				"WHERE `Id` = '{0}'";
 
 			const string reset_char_group_query = 
-				"UPDATE `character` "+
+				"UPDATE `characters` "+
 				"SET `GroupID` = NULL, "+
-					"`IsMaster = NULL "+
-				"WHERE `GroupId` = {0}";
+                    "`IsGroupMaster` = NULL " +
+				"WHERE `GroupId` = '{0}'";
 
 			//--------------------------------------------------
 			// Execute queries
