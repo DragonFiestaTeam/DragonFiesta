@@ -6,7 +6,7 @@
 
 		public const string RemoveCharacterGroupQuery = "UPDATE `characters` SET GroupID = NULL WHERE Name = \'{0}\'";
 		public const string UpdateCharacterGroupQuery =
-			"UPDATE `characters` SET GroupID = {0} , IsGroupMaster = {1} WHERE Name = \'{2}\'";
+			"UPDATE `characters` SET GroupID = '{0}' , IsGroupMaster = '{1}' WHERE Name = \'{2}\'";
 
 		#endregion
 

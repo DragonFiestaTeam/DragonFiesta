@@ -187,7 +187,7 @@ namespace Zepheus.Zone
 			const string get_group_id_query = 
 				"USE `fiesta_world`; " +
 				"SELECT `GroupId` FROM `characters` " +
-				"WHERE `CharId` = {0} ";
+				"WHERE `CharId` =  '{0}'";
 
 			//--------------------------------------------------
 			// get groupId
