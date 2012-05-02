@@ -50,7 +50,7 @@ namespace Zepheus.Zone.Game
 				"USE `fiesta_world`; "	+				
 				"SELECT `Id`, `Member1`, `Member2`, `Member3`, `Member4`, `Member5` " +
 				"FROM `groups` " +
-				"WHERE `Id` = {0}";
+				"WHERE Id = {0}";
 
 			//--------------------------------------------------
 			// Reading the group out of the database
