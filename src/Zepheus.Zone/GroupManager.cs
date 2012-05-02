@@ -196,7 +196,7 @@ namespace Zepheus.Zone
             using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.Connection))
             using (var reader = cmd.ExecuteReader())
                 while (reader.Read()){
-					if(reader.IsDBNull(31)) //31 = GroupID
+					if(reader.IsDBNull(0)) //31 = GroupID
 				   		return -1;
 					return reader.GetInt64("GroupId");
 				}
