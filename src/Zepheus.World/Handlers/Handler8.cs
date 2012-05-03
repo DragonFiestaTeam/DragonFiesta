@@ -13,11 +13,10 @@ namespace Zepheus.World.Handlers
 				return;
 			
 			byte msgLen;
-			string msg = "";
-			
-			if(!packet.TryReadByte(out msgLen))
-			if(!packet.TryReadString(out msg, msgLen))
-				return;
+			string msg = string.Empty;
+
+            if (!packet.TryReadByte(out msgLen) || !packet.TryReadString(out msg,msgLen))
+                return;
 
 			client.Character.Group.Chat(client, msg);
 
