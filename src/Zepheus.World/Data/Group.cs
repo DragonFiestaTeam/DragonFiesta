@@ -97,7 +97,7 @@ namespace Zepheus.World.Data
 		}
 		public void MemberLeaves(WorldClient pClient)
 		{
-			var otherMembers = members.Select(m => m.Name != pClient.Character.Name);
+			var otherMembers = members.Select(m => m.Name != pClient.Character.Character.Name);
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
 				ChangeMaster(otherMembers.First().Character.GroupMember);
 			// Guess I forgot this
