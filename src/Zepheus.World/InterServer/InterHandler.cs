@@ -106,6 +106,18 @@ namespace Zepheus.World.InterServer
 			  ClientManager.Instance.RemoveClient(client);
 			}
 		}
+         [InterPacketHandler(InterHeader.UpdateMoney)]
+         public static void UpdateMoneyInWorld(ZoneConnection lc, InterPacket packet)
+         {
+             string charname = string.Empty;
+             long NewMoney = 0;
+             if(!packet.TryReadString(out charname,16) || !packet.TryReadLong(out NewMoney))
+             {
+                 return;
+             }
+            WorldCharacter Pchar = ClientManager.Instance.GetClientByCharname(charname).Character;
+            Pchar.Character.Money = NewMoney;
+         }
 		[InterPacketHandler(InterHeader.Clienttransfer)]
 		public static void HandleTransfer(LoginConnector lc, InterPacket packet)
 		{
@@ -177,9 +189,7 @@ namespace Zepheus.World.InterServer
 			long id;
 			string charName;
 
-			if(!pPacket.TryReadLong(out id))
-				throw new InvalidPacketException();
-			if(!pPacket.TryReadString(out charName, 16))
+			if(!pPacket.TryReadLong(out id) ||!pPacket.TryReadString(out charName, 16))
 				throw new InvalidPacketException();
 
 			bool isOnline = ClientManager.Instance.IsOnline(charName);

@@ -66,10 +66,9 @@ namespace Zepheus.World.Data
 		{
 			Guilds = new Dictionary<int, WorldGuild>();
 			DataTable guildData = null;
-			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-			{
+			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
 				guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
-			}
+
 
 			if (guildData != null)
 			{
@@ -78,9 +77,19 @@ namespace Zepheus.World.Data
 					Guild guild = new Guild();
 					guild.Name = (string)row["Name"];
 					guild.ID = (int)row["ID"];
-					Guilds.Add(guild.ID, new WorldGuild(guild));
+                    guild.GuildPassword = (string)row["Password"];
+                    guild.GuildMaster = (int)row["GuildMaster"];
+                    DataTable Members = dbClient.ReadDataTable("SELECT *FROM characters WHERE GuildID='" + guild.ID + "'");
+                    foreach (DataRow grow in guildData.Rows)
+                    {
+                        guild.GuildMembers.Add((int)row["ID"]);
+                    }
+                    Guilds.Add(guild.ID, new WorldGuild(guild));
+
+
 				}
 			}
+
 		}
 		
 		public void LoadBasestats()

@@ -62,6 +62,7 @@
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\GroupRequest.cs" />
     <Compile Include="Data\GroupRole.cs" />
+    <Compile Include="Data\Guilds.cs" />
     <Compile Include="Data\Inventory.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
     <Compile Include="Data\WorldGuild.cs" />

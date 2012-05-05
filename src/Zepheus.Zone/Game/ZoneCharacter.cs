@@ -727,11 +727,13 @@ namespace Zepheus.Zone.Game
 		public void ChangeMoney(long newMoney)
 		{
 			this.Character.Money = newMoney;
+            InterHandler.UpdateMoneyWorld(newMoney, this.Name);//update in world
 			using (var packet = new Packet(SH4Type.Money))
 			{
 				packet.WriteLong(this.Character.Money);// money
 				this.Client.SendPacket(packet);
 			}
+
 		}
 
 		public void AttackStop()

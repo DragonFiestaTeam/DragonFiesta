@@ -13,7 +13,7 @@
 		RemovePartyMember = 0x097,
 		AddPartyMember = 0x0096,
 		NewPartyCreated =0x00101,	// WORLD -> ZONE
-
+        UpdateMoney = 0x00103,//Zone -> World
 		Auth = 0x0010,
 		BanAccount = 0x0095,
 		Assign = 0x0100,

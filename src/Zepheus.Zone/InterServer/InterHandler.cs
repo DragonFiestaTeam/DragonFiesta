@@ -72,7 +72,15 @@ namespace Zepheus.Zone.InterServer
 				Log.WriteLine(LogLevel.Info, "Removed zone {0} from zones (disconnected)", id);
 			}
 		}
-
+        public static void UpdateMoneyWorld(long Money,string charname)
+        {
+            using (var packet = new InterPacket(InterHeader.UpdateMoney))
+            {
+                packet.WriteString(charname, 16);
+                packet.WriteLong(Money);
+                WorldConnector.Instance.SendPacket(packet);
+            }
+        }
 		[InterPacketHandler(InterHeader.Zoneopened)]
 		public static void HandleZoneOpened(WorldConnector lc, InterPacket packet)
 		{

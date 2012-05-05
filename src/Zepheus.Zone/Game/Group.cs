@@ -211,11 +211,11 @@ namespace Zepheus.Zone.Game
         {
             var client = ClientManager.Instance.GetClientByCharName(name);
             var chara = client.Character;
-
+            
             chara.Group = null;
             this.Members.Remove(chara.GroupMember);
             chara.GroupMember = null;
-
+       
             // Forced update.
             Update();
         }

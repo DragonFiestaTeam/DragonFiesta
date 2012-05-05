@@ -33,6 +33,40 @@ namespace Zepheus.World.Handlers
                 client.SendPacket(packet);
             }
         }
-        
+        [PacketHandler(CH29Type.CreateGuild)]
+        public static void CreateGuildt(WorldClient client, Packet packet)
+        {
+            int unk = 0;
+            bool GuildWar;
+            string GuildName = string.Empty;
+            string GuildPassword = string.Empty;
+            if (!packet.TryReadString(out GuildName, 16))
+                return;
+            if (!packet.TryReadString(out GuildPassword, 8))
+                return;
+            if (!packet.TryReadInt(out unk))
+                return;
+            if (!packet.TryReadBool(out GuildWar))
+                return;
+            {
+                using (var ppacket = new Packet(29, 6))
+                {
+                    if(client.Character.Character.CharLevel < 20)
+                    {
+                        ppacket.WriteUShort(3266);
+                    }
+                    else if(client.Character.Character.Money <= 1000000)
+                    {
+                        packet.WriteUShort(3228);
+                    }
+                  
+                    ppacket.WriteUInt(0);//unk
+                    ppacket.WriteString(GuildName, 16);
+                    ppacket.WriteString(GuildPassword, 8);
+                    ppacket.WriteBool(GuildWar);
+                    client.SendPacket(ppacket);
+                }
+            }
+        }
     }
 }
