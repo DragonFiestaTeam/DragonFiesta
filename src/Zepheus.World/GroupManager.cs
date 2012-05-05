@@ -104,7 +104,7 @@ namespace Zepheus.World
         }
         public void LeaveParty(WorldClient pClient)
         {
-            if (pClient.Character.Group.NormalMembers.Count() <= 1) // Not enough members for party to stay
+            if (pClient.Character.Group.NormalMembers.Count() <= 2) // Not enough members for party to stay
             {
                 pClient.Character.Group.BreakUp();
             }

@@ -97,11 +97,14 @@ namespace Zepheus.World.Data
 		}
 		public void MemberLeaves(WorldClient pClient)
 		{
-			var otherMembers = from m in members
-							   where m.Name != pClient.Character.Character.Name
-							   select m.Client;
+			var otherMembers = members.Select(m => m.Name != pClient.Character.Name);
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
 				ChangeMaster(otherMembers.First().Character.GroupMember);
+			// Guess I forgot this
+			this.members.Remove(pClient.Character.GroupMember);
+			pClient.Character.Group = null;
+			pClient.Character.GroupMember = null;
+			
 			SendMemberLeavesPacket(pClient.Character.Character.Name, otherMembers);
 			UpdateInDatabase();
 		}
@@ -164,7 +167,7 @@ namespace Zepheus.World.Data
 		}
 		public override int GetHashCode()
 		{
-			return 0;
+			return this.Id;
 		}
 
 		internal void AddMember(GroupMember pMember)
@@ -329,7 +332,7 @@ namespace Zepheus.World.Data
 			using (var packet = new Packet(SH14Type.KickPartyMember))
 			{
 				packet.WriteString(pLeaver, 16);
-				packet.WriteUShort(1345);
+				packet.WriteUShort(1345);		// UNK
 
 				foreach (var other in pOthers)
 				{
