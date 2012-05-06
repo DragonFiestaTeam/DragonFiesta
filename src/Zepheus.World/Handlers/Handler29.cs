@@ -54,13 +54,19 @@ namespace Zepheus.World.Handlers
                     if(client.Character.Character.CharLevel < 20)
                     {
                         ppacket.WriteUShort(3266);
+                        ppacket.WriteUInt(0);//unk
                     }
-                    else if(client.Character.Character.Money <= 1000000)
+                    else if (client.Character.Character.Money < 1000000)
                     {
-                        packet.WriteUShort(3228);
+                        ppacket.WriteUShort(3228);
+                        ppacket.WriteUInt(0);//unk
                     }
-                  
-                    ppacket.WriteUInt(0);//unk
+                    else
+                    {
+                        ppacket.WriteUShort(3137);
+                        ppacket.WriteUInt(32);//unk
+                        //:TODO create Guild shit
+                    }
                     ppacket.WriteString(GuildName, 16);
                     ppacket.WriteString(GuildPassword, 8);
                     ppacket.WriteBool(GuildWar);

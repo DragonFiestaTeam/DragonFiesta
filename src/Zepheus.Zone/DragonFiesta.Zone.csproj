@@ -64,6 +64,8 @@
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
     <Compile Include="Game\Equip.cs" />
+    <Compile Include="Game\Guild\Guild.cs" />
+    <Compile Include="Game\Guild\GuildMember.cs" />
     <Compile Include="Game\House.cs" />
     <Compile Include="Game\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
