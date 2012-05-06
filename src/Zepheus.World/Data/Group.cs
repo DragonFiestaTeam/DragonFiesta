@@ -97,9 +97,12 @@ namespace Zepheus.World.Data
 		}
 		public void MemberLeaves(WorldClient pClient)
 		{
-			var otherMembers = members.Select(m => m.Name != pClient.Character.Character.Name);
+            var otherMembers = from m in members
+							   where m.Name != pClient.Character.Character.Name
+							   select m.Client;
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
-				ChangeMaster(otherMembers.First().Character.GroupMember);
+
+		    ChangeMaster(otherMembers.First().Character.GroupMember);
 			// Guess I forgot this
 			this.members.Remove(pClient.Character.GroupMember);
 			pClient.Character.Group = null;
@@ -167,7 +170,7 @@ namespace Zepheus.World.Data
 		}
 		public override int GetHashCode()
 		{
-			return this.Id;
+			return (int)this.Id;
 		}
 
 		internal void AddMember(GroupMember pMember)
