@@ -53,6 +53,7 @@
     <Compile Include="Data\DropGroupInfo.cs" />
     <Compile Include="Data\DropInfo.cs" />
     <Compile Include="Data\FiestaBaseStat.cs" />
+    <Compile Include="Data\GuildRanks.cs" />
     <Compile Include="Data\ItemClass.cs" />
     <Compile Include="Data\ItemEffect.cs" />
     <Compile Include="Data\ItemInfo.cs" />

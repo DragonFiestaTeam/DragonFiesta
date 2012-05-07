@@ -345,7 +345,7 @@ namespace Zepheus.World.Data
             if (GotIngame != null)
                 GotIngame(this, new EventArgs());
         }
-
+       
 		private void UpdateGroupStatus()
 		{
 			this.GroupMember.IsOnline = this.IsIngame;

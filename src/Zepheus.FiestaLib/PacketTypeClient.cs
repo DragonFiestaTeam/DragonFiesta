@@ -143,6 +143,7 @@ namespace Zepheus.FiestaLib
     {
         GuildNameRequest = 118,
         CreateGuild = 5,
+        GuildListReqest = 190,
     }
 
     public enum CH31Type : byte

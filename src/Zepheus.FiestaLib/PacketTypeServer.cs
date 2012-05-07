@@ -212,6 +212,7 @@ namespace Zepheus.FiestaLib
     public enum SH29Type : byte
     {
         GuildNameResult = 119,
+        GuildList = 27,
     }
 
     public enum SH31Type : byte

@@ -33,6 +33,40 @@ namespace Zepheus.World.Handlers
                 client.SendPacket(packet);
             }
         }
+        [PacketHandler(CH29Type.GuildListReqest)]
+        public static void GuildListReqest(WorldClient client, Packet packet)
+        {
+            using (var Ppacket = new Packet(SH29Type.GuildList))
+            {
+                
+                Ppacket.WriteInt(20);
+                Ppacket.WriteUShort(20);
+                for (int i = 0; i < 20; i++)
+                {
+                Ppacket.WriteString("charname", 16);
+                Ppacket.WriteByte(6);//rank
+                Ppacket.WriteInt(0);
+
+                Ppacket.WriteUShort(9000);//korp
+                Ppacket.WriteByte(0);//unk
+                Ppacket.WriteUShort(0xffff);//unk
+                Ppacket.WriteUShort(0xffff);//unk
+                Ppacket.WriteByte(0);//unk
+                Ppacket.WriteInt(32);//isonline=
+                Ppacket.WriteInt(32);
+                Ppacket.Fill(50, 0x00);//unk
+                bool isonline = true;
+                Ppacket.WriteByte(isonline ? (byte)0xB9 : (byte)0x00);//onlinestatus
+                Ppacket.Fill(3, 0x00);//unk
+                Ppacket.WriteByte(3);//job
+                Ppacket.WriteByte(255);//unk
+                Ppacket.WriteByte(0);//unk
+                Ppacket.WriteString("RouCos01",12);//charmapname
+                }
+                client.SendPacket(Ppacket);
+            }
+         
+        }
         [PacketHandler(CH29Type.CreateGuild)]
         public static void CreateGuildt(WorldClient client, Packet packet)
         {

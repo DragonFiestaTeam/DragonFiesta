@@ -10,6 +10,7 @@ namespace Zepheus.World.Handlers
        [PacketHandler(CH22Type.GotIngame)]
        public static void GotIngame(WorldClient client, Packet packet)
        {
+           
            using (var p1 = new Packet(0x1097))
            {      // Guild academy info
                p1.Fill(5, 0);
@@ -66,7 +67,6 @@ namespace Zepheus.World.Handlers
           // client.Character.UpdateFriendStates(client);
            client.Character.IsIngame = true;
            client.Character.OnGotIngame();
-
        }
     }
 }
