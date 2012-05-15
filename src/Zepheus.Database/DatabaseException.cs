@@ -2,10 +2,9 @@ using System;
 
 namespace Zepheus.Database
 {
-	public class DatabaseException : Exception
-	{
-		public DatabaseException(string sMessage) : base(sMessage)
-		{
-		}
-	}
+        [Serializable()]
+        public class DatabaseException : Exception
+        {
+            internal DatabaseException(string sMessage) : base(sMessage) { }
+        }
 }

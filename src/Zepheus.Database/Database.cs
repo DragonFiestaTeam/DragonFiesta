@@ -1,17 +1,58 @@
-﻿namespace Zepheus.Database
+﻿using System;
+
+namespace Zepheus.Database
 {
-	public class Database
-	{
-		public string DatabaseName;
-		public uint PoolMinSize;
-		public uint PoolMaxSize;
+    /// <summary>
+    /// Represents a storage database.
+    /// </summary>
+    public class Database
+    {
+        #region Fields
+        private readonly string mName;
+        private readonly uint mMinPoolSize;
+        private readonly uint mMaxPoolSize;
+        #endregion
 
-		public Database(string databaseName, uint poolMinSize, uint poolMaxSize)
-		{
-			DatabaseName = databaseName;
+        #region Properties
+        /// <summary>
+        /// The name of the database to connect to.
+        /// </summary>
+        internal string Name
+        {
+            get { return mName; }
+        }
+        /// <summary>
+        /// The minimum connection pool size for the database.
+        /// </summary>
+        internal uint minPoolSize
+        {
+            get { return mMinPoolSize; }
+        }
+        /// <summary>
+        /// The maximum connection pool size for the database.
+        /// </summary>
+        internal uint maxPoolSize
+        {
+            get { return mMaxPoolSize; }
+        }
+        #endregion
 
-			PoolMinSize = poolMinSize;
-			PoolMaxSize = poolMaxSize;
-		}
-	}
+        #region Constructor
+        /// <summary>
+        /// Constructs a Database instance with given details.
+        /// </summary>
+        /// <param name="sName">The name of the database.</param>
+        /// <param name="minPoolSize">The minimum connection pool size for the database.</param>
+        /// <param name="maxPoolSize"> The maximum connection pool size for the database.</param>
+        public Database(string sName, uint minPoolSize, uint maxPoolSize)
+        {
+            if (sName == null || sName.Length == 0)
+                throw new ArgumentException(sName);
+
+            mName = sName;
+            mMinPoolSize = minPoolSize;
+            mMaxPoolSize = maxPoolSize;
+        }
+        #endregion
+    } 
 }

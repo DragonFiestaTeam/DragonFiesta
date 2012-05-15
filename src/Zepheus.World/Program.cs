@@ -14,7 +14,7 @@ namespace Zepheus.World
 	{
 		public static bool Maintenance { get; set; }
 		private static bool HandleCommands = true;
-		internal static Database.DatabaseManager DatabaseManager { get; set; }
+		public static Database.DatabaseManager DatabaseManager { get; set; }
 		public static ConcurrentDictionary<byte, ZoneConnection> Zones { get; private set; }
 		[SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
 		static void Main(string[] args)
@@ -25,10 +25,6 @@ namespace Zepheus.World
 #if DEBUG
 			Thread.Sleep(980);//give loginserver some time to start.
 #endif
-			DatabaseServer dbServer = new DatabaseServer("", 3306, "", "");
-
-			Database.Database db = new Database.Database("", 90, 90);
-			DatabaseManager = new DatabaseManager(dbServer, db);
 			if (Load())
 			{
 				Log.IsDebug = Settings.Instance.Debug;
@@ -140,11 +136,8 @@ namespace Zepheus.World
 		{
 			InterLib.Settings.Initialize();
 			Settings.Load();
-			DatabaseServer dbServer = new DatabaseServer(Settings.Instance.WorldMysqlServer, (uint)Settings.Instance.WorldMysqlPort, Settings.Instance.WorldMysqlUser, Settings.Instance.WorldMysqlPassword);
-			Database.Database db = new Database.Database(Settings.Instance.WorldMysqlDatabase, Settings.Instance.WorldDBMinPoolSize, Settings.Instance.WorldDBMinPoolSize);
-			DatabaseManager = new DatabaseManager(dbServer, db);
-			DatabaseManager.GetClient(); //testclient
-            DatabaseManager.StartClientMonitor();
+            DatabaseManager = new DatabaseManager(Settings.Instance.WorldMysqlServer, (uint)Settings.Instance.WorldMysqlPort, Settings.Instance.WorldMysqlUser, Settings.Instance.WorldMysqlPassword, Settings.Instance.WorldMysqlDatabase, Settings.Instance.WorldDBMinPoolSize, Settings.Instance.WorldDBMaxPoolSize, Settings.Instance.QuerCachePerClient,Settings.Instance.OverloadFlags);
+			//DatabaseManager.GetClient(); //testclient
 			Log.SetLogToFile(string.Format(@"Logs\World\{0}.log", DateTime.Now.ToString("d_M_yyyy HH_mm_ss")));
 
 			try

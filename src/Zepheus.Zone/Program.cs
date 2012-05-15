@@ -76,15 +76,10 @@ namespace Zepheus.Zone
 
             Zepheus.InterLib.Settings.Initialize();
             Settings.Load();
-            DatabaseServer dbServer = new DatabaseServer(Settings.Instance.zoneMysqlServer, (uint)Settings.Instance.zoneMysqlPort, Settings.Instance.zoneMysqlUser, Settings.Instance.zoneMysqlPassword);
-            Database.Database db = new Database.Database(Settings.Instance.zoneMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMinPoolSize);
-            DatabaseManager = new DatabaseManager(dbServer, db);
-            DatabaseManager.GetClient(); //testclient
-            Database.Database charDB = new Database.Database(Settings.Instance.WorldMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMinPoolSize);
-            CharDBManager = new DatabaseManager(dbServer, charDB);
+            DatabaseManager = new DatabaseManager(Settings.Instance.zoneMysqlServer, (uint)Settings.Instance.zoneMysqlPort, Settings.Instance.zoneMysqlUser, Settings.Instance.zoneMysqlPassword, Settings.Instance.zoneMysqlDatabase, Settings.Instance.ZoneDBMinPoolSize, Settings.Instance.ZoneDBMaxPoolSize,10,1);
+            DatabaseManager.GetClient(); //testclient   
+            CharDBManager = new DatabaseManager(Settings.Instance.WorldMysqlServer, (uint)Settings.Instance.WorldMysqlPort, Settings.Instance.WorldMysqlUser, Settings.Instance.WorldMysqlPassword, Settings.Instance.WorldMysqlDatabase, Settings.Instance.WorldDBMinPoolSizeZoneWorld, Settings.Instance.WorldDBMaxPoolSizeZoneWorld,Settings.Instance.QuerCachePerClientZoneWorld,Settings.Instance.OverloadFlagsZoneWorld);
             CharDBManager.GetClient();
-            CharDBManager.StartClientMonitor();
-            DatabaseManager.StartClientMonitor();
             Log.SetLogToFile(string.Format(@"Logs\Zone\{0}.log", DateTime.Now.ToString("yyyy-MM-dd HHmmss")));
             Randomizer = new Random();
             Log.IsDebug = Settings.Instance.Debug;

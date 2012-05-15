@@ -116,7 +116,7 @@ namespace Zepheus.Zone
 			//--------------------------------------------------
 			string query = string.Format(get_group_id_query, pCharId);
 			using(var client = Program.DatabaseManager.GetClient())
-			using(var cmd = new MySqlCommand(query, client.Connection))
+			using(var cmd = new MySqlCommand(query, client.GetConnection()))
 			using(var reader = cmd.ExecuteReader())
 			{
 				long? id = null;
@@ -143,7 +143,7 @@ namespace Zepheus.Zone
 			string query = string.Format(get_group_id_query, pCharacter.ID);
 			long groupId = -1;
 			using(var client = Program.DatabaseManager.GetClient())
-			using(var cmd = new MySqlCommand(query, client.Connection))
+			using(var cmd = new MySqlCommand(query, client.GetConnection()))
 			using(var reader = cmd.ExecuteReader())
 			{
 				while(reader.Read())
@@ -193,7 +193,7 @@ namespace Zepheus.Zone
 			// get groupId
 			//--------------------------------------------------
             using (var client = Program.DatabaseManager.GetClient())
-            using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.Connection))
+            using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.GetConnection()))
             using (var reader = cmd.ExecuteReader())
                 while (reader.Read()){
 					if(reader.IsDBNull(0))

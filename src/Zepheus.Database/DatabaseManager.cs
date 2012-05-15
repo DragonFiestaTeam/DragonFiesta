@@ -1,265 +1,352 @@
 using System;
 using System.Data;
 using System.Threading;
+using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
-using Zepheus.Util;
-using Zepheus.Database.Storage;
+using System.Text;
+
 
 namespace Zepheus.Database
 {
+    /// <summary>
+    /// DatabaseManager acts as a proxy towards an encapsulated Database at a DatabaseServer.
+    /// </summary>
     public class DatabaseManager
     {
-        public DatabaseServer Server;
-        public Database Database;
+        #region Fields
+        private DatabaseServer mServer;
+        private Database mDatabase;
+        private int MaxCacheQuerysPerClient;
+        private DatabaseClient[] mClients = new DatabaseClient[0];
+        private bool[] mClientAvailable = new bool[0];
+        private int mClientStarvationCounter;
+        private object mLockObject;
+        private int overloadflags;
+        private Task mClientMonitor;
+        #endregion
 
-        public DatabaseClient[] Clients;
-        public Boolean[] AvailableClients;
-        public int ClientStarvation;
-        public PriorityQueue<MySqlCommand> Commands;
-        public int CommandCacheCount;
-        public Thread ClientMonitor;
+        #region Properties
 
-        public string ConnectionString
+        #endregion
+
+        #region Constructor
+        /// <summary>
+        /// Constructs a DatabaseManager for a given DatabaseServer and Database.
+        /// </summary>
+        /// <param name="pServer">The DatabaseServer for this database proxy.</param>
+        /// <param name="pDatabase">The Database for this database proxy.</param>
+        public DatabaseManager(DatabaseServer pServer, Database pDatabase, int MaxCacheQuerysPerClientCount, int Overloadflags)
         {
-            get
-            {
-                var connectionString = new MySqlConnectionStringBuilder
-                {
-                    Server = Server.Hostname,
-                    Port = Server.Port,
-                    UserID = Server.Username,
-                    Password = Server.Password,
-                    Database = Database.DatabaseName,
-                    MinimumPoolSize = Database.PoolMinSize,
-                    MaximumPoolSize = Database.PoolMaxSize
-                };
+            this.MaxCacheQuerysPerClient = MaxCacheQuerysPerClientCount;
+            this.overloadflags = Overloadflags;
+            mServer = pServer;
+            mDatabase = pDatabase;
+            mLockObject = new object();
+        }
+        /// <summary>
+        /// Constructs a DatabaseManager for given database server and database details.
+        /// </summary>
+        /// <param name="sServer">The network host of the database server, eg 'localhost' or '127.0.0.1'.</param>
+        /// <param name="Port">The network port of the database server as an unsigned 32 bit integer.</param>
+        /// <param name="sUser">The username to use when connecting to the database.</param>
+        /// <param name="sPassword">The password to use in combination with the username when connecting to the database.</param>
+        /// <param name="sDatabase">The name of the database to connect to.</param>
+        /// <param name="minPoolSize">The minimum connection pool size for the database.</param>
+        /// <param name="maxPoolSize">The maximum connection pool size for the database.</param>
+        public DatabaseManager(string sServer, uint Port, string sUser, string sPassword, string sDatabase, uint minPoolSize, uint maxPoolSize, int MaxQueryCountPerClient,int OverloadFlags)
+        {
+            mServer = new DatabaseServer(sServer, Port, sUser, sPassword);
+            mDatabase = new Database(sDatabase, minPoolSize, maxPoolSize);
+            this.MaxCacheQuerysPerClient = MaxQueryCountPerClient;
+            overloadflags = OverloadFlags;
+            mClientMonitor = new Task(MonitorClientsLoop);
+            //mClientMonitor.Priority = ThreadPriority.Lowest;
+         
+            mClientMonitor.Start();
+        }
+        #endregion
 
-                return connectionString.ToString();
+        #region Methods
+        /// <summary>
+        /// Starts the client monitor thread. The client monitor disconnects inactive clients etc.
+        /// </summary>
+        //internal void StartMonitor()
+        //{
+        //    mClientMonitor = new Task(MonitorClientsLoop);
+        //    //mClientMonitor.Priority = ThreadPriority.Lowest;
+
+        //    mClientMonitor.Start();
+        //}
+        /// <summary>
+        /// Stops the client monitor thread.
+        /// </summary>
+        internal void StopMonitor()
+        {
+            if (mClientMonitor != null)
+            {
+                mClientMonitor.Dispose();
             }
         }
 
-        public DatabaseManager(DatabaseServer server, Database database)
+        /// <summary>
+        /// Disconnects and destroys all database clients.
+        /// </summary>
+        internal void DestroyClients()
         {
-            Server = server;
-            Database = database;
-            Commands = new PriorityQueue<MySqlCommand>();
-            Clients = new DatabaseClient[0];
-            AvailableClients = new Boolean[0];
-            ClientStarvation = 0;
-            CommandCacheCount = 0;
-            StartClientMonitor();
-        }
-
-        public void DestroyClients()
-        {
-            lock (this.Clients)
+            lock (this)
             {
-                for (int i = 0; i < Clients.Length; i++)
+                for (int i = 0; i < mClients.Length; i++)
                 {
-                    Clients[i].Destroy();
-                    Clients[i] = null;
+                    DatabaseClient tClient = mClients[i];
+                    if (tClient != null)
+                    {
+                        tClient.Destroy();
+                        mClients[i] = null;
+                    }
                 }
             }
         }
-
-        public void DestroyDatabaseManager()
+        /// <summary>
+        /// Nulls all instance fields of the database manager.
+        /// </summary>
+        internal void DestroyManager()
         {
-            StopClientMonitor();
+            //mServer = null;
+            //mDatabase = null;
+            //mClients = null;
+            //mClientAvailable = null;
 
-            lock (this.Clients)
-            {
-                for (int i = 0; i < Clients.Length; i++)
-                {
-                    try
-                    {
-                        Clients[i].Destroy();
-                        Clients[i] = null;
-                    }
-                    catch (NullReferenceException)
-                    {
-                    }
-                }
-            }
-
-            Server = null;
-            Database = null;
-            Clients = null;
-            AvailableClients = null;
+            //mClientMonitor = null;
         }
 
-        public void StartClientMonitor()
-        {
-            if (ClientMonitor != null)
-            {
-                return;
-            }
-
-            ClientMonitor = new Thread(MonitorClients);
-            ClientMonitor.Name = "DB Monitor";
-            ClientMonitor.Priority = ThreadPriority.Lowest;
-            ClientMonitor.Start();
-        }
-
-        public void StopClientMonitor()
-        {
-            if (ClientMonitor == null)
-            {
-                return;
-            }
-
-            try
-            {
-                ClientMonitor.Abort();
-            }
-            catch (ThreadAbortException)
-            {
-            }
-
-            ClientMonitor = null;
-        }
-
-        public void MonitorClients()
+        /// <summary>
+        /// Closes the connections of database clients that have been inactive for too long. Connections can be opened again when needed.
+        /// </summary>
+        private void MonitorClientsLoop()
         {
             while (true)
             {
                 try
                 {
-                    lock (this.Clients)
+                    lock (mLockObject)
                     {
-                        foreach (var i in Clients)
+                        DateTime dtNow = DateTime.Now;
+                        for (int i = 0; i < mClients.Length; i++)
                         {
-                            if (i.State != ConnectionState.Closed)
+                            if (mClients[i].State != ConnectionState.Closed)
                             {
-                                if (i.InactiveTime >= 45) // Not used in the last %x% seconds
+                                if (mClients[i].InactiveTime >= 60) // Not used in the last %x% seconds
                                 {
-                                    i.Disconnect();
+                                    mClients[i].Disconnect(); // Temporarily close connection
+
+                                    Console.WriteLine("Log","Disconnected database client #" + mClients[i].mHandle);
                                 }
                             }
                         }
                     }
-
-                    Thread.Sleep(10000); // 10 Seconds
                 }
-                catch (ThreadAbortException)
+                catch (Exception ex)
                 {
+                   Console.WriteLine("Log", "" + ex.ToString() + "DatabaseManager task");
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("An error occured in database manager client monitor: " + e.Message);
-                }
+                Thread.Sleep(10000); // 10 seconds
             }
+        }
+        /// <summary>
+        /// Creates the connection string for this database proxy.
+        /// </summary>
+        internal string CreateConnectionString()
+        {
+            MySqlConnectionStringBuilder pCSB = new MySqlConnectionStringBuilder();
+
+            // Server
+            pCSB.Server = mServer.Host;
+            pCSB.Port = mServer.Port;
+            pCSB.UserID = mServer.User;
+            pCSB.Password = mServer.Password;
+
+            // Database
+            pCSB.Database = mDatabase.Name;
+            pCSB.MinimumPoolSize = mDatabase.minPoolSize;
+            pCSB.MaximumPoolSize = mDatabase.maxPoolSize;
+
+            return pCSB.ToString();
         }
 
         public DatabaseClient GetClient()
         {
-            lock (this.Clients)
+           // lock (mLockObject)
             {
-                lock (this.AvailableClients)
+                for (uint i = 0; i < mClients.Length; i++)
                 {
-                    for (uint i = 0; i < Clients.Length; i++)
+                    if (mClientAvailable[i] == true)
                     {
-                        if (AvailableClients[i] == true)
+                        mClientAvailable[i] = false;
+                        mClientStarvationCounter = 0;
+
+                        if (mClients[i].State == ConnectionState.Closed)
                         {
-                            ClientStarvation = 0;
-
-                            if (Clients[i].State == ConnectionState.Closed)
+                            try
                             {
-                                try
-                                {
-                                    Clients[i].Connect();
-                                }
-                                catch (Exception e)
-                                {
-                                    Log.WriteLine(LogLevel.Error, "Could not get database client: " + e.Message);
-                                }
+                                mClients[i].Connect();
                             }
-
-                            if (Clients[i].State == ConnectionState.Open)
+                            catch
                             {
-                                AvailableClients[i] = false;
+                                mClients[i].Destroy();
+                                mClients[i] = new DatabaseClient(i, this);
+                                mClients[i].Connect();
+                            }
+                            Console.WriteLine("Opening connection for database client #" + mClients[i].mHandle);
+                        }
 
-                                Clients[i].UpdateLastActivity();
-                                return Clients[i];
+                        if (mClients[i].State == ConnectionState.Open)
+                        {
+                            mClients[i].UpdateLastActivity();
+                            if (!mClients[i].IsBussy)
+                            {
+                                mClients[i].IsBussy = true;
+                                return mClients[i];
+                            }
+                        }
+                        if(mClients.Length >= 5)
+                        {
+                            if(mClients[i].CommandCacheCount <= MaxCacheQuerysPerClient)
+                            {
+                                mClients[i].IsBussy = true;
+                                Console.WriteLine("Set Query cachet client");
+                                return mClients[i];
+                            }
+                            else
+                            {
+                                if (overloadflags == 1)
+                                {
+                                    //:Todo kick all Connection
+                                }
+                                else if (overloadflags == 2)
+                                {
+                                    //:TODO shutdown server
+                                }
+                            
                             }
                         }
                     }
                 }
 
-                ClientStarvation++;
+                mClientStarvationCounter++;
 
-                if (ClientStarvation >= ((Clients.Length + 1) / 2))
+                if (mClientStarvationCounter >= ((mClients.Length + 1) / 2))
                 {
-                    ClientStarvation = 0;
-                    SetClientAmount((uint)(Clients.Length + 1 * 1.3f));
+                    mClientStarvationCounter = 0;
+                    SetClientAmount((uint)(mClients.Length + 1 * 1.3f));
+                   
                     return GetClient();
                 }
 
-                DatabaseClient anonymous = new DatabaseClient(0, this);
-                anonymous.Connect();
+                DatabaseClient pAnonymous = new DatabaseClient(0, this);
+                pAnonymous.Connect();
 
-                return anonymous;
+                Console.WriteLine("Log","Handed out anonymous client.");
+                return pAnonymous;
             }
         }
-        public void PushCommand(MySqlCommand command)
+        internal void ReleaseClient(uint Handle)
         {
-            CommandCacheCount++;
-            Commands.Enqueue(command, CommandCacheCount);
-        }
-        public void SetClientAmount(uint amount)
-        {
-            lock (this.Clients)
+            if (mClients.Length >= (Handle - 1)) // Ensure client exists
             {
-                lock (this.AvailableClients)
-                {
-                    if (Clients.Length == amount)
-                    {
-                        return;
-                    }
-
-                    if (amount < Clients.Length)
-                    {
-                        for (uint i = amount; i < Clients.Length; i++)
-                        {
-                            Clients[i].Destroy();
-                            Clients[i] = null;
-                        }
-                    }
-
-                    DatabaseClient[] clients = new DatabaseClient[amount];
-                    bool[] availableClients = new bool[amount];
-
-                    for (uint i = 0; i < amount; i++)
-                    {
-                        if (i < Clients.Length)
-                        {
-                            clients[i] = Clients[i];
-                            availableClients[i] = AvailableClients[i];
-                        }
-                        else
-                        {
-                            clients[i] = new DatabaseClient((i + 1), this);
-                            availableClients[i] = true;
-                        }
-                    }
-
-                    Clients = clients;
-                    AvailableClients = availableClients;
-                }
+                mClientAvailable[Handle - 1] = true;
+                //Logging.WriteLine("Released client #" + Handle);
             }
         }
 
-        public void ReleaseClient(uint handle)
+        /// <summary>
+        /// Sets the amount of clients that will be available to requesting methods. If the new amount is lower than the current amount, the 'excluded' connections are destroyed. If the new connection amount is higher than the current amount, new clients are prepared. Already existing clients and their state will be maintained.
+        /// </summary>
+        /// <param name="Amount">The new amount of clients.</param>
+        internal void SetClientAmount(uint Amount)
         {
-            lock (this.Clients)
+            lock (this)
             {
-                lock (this.AvailableClients)
+                if (mClients.Length == Amount)
+                    return;
+
+                if (Amount < mClients.Length) // Client amount shrinks, dispose clients that will die
                 {
-                    if (Clients.Length >= (handle - 1)) // Ensure client exists
+                    for (uint i = Amount; i < mClients.Length; i++)
                     {
-                        AvailableClients[handle - 1] = true;
+                        mClients[i].Destroy();
+                        mClients[i] = null;
                     }
                 }
+
+                DatabaseClient[] pClients = new DatabaseClient[Amount];
+                bool[] pClientAvailable = new bool[Amount];
+                for (uint i = 0; i < Amount; i++)
+                {
+                    if (i < mClients.Length) // Keep the existing client and it's available state
+                    {
+                        pClients[i] = mClients[i];
+                        pClientAvailable[i] = mClientAvailable[i];
+                    }
+                    else // We are in need of more clients, so make another one
+                    {
+                        pClients[i] = new DatabaseClient((i + 1), this);
+                        pClientAvailable[i] = true; // Elegant?
+                    }
+                }
+
+                // Update the instance fields
+                mClients = pClients;
+                mClientAvailable = pClientAvailable;
             }
         }
+
+        //internal bool INSERT(IDataObject obj)
+        //{
+        //    using (DatabaseClient dbClient = GetClient())
+        //    {
+        //        return obj.INSERT(dbClient);
+        //    }
+        //}
+
+        //internal bool DELETE(IDataObject obj)
+        //{
+        //    using (DatabaseClient dbClient = GetClient())
+        //    {
+        //        return obj.DELETE(dbClient);
+        //    }
+        //}
+
+        //internal bool UPDATE(IDataObject obj)
+        //{
+        //    using (DatabaseClient dbClient = GetClient())
+        //    {
+        //        return obj.UPDATE(dbClient);
+        //    }
+        //}
+
+        public override string ToString()
+        {
+            return mServer.ToString() + ":" + mDatabase.Name;
+        }
+
+        internal int ConnectionCount
+        {
+            get
+            {
+                int Count = 0;
+                for (int i = 0; i < mClients.Length; i++)
+                {
+                    DatabaseClient Client = mClients[i];
+                    if (Client == null)
+                        continue;
+                    if (Client.State != ConnectionState.Closed)
+                        Count++;
+                }
+
+                return Count;
+            }
+        }
+        #endregion
     }
 }
+

@@ -23,7 +23,7 @@ namespace Zepheus.Database.DataStore
 				byte[] quickbar;
 				using (DatabaseClient dbClient = dbManager.GetClient())
 				{
-					command.Connection = dbClient.Connection;
+					command.Connection = dbClient.GetConnection();
 					command.Parameters.AddWithValue("@characterID", charID);
 					quickbar = dbClient.GetBlob(command);
 				}
@@ -36,7 +36,7 @@ namespace Zepheus.Database.DataStore
 				return null;
 			}
 		}
-		public static byte[] GetShortcuts(int charID, DatabaseManager dbManager)
+		public  static byte[] GetShortcuts(int charID, DatabaseManager dbManager)
 		{
 			try
 			{
@@ -44,7 +44,7 @@ namespace Zepheus.Database.DataStore
 				byte[] shortcuts;
 				using (DatabaseClient dbClient = dbManager.GetClient())
 				{
-					command.Connection = dbClient.Connection;
+					command.Connection = dbClient.GetConnection();
 					command.Parameters.AddWithValue("@characterID", charID);
 					shortcuts = dbClient.GetBlob(command);
 				}
@@ -66,7 +66,7 @@ namespace Zepheus.Database.DataStore
 				byte[] quickBarState;
 				using (DatabaseClient dbClient = dbManager.GetClient())
 				{
-					command.Connection = dbClient.Connection;
+                    command.Connection = dbClient.GetConnection();
 					command.Parameters.AddWithValue("@characterID", charID);
 					quickBarState = dbClient.GetBlob(command);
 				}
@@ -88,7 +88,7 @@ namespace Zepheus.Database.DataStore
 				byte[] gameSettings;
 				using (DatabaseClient dbClient = dbManager.GetClient())
 				{
-					command.Connection = dbClient.Connection;
+					command.Connection = dbClient.GetConnection();
 					command.Parameters.AddWithValue("@characterID", charID);
 					gameSettings = dbClient.GetBlob(command);
 				}
@@ -108,7 +108,7 @@ namespace Zepheus.Database.DataStore
 				byte[] clientSetting;
 				using (DatabaseClient dbClient = dbManager.GetClient())
 				{
-					command.Connection = dbClient.Connection;
+					command.Connection = dbClient.GetConnection();
 					command.Parameters.AddWithValue("@characterID", charID);
 					clientSetting = dbClient.GetBlob(command);
 				}
@@ -133,7 +133,7 @@ namespace Zepheus.Database.DataStore
 		}
 		#endregion
 
-		public static Character ReadCharObjectFromDatabase(string charname, DatabaseManager dbmanager)
+	     public static Character ReadCharObjectFromDatabase(string charname, DatabaseManager dbmanager)
 		{
 			Character ch = new Character();
 			DataTable charData = null;

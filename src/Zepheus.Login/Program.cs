@@ -68,11 +68,9 @@ namespace Zepheus.Login
         {
             Zepheus.InterLib.Settings.Initialize();
             Settings.Load();
-            DatabaseServer dbServer = new DatabaseServer(Settings.Instance.LoginMysqlServer, (uint)Settings.Instance.LoginMysqlPort, Settings.Instance.LoginMysqlUser, Settings.Instance.LoginMysqlPassword);
-            Database.Database db = new Database.Database(Settings.Instance.LoginMysqlDatabase, Settings.Instance.LoginDBMinPoolSize, Settings.Instance.LoginDBMaxPoolSize);
-            DatabaseManager = new DatabaseManager(dbServer, db);
+            DatabaseManager = new DatabaseManager(Settings.Instance.LoginMysqlServer, (uint)Settings.Instance.LoginMysqlPort, Settings.Instance.LoginMysqlUser, Settings.Instance.LoginMysqlPassword, Settings.Instance.LoginMysqlDatabase, Settings.Instance.LoginDBMinPoolSize, Settings.Instance.LoginDBMaxPoolSize,Settings.Instance.QuerCachePerClient,Settings.Instance.OverloadFlags);
             DatabaseManager.GetClient(); //testclient
-            DatabaseManager.StartClientMonitor();
+    
             Log.SetLogToFile(string.Format(@"Logs\Login\{0}.log", DateTime.Now.ToString("d_M_yyyy HH_mm_ss")));
 
             if (Reflector.GetInitializerMethods().Any(method => !method.Invoke()))

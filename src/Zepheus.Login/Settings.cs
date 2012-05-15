@@ -16,6 +16,8 @@
         public uint LoginDBMinPoolSize { get; set; }
         public uint LoginDBMaxPoolSize { get; set; }
         public string LoginServiceUri { get; set; }
+        public int OverloadFlags { get; set; }
+        public int QuerCachePerClient { get; set; }
         public string InterPassword { get; set; }
         public ushort InterServerPort { get; set; }
         public static Settings Instance { get; set; }
@@ -39,7 +41,8 @@
                 LoginMysqlDatabase = Zepheus.InterLib.Settings.GetString("Login.Mysql.Database"),
                 LoginDBMinPoolSize = Zepheus.InterLib.Settings.GetUInt32("Login.Mysql.MinPool"),
                 LoginDBMaxPoolSize = Zepheus.InterLib.Settings.GetUInt32("Login.Mysql.MaxPool"),
-
+                QuerCachePerClient = Zepheus.InterLib.Settings.GetInt32("Login.Mysql.QuerCachePerClient"),
+                OverloadFlags = Zepheus.InterLib.Settings.GetInt32("Login.Mysql.OverloadFlags"),
                
                 Version = SettingsVersion,
             };

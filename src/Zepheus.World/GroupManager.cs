@@ -246,7 +246,7 @@ namespace Zepheus.World
 
             long max = 0;
             using (var client = Program.DatabaseManager.GetClient())
-            using (var cmd = new MySqlCommand(get_max_group_id_query, client.Connection))
+            using (var cmd = new MySqlCommand(get_max_group_id_query, client.GetConnection()))
             using (var rdr = cmd.ExecuteReader())
                 while (rdr.Read())
                 {

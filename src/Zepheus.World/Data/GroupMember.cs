@@ -46,7 +46,7 @@ namespace Zepheus.World.Data
 			GroupMember member = new GroupMember();
 
 			using (var con = Program.DatabaseManager.GetClient())
-			using (var cmd = new MySqlCommand(query, con.Connection))
+			using (var cmd = new MySqlCommand(query, con.GetConnection()))
 			{
 				cmd.Parameters.AddWithValue("@cid", pCharId);
 				using (var rdr = cmd.ExecuteReader())

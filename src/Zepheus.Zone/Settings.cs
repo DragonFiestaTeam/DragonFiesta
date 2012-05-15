@@ -25,12 +25,17 @@
         public string WorldMysqlUser { get; set; }
         public string WorldMysqlPassword { get; set; }
         public string WorldMysqlDatabase { get; set; }
+        public uint WorldDBMinPoolSizeZoneWorld { get; set; }
+        public uint WorldDBMaxPoolSizeZoneWorld { get; set; }
         public static Settings Instance { get; set; }
         public string ConnString { get; set; }
         public string WorldConnString { get; set; }
         public uint ZoneDBMinPoolSize { get; set; }
         public uint ZoneDBMaxPoolSize { get; set; }
-
+        public int OverloadFlags { get; set; }
+        public int QuerCachePerClient { get; set; }
+        public int OverloadFlagsZoneWorld { get; set; }
+        public int QuerCachePerClientZoneWorld { get; set; }
         public static bool Load()
         {
             try
@@ -60,6 +65,12 @@
                     WorldMysqlUser = Zepheus.InterLib.Settings.GetString("World.Mysql.User"),
                     WorldMysqlPassword = Zepheus.InterLib.Settings.GetString("World.Mysql.Password"),
                     WorldMysqlDatabase = Zepheus.InterLib.Settings.GetString("World.Mysql.Database"),
+                    QuerCachePerClientZoneWorld = Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.QuerCachePerClient"),
+                    OverloadFlagsZoneWorld = Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.OverloadFlags"),
+                    QuerCachePerClient = Zepheus.InterLib.Settings.GetInt32("Data.Mysql.QuerCachePerClient"),
+                    OverloadFlags = Zepheus.InterLib.Settings.GetInt32("Data.Mysql.OverloadFlags"),
+                    WorldDBMinPoolSizeZoneWorld = (uint)Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.MinPool"),
+                    WorldDBMaxPoolSizeZoneWorld = (uint)Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.MaxPool"),
                 };
                 obj.WorldConnString = " User ID=" + obj.WorldMysqlUser + ";Password=" + obj.WorldMysqlPassword + ";Host=" + obj.WorldMysqlServer + ";Port=" + obj.WorldMysqlPort + ";Database=" + obj.WorldMysqlDatabase + ";Protocol=TCP;Compress=false;Pooling=true;Min Pool Size=0;Max Pool Size=2000;Connection Lifetime=0;";
                 obj.ConnString = " User ID=" + obj.zoneMysqlUser + ";Password=" + obj.zoneMysqlPassword + ";Host=" + obj.zoneMysqlServer + ";Port=" + obj.zoneMysqlPort + ";Database=" + obj.zoneMysqlDatabase + ";Protocol=TCP;Compress=false;Pooling=true;Min Pool Size=0;Max Pool Size=2000;Connection Lifetime=0;";

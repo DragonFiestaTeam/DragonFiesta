@@ -3,20 +3,26 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using Zepheus.Util;
 using System.Collections.Generic;
+using Zepheus.Database.Storage;
+
 namespace Zepheus.Database
 {
-    public class DatabaseClient : IDisposable
-    {
-        public uint Handle;
+     public sealed class DatabaseClient : IDisposable
+     {
+        private uint Handle;
+ 
+        private DateTime LastActivity;
 
-        public DateTime LastActivity;
+        private DatabaseManager Manager;
 
-        public DatabaseManager Manager;
+        private MySqlConnection Connection;
+        private MySqlCommand Command;
+        public PriorityQueue<MySqlCommand> Commands;
+        public int CommandCacheCount;
+        public bool IsBussy = false;
 
-        public MySqlConnection Connection;
-        public MySqlCommand Command;
 
-        public Boolean IsAnonymous
+        public bool IsAnonymous
         {
             get
             {
@@ -31,8 +37,12 @@ namespace Zepheus.Database
                 return (int)(DateTime.Now - LastActivity).TotalSeconds;
             }
         }
+        public uint mHandle
+        {
+            get { return Handle; }
+        }
 
-        public ConnectionState State
+       public ConnectionState State
         {
             get
             {
@@ -40,37 +50,39 @@ namespace Zepheus.Database
             }
         }
 
-        public DatabaseClient(uint handle, DatabaseManager manager)
-        {
-            if (manager == null)
-                throw new ArgumentNullException("[DBClient.Connect]: Invalid database handle");
+       public DatabaseClient(uint mHandle, DatabaseManager pManager)
+       {
+           if (pManager == null)
+               throw new ArgumentNullException("pManager");
 
-            Handle = handle;
-            Manager = manager;
+           Handle = mHandle;
+           Manager = pManager;
 
-            Connection = new MySqlConnection(Manager.ConnectionString);
-            Command = Connection.CreateCommand();
+           Connection = new MySqlConnection(Manager.CreateConnectionString());
+           Command = Connection.CreateCommand();
 
-            UpdateLastActivity();
-        }
-
-        public void Connect()
-        {
-            if (Connection == null)
-                throw new DatabaseException("[DBClient.Connect]: Connection instance of database client " + Handle + " holds no value.");
-            if (this.Manager.CommandCacheCount > 10)
-                Log.WriteLine(LogLevel.Warn, "[DBClient.Database]: The QuerysCache Overloaded");
+           UpdateLastActivity();
+       }
+       public MySqlConnection GetConnection()
+       {
+           return this.Connection;
+       }
+           public void Connect()
+           {
+           if (Connection == null)
+                throw new DatabaseException("Connection instance of database client " + Handle + " holds no value.");
             if (Connection.State != ConnectionState.Closed)
-                throw new DatabaseException("[DBClient.Connect]: Connection instance of database client " + Handle + " requires to be closed before it can open again.");
+                throw new DatabaseException("Connection instance of database client " + Handle + " requires to be closed before it can open again.");
+
             try
             {
                 Connection.Open();
-
             }
-            catch
+            catch (MySqlException mex)
             {
+                throw new DatabaseException("Failed to open connection for database client " + Handle + ", exception message: " + mex.Message);
             }
-        }
+           }
 
         public void Disconnect()
         {
@@ -85,19 +97,22 @@ namespace Zepheus.Database
 
         public void Dispose()
         {
-            if (this.IsAnonymous)
+            if (!this.IsAnonymous) // No disposing for this client yet! Return to the manager!
+            {
+                IsBussy = false;
+                // Reset this!
+               // mCommand.CommandText = null;
+                Command.Parameters.Clear();
+
+                Manager.ReleaseClient(Handle);
+            }
+            else // Anonymous client, dispose this right away!
             {
                 Destroy();
-                return;
             }
-
-            Command.CommandText = null;
-            Command.Parameters.Clear();
-
-            Manager.ReleaseClient(Handle);
         }
 
-        public void Destroy()
+       public void Destroy()
         {
             Disconnect();
 
@@ -131,64 +146,72 @@ namespace Zepheus.Database
         {
             try
             {
-               // this.Dispose();
-                Command.CommandText = sQuery;
+                
+                 Command.CommandText = sQuery;
                 if (this.Command.Connection.State != ConnectionState.Open)
                 {
-                    this.Manager.PushCommand(Command);
+                    this.PushCommand(Command);
                 }
                 else
                 {
                     Command.ExecuteScalar();
-                    while (!this.Manager.Commands.Empty)
+                    while (!this.Commands.Empty)
                     {
-                        MySqlCommand cmd = this.Manager.Commands.Dequeue();
+                        MySqlCommand cmd = this.Commands.Dequeue();
                         cmd.Connection = Command.Connection;
                         cmd.ExecuteScalar();
-                        this.Manager.CommandCacheCount--;
+                        this.CommandCacheCount--;
                     }
                     Command.CommandText = null;
+               
                 }
+                this.IsBussy = true;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e + "\n (" + sQuery + ")");
             }
         }
-        public void ExecuteQueryWithParameters(MySqlCommand Cmd, params MySqlParameter[] pParams)
+        public void PushCommand(MySqlCommand command)
+        {
+            CommandCacheCount++;
+            Commands.Enqueue(command, CommandCacheCount);
+        }
+       public void ExecuteQueryWithParameters(MySqlCommand Cmd, params MySqlParameter[] pParams)
         {
             try
             {
-                //this.Dispose();
-                AddParameters(Cmd, pParams);
                 Command = Cmd;
                 Command.Connection = this.Connection;
                 if (this.Command.Connection.State != ConnectionState.Open)
                 {
-                    this.Manager.PushCommand(Command);
+                    this.PushCommand(Command);
                 }
                 else
                 {
                     Command.ExecuteScalar();
-                    while (!this.Manager.Commands.Empty)
+                    while (!this.Commands.Empty)
                     {
-                        MySqlCommand cmd = this.Manager.Commands.Dequeue();
+                        MySqlCommand cmd = this.Commands.Dequeue();
                         cmd.Connection = Command.Connection;
                         cmd.ExecuteScalar();
-                        this.Manager.CommandCacheCount--;
+                        this.CommandCacheCount--;
                     }
                     Command.CommandText = null;
                 }
+                this.IsBussy = true;
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e + "\n (" + Command.CommandText + ")");
             }
-        }
+         }
 
         public bool FindsResult(string sQuery)
         {
             bool found = false;
+            this.IsBussy = true;
             try
             {
                 Command.CommandText = sQuery;
@@ -207,6 +230,7 @@ namespace Zepheus.Database
         {
             try
             {
+                this.IsBussy = true;
                 DataSet dataSet = new DataSet();
                 Command.CommandText = query;
 
@@ -215,7 +239,7 @@ namespace Zepheus.Database
                     adapter.Fill(dataSet);
                 }
 
-                Command.CommandText = null;
+               // Command.CommandText = null;
                 return dataSet;
             }
             catch (DatabaseException ex)
@@ -229,6 +253,7 @@ namespace Zepheus.Database
         {
             try
             {
+                this.IsBussy = true;
                 DataTable dataTable = new DataTable();
                 Command.CommandText = query;
 
@@ -237,7 +262,7 @@ namespace Zepheus.Database
                     adapter.Fill(dataTable);
                 }
 
-                Command.CommandText = null;
+              //  Command.CommandText = null;
                 return dataTable;
             }
             catch (DatabaseException ex)
@@ -251,6 +276,7 @@ namespace Zepheus.Database
         {
             try
             {
+                this.IsBussy = true;
                 DataTable dataTable = ReadDataTable(query);
 
                 if (dataTable != null && dataTable.Rows.Count > 0)
@@ -270,9 +296,10 @@ namespace Zepheus.Database
         {
             try
             {
+                this.IsBussy = true;
                 Command.CommandText = query;
                 string result = Command.ExecuteScalar().ToString();
-                Command.CommandText = null;
+               // Command.CommandText = null;
                 return result;
             }
             catch (DatabaseException ex)
@@ -284,13 +311,15 @@ namespace Zepheus.Database
 
         public uint InsertAndIdentify(string query)
         {
+            this.IsBussy = true;
             MySqlCommand command = this.Connection.CreateCommand();
             command.CommandText = query;
-            return InsertAndIdentifyInternal(command);
+            return InsertAndIdentifypublic(command);
         }
 
-        private uint InsertAndIdentifyInternal(MySqlCommand pCommand)
+        public uint InsertAndIdentifypublic(MySqlCommand pCommand)
         {
+            this.IsBussy = true;
             pCommand.Prepare();
             pCommand.ExecuteNonQuery();
             pCommand.CommandText = "SELECT LAST_INSERT_ID()";
@@ -298,18 +327,20 @@ namespace Zepheus.Database
             return (uint)(long)pCommand.ExecuteScalar();
         }
         #region ReadMethods
-        public uint ReadUInt(string query)
+       public uint ReadUInt(string query)
         {
+           this.IsBussy = true;
             Command.CommandText = query;
             uint result = uint.Parse(Command.ExecuteScalar().ToString());
-            Command.CommandText = null;
+          //  Command.CommandText = null;
             return result;
         }
-        public Int32 ReadInt32(string query)
+         public  Int32 ReadInt32(string query)
         {
+            this.IsBussy = true;
             Command.CommandText = query;
             Int32 result = Int32.Parse(Command.ExecuteScalar().ToString());
-            Command.CommandText = null;
+           // Command.CommandText = null;
             return result;
         }
 
@@ -318,6 +349,7 @@ namespace Zepheus.Database
             byte[] retvalue;
             try
             {
+                this.IsBussy = true;
                 retvalue = (byte[])pCommand.ExecuteScalar();
             }
             catch (Exception ex)

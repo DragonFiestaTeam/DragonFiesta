@@ -62,7 +62,7 @@ namespace Zepheus.Zone.Game
 			using (var client = Program.DatabaseManager.GetClient())
 			{
 				string query = string.Format(read_group_query, pId);
-				using(var cmd = new MySqlCommand(query, client.Connection))
+				using(var cmd = new MySqlCommand(query, client.GetConnection()))
 				using(var reader = cmd.ExecuteReader())
 		 	    {
 					while(reader.Read ())
@@ -174,7 +174,7 @@ namespace Zepheus.Zone.Game
 			bool isMaster = false;
 
 			using (var client = Program.DatabaseManager.GetClient())
-			using (var cmd = new MySqlCommand(string.Format(get_groupmem_query, pCharId), client.Connection))
+			using (var cmd = new MySqlCommand(string.Format(get_groupmem_query, pCharId), client.GetConnection()))
 			using (var reader = cmd.ExecuteReader())
 			{
 				while (reader.Read())
