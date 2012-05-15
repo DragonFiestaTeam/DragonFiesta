@@ -17,7 +17,7 @@ namespace Zepheus.Database
 
         private MySqlConnection Connection;
         private MySqlCommand Command;
-        public PriorityQueue<MySqlCommand> Commands;
+        public PriorityQueue<MySqlCommand> Commands = new PriorityQueue<MySqlCommand>();
         public int CommandCacheCount;
         public bool IsBussy = false;
 
@@ -67,21 +67,29 @@ namespace Zepheus.Database
        {
            return this.Connection;
        }
-           public void Connect()
+           public ConnectionState Connect()
            {
-           if (Connection == null)
-                throw new DatabaseException("Connection instance of database client " + Handle + " holds no value.");
-            if (Connection.State != ConnectionState.Closed)
-                throw new DatabaseException("Connection instance of database client " + Handle + " requires to be closed before it can open again.");
-
+               if (Connection == null && Connection.ConnectionString == null)
+               {
+                  // Connection.Open();
+                   new DatabaseException("Connection instance of database client " + Handle + " holds no value.");
+                   return ConnectionState.Broken;
+               }
+               else if (Connection.State != ConnectionState.Closed)
+               {
+                   new DatabaseException("Connection instance of database client " + Handle + " requires to be closed before it can open again."); 
+                   return ConnectionState.Open;
+               }
             try
             {
                 Connection.Open();
             }
             catch (MySqlException mex)
             {
-                throw new DatabaseException("Failed to open connection for database client " + Handle + ", exception message: " + mex.Message);
+               new DatabaseException("Failed to open connection for database client " + Handle + ", exception message: " + mex.Message);
+               return ConnectionState.Closed;
             }
+            return ConnectionState.Connecting;
            }
 
         public void Disconnect()
@@ -155,7 +163,7 @@ namespace Zepheus.Database
                 else
                 {
                     Command.ExecuteScalar();
-                    while (!this.Commands.Empty)
+                    for (int i = 0; i < Commands.Count; i++)
                     {
                         MySqlCommand cmd = this.Commands.Dequeue();
                         cmd.Connection = Command.Connection;
@@ -169,7 +177,7 @@ namespace Zepheus.Database
             }
             catch (Exception e)
             {
-                Console.WriteLine(e + "\n (" + sQuery + ")");
+                Log.WriteLine(LogLevel.Error,e + "\n (" + sQuery + ")");
             }
         }
         public void PushCommand(MySqlCommand command)
@@ -190,7 +198,7 @@ namespace Zepheus.Database
                 else
                 {
                     Command.ExecuteScalar();
-                    while (!this.Commands.Empty)
+                    for (int i = 0; i < Commands.Count; i++)
                     {
                         MySqlCommand cmd = this.Commands.Dequeue();
                         cmd.Connection = Command.Connection;
@@ -204,7 +212,7 @@ namespace Zepheus.Database
             }
             catch (Exception e)
             {
-                Console.WriteLine(e + "\n (" + Command.CommandText + ")");
+               Log.WriteLine(LogLevel.Error,e + "\n (" + Command.CommandText + ")");
             }
          }
 
@@ -221,7 +229,7 @@ namespace Zepheus.Database
             }
             catch (Exception e)
             {
-                Console.WriteLine(e + "\n (" + sQuery + ")");
+                Log.WriteLine(LogLevel.Error,e + "\n (" + sQuery + ")");
             }
             return found;
         }

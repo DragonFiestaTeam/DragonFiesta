@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Text;
-
+using Zepheus.Util;
 
 namespace Zepheus.Database
 {
@@ -61,7 +61,7 @@ namespace Zepheus.Database
             overloadflags = OverloadFlags;
             mClientMonitor = new Task(MonitorClientsLoop);
             //mClientMonitor.Priority = ThreadPriority.Lowest;
-         
+            mLockObject = new object();
             mClientMonitor.Start();
         }
         #endregion
@@ -139,7 +139,7 @@ namespace Zepheus.Database
                                 {
                                     mClients[i].Disconnect(); // Temporarily close connection
 
-                                    Console.WriteLine("Log","Disconnected database client #" + mClients[i].mHandle);
+                                    Log.WriteLine(LogLevel.Debug,"Disconnected database client #" + mClients[i].mHandle);
                                 }
                             }
                         }
@@ -147,7 +147,7 @@ namespace Zepheus.Database
                 }
                 catch (Exception ex)
                 {
-                   Console.WriteLine("Log", "" + ex.ToString() + "DatabaseManager task");
+                    Log.WriteLine(LogLevel.Error,"" + ex.ToString() + "DatabaseManager task");
                 }
                 Thread.Sleep(10000); // 10 seconds
             }
@@ -175,7 +175,7 @@ namespace Zepheus.Database
 
         public DatabaseClient GetClient()
         {
-           // lock (mLockObject)
+            lock (this)
             {
                 for (uint i = 0; i < mClients.Length; i++)
                 {
@@ -188,15 +188,34 @@ namespace Zepheus.Database
                         {
                             try
                             {
-                                mClients[i].Connect();
+                                ConnectionState StateConn = mClients[i].Connect();
+                                if (StateConn == ConnectionState.Connecting)
+                                {
+                                    Log.WriteLine(LogLevel.Debug,"Opening connection for database client #" + mClients[i].mHandle);
+                                }
+                                else if (StateConn == ConnectionState.Open)
+                                {
+                                    mClients[i].Destroy();
+                                    mClients[i] = new DatabaseClient(i, this);
+                                    mClients[i].Connect();
+                                }
+                                else if (StateConn == ConnectionState.Closed)
+                                {
+                                   //TODO Caching
+                                    Console.WriteLine("Caching client Message");
+                                }
+                                else if(StateConn == ConnectionState.Broken)
+                                {
+                                    mClients[i].Destroy();
+                                    mClients[i] = new DatabaseClient(i, this);
+                                    mClients[i].Connect();
+                                }
                             }
-                            catch
+                            catch(Exception ex)
                             {
-                                mClients[i].Destroy();
-                                mClients[i] = new DatabaseClient(i, this);
-                                mClients[i].Connect();
+
+                                Log.WriteLine(LogLevel.Exception,"{0}", ex.Message);
                             }
-                            Console.WriteLine("Opening connection for database client #" + mClients[i].mHandle);
                         }
 
                         if (mClients[i].State == ConnectionState.Open)
@@ -206,27 +225,6 @@ namespace Zepheus.Database
                             {
                                 mClients[i].IsBussy = true;
                                 return mClients[i];
-                            }
-                        }
-                        if(mClients.Length >= 5)
-                        {
-                            if(mClients[i].CommandCacheCount <= MaxCacheQuerysPerClient)
-                            {
-                                mClients[i].IsBussy = true;
-                                Console.WriteLine("Set Query cachet client");
-                                return mClients[i];
-                            }
-                            else
-                            {
-                                if (overloadflags == 1)
-                                {
-                                    //:Todo kick all Connection
-                                }
-                                else if (overloadflags == 2)
-                                {
-                                    //:TODO shutdown server
-                                }
-                            
                             }
                         }
                     }
@@ -245,7 +243,7 @@ namespace Zepheus.Database
                 DatabaseClient pAnonymous = new DatabaseClient(0, this);
                 pAnonymous.Connect();
 
-                Console.WriteLine("Log","Handed out anonymous client.");
+                 Log.WriteLine(LogLevel.Debug,"Handed out anonymous client.");
                 return pAnonymous;
             }
         }
@@ -254,7 +252,7 @@ namespace Zepheus.Database
             if (mClients.Length >= (Handle - 1)) // Ensure client exists
             {
                 mClientAvailable[Handle - 1] = true;
-                //Logging.WriteLine("Released client #" + Handle);
+                Log.WriteLine(LogLevel.Debug,"Released client #" + Handle);
             }
         }
 
