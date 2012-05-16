@@ -177,6 +177,7 @@ namespace Zepheus.Database
         {
             lock (this)
             {
+                if(mClients.Length > 2)
                 for (uint i = 0; i < mClients.Length; i++)
                 {
                     if (mClientAvailable[i] == true)
@@ -203,6 +204,7 @@ namespace Zepheus.Database
                                 {
                                    //TODO Caching
                                     Console.WriteLine("Caching client Message");
+                                    return mClients[i];
                                 }
                                 else if(StateConn == ConnectionState.Broken)
                                 {
@@ -241,7 +243,31 @@ namespace Zepheus.Database
                 }
 
                 DatabaseClient pAnonymous = new DatabaseClient(0, this);
-                pAnonymous.Connect();
+                ConnectionState StateConns = pAnonymous.Connect();
+                if (StateConns == ConnectionState.Connecting)
+                {
+                    pAnonymous.IsBussy = true;
+                    Log.WriteLine(LogLevel.Debug, "Opening connection for database clientanon");
+                }
+                else if (StateConns == ConnectionState.Open)
+                {
+                    pAnonymous.Destroy();
+                    pAnonymous = new DatabaseClient(0, this);
+                    pAnonymous.Connect();
+                }
+                else if (StateConns == ConnectionState.Closed)
+                {
+                    //TODO Caching
+                    Console.WriteLine("Caching client Message");
+                    return pAnonymous;
+                }
+                else if (StateConns == ConnectionState.Broken)
+                {
+                    pAnonymous.Destroy();
+                    pAnonymous = new DatabaseClient(0, this);
+                    pAnonymous.Connect();
+                }
+//                pAnonymous.Connect();
 
                  Log.WriteLine(LogLevel.Debug,"Handed out anonymous client.");
                 return pAnonymous;

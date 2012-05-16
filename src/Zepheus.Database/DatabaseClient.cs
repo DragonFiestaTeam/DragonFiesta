@@ -145,9 +145,12 @@ namespace Zepheus.Database
 
         private void AddParameters(MySqlCommand command, IEnumerable<MySqlParameter> pParams)
         {
-            foreach (var parameter in pParams)
+            lock (command)
             {
-                command.Parameters.Add(parameter);
+                foreach (var parameter in pParams)
+                {
+                    command.Parameters.Add(parameter);
+                }
             }
         }
         public void ExecuteQuery(string sQuery)
@@ -155,25 +158,29 @@ namespace Zepheus.Database
             try
             {
                 
-                 Command.CommandText = sQuery;
-                if (this.Command.Connection.State != ConnectionState.Open)
-                {
-                    this.PushCommand(Command);
-                }
-                else
-                {
-                    Command.ExecuteScalar();
-                    for (int i = 0; i < Commands.Count; i++)
+
+                    if (this.Connection.State == ConnectionState.Closed)
                     {
-                        MySqlCommand cmd = this.Commands.Dequeue();
-                        cmd.Connection = Command.Connection;
-                        cmd.ExecuteScalar();
-                        this.CommandCacheCount--;
+                        Command.CommandText = sQuery;
+                        this.PushCommand(Command);
                     }
-                    Command.CommandText = null;
+                    else
+                    {
+                        this.IsBussy = true;
+                        Command.CommandText = sQuery;
+                        Command.Connection = this.Connection;
+                        this.PushCommand(Command);
+                        for (int i = 0; i < Commands.Count; i++)
+                        {
+                            MySqlCommand cmd = this.Commands.Dequeue();
+                            cmd.Connection = Command.Connection;
+                            cmd.ExecuteScalar();
+                            this.CommandCacheCount--;
+                            Console.WriteLine("Ramm Kacke..");
+                        }
+                    }
                
-                }
-                this.IsBussy = true;
+                
             }
             catch (Exception e)
             {
@@ -182,33 +189,36 @@ namespace Zepheus.Database
         }
         public void PushCommand(MySqlCommand command)
         {
-            CommandCacheCount++;
-            Commands.Enqueue(command, CommandCacheCount);
+            lock (command)
+            {
+                CommandCacheCount++;
+                Commands.Enqueue(command, CommandCacheCount);
+            }
         }
        public void ExecuteQueryWithParameters(MySqlCommand Cmd, params MySqlParameter[] pParams)
         {
             try
             {
-                Command = Cmd;
-                Command.Connection = this.Connection;
-                if (this.Command.Connection.State != ConnectionState.Open)
+                if (this.Connection.State == ConnectionState.Closed)
                 {
+                    Command = Cmd;
                     this.PushCommand(Command);
                 }
                 else
                 {
-                    Command.ExecuteScalar();
+                    this.IsBussy = true;
+                    Command = Cmd;
+                    Command.Connection = this.Connection;
+                    this.PushCommand(Command);
                     for (int i = 0; i < Commands.Count; i++)
                     {
                         MySqlCommand cmd = this.Commands.Dequeue();
                         cmd.Connection = Command.Connection;
                         cmd.ExecuteScalar();
                         this.CommandCacheCount--;
+                        Console.WriteLine("Ramm Kacke..");
                     }
-                    Command.CommandText = null;
                 }
-                this.IsBussy = true;
-
             }
             catch (Exception e)
             {
