@@ -73,7 +73,10 @@ namespace Zepheus.World
 				{
 					try
 					{
-						action();
+                       
+                        UserWorkItem Work = new UserWorkItem(action);
+                        Work.Queue();
+						//action();
 					}
 					catch (Exception ex)
 					{

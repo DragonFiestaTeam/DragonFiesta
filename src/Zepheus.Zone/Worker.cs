@@ -89,7 +89,9 @@ namespace Zepheus.Zone
                     {
                         try
                         {
-                            action();
+                            UserWorkItem Work = new UserWorkItem(action);
+                            Work.Queue();
+                          //  action();
                         }
                         catch (Exception ex)
                         {
