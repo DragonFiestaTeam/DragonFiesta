@@ -97,7 +97,7 @@ namespace Zepheus.World
 					ClientManager.Instance.UpdateClientTime(now);
 					lastClientTime = now;
 				}
-				if (i % 200 == 0)
+				if (i % 1500 == 0)
 				{
 					Thread.Sleep(sleep);
 				}
