@@ -54,9 +54,9 @@ namespace Zepheus.Zone.InterServer
 				Program.ServiceInfo.MapsToLoad.Add(new MapInfo(mapid, shortname, fullname, regenx, regeny, kingdom, viewrange));
 			}
 
-			Console.Title = "Zepheus.Zone[" + id + "]";
 			Log.WriteLine(LogLevel.Info, "Successfully linked with worldserver. [Zone: {0} | Port: {1}]", id, port);
 			ZoneAcceptor.Load();
+
 		}
 		[InterPacketHandler(InterHeader.Zoneclosed)]
 		public static void HandleZoneClosed(WorldConnector lc, InterPacket packet)

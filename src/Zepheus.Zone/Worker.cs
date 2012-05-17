@@ -12,12 +12,15 @@ namespace Zepheus.Zone
 		private readonly ConcurrentQueue<Action> callbacks = new ConcurrentQueue<Action>();
 		private readonly Thread main;
 		private int sleep = 1;
-		private readonly ulong ticksToSleep = 1500;
+		private ulong ticksToSleep = 1500;
 		public ulong TicksPerSecond { get; set; }
         public bool IsRunning { get; set; }
 
         public Worker()
         {
+            new PerformCounter();
+            sleep = Settings.Instance.SleepTime;
+            ticksToSleep = Settings.Instance.TicksToSleep;
             main = new Thread(Work);
             TicksPerSecond = 0;
             IsRunning = true;

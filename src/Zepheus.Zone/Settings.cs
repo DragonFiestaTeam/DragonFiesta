@@ -36,6 +36,9 @@
         public int QuerCachePerClient { get; set; }
         public int OverloadFlagsZoneWorld { get; set; }
         public int QuerCachePerClientZoneWorld { get; set; }
+        public ulong TicksToSleep { get; set; }
+        public int SleepTime { get; set; }
+
         public static bool Load()
         {
             try
@@ -71,6 +74,8 @@
                     OverloadFlags = Zepheus.InterLib.Settings.GetInt32("Data.Mysql.OverloadFlags"),
                     WorldDBMinPoolSizeZoneWorld = (uint)Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.MinPool"),
                     WorldDBMaxPoolSizeZoneWorld = (uint)Zepheus.InterLib.Settings.GetInt32("ZoneWorld.Mysql.MaxPool"),
+                    TicksToSleep = Zepheus.InterLib.Settings.GetUInt32("Zone.TicksToSleep"),
+                    SleepTime = Zepheus.InterLib.Settings.GetInt32("Zone.SleepTime"),
                 };
                 obj.WorldConnString = " User ID=" + obj.WorldMysqlUser + ";Password=" + obj.WorldMysqlPassword + ";Host=" + obj.WorldMysqlServer + ";Port=" + obj.WorldMysqlPort + ";Database=" + obj.WorldMysqlDatabase + ";Protocol=TCP;Compress=false;Pooling=true;Min Pool Size=0;Max Pool Size=2000;Connection Lifetime=0;";
                 obj.ConnString = " User ID=" + obj.zoneMysqlUser + ";Password=" + obj.zoneMysqlPassword + ";Host=" + obj.zoneMysqlServer + ";Port=" + obj.zoneMysqlPort + ";Database=" + obj.zoneMysqlDatabase + ";Protocol=TCP;Compress=false;Pooling=true;Min Pool Size=0;Max Pool Size=2000;Connection Lifetime=0;";

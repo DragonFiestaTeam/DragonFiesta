@@ -15,6 +15,7 @@ namespace Zepheus.World
 		public static bool Maintenance { get; set; }
 		private static bool HandleCommands = true;
 		public static Database.DatabaseManager DatabaseManager { get; set; }
+        public static DateTime CurrentTime { get; set; }
 		public static ConcurrentDictionary<byte, ZoneConnection> Zones { get; private set; }
 		[SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.ControlAppDomain)]
 		static void Main(string[] args)
@@ -29,7 +30,7 @@ namespace Zepheus.World
 			{
 				Log.IsDebug = Settings.Instance.Debug;
 				Zones = new ConcurrentDictionary<byte, ZoneConnection>();
-				Console.Title = "Zepheus.World[" + Settings.Instance.ID + "]";
+
 
 				while (HandleCommands)
 				{

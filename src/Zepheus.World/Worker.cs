@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using Zepheus.Util;
 
+
 namespace Zepheus.World
 {
 	[ServerModule(Util.InitializationStage.DataStore)]
@@ -12,13 +13,19 @@ namespace Zepheus.World
 		private readonly ConcurrentQueue<Action> callbacks = new ConcurrentQueue<Action>();
 		private readonly Thread main;
 		private int sleep = 1;
+        private ulong TicksToSleep = 200;
+        public ulong TicksPerSecond { get; set; }
+
 		public bool IsRunning { get; set; }
 
 		public Worker()
 		{
+            sleep = Settings.Instance.SleepTime;
+            TicksToSleep = Settings.Instance.TicksToSleep;
 			main = new Thread(Work);
 			IsRunning = true;
 			main.Start();
+            new  PerformCounter();
 		}
 
 		[InitializerMethod]
@@ -64,6 +71,8 @@ namespace Zepheus.World
 			Action action;
 			DateTime pingCheckRan = DateTime.Now;
 			DateTime lastClientTime = DateTime.Now;
+            ulong last = 0;
+            DateTime lastCheck = DateTime.Now;
 			for (ulong i = 0; ; i++)
 			{
 				if (!this.IsRunning) break;
@@ -92,13 +101,25 @@ namespace Zepheus.World
 						pingCheckRan = now;
 					
 				}
+                if (now.Subtract(lastCheck).TotalSeconds >= 1)
+                {
+                    TicksPerSecond = i - last;
+                    last = i;
+                    lastCheck = now;
+                    //Log.WriteLine(LogLevel.Debug, "TicksPerSecond: {0}", TicksPerSecond);
+                    if (TicksPerSecond <= 100)
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Server overload! Only {0} ticks per second!", TicksPerSecond);
+                    }
+                }
 				if (now.Subtract(lastClientTime).TotalSeconds >= 60)
 				{
 					ClientManager.Instance.UpdateClientTime(now);
 					lastClientTime = now;
 				}
-				if (i % 1500 == 0)
+				if (i % TicksToSleep == 0)
 				{
+                    Program.CurrentTime = DateTime.Now;
 					Thread.Sleep(sleep);
 				}
 			}

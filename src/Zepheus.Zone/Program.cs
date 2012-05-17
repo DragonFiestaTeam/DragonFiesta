@@ -28,6 +28,7 @@ namespace Zepheus.Zone
             AppDomain currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += MyHandler;
             Console.Title = "Zepheus.Zone[Registering]";
+            Console.WindowWidth = 90;
 #if DEBUG
             // so the startup works
             Thread.Sleep(TimeSpan.FromSeconds(3));

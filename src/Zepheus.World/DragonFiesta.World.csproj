@@ -89,6 +89,7 @@
     <Compile Include="InterServer\ZoneConnection.cs" />
     <Compile Include="Networking\WorldAcceptor.cs" />
     <Compile Include="Networking\WorldClient.cs" />
+    <Compile Include="PerformanceCounter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\DatabaseChecks.cs" />
