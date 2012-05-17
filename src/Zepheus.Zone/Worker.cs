@@ -18,13 +18,13 @@ namespace Zepheus.Zone
 
         public Worker()
         {
-            new PerformCounter();
             sleep = Settings.Instance.SleepTime;
             ticksToSleep = Settings.Instance.TicksToSleep;
             main = new Thread(Work);
             TicksPerSecond = 0;
             IsRunning = true;
             main.Start();
+            new PerformCounter();
         }
 
         public static bool Load()
