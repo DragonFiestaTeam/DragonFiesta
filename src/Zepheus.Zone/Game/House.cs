@@ -43,6 +43,7 @@ namespace Zepheus.Zone.Game
                 pPacket.Fill(34, 0xFF); // No idea!?
             }
             pPacket.WriteByte(0xFF);
+            pPacket.WriteByte(0);//unk
         }
     }
 }

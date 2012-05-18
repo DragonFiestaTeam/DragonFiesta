@@ -925,7 +925,7 @@ namespace Zepheus.Zone.Game
 			packet.WriteShort(0);
 			packet.WriteUShort(0);             // Mob ID (title = 10)
 
-			packet.Fill(53, 0);                // Buff Bits? Something like that
+			packet.Fill(55, 0);                // Buff Bits? Something like that
 			packet.WriteInt(this.Character.GuildID);      // Guild ID
 			packet.WriteByte(0x02);            // UNK (0x02)
 			packet.WriteBool(false);            // In Guild Academy (0 - No, 1 - Yes)
