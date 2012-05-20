@@ -19,10 +19,10 @@ namespace Zepheus.World.Data
 
 		public Group(long id)
 		{
-			this.members = new List<GroupMember>();
+			this.Members = new List<GroupMember>();
 			this.openRequests = new List<GroupRequest>();
 			this.Id = id;
-			this.members = new List<GroupMember>();
+			this.Members = new List<GroupMember>();
 			this.DropState = DropState.FreeForAll;
 			this.gotLastDrop = 0;
 		}
@@ -31,17 +31,17 @@ namespace Zepheus.World.Data
 		#region Properties
 
 		public const int MaxMembers = 5;
-		private readonly List<GroupMember> members;
+		public readonly List<GroupMember> Members;
 		private readonly List<GroupRequest> openRequests;
 		public GroupMember this[string pName]
 		{
 			get
 			{
-				return this.members.Single(m => m.Name == pName);
+				return this.Members.Single(m => m.Name == pName);
 			}
 		}
-		public GroupMember Master { get { return members.Single(m => m.Role == GroupRole.Master); }}
-		public IEnumerable<GroupMember> NormalMembers { get { return from m in members where m.Role != GroupRole.Master select m; }}
+		public GroupMember Master { get { return Members.Single(m => m.Role == GroupRole.Master); }}
+		public IEnumerable<GroupMember> NormalMembers { get { return from m in Members where m.Role != GroupRole.Master select m; }}
 		public DropState DropState { get; private set; }
 		public long Id { get; private set; }
 		public bool Exists { get; private set; }
@@ -53,18 +53,18 @@ namespace Zepheus.World.Data
 		#region Public
 		public bool HasMember(string pName)
 		{
-			return this.members.Any(m => m.Name == pName);
+			return this.Members.Any(m => m.Name == pName);
 		}
 		public bool IsFull()
 		{
-			return members.Count() >= MaxMembers;
+			return Members.Count() >= MaxMembers;
 		}
 		public void InviteNewMember(WorldCharacter pSender, string pTarget)
 		{
 			if (!ClientManager.Instance.IsOnline(pTarget))
 				return;
 			if(Master.Name != pSender.Character.Name)
-				return;		// only the master may invite new members
+				return;		// only the master may invite new Members
 			
 			GroupManager.Instance.Invite(pSender.Client, pTarget); // trololol
 		}
@@ -79,8 +79,8 @@ namespace Zepheus.World.Data
 		public void BreakUp()
 		{
 			this.Exists = false;
-			GroupMember[] mems = new GroupMember[this.members.Count];
-			this.members.CopyTo(mems);
+			GroupMember[] mems = new GroupMember[this.Members.Count];
+			this.Members.CopyTo(mems);
 			BreakUpInDatabase();
 			OnBrokeUp();
 		}
@@ -97,23 +97,16 @@ namespace Zepheus.World.Data
 		}
 		public void MemberLeaves(WorldClient pClient)
 		{
-            var otherMembers = from m in members
-							   where m.Name != pClient.Character.Character.Name
-							   select m.Client;
-			if (pClient.Character.GroupMember.Role == GroupRole.Master)
 
-		    ChangeMaster(otherMembers.First().Character.GroupMember);
-			// Guess I forgot this
-			this.members.Remove(pClient.Character.GroupMember);
-			pClient.Character.Group = null;
-			pClient.Character.GroupMember = null;
-			
-			SendMemberLeavesPacket(pClient.Character.Character.Name, otherMembers);
+			if (pClient.Character.GroupMember.Role == GroupRole.Master)
+		        ChangeMaster(NormalMembers.First().Character.GroupMember);
+
+			SendMemberLeavesPacket(pClient.Character.Character.Name, Members.Where(m => m.IsOnline).Select(m => m.Client));
 			UpdateInDatabase();
 		}
 		public void KickMember(string pMember)
 		{
-			var otherMembers = from m in members
+			var otherMembers = from m in Members
 							   where m.Name != pMember
 							   select m.Client;
 			
@@ -135,8 +128,8 @@ namespace Zepheus.World.Data
 		{
 			using (var packet = new Packet(SH14Type.PartyList))
 			{
-				packet.WriteByte((byte)members.Count);
-				foreach (var groupMember in members)
+				packet.WriteByte((byte)Members.Count);
+				foreach (var groupMember in Members)
 				{
 					packet.WriteString(groupMember.Name, 16);
 					packet.WriteBool(groupMember.IsOnline);
@@ -175,7 +168,7 @@ namespace Zepheus.World.Data
 
 		internal void AddMember(GroupMember pMember)
 		{
-			this.members.Add(pMember);
+			this.Members.Add(pMember);
 			pMember.Group = this;
 			UpdateInDatabase();
 			SendAddMemberInterPacket(pMember);
@@ -186,12 +179,12 @@ namespace Zepheus.World.Data
 		}
 		internal void RemoveMember(GroupMember pMember)
 		{
-			this.members.Remove(pMember);
+			this.Members.Remove(pMember);
 			pMember.Character.Group = null;
 			pMember.Character.GroupMember = null;
 			// TEMP
 			KickMember(pMember.Name);
-			// NOTE: Send packet to other members to update GroupList!
+			// NOTE: Send packet to other Members to update GroupList!
 			AnnouncePartyList();
 		}
 		internal void RemoveInvite(GroupRequest pRequest)
@@ -227,11 +220,11 @@ namespace Zepheus.World.Data
 			{
 				string query = string.Format(updateGroupTableQuery,
 								this.Id,
-								this.members[0].CharId,
-								(this.members.Count >= 2 ? this.members[1].CharId.ToString() : "NULL"),
-								(this.members.Count >= 3 ? this.members[2].CharId.ToString() : "NULL"),
-								(this.members.Count >= 4 ? this.members[3].CharId.ToString() : "NULL"),
-								(this.members.Count >= 5 ? this.members[4].CharId.ToString() : "NULL"));
+								this.Members[0].CharId,
+								(this.Members.Count >= 2 ? this.Members[1].CharId.ToString() : "NULL"),
+								(this.Members.Count >= 3 ? this.Members[2].CharId.ToString() : "NULL"),
+								(this.Members.Count >= 4 ? this.Members[3].CharId.ToString() : "NULL"),
+								(this.Members.Count >= 5 ? this.Members[4].CharId.ToString() : "NULL"));
 				client.ExecuteQuery(query);
 			}
 		}
@@ -252,7 +245,7 @@ namespace Zepheus.World.Data
 			//--------------------------------------------------
 			using (var client = Program.DatabaseManager.GetClient())
 			{
-				foreach (var member in this.members)
+				foreach (var member in this.Members)
 				{
 					string query = string.Format(update_character_table_query,
 								member.Character.ID,
@@ -280,11 +273,11 @@ namespace Zepheus.World.Data
 			{
 				string query = string.Format(create_group_query,
 								this.Id,
-								this.members.Count > 0 ? this.members[0].CharId.ToString() : "NULL",
-								this.members.Count > 1 ? this.members[1].CharId.ToString() : "NULL",
-								this.members.Count > 2 ? this.members[2].CharId.ToString() : "NULL",
-								this.members.Count > 3 ? this.members[3].CharId.ToString() : "NULL",
-								this.members.Count > 4 ? this.members[4].CharId.ToString() : "NULL");
+								this.Members.Count > 0 ? this.Members[0].CharId.ToString() : "NULL",
+								this.Members.Count > 1 ? this.Members[1].CharId.ToString() : "NULL",
+								this.Members.Count > 2 ? this.Members[2].CharId.ToString() : "NULL",
+								this.Members.Count > 3 ? this.Members[3].CharId.ToString() : "NULL",
+								this.Members.Count > 4 ? this.Members[4].CharId.ToString() : "NULL");
                 using (var cmd = new MySqlCommand(query, client.GetConnection()))
                 {
                     cmd.ExecuteNonQuery();
@@ -309,7 +302,7 @@ namespace Zepheus.World.Data
 					{
 						UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
 						if(mem != null)
-							g.members.Add(GroupMember.LoadFromDatabase(mem));
+							g.Members.Add(GroupMember.LoadFromDatabase(mem));
 					}
 
 			return g;
@@ -322,27 +315,25 @@ namespace Zepheus.World.Data
 			{
 				packet.WriteByte((byte) DropState);
 
-				foreach (var m in members)
+				foreach (var m in Members)
 				{
 					m.Client.SendPacket(packet);
 				}
 			}
 		}
-		private void SendMemberLeavesPacket(string pLeaver, IEnumerable<WorldClient> pOthers)
+		private void SendMemberLeavesPacket(string pLeaver, IEnumerable<WorldClient> pMembers)
 		{
 			bool isOnline = ClientManager.Instance.IsOnline(pLeaver);
 			WorldClient client = isOnline ? ClientManager.Instance.GetClientByCharname(pLeaver) : null;
 			using (var packet = new Packet(SH14Type.KickPartyMember))
 			{
 				packet.WriteString(pLeaver, 16);
-				packet.WriteUShort(1345);		// UNK
+				packet.WriteUShort(1281);		// UNK
 
-				foreach (var other in pOthers)
-				{
-					other.SendPacket(packet);
-				}
-				if (isOnline)
-					client.SendPacket(packet);
+                foreach (var other in pMembers)
+                {
+                    other.SendPacket(packet);
+                }
 			}
 			if (isOnline)
 			{
@@ -365,8 +356,8 @@ namespace Zepheus.World.Data
 				packet.WriteString(Master.Name, 16);
 				packet.WriteUShort(1352);
 
-				// Send to all online members
-				members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
+				// Send to all online Members
+				Members.ForEach(m => { if (m.IsOnline) m.Client.SendPacket(packet); });
 			}
 		}
 		private void SendAddMemberInterPacket(GroupMember pMember)
@@ -381,7 +372,7 @@ namespace Zepheus.World.Data
 		}
 		private void AnnouncePacket(Packet pPacket)
 		{
-			foreach (var grpMem in members.Where(m => m.IsOnline))
+			foreach (var grpMem in Members.Where(m => m.IsOnline))
 			{
 				grpMem.Client.SendPacket(pPacket);
 			}

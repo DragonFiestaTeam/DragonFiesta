@@ -51,7 +51,7 @@ namespace Zepheus.FiestaLib
         PartyReqest = 2,
         PartyLeave = 10,
         PartyMaster = 84,
-        PartyInviteGame = 72,
+        PartyInviteGame = 72,   // no data
         ChangePartyMaster = 40,
         ChangePartyDrop = 75,
         KickPartyMember = 20,

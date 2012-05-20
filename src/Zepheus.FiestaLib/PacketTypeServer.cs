@@ -144,7 +144,8 @@ namespace Zepheus.FiestaLib
     public enum SH14Type : byte
     {
         // According to my informations, 7 is InviteDeclined.
-        PartyInvideAsMaster = 7,
+        // NOTE - IT IS.
+        InviteDeclined = 7,
         UpdatePartyMemberLoc = 73,
         UpdatePartyMemberStats = 50,
         SetMemberStats = 51,
@@ -157,6 +158,8 @@ namespace Zepheus.FiestaLib
         ChangePartyMaster = 41,
         ChangePartyDrop = 75,
         KickPartyMember = 21,
+
+        BreakUp = 30,
     }
     public enum SH15Type : byte
     {

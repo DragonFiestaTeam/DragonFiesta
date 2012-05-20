@@ -104,13 +104,10 @@ namespace Zepheus.World
         }
         public void LeaveParty(WorldClient pClient)
         {
-            if (pClient.Character.Group.NormalMembers.Count() <= 2) // Not enough members for party to stay
+            pClient.Character.Group.MemberLeaves(pClient);
+            if (pClient.Character.Group.Members.Count < 2) // Not enough members for party to stay
             {
                 pClient.Character.Group.BreakUp();
-            }
-            else
-            {
-                pClient.Character.Group.MemberLeaves(pClient);
             }
         }
         public void KickMember(WorldClient pClient, string pKicked)
@@ -219,7 +216,7 @@ namespace Zepheus.World
         }
         private void SendNewGroupMasterPacket(WorldClient pMaster, string pMemberName)
         {
-            using (var packet = new Packet(SH14Type.PartyInvideAsMaster))
+            using (var packet = new Packet(SH14Type.InviteDeclined))
             {
                 packet.WriteString(pMemberName, 16);
                 packet.WriteHexAsBytes("C1 04");
