@@ -106,11 +106,8 @@ namespace Zepheus.World.Data
 		}
 		public void KickMember(string pMember)
 		{
-			var otherMembers = from m in Members
-							   where m.Name != pMember
-							   select m.Client;
-			
-			SendMemberLeavesPacket(pMember, otherMembers);
+		    SendMemberLeavesPacket(pMember, Members.Where(m => m.IsOnline).Select(m => m.Client));
+		    Members.Remove(Members.Single(m => m.Name == pMember));
 			UpdateInDatabase();
 		}
 		public void MemberJoin(string pMember)
@@ -323,26 +320,15 @@ namespace Zepheus.World.Data
 		}
 		private void SendMemberLeavesPacket(string pLeaver, IEnumerable<WorldClient> pMembers)
 		{
-			bool isOnline = ClientManager.Instance.IsOnline(pLeaver);
-			WorldClient client = isOnline ? ClientManager.Instance.GetClientByCharname(pLeaver) : null;
 			using (var packet = new Packet(SH14Type.KickPartyMember))
 			{
 				packet.WriteString(pLeaver, 16);
 				packet.WriteUShort(1281);		// UNK
 
-                foreach (var other in pMembers)
+                foreach (var member in pMembers)
                 {
-                    other.SendPacket(packet);
+                    member.SendPacket(packet);
                 }
-			}
-			if (isOnline)
-			{
-				ZoneConnection z = Program.GetZoneByMap(client.Character.Character.PositionInfo.Map);
-				using (var packet = new InterPacket(InterHeader.RemovePartyMember))
-				{
-					packet.WriteString(client.Character.Character.Name, 16);
-					z.SendPacket(packet);
-				}
 			}
 		}
 		private void DeleteGroupByNameInDatabase(string pName)
