@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using MySql.Data.MySqlClient;
+using Zepheus.Database;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
 using Zepheus.World.InterServer;
 using Zepheus.World.Networking;
-using System.Data;
-using Zepheus.Database;
-
-using MySql.Data.MySqlClient;
 
 namespace Zepheus.World.Data
 {
@@ -79,9 +78,11 @@ namespace Zepheus.World.Data
 		public void BreakUp()
 		{
 			this.Exists = false;
-			GroupMember[] mems = new GroupMember[this.Members.Count];
-			this.Members.CopyTo(mems);
 			BreakUpInDatabase();
+            using (Packet p = new Packet(SH14Type.BreakUp))
+            {
+                AnnouncePacket(p);
+            }
 			OnBrokeUp();
 		}
 		public void ChangeMaster(GroupMember pNewMaster)

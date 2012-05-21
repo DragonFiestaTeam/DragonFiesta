@@ -204,8 +204,7 @@ namespace Zepheus.World
         }
         private void SendInviteDeclinedPacket(WorldClient pInviter, WorldClient pInvited)
         {
-            // NOTE - See Comment on SH14Type.
-            using (var packet = new Packet(0x3807))
+            using (var packet = new Packet(SH14Type.InviteDeclined))
             {
                 packet.WriteString(pInvited.Character.Character.Name, 16);
                 packet.WriteUShort(1217);   // UNKNOWN
