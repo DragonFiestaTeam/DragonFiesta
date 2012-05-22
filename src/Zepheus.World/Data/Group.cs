@@ -298,9 +298,11 @@ namespace Zepheus.World.Data
 				foreach (DataRow row in gdata.Rows)
 					for (int i = 1; i < 4; i++)
 					{
-						UInt16 mem = (ushort)row[string.Format("Member{0}", i)];
-						if(mem != null)
-							g.Members.Add(GroupMember.LoadFromDatabase(mem));
+					    string memColName = string.Format("Member{0}", i);
+                        if (row.IsNull(memColName))
+                            continue;
+						UInt16 mem = (ushort)row[memColName];
+						g.Members.Add(GroupMember.LoadFromDatabase(mem));
 					}
 
 			return g;
