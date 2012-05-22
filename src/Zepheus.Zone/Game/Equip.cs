@@ -20,13 +20,13 @@ namespace Zepheus.Zone.Game
 
         public override DateTime? Expires { get; set; }
         public byte Upgrades { get; set; }
-        public byte StatCount { get; private set; }
-        public bool IsEquipped { get; set; }
-        public ushort Str { get; private set; }
-        public ushort End { get; private set; }
-        public ushort Dex { get; private set; }
-        public ushort Int { get; private set; }
-        public ushort Spr { get; private set; }
+        public new byte StatCount { get; private set; }
+        public new bool IsEquipped { get; set; }
+        public new ushort Str { get; private set; }
+        public new ushort End { get; private set; }
+        public new ushort Dex { get; private set; }
+        public new ushort Int { get; private set; }
+        public new ushort Spr { get; private set; }
 
 
         public Equip(uint pOwner, ushort pEquipID, sbyte pSlot)
@@ -115,7 +115,7 @@ namespace Zepheus.Zone.Game
                 }
             }
         }
-        public byte CalculateDataLen()
+        public new byte CalculateDataLen()
         {
             byte length = 0;
             switch (this.SlotType)
