@@ -21,7 +21,6 @@ namespace Zepheus.World.Data
 			this.IsOnline = true;
 		}
 		#endregion
-		
 		#region Properties
 		public WorldCharacter Character { get; private set; }
 		public string Name { get;  set; }
@@ -31,8 +30,12 @@ namespace Zepheus.World.Data
 		public int CharId { get; private set; }
 		public bool IsOnline { get; set; }
 		#endregion
-
 		#region Methods
+
+        public override int GetHashCode()
+        {
+            return this.CharId;
+        }
 		public override bool Equals(object obj)
 		{
 			if(!(obj is GroupMember))
