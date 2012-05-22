@@ -401,6 +401,13 @@ namespace Zepheus.World.Data
 		#region EventExecuter
 		protected virtual void OnBrokeUp()
 		{
+            foreach(var mem in Members)
+            {
+                mem.Group = null;
+                mem.Client.Character.Group = null;
+                mem.Client.Character.GroupId = -1;
+                mem.Client.Character.GroupMember = null;
+            }
 			if(BrokeUp != null)
 				BrokeUp(this, new EventArgs());
 		}
