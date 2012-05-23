@@ -79,10 +79,10 @@ namespace Zepheus.World.Data
 		{
 			this.Exists = false;
 			BreakUpInDatabase();
-            using (Packet p = new Packet(SH14Type.BreakUp))
-            {
-                AnnouncePacket(p);
-            }
+			using (Packet p = new Packet(SH14Type.BreakUp))
+			{
+				AnnouncePacket(p);
+			}
 			OnBrokeUp();
 		}
 		public void ChangeMaster(GroupMember pNewMaster)
@@ -100,15 +100,19 @@ namespace Zepheus.World.Data
 		{
 
 			if (pClient.Character.GroupMember.Role == GroupRole.Master)
-		        ChangeMaster(NormalMembers.First().Character.GroupMember);
-
+				ChangeMaster(NormalMembers.First().Character.GroupMember);
 			SendMemberLeavesPacket(pClient.Character.Character.Name, Members.Where(m => m.IsOnline).Select(m => m.Client));
+
+			Members.Remove(pClient.Character.GroupMember);
+			pClient.Character.Group = null;
+			pClient.Character.GroupMember = null;
+
 			UpdateInDatabase();
 		}
 		public void KickMember(string pMember)
 		{
-		    SendMemberLeavesPacket(pMember, Members.Where(m => m.IsOnline).Select(m => m.Client));
-		    Members.Remove(Members.Single(m => m.Name == pMember));
+			SendMemberLeavesPacket(pMember, Members.Where(m => m.IsOnline).Select(m => m.Client));
+			Members.Remove(Members.Single(m => m.Name == pMember));
 			UpdateInDatabase();
 		}
 		public void MemberJoin(string pMember)
@@ -276,10 +280,10 @@ namespace Zepheus.World.Data
 								this.Members.Count > 2 ? this.Members[2].CharId.ToString() : "NULL",
 								this.Members.Count > 3 ? this.Members[3].CharId.ToString() : "NULL",
 								this.Members.Count > 4 ? this.Members[4].CharId.ToString() : "NULL");
-                using (var cmd = new MySqlCommand(query, client.GetConnection()))
-                {
-                    cmd.ExecuteNonQuery();
-                }
+				using (var cmd = new MySqlCommand(query, client.GetConnection()))
+				{
+					cmd.ExecuteNonQuery();
+				}
 			}
 			// keep character also up to date
 			UpdateMembersInDatabase();
@@ -298,9 +302,9 @@ namespace Zepheus.World.Data
 				foreach (DataRow row in gdata.Rows)
 					for (int i = 1; i < 4; i++)
 					{
-					    string memColName = string.Format("Member{0}", i);
-                        if (row.IsNull(memColName))
-                            continue;
+						string memColName = string.Format("Member{0}", i);
+						if (row.IsNull(memColName))
+							continue;
 						UInt16 mem = (ushort)row[memColName];
 						g.Members.Add(GroupMember.LoadFromDatabase(mem));
 					}
@@ -323,15 +327,15 @@ namespace Zepheus.World.Data
 		}
 		private void SendMemberLeavesPacket(string pLeaver, IEnumerable<WorldClient> pMembers)
 		{
-			using (var packet = new Packet(SH14Type.KickPartyMember))
+			using (var packet = new Packet(SH14Type.PartyLeave))
 			{
 				packet.WriteString(pLeaver, 16);
 				packet.WriteUShort(1281);		// UNK
 
-                foreach (var member in pMembers)
-                {
-                    member.SendPacket(packet);
-                }
+				foreach (var member in pMembers)
+				{
+					member.SendPacket(packet);
+				}
 			}
 		}
 		private void DeleteGroupByNameInDatabase(string pName)
@@ -380,7 +384,7 @@ namespace Zepheus.World.Data
 			const string reset_char_group_query = 
 				"UPDATE `characters` "+
 				"SET `GroupID` = NULL, "+
-                    "`IsGroupMaster` = NULL " +
+					"`IsGroupMaster` = NULL " +
 				"WHERE `GroupId` = '{0}'";
 
 			//--------------------------------------------------
@@ -401,13 +405,13 @@ namespace Zepheus.World.Data
 		#region EventExecuter
 		protected virtual void OnBrokeUp()
 		{
-            foreach(var mem in Members)
-            {
-                mem.Group = null;
-                mem.Client.Character.Group = null;
-                mem.Client.Character.GroupId = -1;
-                mem.Client.Character.GroupMember = null;
-            }
+			foreach(var mem in Members)
+			{
+				mem.Group = null;
+				mem.Client.Character.Group = null;
+				mem.Client.Character.GroupId = -1;
+				mem.Client.Character.GroupMember = null;
+			}
 			if(BrokeUp != null)
 				BrokeUp(this, new EventArgs());
 		}
