@@ -104,10 +104,11 @@ namespace Zepheus.World
         }
         public void LeaveParty(WorldClient pClient)
         {
-            pClient.Character.Group.MemberLeaves(pClient);
-            if (pClient.Character.Group.Members.Count < 2) // Not enough members for party to stay
+            Group g = pClient.Character.Group;
+            g.MemberLeaves(pClient);
+            if (g.Members.Count < 2) // Not enough members for party to stay
             {
-                pClient.Character.Group.BreakUp();
+                g.BreakUp();
             }
         }
         public void KickMember(WorldClient pClient, string pKicked)
