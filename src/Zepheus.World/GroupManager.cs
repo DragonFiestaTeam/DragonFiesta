@@ -158,9 +158,7 @@ namespace Zepheus.World
             pMaster.Character.Group = grp;
             grp.AddMember(mstr);
 
-            this.groupsByMaster.Add(pMaster.Character.Character.Name, grp);
-            this.groupsById.Add(grp.Id, grp);
-            this.groups.Add(grp);
+            AddGroup(grp);
             grp.CreateInDatabase();
 
             return grp;
@@ -173,8 +171,17 @@ namespace Zepheus.World
                 return;
 
             groups.Remove(grp);
-            groupsByMaster.Remove(grp.Master.Name);
+            var byMasterEntry = groupsByMaster.Single(pair => pair.Value.Id == grp.Id);
+            groupsByMaster.Remove(byMasterEntry.Key);
             requestsByGroup.Remove(grp);
+        }
+        internal void OnGroupChangedMaster(object sender, ChangedMasterEventArgs e)
+        {
+            Group group = sender as Group;
+            if(group == null)
+                return;
+            groupsByMaster.Remove(e.OldMaster.Name);
+            groupsByMaster.Add(e.NewMaster.Name, group);
         }
 
         private void AddRequest(GroupRequest pRequest)
@@ -228,6 +235,8 @@ namespace Zepheus.World
             this.groups.Add(pGroup);
             this.groupsByMaster.Add(pGroup.Master.Name, pGroup);
             this.groupsById.Add(pGroup.Id, pGroup);
+            pGroup.BrokeUp += this.OnGroupBrokeUp;
+            pGroup.ChangedMaster += OnGroupChangedMaster;
         }
         private static long GetMaxGroupIdFromDatabase()
         {
@@ -248,7 +257,7 @@ namespace Zepheus.World
                 while (rdr.Read())
                 {
                     if (!rdr.IsDBNull(0))
-                        max = rdr.GetInt64(0);
+                        max = rdr.GetInt64(0) + 1;
                 }
 
             return max;
