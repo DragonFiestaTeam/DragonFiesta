@@ -260,9 +260,8 @@ namespace Zepheus.World.Data
 		{
 			this.Group = null;
 			this.GroupMember = null;
-
 			string query = string.Format(
-				"UDPATE characters SET GroupID = NULL WHERE CharID = {0}", this.ID);
+                "UPDATE `characters` SET GroupID = 'NULL' WHERE CharID =  '{0}'", this.ID);
 			Program.DatabaseManager.GetClient().ExecuteQuery(query);
 		}
 
