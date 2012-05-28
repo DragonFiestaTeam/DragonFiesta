@@ -180,7 +180,10 @@ namespace Zepheus.Zone.Game
 				while (reader.Read())
 				{
 					name = reader.GetString("Name");
-					isMaster = reader.GetBoolean("IsGroupMaster");
+                    if (reader.IsDBNull(reader.GetOrdinal("IsGroupMaster")))
+                        isMaster = false;
+                    else
+					    isMaster = reader.GetBoolean("IsGroupMaster");
 				}
 			}
 
