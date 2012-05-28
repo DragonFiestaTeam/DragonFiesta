@@ -27,6 +27,7 @@ namespace Zepheus.World.Data
 		public GroupMember GroupMember { get; internal set; }
 		private List<Friend> friends;
 		private List<Friend> friendsby;
+        public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
 
@@ -123,6 +124,38 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
+        public void LoadBlockUserList()
+        {
+            DataTable BlockList = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+			{
+		    BlockList = dbClient.ReadDataTable("SELECT * FROM BlockUser WHERE CharID='" + this.ID + "'");
+			}
+            if (BlockList != null)
+            {
+                    foreach (DataRow row in BlockList.Rows)
+                    {
+                     BlocketUser.Add((string)row["BlockCharname"]);
+
+                    }
+            }
+        }
+        public void WriteBlockList(WorldClient client)
+        {
+            if (this.BlocketUser.Count > 0)
+            {
+                using (var packet = new Packet(SH42Type.BlockList))
+                {
+                    
+                    packet.WriteUShort((ushort)this.BlocketUser.Count);
+                    foreach (string charname in this.BlocketUser)
+                    {
+                        packet.WriteString(charname, 16);
+                    }
+                    client.SendPacket(packet);
+                }
+            }
+        }
         public void LoadGroup()
 		{
 			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
@@ -341,6 +374,7 @@ namespace Zepheus.World.Data
         internal void OnGotIngame()
         {
             LoadGroup();
+
             if (GotIngame != null)
                 GotIngame(this, new EventArgs());
         }

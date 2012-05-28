@@ -58,6 +58,8 @@ namespace Zepheus.World.Handlers
                p5.WriteShort(256);
                client.SendPacket(p5);
            }
+           client.Character.LoadBlockUserList();
+           client.Character.WriteBlockList(client);
            Handler2.SendClientTime(client,DateTime.Now);
            client.Character.LoadFriends(client);
            if (!client.Character.IsIngame)
@@ -65,7 +67,6 @@ namespace Zepheus.World.Handlers
                client.Character.UpdateFriendsStatus(true, client);
            }
           // client.Character.UpdateFriendStates(client);
-           client.Character.IsIngame = true;
            client.Character.OnGotIngame();
        }
     }

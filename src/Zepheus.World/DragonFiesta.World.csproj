@@ -78,6 +78,7 @@
     <Compile Include="Handlers\Handler3.cs" />
     <Compile Include="Handlers\Handler31.cs" />
     <Compile Include="Handlers\Handler4.cs" />
+    <Compile Include="Handlers\Handler42.cs" />
     <Compile Include="Handlers\Handler5.cs" />
     <Compile Include="Handlers\Handler8.cs" />
     <Compile Include="Handlers\HandlerStore.cs" />

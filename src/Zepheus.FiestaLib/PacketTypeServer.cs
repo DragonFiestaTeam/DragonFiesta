@@ -217,7 +217,13 @@ namespace Zepheus.FiestaLib
         GuildNameResult = 119,
         GuildList = 27,
     }
-
+    public enum SH42Type : byte
+    {
+        BlockList = 2,
+        AddToBlockList = 6,
+        RemoveFromBlockList = 10,
+        ClearBlockList = 14,
+    }
     public enum SH31Type : byte
     {
         LoadUnkown = 7,
