@@ -598,14 +598,14 @@ namespace Zepheus.Zone.Handlers
 
 		public static void SendNormalChat(ZoneCharacter character, string chat, byte color = (byte) 0x2a)
 		{
-			using (var packet = new Packet(SH8Type.ChatNormal))
-			{
-				packet.WriteUShort(character.MapObjectID);
-				packet.WriteByte((byte)chat.Length);
-				packet.WriteByte(color);
-				packet.WriteString(chat, chat.Length);
-				character.Broadcast(packet, true);
-			}
+                using (var packet = new Packet(SH8Type.ChatNormal))
+                {
+                    packet.WriteUShort(character.MapObjectID);
+                    packet.WriteByte((byte)chat.Length);
+                    packet.WriteByte(color);
+                    packet.WriteString(chat, chat.Length);
+                    character.Broadcast(packet, true);
+                }
 		}
 	}
 }

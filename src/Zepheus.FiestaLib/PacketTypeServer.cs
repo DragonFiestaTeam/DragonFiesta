@@ -83,10 +83,13 @@ namespace Zepheus.FiestaLib
     }
     public enum SH8Type : byte
     {
-        PartyChat = 21,
         ChatNormal = 2,
+        WisperFrom = 13,
+        WisperTargetNotfound = 14,
+        WisperTo = 15,
         GmNotice = 17,
         StopTele = 19, // Stops char but can teleport
+        PartyChat = 21,
         Walk = 24,
         Move = 26,
         Teleport = 27,

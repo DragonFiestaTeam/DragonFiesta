@@ -61,6 +61,7 @@ namespace Zepheus.FiestaLib
     {
         By = 29,
         ByCancel = 11,
+        WisperTo = 12,
         ChatNormal = 1,
         ChatParty = 20,
         BeginInteraction = 10,
