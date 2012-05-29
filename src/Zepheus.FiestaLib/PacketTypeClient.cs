@@ -153,7 +153,7 @@ namespace Zepheus.FiestaLib
     }
     public enum CH42Type : byte
     {
-        AddToBlockList = 6,
+        AddToBlockList = 3,
         RemoveFromBlockList = 7,
         ClearBlockList = 11,
     }
