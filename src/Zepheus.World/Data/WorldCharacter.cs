@@ -238,7 +238,7 @@ namespace Zepheus.World.Data
 				{
 					if (state)
 					{
-						if (client != sender && !client.Character.IsIngame)
+						if (client != sender)
 							frend.Online(client, sender);
 					}
 					else
@@ -382,6 +382,7 @@ namespace Zepheus.World.Data
         {
             LoadFriends();
              this.LoadBlockUserList();
+             this.UpdateFriendsStatus(true,this.Client);
              this.WriteBlockList();
 
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);

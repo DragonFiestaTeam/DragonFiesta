@@ -61,7 +61,7 @@ namespace Zepheus.World.Handlers
            
          if (!client.Character.IsIngame)
            {
-   
+               client.Character.IsIngame = true;
                client.Character.OneIngameLoginLoad();
            }
           // client.Character.UpdateFriendStates(client);
