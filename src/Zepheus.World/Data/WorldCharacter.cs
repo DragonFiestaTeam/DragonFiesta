@@ -31,10 +31,10 @@ namespace Zepheus.World.Data
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
 
-		public WorldCharacter(Character ch)
+		public WorldCharacter(Character ch,WorldClient client)
 		{
 			Character = ch;
-			Client = ClientManager.Instance.GetClientByCharname(ch.Name);
+            this.Client = client;
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
@@ -46,12 +46,12 @@ namespace Zepheus.World.Data
 			{
 				if (this.friends == null)
 				{
-					LoadFriends(ClientManager.Instance.GetClientByCharname(this.Character.Name));
+                    LoadFriends();
 				}
 				return this.friends;
 			}
 		}
-		public void LoadFriends(WorldClient c)
+		public void LoadFriends()
 		{
 		   
 			this.friends = new List<Friend>();
@@ -108,7 +108,7 @@ namespace Zepheus.World.Data
 					}
 				}
 			}
-			UpdateFriendStates(c);
+			UpdateFriendStates();
 		}
 		public void ChangeMap(string mapname)
 		{
@@ -140,7 +140,7 @@ namespace Zepheus.World.Data
                     }
             }
         }
-        public void WriteBlockList(WorldClient client)
+        public void WriteBlockList()
         {
             if (this.BlocketUser.Count > 0)
             {
@@ -152,7 +152,7 @@ namespace Zepheus.World.Data
                     {
                         packet.WriteString(charname, 16);
                     }
-                    client.SendPacket(packet);
+                    this.Client.SendPacket(packet);
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace Zepheus.World.Data
 					}
 					Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + friend.ID);
 				}
-				UpdateFriendStates(friend.client);
+				UpdateFriendStates();
 				return result;
 			}
 			return false;
@@ -248,7 +248,7 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
-		public void UpdateFriendStates(WorldClient pclient)
+		public void UpdateFriendStates()
 		{
 			List<Friend> unknowns = new List<Friend>();
 			foreach (var friend in this.Friends)
@@ -286,7 +286,7 @@ namespace Zepheus.World.Data
 		{
 			this.IsIngame = false;
 			this.UpdateFriendsStatus(false,pChar);
-			this.UpdateFriendStates(pChar);
+			this.UpdateFriendStates();
 			
 		}
 		public void RemoveGroup()
@@ -378,7 +378,15 @@ namespace Zepheus.World.Data
             if (GotIngame != null)
                 GotIngame(this, new EventArgs());
         }
-       
+       public void OneIngameLoginLoad()
+        {
+            LoadFriends();
+             this.LoadBlockUserList();
+             this.WriteBlockList();
+
+             World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
+
+        }
 		private void UpdateGroupStatus()
 		{
 			this.GroupMember.IsOnline = this.IsIngame;
