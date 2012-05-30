@@ -58,10 +58,11 @@ namespace Zepheus.World.Data
 			this.friendsby = new List<Friend>();
 			DataTable frenddata = null;
 			DataTable frenddataby = null;
+
 			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
 			{
-				frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.ID + "'");
-				frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='" + this.ID + "'");
+				frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.Character.ID + "'");
+				frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='"+this.Character.ID+"'");
 			}
 
 			if (frenddata != null)
@@ -73,12 +74,12 @@ namespace Zepheus.World.Data
 			}
 			if (frenddataby != null)
 			{
-				foreach (DataRow row in frenddata.Rows)
+				foreach (DataRow row in frenddataby.Rows)
 				{
 					this.friendsby.Add(Friend.LoadFromDatabase(row));
 				}
 			}
-			foreach (var friend in this.friendsby)
+			foreach (var friend in this.friends)
 			{
 				DataTable frendsdata = null;
 				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
@@ -93,7 +94,7 @@ namespace Zepheus.World.Data
 					}
 				}
 			}
-			foreach (var friend in this.Friends)
+			foreach (var friend in this.friendsby)
 			{
 				DataTable frendsdata = null;
 				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
@@ -230,19 +231,23 @@ namespace Zepheus.World.Data
 			return false;
 		}
 		public void UpdateFriendsStatus(bool state, WorldClient sender)
-		{
+        {
 			foreach (Friend frend in friendsby)
 			{
-				WorldClient client = ClientManager.Instance.GetClientByCharname(frend.Name);
+                WorldClient client = ClientManager.Instance.GetClientByCharID((int)frend.UniqueID);
+				
 				if (client != null)
 				{
 					if (state)
-					{
-						if (client != sender)
-							frend.Online(client, sender);
+					{  
+                            if(client != sender)
+                             frend.IsOnline = true;
+							frend.Online(client,sender);
+ 
 					}
 					else
 					{
+                        frend.IsOnline = false;
 						frend.Offline(client, this.Character.Name);
 					}
 				}
@@ -380,7 +385,7 @@ namespace Zepheus.World.Data
         }
        public void OneIngameLoginLoad()
         {
-            LoadFriends();
+        //    LoadFriends();
              this.LoadBlockUserList();
              this.UpdateFriendsStatus(true,this.Client);
              this.WriteBlockList();

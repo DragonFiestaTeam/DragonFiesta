@@ -64,8 +64,9 @@ namespace Zepheus.World.Data
         /// <param name="pReader"></param>
         public void UpdateFromDatabase(DataRow row)
         {
+ 
+            //this.UniqueID = uint.Parse(row["CharID"].ToString());
             this.Name = row["Name"].ToString();
-            this.UniqueID = uint.Parse(row["CharID"].ToString());
             this.Job = byte.Parse(row["Job"].ToString());
             this.Level = byte.Parse(row["Level"].ToString());
             this.Map = GetMapname(ushort.Parse(row["Map"].ToString()));
