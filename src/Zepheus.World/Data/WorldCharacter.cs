@@ -221,7 +221,7 @@ namespace Zepheus.World.Data
 					if (friendsby != null)
 					{
 						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
-						this.friendsby.Remove(friendby);
+                        this.friendsby.Remove(friendby);
 					}
 					Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + friend.ID);
 				}

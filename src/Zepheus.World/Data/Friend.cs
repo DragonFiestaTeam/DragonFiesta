@@ -14,7 +14,6 @@ namespace Zepheus.World.Data
         public byte Level { get; private set; }
         public byte Job { get; private set; }
         public string Map { get; private set; }
-        public bool Pending { get; private set; }
         public bool IsOnline { get; set; }
         public byte Month { get; private set; }
         public byte Day { get; private set; }
@@ -52,7 +51,6 @@ namespace Zepheus.World.Data
             {
                 UniqueID = uint.Parse(row["CharID"].ToString()),
                 ID = int.Parse(row["FriendID"].ToString()),
-                Pending = Zepheus.Database.DataStore.ReadMethods.EnumToBool(row["Pending"].ToString()),
                 Day = byte.Parse(row["LastConnectDay"].ToString()),
                 Month = byte.Parse(row["LastConnectMonth"].ToString()),
             };
