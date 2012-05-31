@@ -116,10 +116,11 @@ namespace Zepheus.Zone.Game
 		}
 		public void Update()
 		{
-			/* Note									*
-			* Add more update logic here if needed.	*
-			* this will automatically repeated.		*/
+			/* Note									    *
+			 * Add more update logic here if needed.	*
+			 * this will automatically repeated.		*/
 			UpdateGroupPositions();
+            
 			this.LastUpdate = DateTime.Now;
 		}
 		public void UpdateCharacterLevel(ZoneCharacter pChar)
@@ -149,6 +150,13 @@ namespace Zepheus.Zone.Game
 				AnnouncePacket(packet);
 			}
 		}
+        public void UpdateGroupStats()
+        {
+            foreach (var m in Members.Where(m => m.Character != null).Select(m => m.Character))
+            {
+                UpdateCharacterHpSp(m);
+            }
+        }
 		public void UpdateGroupPositions()
 		{
 			foreach (var m in Members.Where(mem => mem.IsOnline))

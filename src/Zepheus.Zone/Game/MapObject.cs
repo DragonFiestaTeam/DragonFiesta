@@ -98,11 +98,11 @@ namespace Zepheus.Zone.Game
             {
                 if (this is Mob && ((Mob)this).AttackingSequence == null)
                 {
-                    ((Mob)this).Attack(bully);
+                    this.Attack(bully);
                 }
                 else if (this is ZoneCharacter && !((ZoneCharacter)this).IsAttacking)
                 {
-                    ((ZoneCharacter)this).Attack(bully);
+                    this.Attack(bully);
                 }
             }
         }

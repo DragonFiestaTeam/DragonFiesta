@@ -16,6 +16,7 @@ namespace Zepheus.Zone
 		public static bool Initialize()
 		{
 			Instance = new GroupManager();
+			Worker.Instance.AddCallback(Instance.Update);
 			Log.WriteLine(LogLevel.Debug, "GroupManager initialized");
 			return true;
 		}
@@ -75,7 +76,7 @@ namespace Zepheus.Zone
 		public void Update()
 		{
 			// while the front group is has to be updated
-			while (updateQueue.Peek().LastUpdate < (DateTime.Now - GroupUpdateInterval))
+			while (updateQueue.Peek().LastUpdate + GroupUpdateInterval >= DateTime.Now)
 			{
 				Group grp = updateQueue.Dequeue();
 				UpdateGroup(grp);
@@ -192,15 +193,15 @@ namespace Zepheus.Zone
 			//--------------------------------------------------
 			// get groupId
 			//--------------------------------------------------
-            using (var client = Program.DatabaseManager.GetClient())
-            using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.GetConnection()))
-            using (var reader = cmd.ExecuteReader())
-                while (reader.Read()){
+			using (var client = Program.DatabaseManager.GetClient())
+			using (var cmd = new MySqlCommand(string.Format(get_group_id_query, pCharacterId), client.GetConnection()))
+			using (var reader = cmd.ExecuteReader())
+				while (reader.Read()){
 					if(reader.IsDBNull(0))
-				   		return -1;
+						return -1;
 					return reader.GetInt64("GroupId");
 				}
-            
+			
 			return -1;
 		}
 		#endregion
