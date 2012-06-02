@@ -27,13 +27,14 @@ namespace Zepheus.World.Data
 		public GroupMember GroupMember { get; internal set; }
 		private List<Friend> friends;
 		private List<Friend> friendsby;
+        public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
 
-		public WorldCharacter(Character ch)
+		public WorldCharacter(Character ch,WorldClient client)
 		{
 			Character = ch;
-			Client = ClientManager.Instance.GetClientByCharname(ch.Name);
+            this.Client = client;
 			ID = Character.ID;
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
@@ -45,22 +46,23 @@ namespace Zepheus.World.Data
 			{
 				if (this.friends == null)
 				{
-					LoadFriends(ClientManager.Instance.GetClientByCharname(this.Character.Name));
+                    LoadFriends();
 				}
 				return this.friends;
 			}
 		}
-		public void LoadFriends(WorldClient c)
+		public void LoadFriends()
 		{
 		   
 			this.friends = new List<Friend>();
 			this.friendsby = new List<Friend>();
 			DataTable frenddata = null;
 			DataTable frenddataby = null;
+
 			using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
 			{
-				frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.ID + "'");
-				frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='" + this.ID + "'");
+				frenddata = dbClient.ReadDataTable("SELECT * FROM friends WHERE CharID='" + this.Character.ID + "'");
+				frenddataby = dbClient.ReadDataTable("SELECT * FROM friends WHERE FriendID='"+this.Character.ID+"'");
 			}
 
 			if (frenddata != null)
@@ -72,9 +74,24 @@ namespace Zepheus.World.Data
 			}
 			if (frenddataby != null)
 			{
-				foreach (DataRow row in frenddata.Rows)
+				foreach (DataRow row in frenddataby.Rows)
 				{
 					this.friendsby.Add(Friend.LoadFromDatabase(row));
+				}
+			}
+			foreach (var friend in this.friends)
+			{
+				DataTable frendsdata = null;
+				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+				{
+					frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
+				}
+				if (frenddata != null)
+				{
+					foreach (DataRow row in frendsdata.Rows)
+					{
+						friend.UpdateFromDatabase(row);
+					}
 				}
 			}
 			foreach (var friend in this.friendsby)
@@ -92,22 +109,7 @@ namespace Zepheus.World.Data
 					}
 				}
 			}
-			foreach (var friend in this.Friends)
-			{
-				DataTable frendsdata = null;
-				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-				{
-					frendsdata = dbClient.ReadDataTable("SELECT * FROM Characters WHERE CharID='" + friend.ID + "'");
-				}
-				if (frenddata != null)
-				{
-					foreach (DataRow row in frendsdata.Rows)
-					{
-						friend.UpdateFromDatabase(row);
-					}
-				}
-			}
-			UpdateFriendStates(c);
+			UpdateFriendStates();
 		}
 		public void ChangeMap(string mapname)
 		{
@@ -123,6 +125,38 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
+        public void LoadBlockUserList()
+        {
+            DataTable BlockList = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+			{
+		    BlockList = dbClient.ReadDataTable("SELECT * FROM BlockUser WHERE CharID='" + this.ID + "'");
+			}
+            if (BlockList != null)
+            {
+                    foreach (DataRow row in BlockList.Rows)
+                    {
+                     BlocketUser.Add((string)row["BlockCharname"]);
+
+                    }
+            }
+        }
+        public void WriteBlockList()
+        {
+            if (this.BlocketUser.Count > 0)
+            {
+                using (var packet = new Packet(SH42Type.BlockList))
+                {
+                    
+                    packet.WriteUShort((ushort)this.BlocketUser.Count);
+                    foreach (string charname in this.BlocketUser)
+                    {
+                        packet.WriteString(charname, 16);
+                    }
+                    this.Client.SendPacket(packet);
+                }
+            }
+        }
         public void LoadGroup()
 		{
 			this.Group = GroupManager.Instance.GetGroupById(this.Character.GroupId);
@@ -187,35 +221,39 @@ namespace Zepheus.World.Data
 					if (friendsby != null)
 					{
 						Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + friend.ID + " AND FriendID=" + this.ID);
-						this.friendsby.Remove(friendby);
+                        this.friendsby.Remove(friendby);
 					}
 					Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM friends WHERE CharID=" + this.ID + " AND FriendID=" + friend.ID);
 				}
-				UpdateFriendStates(friend.client);
+				UpdateFriendStates();
 				return result;
 			}
 			return false;
 		}
 		public void UpdateFriendsStatus(bool state, WorldClient sender)
-		{
+        {
 			foreach (Friend frend in friendsby)
 			{
-				WorldClient client = ClientManager.Instance.GetClientByCharname(frend.Name);
+                WorldClient client = ClientManager.Instance.GetClientByCharID((int)frend.UniqueID);
+				
 				if (client != null)
 				{
 					if (state)
-					{
-						if (client != sender && !client.Character.IsIngame)
-							frend.Online(client, sender);
+					{  
+                            if(client != sender)
+                             frend.IsOnline = true;
+							frend.Online(client,sender);
+ 
 					}
 					else
 					{
+                        frend.IsOnline = false;
 						frend.Offline(client, this.Character.Name);
 					}
 				}
 			}
 		}
-		public void UpdateFriendStates(WorldClient pclient)
+		public void UpdateFriendStates()
 		{
 			List<Friend> unknowns = new List<Friend>();
 			foreach (var friend in this.Friends)
@@ -253,16 +291,15 @@ namespace Zepheus.World.Data
 		{
 			this.IsIngame = false;
 			this.UpdateFriendsStatus(false,pChar);
-			this.UpdateFriendStates(pChar);
+			this.UpdateFriendStates();
 			
 		}
 		public void RemoveGroup()
 		{
 			this.Group = null;
 			this.GroupMember = null;
-
 			string query = string.Format(
-				"UDPATE characters SET GroupID = NULL WHERE CharID = {0}", this.ID);
+                "UPDATE `characters` SET GroupID = 'NULL' WHERE CharID =  '{0}'", this.ID);
 			Program.DatabaseManager.GetClient().ExecuteQuery(query);
 		}
 
@@ -342,10 +379,20 @@ namespace Zepheus.World.Data
         internal void OnGotIngame()
         {
             LoadGroup();
+
             if (GotIngame != null)
                 GotIngame(this, new EventArgs());
         }
-       
+       public void OneIngameLoginLoad()
+        {
+        //    LoadFriends();
+             this.LoadBlockUserList();
+             this.UpdateFriendsStatus(true,this.Client);
+             this.WriteBlockList();
+
+             World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
+
+        }
 		private void UpdateGroupStatus()
 		{
 			this.GroupMember.IsOnline = this.IsIngame;

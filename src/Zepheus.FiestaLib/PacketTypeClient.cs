@@ -61,6 +61,7 @@ namespace Zepheus.FiestaLib
     {
         By = 29,
         ByCancel = 11,
+        WisperTo = 12,
         ChatNormal = 1,
         ChatParty = 20,
         BeginInteraction = 10,
@@ -149,5 +150,11 @@ namespace Zepheus.FiestaLib
     public enum CH31Type : byte
     {
         GetUnknown = 6,
+    }
+    public enum CH42Type : byte
+    {
+        AddToBlockList = 3,
+        RemoveFromBlockList = 7,
+        ClearBlockList = 11,
     }
 }

@@ -411,7 +411,7 @@ namespace Zepheus.World.Data
                 "SET " +
                     "GroupID = NULL, " +
                     "IsGroupMaster = NULL " +
-                "WHERE" +
+                "WHERE " +
                 "CharId = {0}";
             //--------------------------------------------------
             // removing the data.

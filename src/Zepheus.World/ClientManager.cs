@@ -15,6 +15,7 @@ namespace Zepheus.World
         public int WorldLoad { get { return ClientCount(); } }
         private readonly List<WorldClient> clients = new List<WorldClient>();
         private readonly ConcurrentDictionary<string, WorldClient> clientsByName = new ConcurrentDictionary<string, WorldClient>();
+        private readonly ConcurrentDictionary<int, WorldClient> clientsByCharID = new ConcurrentDictionary<int, WorldClient>();
         private readonly ConcurrentDictionary<string, WorldClient> zoneAdd = new ConcurrentDictionary<string, WorldClient>();
         private readonly ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
         private readonly Timer expirator;
@@ -64,6 +65,7 @@ namespace Zepheus.World
         {
             if (client.Character != null && !clientsByName.ContainsKey(client.Character.Character.Name))
             {
+                clientsByCharID.TryAdd(client.Character.Character.ID, client);
                 clientsByName.TryAdd(client.Character.Character.Name, client);
 
             }
@@ -120,7 +122,16 @@ namespace Zepheus.World
             }
             else return null;
         }
+        public WorldClient GetClientByCharID(int id)
+        {
 
+            WorldClient client;
+            if (clientsByCharID.TryGetValue(id, out client))
+            {
+                return client;
+            }
+            else return null;
+        }
         public void RemoveClient(WorldClient client)
         {
             lock (clients)

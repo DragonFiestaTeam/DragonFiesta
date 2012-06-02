@@ -34,6 +34,8 @@ namespace Zepheus.World.Networking
 			base.OnPacket += new EventHandler<PacketReceivedEventArgs>(WorldClient_OnPacket);
 			base.OnDisconnect += new EventHandler<SessionCloseEventArgs>(WorldClient_OnDisconnect);
 		}
+    
+
 		#endregion
 		#region Methods
 		void WorldClient_OnDisconnect(object sender, SessionCloseEventArgs e)
@@ -107,7 +109,7 @@ namespace Zepheus.World.Networking
 						else
                             ch.IsGroupMaster = ReadMethods.EnumToBool(row["IsGroupMaster"].ToString());
 					   
-						Characters.Add(ch.Slot, new WorldCharacter(ch));
+						Characters.Add(ch.Slot, new WorldCharacter(ch,this));
 					}
 				}
 			}
@@ -191,7 +193,7 @@ namespace Zepheus.World.Networking
 						")";
 				client.ExecuteQuery(query);
 			
-			WorldCharacter tadaa = new WorldCharacter(newchar);
+			WorldCharacter tadaa = new WorldCharacter(newchar,this);
             ushort begineqp = GetBeginnerEquip(job);
             if (begineqp > 0)
             {
@@ -239,6 +241,10 @@ namespace Zepheus.World.Networking
 			WorldClient other = (WorldClient)obj;
             return other.AccountID == this.AccountID;
 		}
+        public override int GetHashCode()
+        {
+            return this.AccountID;
+        }
 		#endregion
 	}
 }

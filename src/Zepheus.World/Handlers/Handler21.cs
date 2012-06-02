@@ -23,20 +23,25 @@ namespace Zepheus.World.Handlers
             {
                 WorldClient client = ClientManager.Instance.GetClientByCharname(target);
                 if (client != null)
+                {
                     using (var pack = new Packet(SH21Type.FriendDeleteSend))
                     {
                         pack.WriteString(sender, 16);
                         client.SendPacket(pack);
                     }
-                Friend friend = pClient.Character.Friends.Find(f => f.Name == target);
-                if(friend != null && friend.Pending)
-                using (var pack = new Packet(SH21Type.FriendListDelete))
+                    Friend friend = pClient.Character.Friends.Find(f => f.Name == target);
+                    if(friend != null)
+                    pClient.Character.Friends.Remove(friend);
+                }
+
+                using (var pack = new Packet(SH21Type.FriendDeleteSend))
                 {
                     pack.WriteString(sender, 16);
                     pack.WriteString(target, 16);
-                    pack.WriteUShort(2385);	// Cannot find ${Target}
-                    pClient.SendPacket(pack);
+                    pack.WriteShort(0x0951);
+                   pClient.SendPacket(pack);
                 }
+
             }
             else
             {
