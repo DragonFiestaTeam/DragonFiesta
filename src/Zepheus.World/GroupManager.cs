@@ -173,6 +173,7 @@ namespace Zepheus.World
             groups.Remove(grp);
             var byMasterEntry = groupsByMaster.Single(pair => pair.Value.Id == grp.Id);
             groupsByMaster.Remove(byMasterEntry.Key);
+            groupsById.Remove(grp.Id);
             requestsByGroup.Remove(grp);
         }
         internal void OnGroupChangedMaster(object sender, ChangedMasterEventArgs e)
