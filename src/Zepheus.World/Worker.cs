@@ -6,7 +6,7 @@ using Zepheus.Util;
 
 namespace Zepheus.World
 {
-	[ServerModule(Util.InitializationStage.DataStore)]
+	[ServerModule(Util.InitializationStage.Worker)]
 	public sealed class Worker
 	{
 		public static Worker Instance { get; private set; }
