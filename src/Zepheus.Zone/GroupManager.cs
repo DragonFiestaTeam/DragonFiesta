@@ -75,6 +75,8 @@ namespace Zepheus.Zone
 		}
 		public void Update()
 		{
+            if(updateQueue.Count <= 0)
+                return;
 			// while the front group is has to be updated
 			while (updateQueue.Peek().LastUpdate + GroupUpdateInterval >= DateTime.Now)
 			{
