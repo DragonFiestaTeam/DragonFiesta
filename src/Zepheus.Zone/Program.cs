@@ -35,12 +35,11 @@ namespace Zepheus.Zone
 #endif
             Zones = new ConcurrentDictionary<byte, ZoneData>();
             Zones.TryAdd(0, new ZoneData());
-
             if (Load())
             {
                 // Start Worker thread.
                 Worker.Load();
-
+                Worker.Instance.AddCallback(GroupManager.Instance.Update);
                 while (true)
                 {
                     string cmd = Console.ReadLine();
