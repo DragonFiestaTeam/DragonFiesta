@@ -241,6 +241,15 @@ namespace Zepheus.Zone.InterServer
 			}
 		}
 
+        [InterPacketHandler(InterHeader.PartyBrokeUp)]
+        public static void GroupBrokeUp(WorldConnector lc, InterPacket packet)
+        {
+            long groupId;
+            if(!packet.TryReadLong(out groupId))
+                return;
+            GroupManager.Instance.GroupBrokeUp(groupId);
+        }
+
 		public static void TryAssiging(WorldConnector lc)
 		{
 			using (var p = new InterPacket(InterHeader.Assign))

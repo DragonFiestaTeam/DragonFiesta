@@ -12,7 +12,8 @@
 		UpdateParty = 0x098,
 		RemovePartyMember = 0x097,
 		AddPartyMember = 0x0096,
-		NewPartyCreated =0x00101,	// WORLD -> ZONE
+		NewPartyCreated =0x0099,	// WORLD -> ZONE | DATA: GROUP ID
+        PartyBrokeUp = 0x009A,      // WORLD -> ZONE | DATA: GROUP ID
         UpdateMoney = 0x00103,//Zone -> World
 		Auth = 0x0010,
 		BanAccount = 0x0095,

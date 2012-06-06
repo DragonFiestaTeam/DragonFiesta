@@ -168,6 +168,19 @@ namespace Zepheus.Zone
 				return;
 			RemoveGroup(pCharacter.Group);			
 		}
+        internal void GroupBrokeUp(long groupId)
+        {
+            if(!this.groupsById.ContainsKey(groupId))
+                return;
+            Group grp = this.groupsById[groupId];
+            foreach (var member in grp.Members.Where(m => m.Character != null).Select(m => m.Character))
+            {
+                member.Group = null;
+                member.GroupMember = null;
+            }
+
+            RemoveGroup(grp);
+        }
 
 		private void UpdateGroup(Group grp)
 		{
@@ -207,5 +220,5 @@ namespace Zepheus.Zone
 			return -1;
 		}
 		#endregion
-	}
+    }
 }

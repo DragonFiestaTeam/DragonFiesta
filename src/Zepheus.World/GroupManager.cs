@@ -4,6 +4,7 @@ using System.Linq;
 using MySql.Data.MySqlClient;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
+using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Networking;
@@ -175,6 +176,20 @@ namespace Zepheus.World
             groupsByMaster.Remove(byMasterEntry.Key);
             groupsById.Remove(grp.Id);
             requestsByGroup.Remove(grp);
+            SendGroupBrokeUpInterPacket(grp.Id);
+        }
+
+        private void SendGroupBrokeUpInterPacket(long pId)
+        {
+            using (var packet = new InterPacket(InterHeader.PartyBrokeUp))
+            {
+                packet.WriteLong(pId);
+
+                foreach (var zone in Program.Zones.Select(m => m.Value))
+                {
+                    zone.SendPacket(packet);
+                }
+            }
         }
         internal void OnGroupChangedMaster(object sender, ChangedMasterEventArgs e)
         {
