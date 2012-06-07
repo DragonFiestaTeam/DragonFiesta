@@ -16,7 +16,6 @@ namespace Zepheus.Zone
 		public static bool Initialize()
 		{
 			Instance = new GroupManager();
-			Worker.Instance.AddCallback(Instance.Update);
 			Log.WriteLine(LogLevel.Debug, "GroupManager initialized");
 			return true;
 		}
