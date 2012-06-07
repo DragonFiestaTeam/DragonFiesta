@@ -13,6 +13,7 @@ namespace Zepheus.Zone.Game
             Group = null;
             Name = "";
             Character = null;
+            IsReadyForUpdates = false;
         }
         public GroupMember(string pName, bool pIsMaster, bool pIsOnline)
         {
@@ -29,6 +30,8 @@ namespace Zepheus.Zone.Game
         public Group Group { get; internal set; }
         public string Name { get; internal set; }
         public ZoneCharacter Character { get; internal set; }
+
+        public bool IsReadyForUpdates { get; set; }
 
         #endregion
     }

@@ -120,6 +120,7 @@ namespace Zepheus.Zone.Game
 			 * Add more update logic here if needed.	*
 			 * this will automatically repeated.		*/
 			UpdateGroupPositions();
+            UpdateGroupStats();
             
 			this.LastUpdate = DateTime.Now;
 		}
@@ -147,19 +148,19 @@ namespace Zepheus.Zone.Game
 				packet.WriteUInt(pChar.HP);
 				packet.WriteUInt(pChar.SP);
 
-				AnnouncePacket(packet);
+				AnnouncePacketToUpdatable(packet);
 			}
 		}
         public void UpdateGroupStats()
         {
-            foreach (var m in Members.Where(m => m.Character != null).Select(m => m.Character))
+            foreach (var m in Members.Where(m => m.Character != null).Where(m => m.IsReadyForUpdates).Select(m => m.Character))
             {
                 UpdateCharacterHpSp(m);
             }
         }
 		public void UpdateGroupPositions()
 		{
-			foreach (var m in Members.Where(mem => mem.IsOnline))
+			foreach (var m in Members.Where(mem => mem.IsOnline).Where(m => m.IsReadyForUpdates))
 			{
 				UpdateMemberPosition(m);
 			}
@@ -239,6 +240,13 @@ namespace Zepheus.Zone.Game
 				mem.Character.Client.SendPacket(pPacket);
 			}
 		}
+		private void AnnouncePacketToUpdatable(Packet pPacket)
+		{
+			foreach(var member in this.Members.Where(m => m.IsOnline && m.IsReadyForUpdates))
+			{
+				member.Character.Client.SendPacket(pPacket);
+			}
+		}
 		private void UpdateMemberPosition(GroupMember member)
 		{
 			if (!member.IsOnline)
@@ -249,7 +257,7 @@ namespace Zepheus.Zone.Game
 				packet.WriteInt(member.Character.Position.X);
 				packet.WriteInt(member.Character.Position.Y);
 
-				AnnouncePacket(packet);
+				AnnouncePacketToUpdatable(packet);
 			}
 		}
 
