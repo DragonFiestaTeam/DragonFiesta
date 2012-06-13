@@ -1,0 +1,29 @@
+ALTER TABLE 
+    `fiesta_world`.`groups` 
+CHANGE COLUMN 
+    `Master` 
+        `Member5` SMALLINT(5) UNSIGNED, 
+CHANGE COLUMN 
+    `id` 
+        `Id` BIGINT UNSIGNED NOT NULL,
+CHANGE COLUMN
+    `Member1`
+        `Member1` SMALLINT(5) UNSIGNED,
+CHANGE COLUMN
+    `Member2`
+        `Member2` SMALLINT(5) UNSIGNED,
+CHANGE COLUMN
+    `Member3`
+        `Member3` SMALLINT(5) UNSIGNED,
+CHANGE COLUMN
+    `Member4`
+        `Member4` SMALLINT(5) UNSIGNED;
+        
+ALTER TABLE `fiesta_world`.`groups` CHANGE COLUMN `Member5` `Member5` SMALLINT(5) UNSIGNED NULL DEFAULT NULL  , CHANGE COLUMN `Member1` `Member1` SMALLINT(5) UNSIGNED NULL DEFAULT NULL  , CHANGE COLUMN `Member2` `Member2` SMALLINT(5) UNSIGNED NULL DEFAULT NULL  , CHANGE COLUMN `Member3` `Member3` SMALLINT(5) UNSIGNED NULL DEFAULT NULL  , CHANGE COLUMN `Member4` `Member4` SMALLINT(5) UNSIGNED NULL DEFAULT NULL  ;
+
+ALTER TABLE `fiesta_world`.`groups` 
+
+DROP PRIMARY KEY 
+
+, ADD PRIMARY KEY (`Id`) ;
+
