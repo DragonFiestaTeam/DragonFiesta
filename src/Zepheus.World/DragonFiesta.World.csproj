@@ -52,7 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientManager.cs" />
+    <Compile Include="Managers\ClientManager.cs" />
+    <Compile Include="Managers\CommercialManager.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\DropState.cs" />
     <Compile Include="Data\Equip.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Data\WorldCharacter.cs" />
     <Compile Include="Data\WorldGuild.cs" />
     <Compile Include="Data\ZoneInfo.cs" />
-    <Compile Include="GroupManager.cs" />
+    <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />
     <Compile Include="Handlers\Handler22.cs" />

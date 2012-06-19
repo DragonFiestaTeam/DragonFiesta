@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
-    <Compile Include="ClientManager.cs" />
+    <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandInfo.cs" />
     <Compile Include="CommandLog.cs" />
@@ -80,7 +80,7 @@
     <Compile Include="Game\ZoneCharacter.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapObject.cs" />
-    <Compile Include="GroupManager.cs" />
+    <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler12.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler15.cs" />
@@ -98,7 +98,7 @@
     <Compile Include="InterServer\InterHandler.cs" />
     <Compile Include="InterServer\InterHandlerStore.cs" />
     <Compile Include="InterServer\WorldConnector.cs" />
-    <Compile Include="MapManager.cs" />
+    <Compile Include="Managers\MapManager.cs" />
     <Compile Include="Networking\Security\CheatTypes.cs" />
     <Compile Include="Networking\ZoneAcceptor.cs" />
     <Compile Include="Networking\ZoneClient.cs" />
