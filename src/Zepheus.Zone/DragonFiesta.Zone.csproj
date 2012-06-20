@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
+    <Compile Include="Data\CommercialReqest.cs" />
+    <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandInfo.cs" />

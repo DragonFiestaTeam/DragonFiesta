@@ -70,6 +70,7 @@ namespace Zepheus.FiestaLib.Networking
 		public Packet(SH12Type type) : this(12, (byte)type) { }
 		public Packet(SH15Type type) : this(15, (byte)type) { }
 		public Packet(SH18Type type) : this(18, (byte)type) { }
+        public Packet(SH19Type type) : this(19, (byte)type) { }
 		public Packet(SH20Type type) : this(20, (byte)type) { }
 		public Packet(SH21Type type) : this(21, (byte)type) { }
 		public Packet(SH25Type type) : this(25, (byte)type) { }
