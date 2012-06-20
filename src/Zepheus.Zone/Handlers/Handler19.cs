@@ -15,16 +15,19 @@ namespace Zepheus.Zone.Handlers
             if (!pPacket.TryReadUShort(out unk))
                 return;
             System.Console.WriteLine(unk);
-            System.Console.WriteLine(pClient.Character.MapObjectID);
-            System.Console.WriteLine(pClient.Character.ID);
+            System.Console.WriteLine(pClient.Character.SelectedObject);
             SendTestReqest(pClient);
         }
         public static void SendTestReqest(ZoneClient pClient)
         {
+            if(pClient.Character.SelectedObject != null && pClient.Character.SelectedObject is ZoneCharacter)
+            {
+                ZoneCharacter Target = pClient.Character.SelectedObject as ZoneCharacter;
             using(var pPacket = new Packet(SH19Type.SendCommercialReqest))
             {
                 pPacket.WriteUShort(45);
-                pClient.SendPacket(pPacket);
+                Target.Client.SendPacket(pPacket);
+            }
             }
         }
     }
