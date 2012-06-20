@@ -7,6 +7,7 @@ using Zepheus.Zone.Game;
 using Zepheus.Zone.Data;
 using Zepheus.Zone.Networking;
 using Zepheus.Util;
+using System.Threading;
 
 namespace Zepheus.Zone.Managers
 {
@@ -17,6 +18,8 @@ namespace Zepheus.Zone.Managers
        public CommercialManager()
        {
            CommercialReqests = new List<CommercialReqest>();
+           CommercialReqestThread = new Thread(new ThreadStart(RequestThread));
+           CommercialReqestThread.Start();
        }
         [InitializerMethod]
         public static bool Initialize()
@@ -30,9 +33,31 @@ namespace Zepheus.Zone.Managers
        public static CommercialManager Instance { get; private set; }
 
        private readonly List<CommercialReqest> CommercialReqests;
-
+       private readonly Thread CommercialReqestThread;
        #endregion 
        #region Methods
+       private void RequestThread()//Todo Remove all Requests when not answer
+       {
+           List<CommercialReqest> RemovelRequestList = new List<CommercialReqest>();
+           while (true)
+           {
+               foreach(CommercialReqest pR in CommercialReqests)
+               {
+                   if(DateTime.Now.Subtract(pR.CrationTimeStamp).TotalSeconds >= 60)
+                    {
+                        RemovelRequestList.Add(pR);
+                       
+                       //Todo Send not Accept Packet
+                    }
+               }
+               foreach(var RemoveRequest in RemovelRequestList)
+               {
+                   CommercialReqests.Remove(RemoveRequest);
+               }
+               Log.WriteLine(LogLevel.Debug, "Remove All CommecialRequest  There Answer was Unkown");
+               Thread.Sleep(600000);//10 minutes
+           }
+       }
        private void AddReqest(CommercialReqest Reqest)
        {
        
