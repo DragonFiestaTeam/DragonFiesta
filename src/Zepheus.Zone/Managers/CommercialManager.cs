@@ -43,6 +43,11 @@ namespace Zepheus.Zone.Managers
                pRequest.pToCommercialClient.Client.SendPacket(pPacket);
            }
        }
+       private CommercialReqest GetCommercialRquestByChar(ZoneCharacter pChar)
+       {
+           CommercialReqest Request = CommercialReqests.Find(r => r.MapID == pChar.MapID && r.pToCommercialClient.MapObjectID == pChar.MapObjectID);
+           return Request;
+       }
        public void AddComercialRequest(ZoneClient pClient,ushort  MapObjectIDto)
        {
            Log.WriteLine(LogLevel.Debug, "{0} AddComercialReqest {1}", pClient.Character.Character.Name, MapObjectIDto);
@@ -58,9 +63,13 @@ namespace Zepheus.Zone.Managers
                CommercialReqests.Remove(Request);
            }
        }
-       private void AddComercial(Commercial Commecial)
+       public void AcceptComercial(ZoneClient pClient)
        {
-         //Todo
+        CommercialReqest Request = GetCommercialRquestByChar(pClient.Character);
+        if (Request != null)
+        {
+            Commercial pCommercial = new Commercial(Request.pFromCommercialClient, pClient.Character);
+        }
        }
        #endregion
    }
