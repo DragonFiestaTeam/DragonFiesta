@@ -12,7 +12,11 @@ namespace Zepheus.FiestaLib
         UnkTimePacket = 69,
         Unk1 = 14,
     }
-
+    public enum SH19Type : byte
+    {
+        SendCommercialReqest = 2,
+        DeclineRequest = 4,
+    }
     public enum SH3Type : byte
     {
         IncorrectVersion = 2, //please update client

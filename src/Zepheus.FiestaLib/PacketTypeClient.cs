@@ -107,7 +107,12 @@ namespace Zepheus.FiestaLib
     {
         AnswerQuestion = 2,
     }
-
+    public enum CH19Type : byte
+    {
+        CommercialReqest = 1,
+        CommercialReqestDecline = 3,
+        CommercialAccept = 6,
+    }
     public enum CH20Type : byte
     {
         ByHPStone = 1,
