@@ -124,7 +124,7 @@ namespace Zepheus.FiestaLib.Networking
                     if (OnPacket != null)
                     {
                         Packet packet = new Packet(packetData);
-                        if (packet.Header > 45)
+                        if (packet.Header > 49)
                         {
                             Log.WriteLine(LogLevel.Warn, "Header out of range from {0} ({1}|{2})", Host, packet.Header, packet.Type);
                             Disconnect();
