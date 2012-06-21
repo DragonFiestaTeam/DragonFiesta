@@ -18,8 +18,6 @@ namespace Zepheus.Zone.Managers
        public CommercialManager()
        {
            CommercialReqests = new List<CommercialReqest>();
-           CommercialReqestThread = new Thread(new ThreadStart(RequestThread));
-           CommercialReqestThread.Start();
        }
         [InitializerMethod]
         public static bool Initialize()
@@ -33,51 +31,32 @@ namespace Zepheus.Zone.Managers
        public static CommercialManager Instance { get; private set; }
 
        private readonly List<CommercialReqest> CommercialReqests;
-       private readonly Thread CommercialReqestThread;
+   
        #endregion 
        #region Methods
-       private void RequestThread()//Todo Remove all Requests when not answer
+
+       private void SendCommecialRequest(CommercialReqest pRequest)
        {
-           List<CommercialReqest> RemovelRequestList = new List<CommercialReqest>();
-           while (true)
+           using (var pPacket = new Packet(SH19Type.SendCommercialReqest))
            {
-               foreach(CommercialReqest pR in CommercialReqests)
-               {
-                   if(DateTime.Now.Subtract(pR.CrationTimeStamp).TotalSeconds >= 60)
-                    {
-                        RemovelRequestList.Add(pR);
-                       
-                       //Todo Send not Accept Packet
-                    }
-               }
-               foreach(var RemoveRequest in RemovelRequestList)
-               {
-                   CommercialReqests.Remove(RemoveRequest);
-               }
-               Log.WriteLine(LogLevel.Debug, "Remove All CommecialRequest  There Answer was Unkown");
-               Thread.Sleep(600000);//10 minutes
+               pPacket.WriteUShort(pRequest.pFromCommercialClient.MapObjectID);
+               pRequest.pToCommercialClient.Client.SendPacket(pPacket);
            }
        }
-       private void AddReqest(CommercialReqest Reqest)
+       public void AddComercialRequest(ZoneClient pClient,ushort  MapObjectIDto)
        {
-       
-           if (Reqest != null)
+           Log.WriteLine(LogLevel.Debug, "{0} AddComercialReqest {1}", pClient.Character.Character.Name, MapObjectIDto);
+           CommercialReqest pRequest = new CommercialReqest(pClient.Character, MapObjectIDto);
+           this.CommercialReqests.Add(pRequest);
+           SendCommecialRequest(pRequest);
+       }
+       public void RemoveReqest(ZoneClient pClient)
+       {
+           CommercialReqest Request = CommercialReqests.Find(r => r.MapID == pClient.Character.MapID && r.pToCommercialClient.MapObjectID== pClient.Character.MapObjectID);
+           if (CommercialReqests.Contains(Request))
            {
-               if(!CommercialReqests.Contains(Reqest))
-               {
-                   CommercialReqests.Add(Reqest);
-               }
+               CommercialReqests.Remove(Request);
            }
-       }
-       private void AddComercial(ZoneClient pClient,string pToClient)
-       {
-           Log.WriteLine(LogLevel.Debug, "{0} AddComercialReqest {1}", pClient.Character.Character.Name, pToClient);
-           if (!ClientManager.Instance.GetClientByCharName(pToClient).Authenticated)
-               return; // not online
-       }
-       private void RemoveReqest(CommercialReqest pReqest)
-       {
-           CommercialReqests.Remove(pReqest);
        }
        private void AddComercial(Commercial Commecial)
        {

@@ -14,7 +14,8 @@ namespace Zepheus.FiestaLib
     }
     public enum SH19Type : byte
     {
-        SendCommercialReqest = 4,
+        SendCommercialReqest = 2,
+        DeclineRequest = 4,
     }
     public enum SH3Type : byte
     {

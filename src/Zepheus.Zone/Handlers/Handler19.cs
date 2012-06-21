@@ -3,6 +3,7 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Networking;
+using Zepheus.Zone.Managers;
 
 namespace Zepheus.Zone.Handlers
 {
@@ -11,24 +12,20 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH19Type.CommercialReqest)]
         public static void CommercialReqest(ZoneClient pClient, Packet pPacket)
         {
-            ushort unk;
-            if (!pPacket.TryReadUShort(out unk))
+            ushort MapObjectID;
+            if (!pPacket.TryReadUShort(out MapObjectID))
                 return;
-            System.Console.WriteLine(unk);
-            System.Console.WriteLine(pClient.Character.SelectedObject);
-            SendTestReqest(pClient);
+            CommercialManager.Instance.AddComercialRequest(pClient, MapObjectID);
         }
-        public static void SendTestReqest(ZoneClient pClient)
+        [PacketHandler(CH19Type.CommercialReqestDecline)]
+        public static void CommercialReqestDecline(ZoneClient pClient, Packet pPacket)
         {
-            if(pClient.Character.SelectedObject != null && pClient.Character.SelectedObject is ZoneCharacter)
-            {
-                ZoneCharacter Target = pClient.Character.SelectedObject as ZoneCharacter;
-            using(var pPacket = new Packet(SH19Type.SendCommercialReqest))
-            {
-                pPacket.WriteUShort(45);
-                Target.Client.SendPacket(pPacket);
-            }
-            }
+            CommercialManager.Instance.RemoveReqest(pClient);
+        }
+        [PacketHandler(CH19Type.CommercialAccept)]
+        public static void CommercialAccept(ZoneClient pClient, Packet pPacket)
+        {
+          //Todo Commercial
         }
     }
 }

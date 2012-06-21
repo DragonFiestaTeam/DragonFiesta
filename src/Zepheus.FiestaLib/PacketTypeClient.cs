@@ -110,6 +110,8 @@ namespace Zepheus.FiestaLib
     public enum CH19Type : byte
     {
         CommercialReqest = 1,
+        CommercialReqestDecline = 3,
+        CommercialAccept = 6,
     }
     public enum CH20Type : byte
     {
