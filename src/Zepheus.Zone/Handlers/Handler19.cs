@@ -25,6 +25,7 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH19Type.CommercialAccept)]
         public static void CommercialAccept(ZoneClient pClient, Packet pPacket)
         {
+            Managers.CommercialManager.Instance.AcceptComercial(pClient);
           //Todo Commercial
         }
     }
