@@ -22,12 +22,16 @@ namespace Zepheus.Zone.Data
         }
         #endregion
         #region Properties
-        public ZoneCharacter pCharFrom { get; private set; }
+
         public ZoneCharacter pCharTo { get; private set; }
-        public Dictionary<byte, Item> pFromHandelItemList = new Dictionary<byte, Item>();
         public Dictionary<byte, Item> pToHandelItemList = new Dictionary<byte, Item>();
-        private long pFromHandelMoney { get; private set; }
-        private long pToHandelMoney { get; private set; }
+        private long pToHandelMoney { get;  set; }
+        private bool pToLocket { get;  set; }
+
+        private long pFromHandelMoney { get;  set; }
+        private bool pFromLocket { get; set; }
+        public Dictionary<byte, Item> pFromHandelItemList = new Dictionary<byte, Item>();
+        public ZoneCharacter pCharFrom { get; private set; }
 
         #endregion
         #region Methods
@@ -70,6 +74,30 @@ namespace Zepheus.Zone.Data
             }
                
         }
+        public void CommercialLock(ZoneCharacter pChar)
+        {
+            if (this.pCharFrom == pChar)
+            {
+                this.pFromLocket = true;
+            }
+            else if (this.pCharTo == pCharTo)
+            {
+                this.pToLocket = true;
+            }
+
+        }
+        public void CommercialUnlock(ZoneCharacter pChar)
+        {
+            if (this.pCharFrom == pChar)
+            {
+                this.pFromLocket = false;
+            }
+            else if (this.pCharTo == pCharTo)
+            {
+                this.pToLocket = false;
+            }
+        }
+
         #endregion
         #region privat
         private void SendPacketToAllCommercialVendors(Packet packet)
