@@ -41,10 +41,12 @@ namespace Zepheus.Zone.Data
             if (this.pCharFrom == pChar)
             {
                 this.pFromHandelMoney = money;
+                SendChangeMoney(this.pCharTo.Client,money);
             }
             else if (this.pCharTo == pCharTo)
             {
                 this.pToHandelMoney = money;
+                SendChangeMoney(this.pCharFrom.Client, money);
             }
 
         }
@@ -79,10 +81,12 @@ namespace Zepheus.Zone.Data
             if (this.pCharFrom == pChar)
             {
                 this.pFromLocket = true;
+                SendCommercialLock(this.pCharTo.Client);
             }
             else if (this.pCharTo == pCharTo)
             {
                 this.pToLocket = true;
+                SendCommercialLock(this.pCharFrom.Client);
             }
 
         }
@@ -97,6 +101,10 @@ namespace Zepheus.Zone.Data
                 this.pToLocket = false;
             }
         }
+        public void CommercialBreak()
+        {
+            //TodoSendBreakpacket
+        }
 
         #endregion
         #region privat
@@ -107,6 +115,14 @@ namespace Zepheus.Zone.Data
         }
         #endregion 
         #region Packets
+        private void SendCommercialLock(ZoneClient pClient)
+        {
+            using (var packet = new Packet(SH19Type.SendCommercialLock))
+            {
+                pClient.SendPacket(packet);
+            }
+
+        }
         private void SendCommercialBeginn()
         {
             using (var packet = new Packet(SH19Type.SendCommecialAccept))
@@ -118,6 +134,14 @@ namespace Zepheus.Zone.Data
             {
                 packet.WriteUShort(pCharTo.MapObjectID);
                 this.pCharFrom.Client.SendPacket(packet);
+            }
+        }
+        private void SendChangeMoney(ZoneClient pClient, long money)
+        {
+            using (var packet = new Packet(SH19Type.SendChangeMoney))
+            {
+                packet.WriteLong(money);
+                pClient.SendPacket(packet);
             }
         }
         #endregion

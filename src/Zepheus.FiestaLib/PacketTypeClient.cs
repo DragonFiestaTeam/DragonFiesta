@@ -112,6 +112,9 @@ namespace Zepheus.FiestaLib
         CommercialReqest = 1,
         CommercialReqestDecline = 3,
         CommercialAccept = 6,
+        CommercialChangeMoney = 21,
+        CommercialLock = 25,
+        CommercialAgree = 31,
     }
     public enum CH20Type : byte
     {

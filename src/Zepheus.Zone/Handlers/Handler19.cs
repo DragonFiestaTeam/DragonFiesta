@@ -26,7 +26,25 @@ namespace Zepheus.Zone.Handlers
         public static void CommercialAccept(ZoneClient pClient, Packet pPacket)
         {
             Managers.CommercialManager.Instance.AcceptComercial(pClient);
-          //Todo Commercial
+        }
+        [PacketHandler(CH19Type.CommercialChangeMoney)]
+        public static void CommercialLock(ZoneClient pClient, Packet pPacket)
+        {
+            long money;
+            if(!pPacket.TryReadLong(out money))
+                return;
+            if (pClient.Character.Commercial != null)
+            {
+                pClient.Character.Commercial.ChangeMoneyToCommercial(pClient.Character, money);
+            }
+        }
+        [PacketHandler(CH19Type.CommercialLock)]
+        public static void CommercialLock(ZoneClient pClient, Packet pPacket)
+        {
+            if (pClient.Character.Commercial != null)
+            {
+                pClient.Character.Commercial.CommercialLock(pClient.Character);
+            }
         }
     }
 }
