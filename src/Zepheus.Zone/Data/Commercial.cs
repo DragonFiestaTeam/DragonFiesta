@@ -105,7 +105,9 @@ namespace Zepheus.Zone.Data
         {
             //TodoSendBreakpacket
         }
-
+        public void AcceptCommercial(ZoneCharacter pChar)
+        {
+        }
         #endregion
         #region privat
         private void SendPacketToAllCommercialVendors(Packet packet)
