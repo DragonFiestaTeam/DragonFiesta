@@ -69,7 +69,6 @@ namespace Zepheus.Zone.Managers
         if (Request != null)
         {
             Commercial pCommercial = new Commercial(Request.pFromCommercialClient, pClient.Character);
-            
         }
        }
        #endregion
