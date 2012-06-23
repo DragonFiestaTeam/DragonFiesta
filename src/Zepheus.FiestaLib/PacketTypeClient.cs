@@ -112,6 +112,8 @@ namespace Zepheus.FiestaLib
         CommercialReqest = 1,
         CommercialReqestDecline = 3,
         CommercialAccept = 6,
+        CommercialBreak = 10,
+        CommercialAddItem = 13,
         CommercialChangeMoney = 21,
         CommercialLock = 25,
         CommercialAgree = 31,

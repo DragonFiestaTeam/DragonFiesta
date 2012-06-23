@@ -17,8 +17,11 @@ namespace Zepheus.FiestaLib
         SendCommercialReqest = 2,
         DeclineRequest = 4,
         SendCommecialAccept = 9,
+        SendCommercialBreak = 12,
+        SendAddItem = 16,
         SendChangeMoney = 24,
         SendCommercialLock = 28,
+        SendRemoveItemFromHandel = 20,
     }
     public enum SH3Type : byte
     {

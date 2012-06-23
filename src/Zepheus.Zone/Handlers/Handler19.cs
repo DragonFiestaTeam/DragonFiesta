@@ -46,10 +46,31 @@ namespace Zepheus.Zone.Handlers
                 pClient.Character.Commercial.CommercialLock(pClient.Character);
             }
         }
+        [PacketHandler(CH19Type.CommercialAddItem)]
+        public static void CommercialAddItem(ZoneClient pClient, Packet pPacket)
+        {
+            byte pSlot;
+            if(!pPacket.TryReadByte(out pSlot))
+            return;
+
+            if(pClient.Character.Commercial == null)
+                return;
+            pClient.Character.Commercial.AddItemToHandel(pClient.Character, pSlot);
+        }
         [PacketHandler(CH19Type.CommercialAgree)]
         public static void CommercialAgree(ZoneClient pClient, Packet pPacket)
         {
             System.Console.WriteLine("lol");
+        }
+        [PacketHandler(CH19Type.CommercialBreak)]
+        public static void CommercialBreak(ZoneClient pClient, Packet pPacket)
+        {
+            if (pClient.Character.Commercial == null)
+                return;
+
+            pClient.Character.Commercial.CommercialBreak(pClient.Character);
+            pClient.Character.Commercial = null;
+
         }
     }
 }
