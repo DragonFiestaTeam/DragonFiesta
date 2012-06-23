@@ -52,9 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\CommercialReqest.cs" />
     <Compile Include="Managers\ClientManager.cs" />
-    <Compile Include="Managers\CommercialManager.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\DropState.cs" />
     <Compile Include="Data\Equip.cs" />
