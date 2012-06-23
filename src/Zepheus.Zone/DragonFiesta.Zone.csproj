@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
-    <Compile Include="Data\Trade.cs" />
-    <Compile Include="Data\TradeItem.cs" />
-    <Compile Include="Data\TradeReqest.cs" />
+    <Compile Include="Game\Trade\Trade.cs" />
+    <Compile Include="Game\Trade\TradeItem.cs" />
+    <Compile Include="Game\Trade\TradeReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
