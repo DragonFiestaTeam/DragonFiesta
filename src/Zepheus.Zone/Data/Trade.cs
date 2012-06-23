@@ -201,7 +201,10 @@ namespace Zepheus.Zone.Data
             SendTradeComplett();
             pCharFrom.Trade = null;
             pCharTo.Trade = null;
-            //: Todo Calculate Money
+            long pToMoney = pCharTo.Character.Money + this.pFromHandelMoney - this.pToHandelMoney;
+            long pFromMoney = pCharFrom.Character.Money + this.pToHandelMoney - this.pFromHandelMoney;
+            pCharFrom.ChangeMoney(pFromMoney);
+            pCharTo.ChangeMoney(pToMoney);
         }
         #endregion 
         #region Packets
