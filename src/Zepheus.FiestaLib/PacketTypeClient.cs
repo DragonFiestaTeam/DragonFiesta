@@ -164,7 +164,7 @@ namespace Zepheus.FiestaLib
     }
     public enum CH37Type : byte
     {
-       MasterRequest = 6,
+       MasterRequest = 1,
     }
     public enum CH42Type : byte
     {

@@ -213,7 +213,15 @@ namespace Zepheus.World.Data
 		}
         public void UpdateMasterJoin()
         {
+            this.Character.MasterJoin = DateTime.Now;
             Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Masters SET MasterJoin=" + DateTime.Now + " WHERE CharID='" + this.ID + "'");
+        }
+        public void SendPacketToAllOnlineMasters(Packet packet)
+        {
+            foreach (var pMember in this.MasterList)
+            {
+                pMember.pMember.SendPacket(packet);
+            }
         }
 		public Friend AddFriend(WorldCharacter pChar)
 		{

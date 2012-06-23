@@ -21,6 +21,7 @@ namespace Zepheus.World
         [InitializerMethod]
         public static bool Initialize()
         {
+            Instance = new MasterManager();
             return true;
         }
         #endregion
@@ -29,9 +30,10 @@ namespace Zepheus.World
         private readonly List<MasterRequest> pMasterRequests;
         #endregion
         #region Methods
-        public void AddMasterRequest(WorldClient pClient)
+        public void AddMasterRequest(WorldClient pClient,string target)
         {
-            MasterRequest Request = new MasterRequest();
+            MasterRequest Request = new MasterRequest(target,pClient);
+            SendMasterRequest(Request);
             pMasterRequests.Add(Request);
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
@@ -40,8 +42,9 @@ namespace Zepheus.World
             pChar.MasterList.Remove(pMember);
             pChar.UpdateMasterJoin();
         }
-        public void ApprenticeLevelUP()
+        public void ApprenticeLevelUP(WorldCharacter pChar)
         {
+
         }
         public void AddMember(WorldClient pClient)
         {
@@ -50,9 +53,18 @@ namespace Zepheus.World
         }
         #endregion
         #region Packets
+        public void SendMasterRequest(MasterRequest pRequest)
+        {
+            using (var packet = new Packet(SH37Type.SendMasterRequest))
+            {
+                packet.WriteString(pRequest.InviterClient.Character.Character.Name, 16);
+                packet.WriteString(pRequest.InvitedClient.Character.Character.Name, 16);
+                pRequest.InvitedClient.SendPacket(packet);
+            }
+        }
         public void SendMasterList(WorldClient pClient)
         {
-            using(var packet = new Packet(99,99))
+            using(var packet = new Packet(SH37Type.SendMasterList))
             {
                 int nowyear = (DateTime.Now.Year - 1920 << 1) | 1;
                 int nowmonth = (DateTime.Now.Month << 4) | 0x0F;

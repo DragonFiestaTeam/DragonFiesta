@@ -238,6 +238,8 @@ namespace Zepheus.FiestaLib
     }
     public enum SH37Type : byte
     {
+        SendMasterRequest = 4,
+        SendMasterList = 20,
 
     
     }

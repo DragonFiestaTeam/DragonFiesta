@@ -21,9 +21,8 @@ namespace Zepheus.World.Handlers
                p2.WriteInt(client.Character.Character.GuildID);
                client.SendPacket(p2);
            }
-           MasterManager.Instance.SendMasterList(client);
-           //SendMasterList(pClient);
-           using (var pp = new Packet())
+    
+          /* using (var pp = new Packet())
            {
                pp.WriteShort(9414);
                //packet.WriteString("", 16); //master name
@@ -32,7 +31,7 @@ namespace Zepheus.World.Handlers
                pp.WriteShort(0);
                client.SendPacket(pp);
 
-           }
+           }*/
            // dafuq no op code..
            using (var p = new Packet())
            {
@@ -64,6 +63,8 @@ namespace Zepheus.World.Handlers
            {
                client.Character.IsIngame = true;
                client.Character.OneIngameLoginLoad();
+               MasterManager.Instance.SendMasterList(client);
+               //SendMasterList(pClient);
            }
            client.Character.OnGotIngame();
        }
