@@ -28,10 +28,12 @@ namespace Zepheus.Zone.Data
 
         private long pToHandelMoney { get;  set; }
         private bool pToLocket { get;  set; }
+        private bool pToAgree { get; set; }
         public byte pToItemCounter { get; private set; }
 
         private long pFromHandelMoney { get;  set; }
         private bool pFromLocket { get; set; }
+        private bool pFromAgree { get; set; }
 
         public List<CommercialItem> pFromHandelItemList = new List<CommercialItem>();
         public ZoneCharacter pCharFrom { get; private set; }
@@ -106,12 +108,28 @@ namespace Zepheus.Zone.Data
             if (this.pCharFrom == pChar)
             {
                 this.pFromLocket = true;
-                SendCommercialLock(this.pCharTo.Client);
+                if (this.pFromLocket && this.pToLocket)
+                {
+                    SendCommercialRdy();
+                }
+                else
+                {
+                   SendCommercialLock(this.pCharTo.Client);
+                }
+
             }
             else if (this.pCharTo == pCharTo)
             {
                 this.pToLocket = true;
-                SendCommercialLock(this.pCharFrom.Client);
+                if (this.pFromLocket && this.pToLocket)
+                {
+                   SendCommercialRdy();   
+                }
+                else
+                {
+             
+                    SendCommercialLock(this.pCharFrom.Client);
+                }
             }
 
         }
@@ -132,6 +150,24 @@ namespace Zepheus.Zone.Data
         }
         public void AcceptCommercial(ZoneCharacter pChar)
         {
+            if (this.pCharTo == pChar)
+            {
+                this.pToAgree = true;
+            }
+            else if(this.pCharFrom == pChar)
+            {
+                this.pFromAgree = true;
+            }
+            if(this.pFromAgree && this.pToAgree)
+            {
+                CommercialComplett();
+            }
+        }
+        private void CommercialComplett()
+        {
+            //Todo Logic for inventory here
+            SendCommercialComplett();
+
         }
         #endregion
         #region privat
@@ -191,6 +227,34 @@ namespace Zepheus.Zone.Data
             {
                 packet.WriteUShort(pCharTo.MapObjectID);
                 this.pCharFrom.Client.SendPacket(packet);
+            }
+        }
+        private void SendCommercialRdy()
+        {
+            using (var packet = new Packet(SH19Type.SendComercialRdy))
+            {
+                SendPacketToAllCommercialVendors(packet);
+            }
+        }
+        private void SendCommercialAgreeMe(ZoneClient pClient)
+        {
+            using (var packet = new Packet(SH19Type.SendCommercialAgreeMe))
+            {
+                pClient.SendPacket(packet);
+            }
+        }
+        private void SendCommercialAgreepTo(ZoneClient pClient)
+        {
+            using (var packet = new Packet(SH19Type.SendComercialAgreeTo))
+            {
+                pClient.SendPacket(packet);
+            }
+        }
+        private void SendCommercialComplett()
+        {
+            using (var packet = new Packet(SH19Type.SendComercialComplett))
+            {
+                SendPacketToAllCommercialVendors(packet);
             }
         }
         private void SendChangeMoney(ZoneClient pClient, long money)

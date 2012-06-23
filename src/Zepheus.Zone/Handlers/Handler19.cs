@@ -70,7 +70,10 @@ namespace Zepheus.Zone.Handlers
         [PacketHandler(CH19Type.CommercialAgree)]
         public static void CommercialAgree(ZoneClient pClient, Packet pPacket)
         {
-            System.Console.WriteLine("lol");
+            if (pClient.Character.Commercial == null)
+                return;
+
+            pClient.Character.Commercial.AcceptCommercial(pClient.Character);
         }
         [PacketHandler(CH19Type.CommercialBreak)]
         public static void CommercialBreak(ZoneClient pClient, Packet pPacket)

@@ -114,6 +114,7 @@ namespace Zepheus.FiestaLib
         CommercialAccept = 6,
         CommercialBreak = 10,
         CommercialAddItem = 13,
+        CommercialRemoveItem = 17,
         CommercialChangeMoney = 21,
         CommercialLock = 25,
         CommercialAgree = 31,
