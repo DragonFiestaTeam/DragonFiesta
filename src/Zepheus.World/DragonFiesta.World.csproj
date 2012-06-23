@@ -52,6 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Managers\MasterManager.cs" />
     <Compile Include="Data\MasterMember.cs" />
     <Compile Include="Data\MasterRequest.cs" />
     <Compile Include="Managers\ClientManager.cs" />

@@ -165,6 +165,7 @@ namespace Zepheus.Database.DataStore
                     ch.MountID= GetDataTypes.GetInt(row["MountID"]);
 					ch.StatPoints = (byte)row["StatPoints"];
 					ch.UsablePoints = (byte)row["UsablePoints"];
+                    ch.MasterJoin = DateTime.Parse(row["MasterJoin"].ToString());
 					ch.Fame = 0;
 					ch.GameSettings = DataStore.ReadMethods.GetGameSettings(ch.ID, dbmanager);
 					ch.ClientSettings = DataStore.ReadMethods.GetClientSettings(ch.ID, dbmanager);

@@ -162,6 +162,10 @@ namespace Zepheus.FiestaLib
     {
         GetUnknown = 6,
     }
+    public enum CH37Type : byte
+    {
+       MasterRequest = 6,
+    }
     public enum CH42Type : byte
     {
         AddToBlockList = 3,

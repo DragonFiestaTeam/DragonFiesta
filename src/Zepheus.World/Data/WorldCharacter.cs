@@ -408,10 +408,11 @@ namespace Zepheus.World.Data
        public void OneIngameLoginLoad()
         {
         //    LoadFriends();
+
              this.LoadBlockUserList();
              this.UpdateFriendsStatus(true,this.Client);
              this.WriteBlockList();
-
+             this.LoadMasterList();
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
 
         }

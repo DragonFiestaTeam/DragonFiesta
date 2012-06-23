@@ -21,6 +21,7 @@ namespace Zepheus.World.Handlers
                p2.WriteInt(client.Character.Character.GuildID);
                client.SendPacket(p2);
            }
+           MasterManager.Instance.SendMasterList(client);
            //SendMasterList(pClient);
            using (var pp = new Packet())
            {
