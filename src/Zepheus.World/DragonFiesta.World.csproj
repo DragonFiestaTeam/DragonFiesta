@@ -52,6 +52,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\MasterMember.cs" />
+    <Compile Include="Data\MasterRequest.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\DropState.cs" />

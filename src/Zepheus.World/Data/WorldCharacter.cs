@@ -24,6 +24,7 @@ namespace Zepheus.World.Data
 		public bool IsPartyMaster { get; set;  }
 		public Group Group { get; internal set; }
 		public long GroupId {get; internal set;}
+        public List<MasterMember> MasterList = new List<MasterMember>();
 		public GroupMember GroupMember { get; internal set; }
 		private List<Friend> friends;
 		private List<Friend> friendsby;
@@ -111,6 +112,27 @@ namespace Zepheus.World.Data
 			}
 			UpdateFriendStates();
 		}
+        public void LoadMasterList()
+        {
+            DataTable Masterdata = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                Masterdata = dbClient.ReadDataTable("SELECT * FROM Masters WHERE CharID='" + this.ID + "'");
+            }
+            if (Masterdata != null)
+            {
+                foreach (DataRow row in Masterdata.Rows)
+                {
+                    MasterMember DBMember = null;
+                    DBMember.LoadFromDatabase(row);
+                    if(DBMember.IsOnline && DBMember.pMember != null)
+                    {
+                        DBMember.SetMemberStatus(true);
+                    }
+                    this.MasterList.Add(DBMember);
+                }
+            }
+        }
 		public void ChangeMap(string mapname)
 		{
 			foreach (var friend in friends)
