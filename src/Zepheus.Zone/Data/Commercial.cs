@@ -84,7 +84,7 @@ namespace Zepheus.Zone.Data
             if (this.pCharFrom == pChar)
             {
     
-                CommercialItem Item = new CommercialItem(pChar, pSlot, pFromItemCounter);
+                CommercialItem Item = new CommercialItem(pChar, pSlot, pFromItemCounter,pItem);
                 this.pFromHandelItemList.Add(Item);
                 this.SendComercialAddItemTo(this.pCharTo.Client, pItem,pFromItemCounter);
   
@@ -94,7 +94,8 @@ namespace Zepheus.Zone.Data
             }
             else if(this.pCharTo == pChar)
             {
-                CommercialItem Item = new CommercialItem(pChar, pSlot, pToItemCounter);
+              
+                CommercialItem Item = new CommercialItem(pChar, pSlot, pToItemCounter,pItem);
                 this.pFromHandelItemList.Add(Item);
                 this.SendComercialAddItemTo(this.pCharFrom.Client, pItem, pToItemCounter);
                 this.SendComercialAddItemMe(this.pCharTo.Client, pSlot, pToItemCounter);
@@ -110,6 +111,7 @@ namespace Zepheus.Zone.Data
                 this.pFromLocket = true;
                 if (this.pFromLocket && this.pToLocket)
                 {
+                    SendCommercialLock(this.pCharFrom.Client);
                     SendCommercialRdy();
                 }
                 else
@@ -123,12 +125,13 @@ namespace Zepheus.Zone.Data
                 this.pToLocket = true;
                 if (this.pFromLocket && this.pToLocket)
                 {
-                   SendCommercialRdy();   
+                    SendCommercialLock(this.pCharFrom.Client);
+                    SendCommercialRdy();   
                 }
                 else
                 {
              
-                    SendCommercialLock(this.pCharFrom.Client);
+                    SendCommercialLock(this.pCharTo.Client);
                 }
             }
 
@@ -153,21 +156,19 @@ namespace Zepheus.Zone.Data
             if (this.pCharTo == pChar)
             {
                 this.pToAgree = true;
+                SendCommercialAgreeMe(this.pCharTo.Client);
+                SendCommercialAgreepTo(this.pCharFrom.Client);
             }
             else if(this.pCharFrom == pChar)
             {
                 this.pFromAgree = true;
+                SendCommercialAgreeMe(this.pCharFrom.Client);
+                SendCommercialAgreepTo(pCharTo.Client);
             }
-            if(this.pFromAgree && this.pToAgree)
+            if(this.pFromAgree && this.pToAgree && this.pFromLocket && this.pToLocket)
             {
                 CommercialComplett();
             }
-        }
-        private void CommercialComplett()
-        {
-            //Todo Logic for inventory here
-            SendCommercialComplett();
-
         }
         #endregion
         #region privat
@@ -175,6 +176,32 @@ namespace Zepheus.Zone.Data
         {
             pCharFrom.Client.SendPacket(packet);
             pCharTo.Client.SendPacket(packet);
+        }
+        private void CommercialComplett()
+        {
+            foreach (var Item in pFromHandelItemList)
+            {
+
+                pCharFrom.Inventory.RemoveInventory(Item.Item);
+                Item.Item.Owner = (uint)this.pCharTo.ID;
+                sbyte pSlot;
+                pCharTo.GetFreeInventorySlot(out pSlot);
+                Item.Item.Slot = pSlot;
+                pCharTo.GiveItem(Item.Item);
+            }
+            foreach (var Item in pToHandelItemList)
+            {
+                pCharTo.Inventory.RemoveInventory(Item.Item);
+                Item.Item.Owner = (uint)this.pCharTo.ID;
+                sbyte pSlot;
+                pCharFrom.GetFreeInventorySlot(out pSlot);
+                Item.Item.Slot = pSlot;
+                pCharFrom.GiveItem(Item.Item);
+            }
+            SendCommercialComplett();
+            pCharFrom.Commercial = null;
+            pCharTo.Commercial = null;
+            //: Todo Calculate Money
         }
         #endregion 
         #region Packets

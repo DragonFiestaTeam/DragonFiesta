@@ -29,6 +29,7 @@ namespace Zepheus.Zone.Game
 				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectFromDatabase(name, Program.CharDBManager);
 				if (Character == null) throw new Exception("Character not found.");
 				Buffs = new Buffs(this);
+                this.Inventory = new Game.Inventory(this);
 				LastShout = Program.CurrentTime;
 				ChatBlocked = DateTime.MinValue;
 				NextSPRest = DateTime.MaxValue;
@@ -82,7 +83,7 @@ namespace Zepheus.Zone.Game
 		public Character Character { get; private set; }
 		public Group Group { get; set; }
 		public GroupMember GroupMember { get; set; }
-		public Inventory Inventory = new Inventory();
+        public Inventory Inventory { get; set; }
 
 		public bool IsAttacking { get { return attackingSequence != null && attackingSequence.State != AttackSequence.AnimationState.Ended; } }
 		public bool IsMale { get { return Character.LookInfo.Male; } set { Character.LookInfo.Male = value; } }

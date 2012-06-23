@@ -27,7 +27,7 @@ namespace Zepheus.FiestaLib
         SendRemoveItemFromHandel = 20,
         SendCommercialAgreeMe = 33,
         SendComercialAgreeTo = 34,
-        SendComercialComplett = 36
+        SendComercialComplett = 36,
     }
     public enum SH3Type : byte
     {
