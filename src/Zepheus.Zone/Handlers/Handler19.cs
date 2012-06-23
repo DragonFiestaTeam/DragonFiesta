@@ -22,6 +22,16 @@ namespace Zepheus.Zone.Handlers
         {
             CommercialManager.Instance.RemoveReqest(pClient);
         }
+        [PacketHandler(CH19Type.CommercialRemoveItem)]
+        public static void CommercialRemovitem(ZoneClient pClient, Packet pPacket)
+        {
+            byte pSlot;
+            if (!pPacket.TryReadByte(out pSlot))
+                return;
+            if (pClient.Character.Commercial == null)
+                return;
+            pClient.Character.Commercial.RemoveItemToHandel(pClient.Character, pSlot);
+        }
         [PacketHandler(CH19Type.CommercialAccept)]
         public static void CommercialAccept(ZoneClient pClient, Packet pPacket)
         {

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
     <Compile Include="Data\Commercial.cs" />
+    <Compile Include="Data\CommercialItem.cs" />
     <Compile Include="Data\CommercialReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Managers\ClientManager.cs" />
