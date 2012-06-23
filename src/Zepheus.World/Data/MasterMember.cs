@@ -14,7 +14,17 @@ namespace Zepheus.World.Data
         public DateTime RegisterDate { get; private set; }
         public bool IsOnline { get; private set; }
         public byte Level { get; private set; }
-
+        public MasterMember()
+        {
+        }
+        public MasterMember(WorldClient pClient)
+        {
+            this.IsOnline = true;
+            this.Level = pClient.Character.Character.CharLevel;
+            this.RegisterDate = DateTime.Now;
+            this.pMemberName = pClient.Character.Character.Name;
+            this.pMember = pClient;
+        }
         #endregion
         #region Methods
         public MasterMember LoadFromDatabase(DataRow row)

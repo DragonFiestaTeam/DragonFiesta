@@ -211,6 +211,10 @@ namespace Zepheus.World.Data
 			}
 			return "";
 		}
+        public void UpdateMasterJoin()
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Masters SET MasterJoin=" + DateTime.Now + " WHERE CharID='" + this.ID + "'");
+        }
 		public Friend AddFriend(WorldCharacter pChar)
 		{
 
@@ -407,7 +411,6 @@ namespace Zepheus.World.Data
         }
        public void OneIngameLoginLoad()
         {
-        //    LoadFriends();
 
              this.LoadBlockUserList();
              this.UpdateFriendsStatus(true,this.Client);

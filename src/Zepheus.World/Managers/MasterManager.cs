@@ -31,7 +31,22 @@ namespace Zepheus.World
         #region Methods
         public void AddMasterRequest(WorldClient pClient)
         {
-
+            MasterRequest Request = new MasterRequest();
+            pMasterRequests.Add(Request);
+        }
+        public void RemoveMasterMember(WorldCharacter pChar,string name)
+        {
+            MasterMember pMember = pChar.MasterList.Find(d => d.pMemberName == name);
+            pChar.MasterList.Remove(pMember);
+            pChar.UpdateMasterJoin();
+        }
+        public void ApprenticeLevelUP()
+        {
+        }
+        public void AddMember(WorldClient pClient)
+        {
+            MasterMember Member = new MasterMember(pClient);
+            pClient.Character.MasterList.Add(Member);
         }
         #endregion
         #region Packets
