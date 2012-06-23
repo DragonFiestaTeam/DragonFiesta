@@ -511,7 +511,7 @@ namespace Zepheus.Zone.Data
 			ulong ret = 0;
 			if (!ExpTable.TryGetValue(pLevel, out ret))
 			{
-				Log.WriteLine(LogLevel.Warn, "Something tried to get the amount of EXP for level {0} (which is higher than it's max, {1}). Please backtrace the calls to this function!", pLevel, ExpTable.Count);
+				Log.WriteLine(LogLevel.Warn, "Something tried to get the amount of EXP for level {0} (which is higher than it's max, {1}). Please backTrade the calls to this function!", pLevel, ExpTable.Count);
 				Log.WriteLine(LogLevel.Warn, Environment.StackTrace);
 			}
 			return ret;

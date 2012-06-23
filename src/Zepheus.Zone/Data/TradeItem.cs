@@ -3,18 +3,18 @@ using Zepheus.Zone.Game;
 
 namespace Zepheus.Zone.Data
 {
-   public class CommercialItem
+   public class TradeItem
     {
        public ZoneCharacter Owner { get; set; }
        public byte InventorySlot { get; set; }
-       public byte CommercialSlot { get; set; }
+       public byte TradeSlot { get; set; }
        public Item Item { get; set; }
-      public  CommercialItem(ZoneCharacter owner,byte InventorySlot,byte Commerciaslot,Item pItem)
+      public  TradeItem(ZoneCharacter owner,byte InventorySlot,byte Tradeslot,Item pItem)
       {
           this.Owner = owner;
           this.Item = pItem;
           this.InventorySlot = InventorySlot;
-          this.CommercialSlot = Commerciaslot;
+          this.TradeSlot = Tradeslot;
       }
     }
 

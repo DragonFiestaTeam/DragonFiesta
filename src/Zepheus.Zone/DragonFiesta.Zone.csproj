@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
-    <Compile Include="Data\Commercial.cs" />
-    <Compile Include="Data\CommercialItem.cs" />
-    <Compile Include="Data\CommercialReqest.cs" />
+    <Compile Include="Data\Trade.cs" />
+    <Compile Include="Data\TradeItem.cs" />
+    <Compile Include="Data\TradeReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
@@ -84,7 +84,7 @@
     <Compile Include="Game\ZoneCharacter.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapObject.cs" />
-    <Compile Include="Managers\CommercialManager.cs" />
+    <Compile Include="Managers\TradeManager.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler12.cs" />
     <Compile Include="Handlers\Handler14.cs" />

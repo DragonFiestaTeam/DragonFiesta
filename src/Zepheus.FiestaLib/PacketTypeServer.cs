@@ -14,20 +14,20 @@ namespace Zepheus.FiestaLib
     }
     public enum SH19Type : byte
     {
-        SendCommercialReqest = 2,
+        SendTradeReqest = 2,
         DeclineRequest = 4,
-        SendCommecialAccept = 9,
-        SendCommercialBreak = 12,
+        SendTradeAccept = 9,
+        SendTradeBreak = 12,
         SendAddItemSuccefull = 15,
         SendAddItem = 16,
         SendItemRemove = 19,
         SendChangeMoney = 24,
-        SendComercialRdy = 27,
-        SendCommercialLock = 28,
+        SendTradeRdy = 27,
+        SendTradeLock = 28,
         SendRemoveItemFromHandel = 20,
-        SendCommercialAgreeMe = 33,
-        SendComercialAgreeTo = 34,
-        SendComercialComplett = 36,
+        SendTradeAgreeMe = 33,
+        SendTradeAgreeTo = 34,
+        SendTradeComplett = 36,
     }
     public enum SH3Type : byte
     {

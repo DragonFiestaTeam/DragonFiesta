@@ -87,7 +87,7 @@ namespace Zepheus.Zone.Game
 
 		public bool IsAttacking { get { return attackingSequence != null && attackingSequence.State != AttackSequence.AnimationState.Ended; } }
 		public bool IsMale { get { return Character.LookInfo.Male; } set { Character.LookInfo.Male = value; } }
-        public Commercial Commercial { get; set; }
+        public Trade Trade { get; set; }
 		public const byte ChatDelay = 0;
 		public const byte ShoutDelay = 10;
 		public static readonly TimeSpan HpSpUpdateRate = TimeSpan.FromSeconds(3);

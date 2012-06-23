@@ -9,22 +9,22 @@ using System.Collections.Generic;
 
 namespace Zepheus.Zone.Data
 {
-    public sealed class Commercial
+    public sealed class Trade
     {
         #region .ctor
-        public Commercial(ZoneCharacter pFrom,ZoneCharacter pTo)
+        public Trade(ZoneCharacter pFrom,ZoneCharacter pTo)
         {
             this.pCharFrom = pFrom;
             this.pCharTo = pTo;
-            this.pCharFrom.Commercial = this;
-            this.pCharTo.Commercial = this;
-            SendCommercialBeginn();
+            this.pCharFrom.Trade = this;
+            this.pCharTo.Trade = this;
+            SendTradeBeginn();
         }
         #endregion
         #region Properties
 
         public ZoneCharacter pCharTo { get; private set; }
-        public List<CommercialItem> pToHandelItemList = new List<CommercialItem>();
+        public List<TradeItem> pToHandelItemList = new List<TradeItem>();
 
         private long pToHandelMoney { get;  set; }
         private bool pToLocket { get;  set; }
@@ -35,14 +35,14 @@ namespace Zepheus.Zone.Data
         private bool pFromLocket { get; set; }
         private bool pFromAgree { get; set; }
 
-        public List<CommercialItem> pFromHandelItemList = new List<CommercialItem>();
+        public List<TradeItem> pFromHandelItemList = new List<TradeItem>();
         public ZoneCharacter pCharFrom { get; private set; }
         public byte pFromItemCounter { get; private set; }
         
         #endregion
         #region Methods
         #region public
-        public void ChangeMoneyToCommercial(ZoneCharacter pChar, long money)
+        public void ChangeMoneyToTrade(ZoneCharacter pChar, long money)
         {
             if (this.pCharFrom == pChar)
             {
@@ -60,7 +60,7 @@ namespace Zepheus.Zone.Data
         {
             if (this.pCharFrom == pChar)
             {
-                CommercialItem item = pFromHandelItemList.Find(d => d.CommercialSlot == pSlot);
+                TradeItem item = pFromHandelItemList.Find(d => d.TradeSlot == pSlot);
                
                 this.pFromHandelItemList.Remove(item);
                 SendItemRemovFromHandel(this.pCharTo.Client, pSlot);
@@ -69,7 +69,7 @@ namespace Zepheus.Zone.Data
             }
             else if (this.pCharTo == pCharTo)
             {
-                CommercialItem item = pToHandelItemList.Find(d => d.CommercialSlot == pSlot);
+                TradeItem item = pToHandelItemList.Find(d => d.TradeSlot == pSlot);
                 this.pToHandelItemList.Remove(item);
                 SendItemRemovFromHandel(this.pCharFrom.Client, pSlot);
                 SendItemRemoveMe(this.pCharTo.Client, pSlot);
@@ -84,39 +84,39 @@ namespace Zepheus.Zone.Data
             if (this.pCharFrom == pChar)
             {
     
-                CommercialItem Item = new CommercialItem(pChar, pSlot, pFromItemCounter,pItem);
+                TradeItem Item = new TradeItem(pChar, pSlot, pFromItemCounter,pItem);
                 this.pFromHandelItemList.Add(Item);
-                this.SendComercialAddItemTo(this.pCharTo.Client, pItem,pFromItemCounter);
+                this.SendTradeAddItemTo(this.pCharTo.Client, pItem,pFromItemCounter);
   
-                this.SendComercialAddItemMe(this.pCharFrom.Client, pSlot, pFromItemCounter);
+                this.SendTradeAddItemMe(this.pCharFrom.Client, pSlot, pFromItemCounter);
                 pFromItemCounter++;
 
             }
             else if(this.pCharTo == pChar)
             {
               
-                CommercialItem Item = new CommercialItem(pChar, pSlot, pToItemCounter,pItem);
+                TradeItem Item = new TradeItem(pChar, pSlot, pToItemCounter,pItem);
                 this.pFromHandelItemList.Add(Item);
-                this.SendComercialAddItemTo(this.pCharFrom.Client, pItem, pToItemCounter);
-                this.SendComercialAddItemMe(this.pCharTo.Client, pSlot, pToItemCounter);
+                this.SendTradeAddItemTo(this.pCharFrom.Client, pItem, pToItemCounter);
+                this.SendTradeAddItemMe(this.pCharTo.Client, pSlot, pToItemCounter);
                 pToItemCounter++;
      
             }
                
         }
-        public void CommercialLock(ZoneCharacter pChar)
+        public void TradeLock(ZoneCharacter pChar)
         {
             if (this.pCharFrom == pChar)
             {
                 this.pFromLocket = true;
                 if (this.pFromLocket && this.pToLocket)
                 {
-                    SendCommercialLock(this.pCharFrom.Client);
-                    SendCommercialRdy();
+                    SendTradeLock(this.pCharFrom.Client);
+                    SendTradeRdy();
                 }
                 else
                 {
-                   SendCommercialLock(this.pCharTo.Client);
+                   SendTradeLock(this.pCharTo.Client);
                 }
 
             }
@@ -125,59 +125,59 @@ namespace Zepheus.Zone.Data
                 this.pToLocket = true;
                 if (this.pFromLocket && this.pToLocket)
                 {
-                    SendCommercialLock(this.pCharFrom.Client);
-                    SendCommercialRdy();   
+                    SendTradeLock(this.pCharFrom.Client);
+                    SendTradeRdy();   
                 }
                 else
                 {
              
-                    SendCommercialLock(this.pCharTo.Client);
+                    SendTradeLock(this.pCharTo.Client);
                 }
             }
 
         }
-        public void CommercialBreak(ZoneCharacter pChar)
+        public void TradeBreak(ZoneCharacter pChar)
         {
 
             if (this.pCharFrom == pChar)
             {
-                this.SendCommercialBreak(this.pCharTo.Client);
-                this.pCharTo.Commercial = null;
+                this.SendTradeBreak(this.pCharTo.Client);
+                this.pCharTo.Trade = null;
 
             }
             else if (this.pCharTo == pCharTo)
             {
-                this.SendCommercialBreak(this.pCharFrom.Client);
+                this.SendTradeBreak(this.pCharFrom.Client);
                 this.pCharFrom = null;
             }
         }
-        public void AcceptCommercial(ZoneCharacter pChar)
+        public void AcceptTrade(ZoneCharacter pChar)
         {
             if (this.pCharTo == pChar)
             {
                 this.pToAgree = true;
-                SendCommercialAgreeMe(this.pCharTo.Client);
-                SendCommercialAgreepTo(this.pCharFrom.Client);
+                SendTradeAgreeMe(this.pCharTo.Client);
+                SendTradeAgreepTo(this.pCharFrom.Client);
             }
             else if(this.pCharFrom == pChar)
             {
                 this.pFromAgree = true;
-                SendCommercialAgreeMe(this.pCharFrom.Client);
-                SendCommercialAgreepTo(pCharTo.Client);
+                SendTradeAgreeMe(this.pCharFrom.Client);
+                SendTradeAgreepTo(pCharTo.Client);
             }
             if(this.pFromAgree && this.pToAgree && this.pFromLocket && this.pToLocket)
             {
-                CommercialComplett();
+                TradeComplett();
             }
         }
         #endregion
         #region privat
-        private void SendPacketToAllCommercialVendors(Packet packet)
+        private void SendPacketToAllTradeVendors(Packet packet)
         {
             pCharFrom.Client.SendPacket(packet);
             pCharTo.Client.SendPacket(packet);
         }
-        private void CommercialComplett()
+        private void TradeComplett()
         {
             foreach (var Item in pFromHandelItemList)
             {
@@ -198,36 +198,36 @@ namespace Zepheus.Zone.Data
                 Item.Item.Slot = pSlot;
                 pCharFrom.GiveItem(Item.Item);
             }
-            SendCommercialComplett();
-            pCharFrom.Commercial = null;
-            pCharTo.Commercial = null;
+            SendTradeComplett();
+            pCharFrom.Trade = null;
+            pCharTo.Trade = null;
             //: Todo Calculate Money
         }
         #endregion 
         #region Packets
-        private void SendCommercialLock(ZoneClient pClient)
+        private void SendTradeLock(ZoneClient pClient)
         {
-            using (var packet = new Packet(SH19Type.SendCommercialLock))
+            using (var packet = new Packet(SH19Type.SendTradeLock))
             {
                 pClient.SendPacket(packet);
             }
 
         }
-        private void SendComercialAddItemMe(ZoneClient pClient,byte pSlot,byte CommercialSlot)
+        private void SendTradeAddItemMe(ZoneClient pClient,byte pSlot,byte TradeSlot)
         {
             using (var packet = new Packet(SH19Type.SendAddItemSuccefull))
             {
                 packet.WriteByte(pSlot);
-                packet.WriteByte(CommercialSlot);
+                packet.WriteByte(TradeSlot);
                 pClient.SendPacket(packet);
             }
 
         }
-        private void SendComercialAddItemTo(ZoneClient pClient,Item pItem,byte ComercialpSlot)
+        private void SendTradeAddItemTo(ZoneClient pClient,Item pItem,byte TradepSlot)
         {
             using (var packet = new Packet(SH19Type.SendAddItem))
             {
-                packet.WriteByte(ComercialpSlot);
+                packet.WriteByte(TradepSlot);
               if(pItem is Equip)
               {
                   Equip eq = pItem as Equip;
@@ -243,45 +243,45 @@ namespace Zepheus.Zone.Data
             }
 
         }
-        private void SendCommercialBeginn()
+        private void SendTradeBeginn()
         {
-            using (var packet = new Packet(SH19Type.SendCommecialAccept))
+            using (var packet = new Packet(SH19Type.SendTradeAccept))
             {
                 packet.WriteUShort(pCharFrom.MapObjectID);
                 this.pCharTo.Client.SendPacket(packet);
             }
-            using (var packet = new Packet(SH19Type.SendCommecialAccept))
+            using (var packet = new Packet(SH19Type.SendTradeAccept))
             {
                 packet.WriteUShort(pCharTo.MapObjectID);
                 this.pCharFrom.Client.SendPacket(packet);
             }
         }
-        private void SendCommercialRdy()
+        private void SendTradeRdy()
         {
-            using (var packet = new Packet(SH19Type.SendComercialRdy))
+            using (var packet = new Packet(SH19Type.SendTradeRdy))
             {
-                SendPacketToAllCommercialVendors(packet);
+                SendPacketToAllTradeVendors(packet);
             }
         }
-        private void SendCommercialAgreeMe(ZoneClient pClient)
+        private void SendTradeAgreeMe(ZoneClient pClient)
         {
-            using (var packet = new Packet(SH19Type.SendCommercialAgreeMe))
+            using (var packet = new Packet(SH19Type.SendTradeAgreeMe))
             {
                 pClient.SendPacket(packet);
             }
         }
-        private void SendCommercialAgreepTo(ZoneClient pClient)
+        private void SendTradeAgreepTo(ZoneClient pClient)
         {
-            using (var packet = new Packet(SH19Type.SendComercialAgreeTo))
+            using (var packet = new Packet(SH19Type.SendTradeAgreeTo))
             {
                 pClient.SendPacket(packet);
             }
         }
-        private void SendCommercialComplett()
+        private void SendTradeComplett()
         {
-            using (var packet = new Packet(SH19Type.SendComercialComplett))
+            using (var packet = new Packet(SH19Type.SendTradeComplett))
             {
-                SendPacketToAllCommercialVendors(packet);
+                SendPacketToAllTradeVendors(packet);
             }
         }
         private void SendChangeMoney(ZoneClient pClient, long money)
@@ -292,9 +292,9 @@ namespace Zepheus.Zone.Data
                 pClient.SendPacket(packet);
             }
         }
-        private void SendCommercialBreak(ZoneClient pClient)
+        private void SendTradeBreak(ZoneClient pClient)
         {
-            using (var packet = new Packet(SH19Type.SendCommercialBreak))
+            using (var packet = new Packet(SH19Type.SendTradeBreak))
             {
                 pClient.SendPacket(packet);
             }
@@ -307,11 +307,11 @@ namespace Zepheus.Zone.Data
                 pClient.SendPacket(packet);
             }
         }
-        private void SendItemRemoveMe(ZoneClient pClient,byte pCommercialSlot)
+        private void SendItemRemoveMe(ZoneClient pClient,byte pTradeSlot)
         {
             using (var packet = new Packet(SH19Type.SendItemRemove))
             {
-                packet.WriteByte(pCommercialSlot);
+                packet.WriteByte(pTradeSlot);
                 pClient.SendPacket(packet);
             }
         }

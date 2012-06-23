@@ -109,15 +109,15 @@ namespace Zepheus.FiestaLib
     }
     public enum CH19Type : byte
     {
-        CommercialReqest = 1,
-        CommercialReqestDecline = 3,
-        CommercialAccept = 6,
-        CommercialBreak = 10,
-        CommercialAddItem = 13,
-        CommercialRemoveItem = 17,
-        CommercialChangeMoney = 21,
-        CommercialLock = 25,
-        CommercialAgree = 31,
+        TradeReqest = 1,
+        TradeReqestDecline = 3,
+        TradeAccept = 6,
+        TradeBreak = 10,
+        TradeAddItem = 13,
+        TradeRemoveItem = 17,
+        TradeChangeMoney = 21,
+        TradeLock = 25,
+        TradeAgree = 31,
     }
     public enum CH20Type : byte
     {
