@@ -2,6 +2,9 @@
 using System.Data;
 using Zepheus.World.Networking;
 using Zepheus.Database.DataStore;
+using Zepheus.FiestaLib;
+using Zepheus.FiestaLib.Networking;
+
 namespace Zepheus.World.Data
 {
     public class MasterMember
@@ -39,15 +42,55 @@ namespace Zepheus.World.Data
             };
             return Member;
         }
+        public void AddToDatabase(int CharID)
+        {
+         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate) VALUES ('"+CharID+"','"+this.pMemberName+"','"+this.Level+"','"+RegisterDate+"')");
+        }
+
+        public void RemoveFromDatabase()
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + this.pMemberName + "')");
+        }
         public void SetMemberStatus(bool Status)
         {
             if(Status)
             {
-                //Todo: Online
+                SetOnline();
             }
             else
             {
-                //Todo: Offline
+                SetOffline();
+            }
+        }
+        #endregion
+        #region Packets
+        private void SetOffline()
+        {
+            this.IsOnline = false;
+            foreach(var pMemberOffline in this.pMember.Character.MasterList)
+            { 
+                using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
+                {
+                    packet.WriteString(this.pMemberName, 16);
+                   pMemberOffline.pMember.SendPacket(packet);
+                }
+
+            }
+
+        }
+        private void SetOnline()
+        {
+            this.IsOnline = true;
+            foreach (var pMemberOnline in this.pMember.Character.MasterList)
+            {
+                if (pMemberOnline.pMember != null)
+                {
+                    using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
+                    {
+                        packet.WriteString(this.pMemberName, 16);
+                        pMemberOnline.pMember.SendPacket(packet);
+                    }
+                }
             }
         }
         #endregion

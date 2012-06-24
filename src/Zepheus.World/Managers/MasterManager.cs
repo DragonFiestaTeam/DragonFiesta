@@ -36,6 +36,13 @@ namespace Zepheus.World
             SendMasterRequest(Request);
             pMasterRequests.Add(Request);
         }
+        public void RemoveMasterRequest(WorldClient pClient)
+        {
+            MasterRequest Request = pMasterRequests.Find(d => d.InvitedClient == pClient);
+            SendMasterRequestDecline(Request.InviterClient);
+            pMasterRequests.Remove(Request);
+
+        }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {
             MasterMember pMember = pChar.MasterList.Find(d => d.pMemberName == name);
@@ -46,14 +53,33 @@ namespace Zepheus.World
         {
 
         }
-        public void AddMember(WorldClient pClient)
+        public void MasterRequestAccept(string requestername, string TargetName)
         {
-            MasterMember Member = new MasterMember(pClient);
-            pClient.Character.MasterList.Add(Member);
+            WorldClient target = ClientManager.Instance.GetClientByCharname(TargetName);
+            WorldClient requester = ClientManager.Instance.GetClientByCharname(requestername);
+            MasterMember ReqMember = new MasterMember(requester);
+            MasterMember TargetM = new MasterMember(target);
+            ReqMember.AddToDatabase(target.Character.ID);
+            TargetM.AddToDatabase(requester.Character.ID);
+            target.Character.MasterList.Add(ReqMember);
+            requester.Character.MasterList.Add(TargetM);
+            SendMasterRequestAccept(requester,TargetName);
         }
         #endregion
         #region Packets
-        public void SendMasterRequest(MasterRequest pRequest)
+         private void SendMasterRequestDecline(WorldClient pClient)
+        {
+          //Todo
+        }
+         private void SendMasterRequestAccept(WorldClient pClient,string TargetName)
+        {
+            using(var packet = new Packet(SH37Type.SendMasterRequestAccept))
+            {
+                packet.WriteString(TargetName, 16);
+                pClient.SendPacket(packet);
+            }
+        }
+         private void SendMasterRequest(MasterRequest pRequest)
         {
             using (var packet = new Packet(SH37Type.SendMasterRequest))
             {

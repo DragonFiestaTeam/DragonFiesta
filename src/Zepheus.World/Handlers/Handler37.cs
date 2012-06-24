@@ -12,10 +12,34 @@ namespace Zepheus.World.Handlers
         {
             string playername = string.Empty;
             string target = string.Empty;
-            if (!packet.TryReadString(out playername, 16) && !packet.TryReadString(out target, 16))
+            if (!packet.TryReadString(out playername, 16))
+                return;
+            if (!packet.TryReadString(out target, 16))
                 return;
             MasterManager.Instance.AddMasterRequest(client, target);
 
+        }
+        [PacketHandler(CH37Type.MasterRequestResponse)]
+        public static void MasterRequestResponse(WorldClient client, Packet packet)
+        {
+            string requester = string.Empty;
+            string target = string.Empty;
+            byte response;
+            if (!packet.TryReadString(out requester, 16))
+                return;
+            if (!packet.TryReadString(out target, 16))
+                return;
+
+            if (!packet.TryReadByte(out response))
+                return;
+            if (response == 0)
+            {
+                MasterManager.Instance.RemoveMasterRequest(client);
+            }
+            else if(response == 1)
+            {
+                MasterManager.Instance.MasterRequestAccept(requester, target);
+            }
         }
     }
 }

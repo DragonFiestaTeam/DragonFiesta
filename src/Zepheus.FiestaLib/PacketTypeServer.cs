@@ -238,8 +238,11 @@ namespace Zepheus.FiestaLib
     }
     public enum SH37Type : byte
     {
+        SendMasterRequestAccept = 3,
         SendMasterRequest = 4,
         SendMasterList = 20,
+        SendMasterMemberOnline = 22,
+        SendMasterMemberOffline = 23,
 
     
     }
