@@ -47,9 +47,9 @@ namespace Zepheus.World.Data
          Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate) VALUES ('"+CharID+"','"+this.pMemberName+"','"+this.Level+"','"+RegisterDate+"')");
         }
 
-        public void RemoveFromDatabase()
+        public void RemoveFromDatabase(string pName)
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + this.pMemberName + "')");
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + pName + "')");
         }
         public void SetMemberStatus(bool Status)
         {

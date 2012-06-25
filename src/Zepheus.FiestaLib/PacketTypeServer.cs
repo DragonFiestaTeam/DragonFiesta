@@ -240,10 +240,12 @@ namespace Zepheus.FiestaLib
     {
         SendMasterRequestAccept = 3,
         SendMasterRequest = 4,
+        SendRemoveMember = 11,
         SendMasterList = 20,
+        SendRegisterApprentice = 21,
         SendMasterMemberOnline = 22,
         SendMasterMemberOffline = 23,
-
+        SendApprenticeLevelUp = 25,
     
     }
     public enum SH42Type : byte

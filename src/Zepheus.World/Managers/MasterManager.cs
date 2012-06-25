@@ -46,31 +46,97 @@ namespace Zepheus.World
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {
             MasterMember pMember = pChar.MasterList.Find(d => d.pMemberName == name);
+            pMember.RemoveFromDatabase(name);
             pChar.MasterList.Remove(pMember);
             pChar.UpdateMasterJoin();
+        
         }
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
+
 
         }
         public void MasterRequestAccept(string requestername, string TargetName)
         {
             WorldClient target = ClientManager.Instance.GetClientByCharname(TargetName);
             WorldClient requester = ClientManager.Instance.GetClientByCharname(requestername);
-            MasterMember ReqMember = new MasterMember(requester);
-            MasterMember TargetM = new MasterMember(target);
-            ReqMember.AddToDatabase(target.Character.ID);
-            TargetM.AddToDatabase(requester.Character.ID);
-            target.Character.MasterList.Add(ReqMember);
-            requester.Character.MasterList.Add(TargetM);
-            SendMasterRequestAccept(requester,TargetName);
+            if (CheckRequest(target, requester))
+            {
+                MasterMember ReqMember = new MasterMember(requester);
+                MasterMember TargetM = new MasterMember(target);
+                ReqMember.AddToDatabase(target.Character.ID);
+                TargetM.AddToDatabase(requester.Character.ID);
+                target.Character.MasterList.Add(ReqMember);
+                requester.Character.MasterList.Add(TargetM);
+                SendMasterRequestAccept(requester, TargetName);
+            }
+        }
+ 
+        #endregion
+        #region private Methods
+        private bool CheckRequest(WorldClient Target,WorldClient Reqeuster)
+        {
+            if (Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours < 24)
+            {
+                SendMasterApprentice(0x1750,Target,Reqeuster);//24 hours must pass before a master can receive a new apprentice.
+                return false;
+            }
+            if (Reqeuster.Character.MasterList.Find(m => m.pMemberName == Target.Character.Character.Name) != null)
+           {
+               SendMasterApprentice(0x174E, Target, Reqeuster);//You're already registered as an apprentice.
+               return false;
+           }
+            if (Reqeuster.Character.MasterList.Count >= 20)
+            {
+                SendMasterApprentice(0x0174D, Reqeuster, Target);//The master is unable to accept additional apprentices.
+                SendMasterApprentice(0x1742, Target, Reqeuster);//You've exceed the maximum capacity of members.
+                return false;
+            }
+            SendMasterApprentice(0x1740, Target, Reqeuster);//${Target} has been registered as your apprentice.
+            return true;
         }
         #endregion
         #region Packets
+        private void SendMasterApprentice(ushort pCode,WorldClient Target,WorldClient Requester)
+        {
+            DateTime now = DateTime.Now;
+            int year = (now.Year - 1920 << 1) | 1;
+            int month = (now.Month << 4) | 0x0F;
+
+            using (var packet = new Packet(SH37Type.SendRegisterApprentice))
+            {
+                packet.WriteUShort(pCode);
+                packet.WriteString(Target.Character.Character.Name);
+                packet.WriteByte((byte)year);
+                packet.WriteByte((byte)month);
+                packet.WriteByte((byte)now.Day);
+                packet.WriteByte(0);
+                packet.WriteByte(Target.Character.Character.CharLevel);
+                packet.WriteByte(0);
+                Requester.SendPacket(packet);
+            }
+        }
+        private void SendMasterRemove(WorldClient pClient)
+        {
+          using(var packet = new Packet(SH37Type.SendRemoveMember))
+           {
+                   //Todo
+               pClient.SendPacket(packet);
+           }
+        }
          private void SendMasterRequestDecline(WorldClient pClient)
         {
           //Todo
         }
+         private void SendApprenticeLevelUp(WorldClient pClient,string pName,byte level)
+         {
+             using (var packet = new Packet(SH37Type.SendApprenticeLevelUp))
+             {
+                 packet.WriteString(pName, 16);
+                 packet.WriteByte(level);
+                 pClient.SendPacket(packet);
+             }
+         }
          private void SendMasterRequestAccept(WorldClient pClient,string TargetName)
         {
             using(var packet = new Packet(SH37Type.SendMasterRequestAccept))
@@ -119,6 +185,7 @@ namespace Zepheus.World
             }
         }
         #endregion 
+        
     }
 
 }
