@@ -76,8 +76,9 @@ namespace Zepheus.World
         #region private Methods
         private bool CheckRequest(WorldClient Target,WorldClient Reqeuster)
         {
-            if (Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours < 24)
+            if (Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours > 24)
             {
+    
                 SendMasterApprentice(0x1750,Target,Reqeuster);//24 hours must pass before a master can receive a new apprentice.
                 return false;
             }
@@ -166,11 +167,11 @@ namespace Zepheus.World
             {
                 int nowyear = (DateTime.Now.Year - 1920 << 1) | 1;
                 int nowmonth = (DateTime.Now.Month << 4) | 0x0F;
-                packet.WriteString(pClient.Character.Character.Name);
+                packet.WriteString(pClient.Character.Character.Name,16);
                 packet.WriteByte((byte)nowyear);
                 packet.WriteByte((byte)nowmonth);
                 packet.WriteByte((byte)DateTime.Now.Day);
-                packet.WriteByte(0);//unk
+                packet.WriteByte(0x01);//unk
                 packet.WriteByte(pClient.Character.Character.CharLevel);
                 packet.WriteByte(0);//unk
                 packet.WriteByte(0x03);//unk
@@ -182,8 +183,8 @@ namespace Zepheus.World
                     int month = (Member.RegisterDate.Month << 4) | 0x0F;
                     packet.WriteByte((byte)year);
                     packet.WriteByte((byte)month);
-                    packet.WriteByte((byte)Member.RegisterDate.Day);
-                    packet.WriteByte(0);//unk
+                    packet.WriteByte(0xB9);
+                    packet.WriteByte(0x11);//unk
                     packet.WriteByte(Member.Level);
                     packet.WriteByte(0);//unk
 

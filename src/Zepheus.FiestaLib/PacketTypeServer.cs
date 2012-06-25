@@ -240,6 +240,7 @@ namespace Zepheus.FiestaLib
     {
         SendMasterRequestAccept = 3,
         SendMasterRequest = 4,
+        SendMasterResponseRemove = 7,
         SendRemoveMember = 11,
         SendMasterList = 20,
         SendRegisterApprentice = 21,

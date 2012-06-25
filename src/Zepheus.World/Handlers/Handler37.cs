@@ -19,6 +19,19 @@ namespace Zepheus.World.Handlers
             MasterManager.Instance.AddMasterRequest(client, target);
 
         }
+        [PacketHandler(CH37Type.RemoveMasterByApprentice)]
+        public static void MasterRemoveByApprentice(WorldClient client, Packet packet)
+        {
+            //response is byte 0(online offlinemaster?) and 0x1740(ushort  = 5952)
+        }
+        [PacketHandler(CH37Type.MasterRemove)]
+        public static void MasterRemove(WorldClient client, Packet packet)
+        {
+            string removename;
+            if(!packet.TryReadString(out removename,16))
+                return;
+            MasterManager.Instance.RemoveMasterMember(client.Character, removename);
+        }
         [PacketHandler(CH37Type.MasterRequestResponse)]
         public static void MasterRequestResponse(WorldClient client, Packet packet)
         {
