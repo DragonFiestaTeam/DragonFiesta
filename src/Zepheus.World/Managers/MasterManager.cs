@@ -101,6 +101,25 @@ namespace Zepheus.World
             }
             return true;
         }
+        private void RequestResponse(MasterRequest pReuqest,ushort pCode)
+        {
+            using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
+            {
+                packet.WriteUShort(0x174A);
+                packet.Fill(30, 0x00);
+                packet.WriteInt(10);//minutes
+                packet.WriteInt(9);////hours
+                packet.WriteInt(13);//day
+                packet.WriteInt(7);//month 
+                packet.WriteInt(DateTime.Now.Year - 1900);//DateTime.Now.Year - 1900)
+
+                packet.WriteInt(2);//unk
+                packet.WriteInt(177);//day of year 
+                packet.WriteInt(1);//unk
+                //character.Client.SendPacket(packet);
+            }
+          
+        }
         private bool CheckRequest(WorldClient Target,WorldClient Reqeuster)
         {
             double lol  = Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours;

@@ -239,6 +239,7 @@ namespace Zepheus.FiestaLib
     public enum SH37Type : byte
     {
         SendMasterRequestAccept = 3,
+        SendMasterRequestReponse = 2,
         SendMasterRequest = 4,
         SendMasterResponseRemove = 7,
         SendRemoveMember = 11,

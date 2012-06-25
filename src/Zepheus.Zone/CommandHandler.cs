@@ -456,28 +456,23 @@ namespace Zepheus.Zone
         }
         private void Testg(ZoneCharacter character, params string[] param)
         {
-            using (var packet = new Packet(14, 51))
-			{
-				packet.WriteByte(1);
-                packet.WriteString("lolmama", 16);
-                packet.WriteByte((byte)character.Job);
-                packet.WriteByte(character.Level);
-                //packet.WriteHexAsBytes("0E DA 02 00 00 79 02 00 00");
-               /*packet.WriteUShort();
-                packet.WriteUShort(0);
-                packet.WriteUShort(20);
-                packet.WriteUShort(0);*/
-                packet.WriteUInt(1);
-                packet.WriteUInt(10);
-                packet.WriteByte(1);
-               // packet.WriteHexAsBytes("DA 02 00 00 79 02 00 00 01");
+            using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
+            {
+                packet.WriteUShort(0x174A);
+                packet.WriteString("", 16);
+                packet.WriteHexAsBytes("68 47 00 A9 6B D7 40 A4 E9 4F 00 00 00 00");
+                packet.WriteInt(10);//minutes
+                packet.WriteInt(9);////hours
+                packet.WriteInt(13);//day
+                packet.WriteInt(7);//month 
+                packet.WriteInt(DateTime.Now.Year - 1900);//DateTime.Now.Year - 1900)
+
+                packet.WriteInt(2);//unk
+                packet.WriteInt(177);//unk 
+                packet.WriteInt(1);//unk
                 character.Client.SendPacket(packet);
             }
-           /* using (var packet = new Packet(7, 21))
-            {
-                packet.WriteHexAsBytes("53 69 6E 61 66 65 74 74 00 00 00 00 00 00 00 00 C1 04");
-                character.Client.SendPacket(packet); 
-            }*/
+          
         }
         private void ChangeMap(ZoneCharacter character, params string[] param)
         {
