@@ -4,6 +4,8 @@ using Zepheus.World.Networking;
 using Zepheus.Database.DataStore;
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
+using System.Globalization;
+using MySql.Data.MySqlClient;
 
 namespace Zepheus.World.Data
 {
@@ -30,21 +32,23 @@ namespace Zepheus.World.Data
         }
         #endregion
         #region Methods
-        public MasterMember LoadFromDatabase(DataRow row)
+        public static MasterMember LoadFromDatabase(DataRow row)
         {
             MasterMember Member = new MasterMember()
             {
                 pMemberName = row["MemberName"].ToString(),
                 Level = GetDataTypes.GetByte(row["Level"]),
-                RegisterDate = DateTime.Parse(row["RegisterDate"].ToString()),
-                IsOnline = ClientManager.Instance.IsOnline(pMemberName),
-                pMember = ClientManager.Instance.GetClientByCharname(pMemberName),
+                RegisterDate = DateTime.ParseExact(row["RegisterDate"].ToString(), "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
             };
+                Member.pMember = ClientManager.Instance.GetClientByCharname(Member.pMemberName);
+                Member.IsOnline = ClientManager.Instance.IsOnline(Member.pMemberName);
             return Member;
         }
         public void AddToDatabase(int CharID)
         {
-         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate) VALUES ('"+CharID+"','"+this.pMemberName+"','"+this.Level+"','"+RegisterDate+"')");
+            //myDate.ToString("yyyy-MM-dd hh:mm");
+
+         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate) VALUES ('"+CharID+"','"+this.pMemberName+"','"+this.Level+"','"+this.RegisterDate.ToString("yyyy-MM-dd hh:mm")+"')");
         }
 
         public void RemoveFromDatabase(string pName)

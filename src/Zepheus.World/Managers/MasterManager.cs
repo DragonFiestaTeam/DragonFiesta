@@ -113,7 +113,7 @@ namespace Zepheus.World
             using (var packet = new Packet(SH37Type.SendRegisterApprentice))
             {
                 packet.WriteUShort(pCode);
-                packet.WriteString(Target.Character.Character.Name);
+                packet.WriteString(Target.Character.Character.Name,16);
                 packet.WriteByte((byte)year);
                 packet.WriteByte((byte)month);
                 packet.WriteByte((byte)now.Day);
@@ -178,7 +178,7 @@ namespace Zepheus.World
                 packet.WriteUShort((ushort)pClient.Character.MasterList.Count);
                 foreach(var Member in pClient.Character.MasterList)
                 {
-                    packet.WriteString(Member.pMemberName);
+                    packet.WriteString(Member.pMemberName,16);
                     int year = (Member.RegisterDate.Year - 1920 << 1) | Convert.ToUInt16(Member.IsOnline);
                     int month = (Member.RegisterDate.Month << 4) | 0x0F;
                     packet.WriteByte((byte)year);
@@ -189,6 +189,7 @@ namespace Zepheus.World
                     packet.WriteByte(0);//unk
 
                 }
+                pClient.SendPacket(packet);
             }
         }
         #endregion 

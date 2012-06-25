@@ -123,9 +123,8 @@ namespace Zepheus.World.Data
             {
                 foreach (DataRow row in Masterdata.Rows)
                 {
-                    MasterMember DBMember = null;
-                    DBMember.LoadFromDatabase(row);
-                    if(DBMember.IsOnline && DBMember.pMember != null)
+                    MasterMember DBMember = MasterMember.LoadFromDatabase(row);
+                    if(DBMember.IsOnline)
                     {
                         DBMember.SetMemberStatus(true);
                     }
