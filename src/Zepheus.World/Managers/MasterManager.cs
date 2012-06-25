@@ -92,6 +92,12 @@ namespace Zepheus.World
                 SendMasterApprentice(0x1742, Target, Reqeuster);//You've exceed the maximum capacity of members.
                 return false;
             }
+            if(Reqeuster.Character.Character.CharLevel+5 < Target.Character.Character.CharLevel)
+            {
+                SendMasterApprentice(0x174C, Reqeuster, Target);//You do not meet the level requirements for apprenticeship.
+              
+                return false;
+            }
             SendMasterApprentice(0x1740, Target, Reqeuster);//${Target} has been registered as your apprentice.
             return true;
         }
