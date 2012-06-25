@@ -17,7 +17,10 @@ namespace Zepheus.World.Data
         public WorldClient pMember { get; private set; }
         public string pMemberName { get; private set; }
         public DateTime RegisterDate { get; private set; }
+
         public bool IsOnline { get; private set; }
+        public bool IsMaster { get; set; }
+
         public byte Level { get; private set; }
         public MasterMember()
         {
@@ -38,6 +41,7 @@ namespace Zepheus.World.Data
             {
                 pMemberName = row["MemberName"].ToString(),
                 Level = GetDataTypes.GetByte(row["Level"]),
+                IsMaster = GetDataTypes.GetBool(row["isMaster"]),
                 RegisterDate = DateTime.ParseExact(row["RegisterDate"].ToString(), "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
             };
                 Member.pMember = ClientManager.Instance.GetClientByCharname(Member.pMemberName);
@@ -48,50 +52,53 @@ namespace Zepheus.World.Data
         {
             //myDate.ToString("yyyy-MM-dd hh:mm");
 
-         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate) VALUES ('"+CharID+"','"+this.pMemberName+"','"+this.Level+"','"+this.RegisterDate.ToString("yyyy-MM-dd hh:mm")+"')");
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate,isMaster) VALUES ('" + CharID + "','" + this.pMemberName + "','" + this.Level + "','" + this.RegisterDate.ToString("yyyy-MM-dd hh:mm") + "','"+Convert.ToByte(this.IsMaster)+"')");
         }
-
-        public void RemoveFromDatabase(string pName)
+        public void RemoveFromDatabase(string name,int CharID)
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + pName + "')");
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE `MemberName` ='" + name + "' AND CharID ='"+CharID+"'");
         }
-        public void SetMemberStatus(bool Status)
+        public void RemoveFromDatabase(string name)
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + this.pMemberName + "' AND isMaster ='1'");
+        }
+        public void SetMemberStatus(bool Status,WorldClient pClient)
         {
             if(Status)
             {
-                SetOnline();
+                SetOnline(pClient);
             }
             else
             {
-                SetOffline();
+                SetOffline(pClient);
             }
         }
         #endregion
         #region Packets
-        private void SetOffline()
+        private void SetOffline(WorldClient pClient)
         {
             this.IsOnline = false;
-            foreach(var pMemberOffline in this.pMember.Character.MasterList)
+            foreach (var pMemberOffline in pClient.Character.MasterList)
             { 
                 using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
                 {
-                    packet.WriteString(this.pMemberName, 16);
+                    packet.WriteString(pClient.Character.Character.Name, 16);
                    pMemberOffline.pMember.SendPacket(packet);
                 }
 
             }
 
         }
-        private void SetOnline()
+        private void SetOnline(WorldClient pClient)
         {
             this.IsOnline = true;
-            foreach (var pMemberOnline in this.pMember.Character.MasterList)
+            foreach (var pMemberOnline in pClient.Character.MasterList)
             {
                 if (pMemberOnline.pMember != null)
                 {
                     using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
                     {
-                        packet.WriteString(this.pMemberName, 16);
+                        packet.WriteString(pClient.Character.Character.Name, 16);
                         pMemberOnline.pMember.SendPacket(packet);
                     }
                 }

@@ -126,7 +126,7 @@ namespace Zepheus.World.Data
                     MasterMember DBMember = MasterMember.LoadFromDatabase(row);
                     if(DBMember.IsOnline)
                     {
-                        DBMember.SetMemberStatus(true);
+                        DBMember.SetMemberStatus(true,this.Client);
                     }
                     this.MasterList.Add(DBMember);
                 }
@@ -213,7 +213,7 @@ namespace Zepheus.World.Data
         public void UpdateMasterJoin()
         {
             this.Character.MasterJoin = DateTime.Now;
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Masters SET MasterJoin=" + DateTime.Now + " WHERE CharID='" + this.ID + "'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE characters SET MasterJoin='" + DateTime.Now.ToString("yyyy-MM-dd hh:mm") + "' WHERE CharID='" + this.ID + "'");
         }
         public void SendPacketToAllOnlineMasters(Packet packet)
         {
@@ -323,6 +323,11 @@ namespace Zepheus.World.Data
 		public void Loggeout(WorldClient pChar)
 		{
 			this.IsIngame = false;
+            MasterMember m = pChar.Character.MasterList.Find(d => d.pMember == this.Client);
+            if(m != null)
+            {
+            m.SetMemberStatus(false,this.Client);
+            }
 			this.UpdateFriendsStatus(false,pChar);
 			this.UpdateFriendStates();
 			
