@@ -263,6 +263,12 @@ namespace Zepheus.World.Data
 			}
 			return false;
 		}
+        public void LevelUp(byte level)
+        {
+            this.Character.CharLevel = level;
+            MasterManager.Instance.ApprenticeLevelUP(this);
+         
+		}
 		public void UpdateFriendsStatus(bool state, WorldClient sender)
         {
 			foreach (Friend frend in friendsby)

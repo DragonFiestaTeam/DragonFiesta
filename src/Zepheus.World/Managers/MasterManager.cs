@@ -63,7 +63,9 @@ namespace Zepheus.World
         }
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
+
             MasterRewardItem reward = DataProvider.Instance.MasterRewards.Find(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
+
   
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)

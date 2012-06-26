@@ -49,7 +49,19 @@ namespace Zepheus.World.InterServer
 				}
 			}
 		}
+        [InterPacketHandler(InterHeader.CharacterLevelUP)]
+        public static void CharLevelUP(ZoneConnection zc, InterPacket packet)
+        {
+            byte level;
+            string charname;
+            if (!packet.TryReadByte(out level))
+                return;
+            if(!packet.TryReadString(out charname,16))
+            return;
 
+            WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+            client.Character.LevelUp(level);
+        }
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{

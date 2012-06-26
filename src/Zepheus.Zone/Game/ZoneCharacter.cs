@@ -1841,6 +1841,7 @@ namespace Zepheus.Zone.Game
 		{
 			SendLevelUpAnimation(pMobId);
 			Heal();
+            InterHandler.SendLevelUpToWorld((byte)pNewLevel, this.Character.Name);
 			LevelUpHandleUsablePoints((byte) (pNewLevel - pOldLevel));
 			if(LevelUp != null)
 				LevelUp(this, new LevelUpEventArgs(pOldLevel, pNewLevel, pMobId));

@@ -38,7 +38,7 @@ namespace Zepheus.World.Data
             DataTable RewardData = null;
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-                RewardData = dbClient.ReadDataTable("SELECT  *FROM MasterRewards");
+                RewardData = dbClient.ReadDataTable(string.Format("USE `{0}`; SELECT  *FROM MasterRewards;  USE `{1}`", Settings.Instance.zoneMysqlDatabase, Settings.Instance.WorldMysqlDatabase));
             }
             if (RewardData != null)
             {

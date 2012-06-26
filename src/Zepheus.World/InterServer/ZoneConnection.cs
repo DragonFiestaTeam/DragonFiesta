@@ -140,7 +140,6 @@ namespace Zepheus.World.InterServer
                 }
             }
         }
-
         public void SendTransferClientFromWorld(int accountID, string userName, byte admin, string hostIP, string hash)
         {
             using (var packet = new InterPacket(InterHeader.Clienttransfer))
@@ -154,7 +153,15 @@ namespace Zepheus.World.InterServer
                 this.SendPacket(packet);
             }
         }
-
+        public void SendLevelUpToWorld(byte Level, string charname)
+        {
+            using (var packet = new InterPacket(InterHeader.CharacterLevelUP))
+            {
+                packet.WriteByte(Level);
+                packet.WriteString(charname, 16);
+                this.SendPacket(packet);
+            }
+        }
         public void SendTransferClientFromZone(int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
         {
             using (var packet = new InterPacket(InterHeader.Clienttransfer))
