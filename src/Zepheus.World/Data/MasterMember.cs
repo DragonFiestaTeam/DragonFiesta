@@ -62,6 +62,10 @@ namespace Zepheus.World.Data
         {
             Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + this.pMemberName + "' AND isMaster ='1'");
         }
+        public void UpdateLevel()
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE  Masters SET Level='"+this.Level+"'WHERE binary `MemberName` ='" + this.pMemberName + "'");
+        }
         public void SetMemberStatus(bool Status,WorldClient pClient)
         {
             if(Status)

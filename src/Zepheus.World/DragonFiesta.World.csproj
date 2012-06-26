@@ -52,6 +52,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\MasterRequestResponse.cs" />
     <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\MasterManager.cs" />
     <Compile Include="Data\MasterMember.cs" />

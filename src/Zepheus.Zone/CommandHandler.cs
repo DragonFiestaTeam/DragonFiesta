@@ -456,22 +456,7 @@ namespace Zepheus.Zone
         }
         private void Testg(ZoneCharacter character, params string[] param)
         {
-            using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
-            {
-                packet.WriteUShort(0x174A);
-                packet.WriteString("", 16);
-                packet.WriteHexAsBytes("68 47 00 A9 6B D7 40 A4 E9 4F 00 00 00 00");
-                packet.WriteInt(10);//minutes
-                packet.WriteInt(9);////hours
-                packet.WriteInt(13);//day
-                packet.WriteInt(7);//month 
-                packet.WriteInt(DateTime.Now.Year - 1900);//DateTime.Now.Year - 1900)
-
-                packet.WriteInt(2);//unk
-                packet.WriteInt(177);//unk 
-                packet.WriteInt(1);//unk
-                character.Client.SendPacket(packet);
-            }
+            
           
         }
         private void ChangeMap(ZoneCharacter character, params string[] param)

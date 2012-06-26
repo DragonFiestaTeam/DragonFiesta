@@ -33,10 +33,11 @@ namespace Zepheus.World
         public void AddMasterRequest(WorldClient pClient,string target)
         {
             MasterRequest Request = new MasterRequest(target,pClient);
-            if (CheckBeforSendRequest(Request))
+              MasterRequestResponse response = new MasterRequestResponse(Request);
+            if(response.responseAnswer)
             {
-                SendMasterRequest(Request);
-                pMasterRequests.Add(Request);
+             response.SendMasterRequest();
+             pMasterRequests.Add(Request);
             }
         }
         public void RemoveMasterRequest(WorldClient pClient)
@@ -62,16 +63,13 @@ namespace Zepheus.World
             pChar.UpdateMasterJoin();
         
         }
-        public void ApprenticeLevelUP(WorldCharacter pChar)
-        {
 
-
-        }
         public void MasterRequestAccept(string requestername, string TargetName)
         {
             WorldClient target = ClientManager.Instance.GetClientByCharname(TargetName);
             WorldClient requester = ClientManager.Instance.GetClientByCharname(requestername);
-            if (CheckRequest(target, requester))
+            MasterRequestResponse Reponse = new MasterRequestResponse(target, requester);
+            if (Reponse.responseAnswer)
             {
                 MasterMember ReqMember = new MasterMember(requester);
                 MasterMember TargetM = new MasterMember(target);
@@ -82,89 +80,16 @@ namespace Zepheus.World
                 requester.Character.MasterList.Add(TargetM);
                 SendMasterRequestAccept(requester, TargetName);
             }
+            else
+            {
+                MasterRequest rRequest = pMasterRequests.Find(d => d.InvitedClient == requester);
+                this.pMasterRequests.Remove(rRequest);
+            }
         }
  
         #endregion
         #region private Methods
-        private bool CheckBeforSendRequest(MasterRequest pRequest)
-        {
-            if (pRequest.InviterClient.Character.MasterList.Find(d => d.IsMaster == true) != null)
-            {
-                SendMasterApprentice(0x1749, pRequest.InvitedClient, pRequest.InviterClient);//You've already registered a master.
-                return false;
-            }
-            if (pRequest.InviterClient.Character.Character.CharLevel+5 >= pRequest.InvitedClient.Character.Character.CharLevel)
-            {
-               SendMasterApprentice(0x174C, pRequest.InviterClient, pRequest.InvitedClient);//You do not meet the level requirements for apprenticeship.
 
-                return false;
-            }
-            return true;
-        }
-        private void RequestResponse(MasterRequest pReuqest,ushort pCode)
-        {
-            using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
-            {
-                packet.WriteUShort(0x174A);
-                packet.Fill(30, 0x00);
-                packet.WriteInt(10);//minutes
-                packet.WriteInt(9);////hours
-                packet.WriteInt(13);//day
-                packet.WriteInt(7);//month 
-                packet.WriteInt(DateTime.Now.Year - 1900);//DateTime.Now.Year - 1900)
-
-                packet.WriteInt(2);//unk
-                packet.WriteInt(177);//day of year 
-                packet.WriteInt(1);//unk
-                //character.Client.SendPacket(packet);
-            }
-          
-        }
-        private bool CheckRequest(WorldClient Target,WorldClient Reqeuster)
-        {
-            double lol  = Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours;
-            if (Reqeuster.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours > 24)
-            {
-    
-                SendMasterApprentice(0x1750,Target,Reqeuster);//24 hours must pass before a master can receive a new apprentice.
-                return false;
-            }
-            if (Reqeuster.Character.MasterList.Find(m => m.pMemberName == Target.Character.Character.Name) != null)
-           {
-               SendMasterApprentice(0x174E, Target, Reqeuster);//You're already registered as an apprentice.
-               return false;
-           }
-            if (Reqeuster.Character.MasterList.Count >= 20)
-            {
-                SendMasterApprentice(0x0174D, Reqeuster, Target);//The master is unable to accept additional apprentices.
-                SendMasterApprentice(0x1742, Target, Reqeuster);//You've exceed the maximum capacity of members.
-                return false;
-            }
-            SendMasterApprentice(0x1740,Reqeuster,Target);//${Target} has been registered as your apprentice.
-          //  SendMasterApprentice(0x1740, Target, Reqeuster);
-            return true;
-        }
-        #endregion
-        #region Packets
-        private void SendMasterApprentice(ushort pCode,WorldClient Target,WorldClient Requester)
-        {
-            DateTime now = DateTime.Now;
-            int year = (now.Year - 1920 << 1) | 1;
-            int month = (now.Month << 4) | 0x0F;
-
-            using (var packet = new Packet(SH37Type.SendRegisterApprentice))
-            {
-                packet.WriteUShort(pCode);
-                packet.WriteString(Target.Character.Character.Name,16);
-                packet.WriteByte((byte)year);
-                packet.WriteByte((byte)month);
-                packet.WriteByte((byte)now.Day);
-                packet.WriteByte(0);
-                packet.WriteByte(Target.Character.Character.CharLevel);
-                packet.WriteByte(0);
-                Requester.SendPacket(packet);
-            }
-        }
         private void SendMasterRemove(WorldClient pClient)
         {
           using(var packet = new Packet(SH37Type.SendRemoveMember))
@@ -194,15 +119,7 @@ namespace Zepheus.World
                 pClient.SendPacket(packet);
             }
         }
-         private void SendMasterRequest(MasterRequest pRequest)
-        {
-            using (var packet = new Packet(SH37Type.SendMasterRequest))
-            {
-                packet.WriteString(pRequest.InviterClient.Character.Character.Name, 16);
-                packet.WriteString(pRequest.InvitedClient.Character.Character.Name, 16);
-                pRequest.InvitedClient.SendPacket(packet);
-            }
-        }
+
         public void SendMasterList(WorldClient pClient)
         {
             if(pClient.Character.MasterList.Count== 0)
