@@ -30,6 +30,10 @@ namespace Zepheus.Zone.Game
 				if (Character == null) throw new Exception("Character not found.");
 				Buffs = new Buffs(this);
                 this.Inventory = new Game.Inventory(this);
+                this.PremiumItems = new List<PremiumItem>();
+                this.RewardItems = new List<RewardItem>();
+                this.LoadRewardItems();
+                this.LoadPremiumItems();
 				LastShout = Program.CurrentTime;
 				ChatBlocked = DateTime.MinValue;
 				NextSPRest = DateTime.MaxValue;
@@ -107,6 +111,7 @@ namespace Zepheus.Zone.Game
 		public long Exp { get; set; }
 		public short StonesSP { get; set; }
 		public short StonesHP { get; set; }
+        
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
@@ -154,6 +159,8 @@ namespace Zepheus.Zone.Game
 		public House House { get; set; }
 		public MapObject CharacterInTarget { get; set; }
 		public Question Question { get; set; }
+        public List<PremiumItem> PremiumItems { get; private set; }
+        public List<RewardItem> RewardItems { get; private set; }
 		private AttackSequence attackingSequence;
 
 		public DateTime LastShout { get; set; }
@@ -309,6 +316,7 @@ namespace Zepheus.Zone.Game
 			Handler4.SendCharacterChunkEnd(this);
 			Handler6.SendDetailedCharacterInfo(this);
 		}
+ 
 		public void SwapEquips(Equip sourceEquip, Equip destEquip)
 		{
 			try
@@ -813,6 +821,69 @@ namespace Zepheus.Zone.Game
 				this.House = null;
 			}
 		}
+        public void WirtePremiumList(byte PageID)
+        {
+            List<PremiumItem> Items = this.PremiumItems.FindAll(d => d.PageID == PageID);
+            using (var packet = new Packet(SH12Type.SendPremiumItemList))
+            {
+                packet.WriteUShort(0x1041);
+                packet.WriteByte(0);//unk
+                packet.WriteUShort((ushort)this.PremiumItems.Count);
+                foreach (PremiumItem pItem in Items)
+                {
+                    pItem.WritePremiumInfo(packet);
+                }
+                this.Client.SendPacket(packet);
+            } 
+        }
+        public void WriteRewardList(ushort PageID)
+        {
+            List<RewardItem> Items = RewardItems.FindAll(d => d.PageID == PageID);
+            using (var packet = new Packet(SH12Type.SendRewardList))
+            {
+                packet.WriteByte((byte)Items.Count);
+                foreach (RewardItem pItem in Items)
+                {
+                    pItem.WriteItemInfo(packet);
+                }
+                packet.WriteByte(90);//unk
+               Client.SendPacket(packet);
+            } 
+
+        }
+        private void LoadRewardItems()
+        {
+             DataTable Rewarddata = null;
+            using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
+            {
+                Rewarddata = dbClient.ReadDataTable("SELECT *FROM RewardItems WHERE CharID='" + Character.ID + "'");
+            }
+            if (Rewarddata != null)
+            {
+                foreach (DataRow row in Rewarddata.Rows)
+                {
+                    RewardItem pItem = RewardItem.LoadFromDatabase(row);
+                    this.RewardItems.Add(pItem);
+                }
+            }
+        }
+        private void LoadPremiumItems()
+        {
+            DataTable Premiumdata = null;
+            using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
+            {
+                Premiumdata = dbClient.ReadDataTable("SELECT *FROM PremiumItems WHERE CharID='" + Character.ID + "'");
+            }
+            if (Premiumdata != null)
+            {
+                foreach (DataRow row in Premiumdata.Rows)
+                {
+                    PremiumItem pItem = PremiumItem.LoadFromDatabase(row);
+                    this.PremiumItems.Add(pItem);
+                }
+            }
+
+        }
 
 		private void LoadSkills()
 		{
@@ -1139,6 +1210,26 @@ namespace Zepheus.Zone.Game
                 this.WeaponDef = 1;
                 this.MagicDef = 1;
             }
+        }
+        public void RemoveRewardItem(RewardItem pItem)
+        {
+            pItem.RemoveFromDatabase();
+            this.RewardItems.Remove(pItem);
+        }
+        public void AddRewardItem(RewardItem pItem)
+        {
+            pItem.AddToDatabase();
+            this.RewardItems.Add(pItem);
+        }
+        public void RemovePremiumItem(PremiumItem pItem)
+        {
+            pItem.RemoveFromDatabase();
+            this.PremiumItems.Remove(pItem);
+        }
+        public void AddPremiumItem(PremiumItem pItem)
+        {
+            pItem.AddToDatabase();
+            this.PremiumItems.Add(pItem);
         }
 		public void WriteUpdateStats(Packet packet)
 		{

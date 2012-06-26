@@ -159,6 +159,8 @@ namespace Zepheus.FiestaLib
         ItemUseEffect = 22,
         ItemUpgrade = 24,
         ItemUsedOk = 26,
+        SendPremiumItemList = 33,
+        SendRewardList = 45,
     }
     public enum SH14Type : byte
     {
@@ -247,6 +249,7 @@ namespace Zepheus.FiestaLib
         SendRegisterApprentice = 21,
         SendMasterMemberOnline = 22,
         SendMasterMemberOffline = 23,
+        SendApprenticeRemoveMaster = 24,
         SendApprenticeLevelUp = 25,
     
     }

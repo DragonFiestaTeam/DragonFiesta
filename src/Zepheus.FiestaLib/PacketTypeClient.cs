@@ -101,6 +101,8 @@ namespace Zepheus.FiestaLib
         Unequip = 18,
         UseItem = 21,
         ItemEnhance = 23,
+        GetPremiumItemList = 32,
+        GetRewardItemList = 44,
     }
 
     public enum CH15Type : byte

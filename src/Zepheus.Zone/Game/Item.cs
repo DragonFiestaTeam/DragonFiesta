@@ -17,17 +17,17 @@ namespace Zepheus.Zone.Game
         private const string DeleteItem = "DELETE FROM items WHERE ID=@id";
 
         public ulong UniqueID { get; protected set; }
-        public ushort ID { get; private set; }
+        public virtual ushort ID { get;  set; }
         public uint Owner { get; set; }
         public virtual DateTime? Expires { get; set; }
         // public ItemSlot SlotType { get; private set; }
-        public sbyte Slot { get; set; }
+        public virtual sbyte Slot { get; set; }
 
-        public ushort Count { get; set; }
-        public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+        public virtual ushort Count { get; set; }
+        public virtual ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public Mount Mount { get; set; }
 
-        public byte StatCount { get; private set; }
+        public virtual byte StatCount { get;  set; }
         public bool IsEquipped { get; set; }
         public ushort Str { get; private set; }
         public ushort End { get; private set; }
@@ -48,7 +48,9 @@ namespace Zepheus.Zone.Game
             this.ID = pID;
             this.Count = pCount;
         }
-
+        public Item()
+        {
+        }
         public virtual bool Delete()
         {
             // Read up on inheritance and virtual method resolution.
@@ -133,7 +135,7 @@ namespace Zepheus.Zone.Game
             }
             return length;
         }
-        public void WriteItemInfo(Packet pPacket)
+        public virtual void WriteItemInfo(Packet pPacket)
         {
             byte lenght = CalculateDataLen();
             pPacket.WriteByte(lenght);//lenght

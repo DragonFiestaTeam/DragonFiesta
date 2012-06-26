@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
+    <Compile Include="Game\RewardItem.cs" />
     <Compile Include="Game\Trade\Trade.cs" />
     <Compile Include="Game\Trade\TradeItem.cs" />
     <Compile Include="Game\Trade\TradeReqest.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="Networking\ZoneAcceptor.cs" />
     <Compile Include="Networking\ZoneClient.cs" />
     <Compile Include="PerformanceCounter.cs" />
+    <Compile Include="Game\PremiumItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Networking\Security\CheatTracker.cs" />

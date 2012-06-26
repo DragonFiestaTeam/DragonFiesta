@@ -43,9 +43,22 @@ namespace Zepheus.World
         public void RemoveMasterRequest(WorldClient pClient)
         {
             MasterRequest Request = pMasterRequests.Find(d => d.InvitedClient == pClient);
-            SendMasterRequestDecline(Request.InviterClient);
             pMasterRequests.Remove(Request);
 
+        }
+        public void RemoveMasterMember(WorldClient pClient)
+        {
+            MasterMember pMember = pClient.Character.MasterList.Find(d => d.IsMaster == true);
+            if(pMember.pMember != null)
+            {
+                SendApprenticeRemoveMaster(pMember.pMember, pClient.Character.Character.Name);
+            }
+            pMember.RemoveFromDatabase(pMember.pMemberName, pClient.Character.ID);
+            pMember.RemoveFromDatabase(pMember.pMemberName);
+            pClient.Character.MasterList.Remove(pMember);
+            pClient.Character.UpdateMasterJoin();
+            SendMasterRemoveResponse(pClient);
+             
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {
@@ -94,14 +107,29 @@ namespace Zepheus.World
         {
           using(var packet = new Packet(SH37Type.SendRemoveMember))
            {
-                   //Todo
-               pClient.SendPacket(packet);
+                /*packet.WriteByte(
+               pClient.SendPacket(packet);*/
            }
         }
-         private void SendMasterRequestDecline(WorldClient pClient)
+         private void SendMasterRemoveResponse(WorldClient pClient)
         {
-          //Todo
+            using (var packet = new Packet(SH37Type.SendMasterResponseRemove))
+            {
+                packet.WriteByte(0);
+                packet.WriteUShort(0x1740);
+                pClient.SendPacket(packet);
+            }
         }
+        
+        private void SendApprenticeRemoveMaster(WorldClient pClient,string name)
+         {
+           using(var packet = new Packet(SH37Type.SendApprenticeRemoveMaster))
+           {
+               packet.WriteString(name, 16);
+               packet.WriteByte(0);//isonline?
+           }
+
+         }
          private void SendApprenticeLevelUp(WorldClient pClient,string pName,byte level)
          {
              using (var packet = new Packet(SH37Type.SendApprenticeLevelUp))
@@ -130,7 +158,7 @@ namespace Zepheus.World
                 MasterMember Master = pClient.Character.MasterList.Find(d => d.IsMaster == true);
                 if (Master != null)
                 {
-                    int nowyear = (Master.RegisterDate.Year - 1920 << 1) | 1;
+                    int nowyear = (Master.RegisterDate.Year - 1920 << 1) | Convert.ToByte(Master.IsOnline);
                     int nowmonth = (Master.RegisterDate.Month << 4) | 0x0F;
                     packet.WriteString(Master.pMemberName, 16);
                     packet.WriteByte((byte)nowyear);
@@ -140,15 +168,28 @@ namespace Zepheus.World
                     packet.WriteByte(Master.Level);
                     packet.WriteByte(0);//unk
                     packet.WriteByte(0x03);//unk
-                    packet.WriteUShort((ushort)pClient.Character.MasterList.Count);
+                    int count = pClient.Character.MasterList.Count - 1;
+                    packet.WriteUShort((ushort)count);
                 }
                 else
                 {
+                    DateTime now = DateTime.Now;
+                    int nowyear = (now.Year - 1920 << 1) | 1;
+                    int nowmonth = (now.Month << 4) | 0x0F;
+                    packet.WriteString("", 16);
+                    packet.WriteByte((byte)nowyear);
+                    packet.WriteByte((byte)nowmonth);
+                    packet.WriteByte((byte)now.Day);
+                    packet.WriteByte(0x01);//unk
+                    packet.WriteByte(1);
+                    packet.WriteByte(0);//unk
+                    packet.WriteByte(0x03);//unk
+                    packet.WriteUShort((ushort)pClient.Character.MasterList.Count);
                     //tODO when master null
                 }
                 foreach(var Member in pClient.Character.MasterList)
                 {
-                    if (Member.pMember != pClient)
+                    if (Member.pMember != Master.pMember)
                     {
                         packet.WriteString(Member.pMemberName, 16);
                         int year = (Member.RegisterDate.Year - 1920 << 1) | Convert.ToUInt16(Member.IsOnline);

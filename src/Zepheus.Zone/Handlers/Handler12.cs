@@ -9,6 +9,24 @@ namespace Zepheus.Zone.Handlers
 {
     public sealed class Handler12
     {
+        [PacketHandler(CH12Type.GetPremiumItemList)]
+        public static void GetPremiumItemList(ZoneClient pClient, Packet pPacket)
+        {
+            byte PageID;
+            if(!pPacket.TryReadByte(out PageID))
+            return;
+
+            pClient.Character.WirtePremiumList(PageID);
+        }
+        [PacketHandler(CH12Type.GetRewardItemList)]
+        public static void GetRewardItemList(ZoneClient pClient, Packet pPacket)
+        {
+           ushort PageID;
+            if (!pPacket.TryReadUShort(out PageID))
+                return;
+
+            pClient.Character.WriteRewardList(PageID);
+        }
         [PacketHandler(CH12Type.Unequip)]
         public static void ClientUnequippedItem(ZoneClient pClient, Packet pPacket)
         {

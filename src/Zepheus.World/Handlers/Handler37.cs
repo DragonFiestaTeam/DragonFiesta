@@ -2,6 +2,7 @@
 using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.World.Networking;
+using Zepheus.World.Data;
 
 namespace Zepheus.World.Handlers
 {
@@ -22,7 +23,7 @@ namespace Zepheus.World.Handlers
         [PacketHandler(CH37Type.RemoveMasterByApprentice)]
         public static void MasterRemoveByApprentice(WorldClient client, Packet packet)
         {
-            //response is byte 0(online offlinemaster?) and 0x1740(ushort  = 5952)
+            MasterManager.Instance.RemoveMasterMember(client);
         }
         [PacketHandler(CH37Type.MasterRemove)]
         public static void MasterRemove(WorldClient client, Packet packet)

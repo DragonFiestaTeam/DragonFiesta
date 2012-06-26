@@ -62,7 +62,8 @@ namespace Zepheus.World.Data
                 SendMasterApprentice(0x0174D, Reqeuster, Target);//The master is unable to accept additional apprentices.
                 return false;
             }
-            SendMasterApprentice(0x1740,Reqeuster,Target);//${Target} has been registered as your apprentice.
+            this.RequestResponse(Target, 0x1740, DateTime.Now);
+            SendMasterApprentice(0x1740,Target,Reqeuster);//${Target} has been registered as your apprentice.
             return true;
         }
         #endregion
