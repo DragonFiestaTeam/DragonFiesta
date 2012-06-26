@@ -4,6 +4,7 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
+using Zepheus.FiestaLib.Data;
 using Zepheus.World.Networking;
 using System;
 
@@ -59,6 +60,11 @@ namespace Zepheus.World
             pClient.Character.UpdateMasterJoin();
             SendMasterRemoveResponse(pClient);
              
+        }
+        public void ApprenticeLevelUP(WorldCharacter pChar)
+        {
+            MasterRewardItem reward = DataProvider.Instance.MasterRewards.Find(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
+  
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {

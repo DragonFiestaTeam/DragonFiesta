@@ -19,20 +19,37 @@ namespace Zepheus.World.Data
 		public Dictionary<ushort, MapInfo> Maps { get; private set; }
 		public Dictionary<Job, BaseStatsEntry> JobBasestats { get; private set; }
 		public Dictionary<int, WorldGuild> Guilds { get; private set; }
+        public List<MasterRewardItem> MasterRewards { get; private set; }
 
 		public DataProvider()
 		{
 		   
 			LoadGuilds();
-			//DatabaseHelper.Initialize(Settings.Instance.DataConnString, "WorldDataProvider");
 			LoadMaps();
 			LoadBasestats();
 			LoadBadNames();
-			// DatabaseHelper.Initialize(Settings.Instance.ConnString, "CharConn");
-			//settings instanz return to charconnectiondb
+            LoadMasterReward();
+
 
 		}
-
+        private void LoadMasterReward()
+        {
+            this.MasterRewards = new List<MasterRewardItem>();
+            DataTable RewardData = null;
+            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+            {
+                RewardData = dbClient.ReadDataTable("SELECT  *FROM MasterRewards");
+            }
+            if (RewardData != null)
+            {
+                foreach (DataRow row in RewardData.Rows)
+                {
+                    MasterRewardItem Reward = new MasterRewardItem(row);
+                    this.MasterRewards.Add(Reward);
+                }
+            }
+            Log.WriteLine(LogLevel.Info, "Load  {0} MasterRewards", this.MasterRewards.Count);
+        }
 		private void LoadMaps()
 		{
 			Maps = new Dictionary<ushort, MapInfo>();

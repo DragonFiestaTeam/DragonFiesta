@@ -33,6 +33,7 @@ namespace Zepheus.Zone.Data
         public Dictionary<ushort, Mount> MountyByHandleID { get; private set; }
 		public Dictionary<ushort, ActiveSkillInfo> ActiveSkillsByID { get; private set; }
 		public Dictionary<string, ActiveSkillInfo> ActiveSkillsByName { get; private set; }
+    
 		public static DataProvider Instance { get; private set; }
 
 		public DataProvider()
@@ -51,6 +52,7 @@ namespace Zepheus.Zone.Data
 			LoadVendors();
 			LoadTeleporters();
             LoadMounts();
+  
 		}
 
 		[InitializerMethod]
@@ -110,6 +112,7 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading ItemInfoServer.shn: {0}", ex);
 			}
 		}
+       
 		private void LoadDrops()
 		{
 			DropGroups = new Dictionary<string, DropGroupInfo>();

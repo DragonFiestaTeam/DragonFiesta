@@ -62,6 +62,7 @@
     <Compile Include="Data\ItemUseEffectType.cs" />
     <Compile Include="Data\LinkTable.cs" />
     <Compile Include="Data\MapInfo.cs" />
+    <Compile Include="Data\MasterRewardItem.cs" />
     <Compile Include="Data\MiniHouseInfo.cs" />
     <Compile Include="Data\MobInfo.cs" />
     <Compile Include="Data\MobInfoServer.cs" />
