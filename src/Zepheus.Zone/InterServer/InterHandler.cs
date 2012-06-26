@@ -79,7 +79,7 @@ namespace Zepheus.Zone.InterServer
             {
                 packet.WriteByte(Level);
                 packet.WriteString(charname, 16);
-                WorldConnector.Instance.SendPacket(packet;
+                WorldConnector.Instance.SendPacket(packet);
             }
         }
         public static void UpdateMoneyWorld(long Money,string charname)

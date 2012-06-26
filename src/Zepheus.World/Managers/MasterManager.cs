@@ -63,10 +63,13 @@ namespace Zepheus.World
         }
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
-
+            MasterMember pMember = pChar.MasterList.Find(d => d.IsMaster == true);
             MasterRewardItem reward = DataProvider.Instance.MasterRewards.Find(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
-
-  
+            if (pMember != null)
+            {
+                SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
+            }
+           //Todo Add Apprentice Reward
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {
@@ -138,11 +141,11 @@ namespace Zepheus.World
            }
 
          }
-         private void SendApprenticeLevelUp(WorldClient pClient,string pName,byte level)
+         private void SendApprenticeLevelUp(WorldClient pClient,string charname,byte level)
          {
              using (var packet = new Packet(SH37Type.SendApprenticeLevelUp))
              {
-                 packet.WriteString(pName, 16);
+                 packet.WriteString(charname, 16);
                  packet.WriteByte(level);
                  pClient.SendPacket(packet);
              }
