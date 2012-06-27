@@ -16,7 +16,7 @@ namespace Zepheus.Zone.Handlers
             if(!pPacket.TryReadByte(out PageID))
             return;
 
-            pClient.Character.WirtePremiumList(PageID);
+            pClient.Character.WritePremiumList(PageID);
         }
         [PacketHandler(CH12Type.GetRewardItemList)]
         public static void GetRewardItemList(ZoneClient pClient, Packet pPacket)

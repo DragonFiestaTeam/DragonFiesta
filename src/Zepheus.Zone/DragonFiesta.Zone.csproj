@@ -45,6 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChatLog.cs" />
+    <Compile Include="Game\Inventory\PremiumInventory.cs" />
+    <Compile Include="Game\Inventory\RewardInventory.cs" />
     <Compile Include="Game\RewardItem.cs" />
     <Compile Include="Game\Trade\Trade.cs" />
     <Compile Include="Game\Trade\TradeItem.cs" />
@@ -64,7 +66,7 @@
     <Compile Include="Game\AttackSequence_.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\Buffs.cs" />
-    <Compile Include="Game\AttackSequence.cs" />
+    <Compile Include="Game\Trade\AttackSequence.cs" />
     <Compile Include="Game\Drop.cs" />
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
@@ -72,7 +74,7 @@
     <Compile Include="Game\Guild\Guild.cs" />
     <Compile Include="Game\Guild\GuildMember.cs" />
     <Compile Include="Game\House.cs" />
-    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\Inventory\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\LevelUpEventArgs.cs" />
     <Compile Include="Game\Mob.cs" />

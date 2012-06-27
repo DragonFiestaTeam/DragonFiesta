@@ -94,7 +94,7 @@ namespace Zepheus.World
 			Log.WriteLine(LogLevel.Exception, "Unhandled Exception : " + e);
 			Console.ReadKey(true);
 		}
-		public static ZoneConnection GetZoneByMap(ushort id)
+		public static ZoneConnection GetZoneByMap(int id)
 		{
 			try
 			{
@@ -106,7 +106,18 @@ namespace Zepheus.World
 				return null;
 			}
 		}
-
+        public static ZoneConnection GetZoneByMapShortName(string Name)
+        {
+            try
+            {
+                return Zones.Values.First(z => z.Maps.Count(m => m.ShortName == Name) > 0);
+            }
+            catch
+            {
+                Log.WriteLine(LogLevel.Exception, "No zones are active at the moment.");
+                return null;
+            }
+        }
 		public static void HandleCommand(string line)
 		{
 			string[] command = line.Split(' ');

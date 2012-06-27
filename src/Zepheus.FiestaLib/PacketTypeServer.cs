@@ -251,6 +251,7 @@ namespace Zepheus.FiestaLib
         SendMasterMemberOffline = 23,
         SendApprenticeRemoveMaster = 24,
         SendApprenticeLevelUp = 25,
+        SendApprenticeReward = 26,
     
     }
     public enum SH42Type : byte

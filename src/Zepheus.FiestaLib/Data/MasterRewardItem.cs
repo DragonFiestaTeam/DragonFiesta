@@ -9,15 +9,18 @@ namespace Zepheus.FiestaLib.Data
     {
         public byte Level { get; private set; }
         public Job Job { get; private set; }
-        public ushort ItemID { get; private set; }
+        public ushort ItemID { get;  set; }
         public byte Upgrades { get; set; }
-
+        public byte Count { get; set; }
+       
         public ushort Str { get; private set; }
         public ushort End { get; private set; }
         public ushort Dex { get; private set; }
         public ushort Int { get; private set; }
         public ushort Spr { get; private set; }
-
+        public MasterRewardItem()
+        {
+        }
         public MasterRewardItem(DataRow row)
          {
              this.ItemID = GetDataTypes.GetUshort(row["ItemID"]);
@@ -29,6 +32,7 @@ namespace Zepheus.FiestaLib.Data
              this.Dex =  GetDataTypes.GetUshort(row["Dex"]);
              this.Int = GetDataTypes.GetUshort(row["Int"]);
              this.Spr = GetDataTypes.GetUshort(row["Spr"]);
+             this.Count = GetDataTypes.GetByte(row["Count"]);
          }
     }
 }

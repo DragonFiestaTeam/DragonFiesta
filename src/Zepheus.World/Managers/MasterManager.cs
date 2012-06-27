@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Zepheus.FiestaLib;
+using Zepheus.InterLib;
+using Zepheus.World.InterServer;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.InterLib.Networking;
 using Zepheus.Util;
@@ -66,11 +68,11 @@ namespace Zepheus.World
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
             MasterMember pMember = pChar.MasterList.Find(d => d.IsMaster == true);
-            MasterRewardItem reward = DataProvider.Instance.MasterRewards.Find(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
             if (pMember != null)
             {
                 SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
             }
+            AddApprenticeReward(pChar);
             MasterMember.UpdateLevel(pChar.Character.CharLevel,pChar.Character.Name);
            //Todo Add Apprentice Reward
         }
@@ -98,11 +100,11 @@ namespace Zepheus.World
             {
                 MasterMember ReqMember = new MasterMember(requester,target.Character.ID);
                 MasterMember TargetM = new MasterMember(target,requester.Character.ID);
+                target.Character.MasterList.Add(ReqMember);
+                requester.Character.MasterList.Add(TargetM);
                 ReqMember.AddToDatabase();
                 TargetM.IsMaster = true;
                 TargetM.AddToDatabase();
-                target.Character.MasterList.Add(ReqMember);
-                requester.Character.MasterList.Add(TargetM);
                 SendMasterRequestAccept(requester, TargetName);
             }
             else
@@ -115,7 +117,7 @@ namespace Zepheus.World
         #endregion
         #region private Methods
 
-         private void SendMasterRemoveResponse(WorldClient pClient)
+        private void SendMasterRemoveResponse(WorldClient pClient)
         {
             using (var packet = new Packet(SH37Type.SendMasterResponseRemove))
             {
@@ -135,7 +137,7 @@ namespace Zepheus.World
            }
 
          }
-         private void SendApprenticeLevelUp(WorldClient pClient,string charname,byte level)
+        private void SendApprenticeLevelUp(WorldClient pClient,string charname,byte level)
          {
              using (var packet = new Packet(SH37Type.SendApprenticeLevelUp))
              {
@@ -144,7 +146,7 @@ namespace Zepheus.World
                  pClient.SendPacket(packet);
              }
          }
-         private void SendMasterRequestAccept(WorldClient pClient,string TargetName)
+        private void SendMasterRequestAccept(WorldClient pClient,string TargetName)
         {
             using(var packet = new Packet(SH37Type.SendMasterRequestAccept))
             {
@@ -152,7 +154,28 @@ namespace Zepheus.World
                 pClient.SendPacket(packet);
             }
         }
+        private void AddApprenticeReward(WorldCharacter pChar)
+        {
+            List<MasterRewardItem> Rewards = DataProvider.Instance.MasterRewards.FindAll(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
+   
+            ZoneConnection Conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
+            if (Conn == null)
+                return;
 
+            using (var packet = new Packet(SH37Type.SendApprenticeReward))
+            {
+
+                packet.WriteByte((byte)Rewards.Count);//count
+                foreach (var pReward in Rewards)
+                {
+                    packet.WriteUShort(pReward.ItemID);
+                    packet.WriteByte(pReward.Count);
+                    packet.WriteByte(0);//unk
+                    InterHandler.SendAddReward(Conn, pReward.ItemID,pReward.Count,pChar.Character.Name);
+                }
+                pChar.Client.SendPacket(packet);
+            }
+        }
         public void SendMasterList(WorldClient pClient)
         {
             if(pClient.Character.MasterList.Count== 0)

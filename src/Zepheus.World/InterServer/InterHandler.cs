@@ -224,6 +224,16 @@ namespace Zepheus.World.InterServer
 				lc.SendPacket(p);
 			}
 		}
+        public static void SendAddReward(ZoneConnection ZC, ushort itemID, byte count,string CharName)
+        {
+            using (var packet = new InterPacket(InterHeader.SendAddRewardItem))
+            {
+                packet.WriteUShort(itemID);
+                packet.WriteByte(count);
+                packet.WriteString(CharName, 16);
+                ZC.SendPacket(packet);
+            }
+        }
 		public static void SendZoneStarted(byte zoneid, string ip, ushort port, List<MapInfo> maps)
 		{
 			using (var packet = new InterPacket(InterHeader.Zoneopened))

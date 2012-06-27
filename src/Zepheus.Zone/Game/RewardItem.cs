@@ -18,7 +18,7 @@ namespace Zepheus.Zone.Game
         public override ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public  void AddToDatabase()
         {
-            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO PremiumItems (CharID,Slot,ItemID,PageID) VALUES ('" + this.CharID + "','" + this.Slot + "','" + this.UniqueID + "','" + this.PageID + "')");
+            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO  Rewarditems (CharID,Slot,ItemID,PageID) VALUES ('" + this.CharID + "','" + this.Slot + "','" + this.UniqueID + "','" + this.PageID + "')");
         }
         public void RemoveFromDatabase()
         {
@@ -33,6 +33,7 @@ namespace Zepheus.Zone.Game
 
           this.WriteItemStats(pPacket);
         }
+
         public static  RewardItem LoadFromDatabase(System.Data.DataRow row)
         {
            RewardItem ppItem = new RewardItem
