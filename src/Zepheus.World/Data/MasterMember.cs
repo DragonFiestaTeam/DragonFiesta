@@ -20,14 +20,17 @@ namespace Zepheus.World.Data
 
         public bool IsOnline { get; private set; }
         public bool IsMaster { get; set; }
-
+        public int CharID { get; set; }
+        public int MasterID { get; set; }
         public byte Level { get; private set; }
         public MasterMember()
         {
         }
-        public MasterMember(WorldClient pClient)
+        public MasterMember(WorldClient pClient,int MasterCharID)
         {
+            this.MasterID = MasterCharID;
             this.IsOnline = true;
+            this.CharID = pClient.Character.ID;
             this.Level = pClient.Character.Character.CharLevel;
             this.RegisterDate = DateTime.Now;
             this.pMemberName = pClient.Character.Character.Name;
@@ -40,72 +43,64 @@ namespace Zepheus.World.Data
             MasterMember Member = new MasterMember()
             {
                 pMemberName = row["MemberName"].ToString(),
+                CharID = GetDataTypes.GetInt(row["CharID"]),
                 Level = GetDataTypes.GetByte(row["Level"]),
                 IsMaster = GetDataTypes.GetBool(row["isMaster"]),
+                MasterID = GetDataTypes.GetInt(row["MasterID"]),
                 RegisterDate = DateTime.ParseExact(row["RegisterDate"].ToString(), "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
             };
                 Member.pMember = ClientManager.Instance.GetClientByCharname(Member.pMemberName);
                 Member.IsOnline = ClientManager.Instance.IsOnline(Member.pMemberName);
             return Member;
         }
-        public void AddToDatabase(int CharID)
+        public void AddToDatabase()
         {
-            //myDate.ToString("yyyy-MM-dd hh:mm");
-
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MemberName,Level,RegisterDate,isMaster) VALUES ('" + CharID + "','" + this.pMemberName + "','" + this.Level + "','" + this.RegisterDate.ToString("yyyy-MM-dd hh:mm") + "','"+Convert.ToByte(this.IsMaster)+"')");
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MasterID,MemberName,Level,RegisterDate,isMaster) VALUES ('" + this.CharID + "','"+this.MasterID+"','" + this.pMemberName + "','" + this.Level + "','" + this.RegisterDate.ToString("yyyy-MM-dd hh:mm") + "','"+Convert.ToByte(this.IsMaster)+"')");
         }
-        public void RemoveFromDatabase(string name,int CharID)
+        public void RemoveFromDatabase()
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE `MemberName` ='" + name + "' AND CharID ='"+CharID+"'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE CharID ='" + this.CharID + "' AND MasterID ='"+this.MasterID+"'");
         }
-        public void RemoveFromDatabase(string name)
+        public void RemoveFromDatabase(int MasterID,string Charname)
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE binary `MemberName` ='" + this.pMemberName + "' AND isMaster ='1'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM Masters WHERE CharID ='" + MasterID + "' AND MasterID ='" +this.CharID + "'");
         }
-        public void UpdateLevel()
+        public  static void UpdateLevel(byte level,string charame)
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE  Masters SET Level='"+this.Level+"'WHERE binary `MemberName` ='" + this.pMemberName + "'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE  Masters SET Level='"+level+"'WHERE binary `MemberName` ='" + charame+ "'");
         }
-        public void SetMemberStatus(bool Status,WorldClient pClient)
+        public  void SetMemberStatus(bool Status,string name)
         {
             if(Status)
             {
-                SetOnline(pClient);
+                SetOnline(name);
             }
             else
             {
-                SetOffline(pClient);
+                SetOffline(name);
             }
         }
         #endregion
         #region Packets
-        private void SetOffline(WorldClient pClient)
+        private void SetOffline(string name)
         {
             this.IsOnline = false;
-            foreach (var pMemberOffline in pClient.Character.MasterList)
-            { 
-                using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
-                {
-                    packet.WriteString(pClient.Character.Character.Name, 16);
-                   pMemberOffline.pMember.SendPacket(packet);
-                }
 
-            }
+                using (var packet = new Packet(SH37Type.SendMasterMemberOffline))
+                {
+                  packet.WriteString(name, 16);
+                  this.pMember.SendPacket(packet);
+                }
 
         }
-        private void SetOnline(WorldClient pClient)
+        private void SetOnline(string name)
         {
             this.IsOnline = true;
-            foreach (var pMemberOnline in pClient.Character.MasterList)
+
+            using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
             {
-                if (pMemberOnline.pMember != null)
-                {
-                    using (var packet = new Packet(SH37Type.SendMasterMemberOnline))
-                    {
-                        packet.WriteString(pClient.Character.Character.Name, 16);
-                        pMemberOnline.pMember.SendPacket(packet);
-                    }
-                }
+                packet.WriteString(name, 16);
+               this.pMember.SendPacket(packet);
             }
         }
         #endregion

@@ -29,41 +29,42 @@ namespace Zepheus.World.Data
         {
             if (pRequest.InvitedClient.Character.MasterList.Find(m => m.pMemberName == pRequest.InviterClient.Character.Character.Name) != null)
             {
-                RequestResponse(pRequest.InvitedClient, 0x174E, pRequest.InvitedClient.Character.Character.MasterJoin);
+                RequestResponse(pRequest.InviterClient, 0x174E, pRequest.InviterClient.Character.Character.MasterJoin);
+                return false;
+            }
+            if (pRequest.InvitedClient.Character.MasterList.Find(d => d.IsMaster == true) != null)
+            {
+                RequestResponse(pRequest.InviterClient, 0x1749, pRequest.InviterClient.Character.Character.MasterJoin);
                 return false;
             }
             if (pRequest.InviterClient.Character.Character.CharLevel + 5 >= pRequest.InvitedClient.Character.Character.CharLevel)
             {
-                RequestResponse(pRequest.InvitedClient, 0x174C, pRequest.InvitedClient.Character.Character.MasterJoin);
+                RequestResponse(pRequest.InviterClient, 0x174C, pRequest.InviterClient.Character.Character.MasterJoin);
                 return false;
             }
-            if (pRequest.InviterClient.Character.Character.MasterJoin.Subtract(DateTime.Now).TotalHours > 24)
+           
+            if (DateTime.Now.Subtract(pRequest.InviterClient.Character.Character.MasterJoin).TotalHours < 24)
             {
-
-                RequestResponse(pRequest.InvitedClient, 0x174A, pRequest.InvitedClient.Character.Character.MasterJoin);//24 hours must pass before a master can receive a new apprentice.
+                
+                RequestResponse(pRequest.InviterClient, 0x174A, pRequest.InviterClient.Character.Character.MasterJoin);//24 hours must pass before a master can receive a new apprentice.
                 return false;
             }
             if (pRequest.InviterClient.Character.MasterList.Count >= 20)
             {
-                RequestResponse(pRequest.InvitedClient, 0x174D, pRequest.InvitedClient.Character.Character.MasterJoin);
+                RequestResponse(pRequest.InviterClient, 0x174D, pRequest.InviterClient.Character.Character.MasterJoin);
                 return false;
             }
             return true;
         }
            private bool CheckRequest(WorldClient Target,WorldClient Reqeuster)
             {
-                if (pRequest.InviterClient.Character.MasterList.Find(d => d.IsMaster == true) != null)
-                {
-                    RequestResponse(pRequest.InvitedClient, 0x1749, pRequest.InvitedClient.Character.Character.MasterJoin);
-                    return false;
-                }
             if (Reqeuster.Character.MasterList.Count >= 20)
             {
                 SendMasterApprentice(0x0174D, Reqeuster, Target);//The master is unable to accept additional apprentices.
                 return false;
             }
-            this.RequestResponse(Target, 0x1740, DateTime.Now);
-            SendMasterApprentice(0x1740,Target,Reqeuster);//${Target} has been registered as your apprentice.
+            this.SendMasterApprentice(0x1740,Reqeuster,Target);//${Target} has been registered as your apprentice.
+            this.InvideResponse(Reqeuster, Target.Character.Character.Name);
             return true;
         }
         #endregion
@@ -96,16 +97,34 @@ namespace Zepheus.World.Data
                 Requester.SendPacket(packet);
             }
         }
+        private void InvideResponse(WorldClient pClient,string name)
+        {
+            using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
+            {
+                packet.WriteUShort(0x1740);//pcode
+                packet.WriteString(name, 16);
+                packet.Fill(4, 0x00);
+                packet.WriteByte(0);//unk
+                packet.WriteByte(255);
+                packet.WriteString("KüssMirDieFüße",14);//WTF?
+                 //Todo Sniff Shit Later
+                packet.Fill(25, 0x00);
+                packet.WriteByte(112);//yeas 1900-2012
+                pClient.SendPacket(packet);
+
+            }
+        }
         private void RequestResponse(WorldClient pclient,ushort pCode,DateTime pTime)
         {
             using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
             {
                 packet.WriteUShort(pCode);
+
                 packet.Fill(30, 0x00);
                 packet.WriteInt(pTime.Minute);
                 packet.WriteInt(pTime.Hour);
-                packet.WriteInt(pTime.Day);
                 packet.WriteInt(pTime.Month);
+                packet.WriteInt(pTime.Day);
                 packet.WriteInt(pTime.Year - 1900);
 
                 packet.WriteInt(2);

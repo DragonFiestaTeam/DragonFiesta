@@ -124,11 +124,11 @@ namespace Zepheus.World.Data
                 foreach (DataRow row in Masterdata.Rows)
                 {
                     MasterMember DBMember = MasterMember.LoadFromDatabase(row);
+                    this.MasterList.Add(DBMember);
                     if(DBMember.IsOnline)
                     {
-                        DBMember.SetMemberStatus(true,this.Client);
+                        DBMember.SetMemberStatus(true,this.Client.Character.Character.Name);
                     }
-                    this.MasterList.Add(DBMember);
                 }
             }
         }
@@ -329,10 +329,12 @@ namespace Zepheus.World.Data
 		public void Loggeout(WorldClient pChar)
 		{
 			this.IsIngame = false;
-            MasterMember m = pChar.Character.MasterList.Find(d => d.pMember == this.Client);
-            if(m != null)
+            foreach(var Member in MasterList)
             {
-            m.SetMemberStatus(false,this.Client);
+                if(Member.pMember != null)
+                {
+                 Member.SetMemberStatus(false,this.Client.Character.Character.Name);
+                }
             }
 			this.UpdateFriendsStatus(false,pChar);
 			this.UpdateFriendStates();

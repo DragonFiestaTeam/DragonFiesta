@@ -52,10 +52,12 @@ namespace Zepheus.World
             MasterMember pMember = pClient.Character.MasterList.Find(d => d.IsMaster == true);
             if(pMember.pMember != null)
             {
-                SendApprenticeRemoveMaster(pMember.pMember, pClient.Character.Character.Name);
+             SendApprenticeRemoveMaster(pMember.pMember, pClient.Character.Character.Name);
+             MasterMember Memb =  pMember.pMember.Character.MasterList.Find(d => d.pMemberName == pClient.Character.Character.Name);
+             pMember.pMember.Character.MasterList.Remove(Memb);
             }
-            pMember.RemoveFromDatabase(pMember.pMemberName, pClient.Character.ID);
-            pMember.RemoveFromDatabase(pMember.pMemberName);
+            pMember.RemoveFromDatabase();
+            pMember.RemoveFromDatabase(pMember.MasterID, pClient.Character.Character.Name);
             pClient.Character.MasterList.Remove(pMember);
             pClient.Character.UpdateMasterJoin();
             SendMasterRemoveResponse(pClient);
@@ -69,6 +71,7 @@ namespace Zepheus.World
             {
                 SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
             }
+            MasterMember.UpdateLevel(pChar.Character.CharLevel,pChar.Character.Name);
            //Todo Add Apprentice Reward
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
@@ -77,17 +80,15 @@ namespace Zepheus.World
             WorldClient pClient = ClientManager.Instance.GetClientByCharname(name);
             if (pClient != null)
             {
-                //Todo Send break
-
+                SendApprenticeRemoveMaster(pClient, pMember.pMemberName);
                 pClient.Character.MasterList.Remove(pMember);
             }
-            pMember.RemoveFromDatabase(name,pChar.ID);
-            pMember.RemoveFromDatabase(name);
+            pMember.RemoveFromDatabase();
+            pMember.RemoveFromDatabase(pChar.Character.ID, pMember.pMemberName);
             pChar.MasterList.Remove(pMember);
             pChar.UpdateMasterJoin();
         
         }
-
         public void MasterRequestAccept(string requestername, string TargetName)
         {
             WorldClient target = ClientManager.Instance.GetClientByCharname(TargetName);
@@ -95,11 +96,11 @@ namespace Zepheus.World
             MasterRequestResponse Reponse = new MasterRequestResponse(target, requester);
             if (Reponse.responseAnswer)
             {
-                MasterMember ReqMember = new MasterMember(requester);
-                MasterMember TargetM = new MasterMember(target);
-                ReqMember.AddToDatabase(target.Character.ID);
+                MasterMember ReqMember = new MasterMember(requester,target.Character.ID);
+                MasterMember TargetM = new MasterMember(target,requester.Character.ID);
+                ReqMember.AddToDatabase();
                 TargetM.IsMaster = true;
-                TargetM.AddToDatabase(requester.Character.ID);
+                TargetM.AddToDatabase();
                 target.Character.MasterList.Add(ReqMember);
                 requester.Character.MasterList.Add(TargetM);
                 SendMasterRequestAccept(requester, TargetName);
@@ -114,14 +115,6 @@ namespace Zepheus.World
         #endregion
         #region private Methods
 
-        private void SendMasterRemove(WorldClient pClient)
-        {
-          using(var packet = new Packet(SH37Type.SendRemoveMember))
-           {
-                /*packet.WriteByte(
-               pClient.SendPacket(packet);*/
-           }
-        }
          private void SendMasterRemoveResponse(WorldClient pClient)
         {
             using (var packet = new Packet(SH37Type.SendMasterResponseRemove))
@@ -138,6 +131,7 @@ namespace Zepheus.World
            {
                packet.WriteString(name, 16);
                packet.WriteByte(0);//isonline?
+               pClient.SendPacket(packet);
            }
 
          }
@@ -200,8 +194,6 @@ namespace Zepheus.World
                 }
                 foreach(var Member in pClient.Character.MasterList)
                 {
-                    if (Member.pMember != Master.pMember)
-                    {
                         packet.WriteString(Member.pMemberName, 16);
                         int year = (Member.RegisterDate.Year - 1920 << 1) | Convert.ToUInt16(Member.IsOnline);
                         int month = (Member.RegisterDate.Month << 4) | 0x0F;
@@ -211,7 +203,6 @@ namespace Zepheus.World
                         packet.WriteByte(0x11);//unk
                         packet.WriteByte(Member.Level);
                         packet.WriteByte(0);//unk
-                    }
 
                 }
                 pClient.SendPacket(packet);
