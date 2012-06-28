@@ -96,12 +96,13 @@ namespace Zepheus.Zone.InterServer
 			}
 
 		}
-        public static void SendReciveCoper(string name, long Coper)
+        public static void SendReciveCoper(string name, long Coper,bool CoperType)
         {
             using(var packet = new InterPacket(InterHeader.ReciveCoper))
             {
                 packet.WriteString(name, 16);
                 packet.WriteLong(Coper);
+                packet.WriteBool(CoperType);
                 WorldConnector.Instance.SendPacket(packet);
             }
         }

@@ -253,6 +253,7 @@ namespace Zepheus.FiestaLib
         SendApprenticeLevelUp = 25,
         SendApprenticeReward = 26,
         SendRecivveCopper = 61,
+        SendGiveMasterReward = 65,
         MasterReiveCopperDecline = 69,
     
     }

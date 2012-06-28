@@ -171,6 +171,7 @@ namespace Zepheus.FiestaLib
         RemoveMasterByApprentice = 6,
         MasterRemove = 10,
         MasterRewardCoperRquest= 60,
+        SendReciveCoperAccept = 64,
     }
     public enum CH42Type : byte
     {

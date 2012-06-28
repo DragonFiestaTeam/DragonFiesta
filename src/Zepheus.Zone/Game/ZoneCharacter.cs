@@ -740,7 +740,8 @@ namespace Zepheus.Zone.Game
 			}
 			else return false;
 		}
- 
+
+
 		public void ChangeMoney(long newMoney)
 		{
 			this.Character.Money = newMoney;
@@ -838,7 +839,7 @@ namespace Zepheus.Zone.Game
             RecviveCoper =+ recvcoper;
             if (RecviveCoper > 20)//this is not offical like
             {
-                InterHandler.SendReciveCoper(this.Name, RecviveCoper);
+                InterHandler.SendReciveCoper(this.Name, RecviveCoper,false);
             }
         }
          public bool GiveMasterRewardItem(ushort ItemID,byte count)
