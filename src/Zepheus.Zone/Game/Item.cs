@@ -29,11 +29,11 @@ namespace Zepheus.Zone.Game
 
         public virtual byte StatCount { get;  set; }
         public bool IsEquipped { get; set; }
-        public ushort Str { get; private set; }
-        public ushort End { get; private set; }
-        public ushort Dex { get; private set; }
-        public ushort Int { get; private set; }
-        public ushort Spr { get; private set; }
+        public ushort Str { get; set; }
+        public ushort End { get; set; }
+        public ushort Dex { get; set; }
+        public ushort Int { get; set; }
+        public ushort Spr { get; set; }
 
         public Item(uint pOwner, ushort pID, ushort pCount)
         {

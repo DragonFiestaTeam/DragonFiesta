@@ -35,6 +35,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,6 +44,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectErrors.cs" />
@@ -63,6 +66,7 @@
     <Compile Include="Data\LinkTable.cs" />
     <Compile Include="Data\MapInfo.cs" />
     <Compile Include="Data\MasterRewardItem.cs" />
+    <Compile Include="Data\MasterRewardState.cs" />
     <Compile Include="Data\MiniHouseInfo.cs" />
     <Compile Include="Data\MobInfo.cs" />
     <Compile Include="Data\MobInfoServer.cs" />

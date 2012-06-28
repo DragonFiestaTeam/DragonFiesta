@@ -23,10 +23,9 @@ namespace Zepheus.Zone.InterServer
         [InterPacketHandler(InterHeader.SendAddRewardItem)]
         public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)
         {
-            byte count,Slot;
+            byte count;
             ushort ItemID;
             string Charname;
-           ushort PageID;
             if (!pPacket.TryReadUShort(out ItemID))
                 return;
 
@@ -35,20 +34,12 @@ namespace Zepheus.Zone.InterServer
 
             if(!pPacket.TryReadString(out Charname,16))
                 return;
+
              ZoneClient pClient =  ClientManager.Instance.GetClientByName(Charname);
             if(pClient == null)
                 return;
-  
-         //  Slot = pClient.Character.RewardInventory[0].
 
-            Game.RewardItem pItem = new Game.RewardItem
-            {
-                ID = ItemID,
-                CharID = pClient.Character.ID,
-                Slot = 1,//later
-                PageID = 0,
-            };
-            pClient.Character.RewardInventory.AddRewardItem(pItem);
+            pClient.Character.GiveMasterRewardItem(ItemID, count);
 
         }
 		[InterPacketHandler(InterHeader.Assigned)]

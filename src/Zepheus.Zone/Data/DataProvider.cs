@@ -33,7 +33,8 @@ namespace Zepheus.Zone.Data
         public Dictionary<ushort, Mount> MountyByHandleID { get; private set; }
 		public Dictionary<ushort, ActiveSkillInfo> ActiveSkillsByID { get; private set; }
 		public Dictionary<string, ActiveSkillInfo> ActiveSkillsByName { get; private set; }
-    
+        public Dictionary<ushort,MasterRewardState> MasterRewardStates  { get; private set; }
+
 		public static DataProvider Instance { get; private set; }
 
 		public DataProvider()
@@ -52,6 +53,7 @@ namespace Zepheus.Zone.Data
 			LoadVendors();
 			LoadTeleporters();
             LoadMounts();
+            LoadMasterRewardStates();
   
 		}
 
@@ -112,7 +114,31 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading ItemInfoServer.shn: {0}", ex);
 			}
 		}
-       
+        private void LoadMasterRewardStates()
+        {
+            MasterRewardStates = new Dictionary<ushort, MasterRewardState>();
+                try
+                {
+                    DataTable RewardStates = null;
+                    using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                    {
+                        RewardStates = dbClient.ReadDataTable("SELECT  *FROM MasterRewardStates");
+                    }
+                    if (RewardStates != null)
+                    {
+                        foreach (DataRow row in RewardStates.Rows)
+                        {
+                            MasterRewardState State = new MasterRewardState(row);
+                            this.MasterRewardStates.Add(State.ItemID, State);
+                        }
+                    }
+                    Log.WriteLine(LogLevel.Info, "Loaded {0} MasterRewardStates", this.MasterRewardStates.Count);
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteLine(LogLevel.Exception, "Error loading MasterRewardStatesTable: {0}", ex);
+                }
+        }
 		private void LoadDrops()
 		{
 			DropGroups = new Dictionary<string, DropGroupInfo>();

@@ -38,7 +38,7 @@ namespace Zepheus.Zone.Game
         public PremiumInventory()
         {
             this.PremiumItems = new Dictionary<ushort, List<PremiumItem>>();
-            this.MaxPageCount = 10;
+            this.MaxPageCount = 1;
             for (byte i = 0; i < this.MaxPageCount; ++i)
             {
                PremiumItems[i] = new List<PremiumItem>();
@@ -66,18 +66,22 @@ namespace Zepheus.Zone.Game
         {
             this.locker.WaitOne();
         }
-        public bool GetEmptySlot(out byte pSlot) //cpu intensive?
+
+        public bool GetEmptySlot(out byte pSlot,out ushort PageID) //cpu intensive?
         {
             pSlot = 0;
+            PageID = 0;
             for (byte i = 0; i < this.Count; ++i)
             {
                 if (!this.PremiumItems.ContainsKey(i))
                 {
                     for (byte i2 = 0; i2 < (this.PremiumItems[i].Count * 24); ++i2)
                     {
-                        if (this.PremiumItems[i][i2] == null)
+                        PremiumItem Item = this.PremiumItems[i].Find(ss => ss.Slot == i2);
+                        if (Item == null)
                         {
-                            pSlot = i;
+                            pSlot = i2;
+                            PageID = i;
                             return true;
                         }
                     }

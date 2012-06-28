@@ -24,6 +24,9 @@ namespace Zepheus.World.Data
         public int MasterID { get; set; }
         public byte Level { get; private set; }
 
+        public MasterMember()
+        {
+        }
         public MasterMember(WorldClient pClient,int MasterCharID)
         {
             this.MasterID = MasterCharID;
@@ -53,7 +56,7 @@ namespace Zepheus.World.Data
         }
         public void AddToDatabase()
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MasterID,MemberName,Level,RegisterDate,isMaster) VALUES ('" + this.MasterID + "','"+this.CharID+"','" + this.pMemberName + "','" + this.Level + "','" + this.RegisterDate.ToString("yyyy-MM-dd hh:mm") + "','"+Convert.ToByte(this.IsMaster)+"')");
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Masters (CharID,MasterID,MemberName,Level,RegisterDate,isMaster) VALUES ('" + this.CharID + "','"+this.MasterID+"','" + this.pMemberName + "','" + this.Level + "','" + this.RegisterDate.ToString("yyyy-MM-dd hh:mm") + "','"+Convert.ToByte(this.IsMaster)+"')");
         }
         public void RemoveFromDatabase()
         {

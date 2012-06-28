@@ -8,10 +8,11 @@ namespace Zepheus.Zone
 {
     public class PremiumItem
     {
-        public virtual int UniqueID { get; set; }
-        public virtual int ShopID { get; set; }
-        public virtual int CharID { get; set; }
-        public virtual byte PageID { get; set; }
+        public int UniqueID { get; set; }
+        public int ShopID { get; set; }
+        public int CharID { get; set; }
+        public byte PageID { get; set; }
+        public byte Slot { get; set; }
 
         public void WritePremiumInfo(Packet packet)
         {
@@ -34,6 +35,7 @@ namespace Zepheus.Zone
             PremiumItem ppItem= new PremiumItem
             {
                 UniqueID = GetDataTypes.GetInt(row["UniqueID"]),
+                Slot = GetDataTypes.GetByte(row["PageID"]),
                 ShopID = GetDataTypes.GetInt(row["ShopID"]),
                 CharID = GetDataTypes.GetInt(row["CharID"]),
                 PageID = GetDataTypes.GetByte(row["PageID"])

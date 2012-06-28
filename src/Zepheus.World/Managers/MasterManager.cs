@@ -68,7 +68,7 @@ namespace Zepheus.World
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
             MasterMember pMember = pChar.MasterList.Find(d => d.IsMaster == true);
-            if (pMember != null)
+            if (pMember.pMember != null)
             {
                 SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
             }
@@ -103,7 +103,7 @@ namespace Zepheus.World
                 target.Character.MasterList.Add(ReqMember);
                 requester.Character.MasterList.Add(TargetM);
                 ReqMember.AddToDatabase();
-                TargetM.IsMaster = true;
+                ReqMember.IsMaster = true;
                 TargetM.AddToDatabase();
                 SendMasterRequestAccept(requester, TargetName);
             }
@@ -157,7 +157,11 @@ namespace Zepheus.World
         private void AddApprenticeReward(WorldCharacter pChar)
         {
             List<MasterRewardItem> Rewards = DataProvider.Instance.MasterRewards.FindAll(d => (byte)d.Job == pChar.Character.Job && d.Level == pChar.Character.CharLevel);
-   
+            MasterRewardItem rr = new MasterRewardItem
+            {
+                ItemID = 250,
+                Count = 1,
+            };
             ZoneConnection Conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
             if (Conn == null)
                 return;

@@ -827,6 +827,37 @@ namespace Zepheus.Zone.Game
 				this.House = null;
 			}
 		}
+         public bool GiveMasterRewardItem(ushort ItemID,byte count)
+        {
+            MasterRewardState States;
+            ushort PageID;
+            byte pSlot;
+            if (this.RewardInventory.GetEmptySlot(out pSlot, out PageID))
+            {
+              if (!Data.DataProvider.Instance.MasterRewardStates.TryGetValue(ItemID, out States))
+                   return false;
+                RewardItem Reward = new RewardItem
+                  {
+                      ID = ItemID,
+                      Slot = (sbyte)pSlot,
+                      PageID = PageID,
+                      Count = count,
+                      Str = States.Str,
+                      Int = States.Int,
+                      Spr = States.Spr,
+                      Dex = States.Dex,
+                      End = States.End,
+
+                  };
+                this.RewardInventory.AddRewardItem(Reward);
+                return true;
+            }
+            else
+            {
+                //Todo Send FULL
+                return false;
+            }
+        }
         public void WritePremiumList(byte PageID)
         {
             List<PremiumItem> Items;
@@ -853,12 +884,12 @@ namespace Zepheus.Zone.Game
                 using (var packet = new Packet(SH12Type.SendRewardList))
                 {
                     Console.WriteLine(Items.Count);
-                    packet.WriteByte((byte)Items.Count);
+                    packet.WriteByte((byte)24);
                     foreach (RewardItem pItem in Items)
                     {
                         pItem.WriteItemInfo(packet);
                     }
-                    packet.WriteByte(0);//unk
+                    packet.WriteByte(90);//unk
                     Client.SendPacket(packet);
                 }
             }
