@@ -883,8 +883,7 @@ namespace Zepheus.Zone.Game
             {
                 using (var packet = new Packet(SH12Type.SendRewardList))
                 {
-                    Console.WriteLine(Items.Count);
-                    packet.WriteByte((byte)24);
+                    packet.WriteByte((byte)Items.Count);
                     foreach (RewardItem pItem in Items)
                     {
                         pItem.WriteItemInfo(packet);
