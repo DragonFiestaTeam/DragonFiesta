@@ -62,58 +62,61 @@ namespace Zepheus.World.Networking
 		{
 			if (!Authenticated) return false;
 			Characters = new Dictionary<byte, WorldCharacter>();
-			try
-			{
-				DataTable charData = null;
-				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-				{
-					charData = dbClient.ReadDataTable("SELECT *FROM Characters WHERE AccountID='" + this.AccountID + "'");
-				}
+            try
+            {
+                DataTable charData = null;
+                using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                {
+                    charData = dbClient.ReadDataTable("SELECT * FROM Characters WHERE AccountID='" + this.AccountID + "'");
+                }
 
-				if (charData != null)
-				{
-					foreach (DataRow row in charData.Rows)
-					{
-						Database.Storage.Character ch = new Database.Storage.Character();
-						ch.PositionInfo.ReadFromDatabase(row);
-						ch.LookInfo.ReadFromDatabase(row);
-						ch.CharacterStats.ReadFromDatabase(row);
-						ch.Slot = (byte)row["Slot"];
-						ch.CharLevel = (byte)row["Level"];
-						ch.AccountID = this.AccountID;
-						ch.Name = (string)row["Name"];
-						ch.ID = GetDataTypes.GetInt(row["CharID"]);
-						ch.Job = (byte)row["Job"];
-						ch.Money = GetDataTypes.GetLong(row["Money"].ToString());
-						ch.Exp = long.Parse(row["Exp"].ToString());
-						ch.HP = int.Parse(row["CurHP"].ToString());
-						ch.HPStones = 10;
-						ch.SP = int.Parse(row["CurSP"].ToString());
-						ch.SPStones = 10;
-						ch.StatPoints = (byte)row["StatPoints"];
-						ch.UsablePoints = (byte)row["UsablePoints"];
-						ch.Fame = 0;	// TODO
-						ch.GameSettings = Database.DataStore.ReadMethods.GetGameSettings(ch.ID, Program.DatabaseManager);
-						ch.ClientSettings = Database.DataStore.ReadMethods.GetClientSettings(ch.ID, Program.DatabaseManager);
-						ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
-						ch.QuickBar = Database.DataStore.ReadMethods.GetQuickBar(ch.ID, Program.DatabaseManager);
-						ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
-
+                if (charData != null)
+                {
+                    foreach (DataRow row in charData.Rows)
+                    {
+      
+                        Database.Storage.Character ch = new Database.Storage.Character();
+                        ch.PositionInfo.ReadFromDatabase(row);
+                        ch.LookInfo.ReadFromDatabase(row);
+                        ch.CharacterStats.ReadFromDatabase(row);
+                        ch.Slot = (byte)row["Slot"];
+                        ch.CharLevel = (byte)row["Level"];
+                        ch.AccountID = this.AccountID;
+                        ch.Name = (string)row["Name"];
+                        ch.ID = GetDataTypes.GetInt(row["CharID"]);
+                        ch.Job = (byte)row["Job"];
+                        ch.Money = GetDataTypes.GetLong(row["Money"].ToString());
+                        ch.Exp = long.Parse(row["Exp"].ToString());
+                        ch.HP = int.Parse(row["CurHP"].ToString());
+                        ch.HPStones = 10;
+                        ch.MasterJoin = DateTime.Parse(row["MasterJoin"].ToString());
+                        ch.SP = int.Parse(row["CurSP"].ToString());
+                        ch.SPStones = 10;
+                        ch.StatPoints = (byte)row["StatPoints"];
+                        ch.UsablePoints = (byte)row["UsablePoints"];
+                      
+                        ch.Fame = 0;	// TODO
+                        ch.GameSettings = Database.DataStore.ReadMethods.GetGameSettings(ch.ID, Program.DatabaseManager);
+                        ch.ClientSettings = Database.DataStore.ReadMethods.GetClientSettings(ch.ID, Program.DatabaseManager);
+                        ch.Shortcuts = Database.DataStore.ReadMethods.GetShortcuts(ch.ID, Program.DatabaseManager);
+                        ch.QuickBar = Database.DataStore.ReadMethods.GetQuickBar(ch.ID, Program.DatabaseManager);
+                        ch.QuickBarState = Database.DataStore.ReadMethods.GetQuickBarState(ch.ID, Program.DatabaseManager);
+                        ch.ReviveCoper = GetDataTypes.GetLong(row["MasterReciveMoney"]);
                         if (row.IsNull("GroupID"))
                             ch.GroupId = -1;
                         else
                             ch.GroupId = long.Parse(row["GroupID"].ToString());
 
-						if(ch.GroupId == -1 || row.IsNull("IsGroupMaster"))
-							ch.IsGroupMaster = false;
-						else
+                        if (ch.GroupId == -1 || row.IsNull("IsGroupMaster"))
+                            ch.IsGroupMaster = false;
+                        else
                             ch.IsGroupMaster = ReadMethods.EnumToBool(row["IsGroupMaster"].ToString());
-					   
-						Characters.Add(ch.Slot, new WorldCharacter(ch,this));
-					}
-				}
-			}
-			catch (Exception ex)
+
+                        Characters.Add(ch.Slot, new WorldCharacter(ch, this));
+                    }
+                }
+            }
+            catch (Exception ex)
 			{
 				Log.WriteLine(LogLevel.Exception, "Error loading characters from {0}: {1}", Username, ex.InnerException.ToString());
 				return false;
@@ -172,13 +175,14 @@ namespace Zepheus.World.Networking
 			int charID = newchar.ID;
 			 DatabaseClient client = Program.DatabaseManager.GetClient();
 
-				string query = 
-					"INSERT INTO `characters` " + 
-					"(`AccountID`,`Name`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`,"+ 
-                    " `QuickBar`, `QuickBarState`, `ShortCuts`, `GameSettings`, `ClientSettings`) "+
-					"VALUES "+
-						"('" +		newchar.AccountID + 
-						"', '" +	newchar.Name + 
+             string query =
+                 "INSERT INTO `characters` " +
+                 "(`AccountID`,`Name`,`MasterJoin`,`Slot`,`Job`,`Male`,`Hair`,`HairColor`,`Face`," +
+                 " `QuickBar`, `QuickBarState`, `ShortCuts`, `GameSettings`, `ClientSettings`) " +
+                 "VALUES " +
+                     "('" + newchar.AccountID +
+                     "', '" + newchar.Name +
+                     "', '" + DateTime.Now.ToDBString() +
 						"', " +		newchar.Slot +
 						", " +		newchar.Job  +
 						", " +		Convert.ToByte(newchar.LookInfo.Male) +
@@ -195,6 +199,7 @@ namespace Zepheus.World.Networking
 			
 			WorldCharacter tadaa = new WorldCharacter(newchar,this);
             ushort begineqp = GetBeginnerEquip(job);
+
             if (begineqp > 0)
             {
                 sbyte eqp_slot = (sbyte)((job == Job.Archer) ? -10 : -12); //, (job == Job.Archer) ? (byte)12 : (byte)10, begineqp)

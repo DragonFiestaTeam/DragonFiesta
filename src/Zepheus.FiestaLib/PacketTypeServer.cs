@@ -252,6 +252,8 @@ namespace Zepheus.FiestaLib
         SendApprenticeRemoveMaster = 24,
         SendApprenticeLevelUp = 25,
         SendApprenticeReward = 26,
+        SendRecivveCopper = 61,
+        MasterReiveCopperDecline = 69,
     
     }
     public enum SH42Type : byte

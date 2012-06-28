@@ -45,12 +45,20 @@ namespace Zepheus.World
         }
         public void SetConsoleTitel()
         {
+            Thread.Sleep(2000);
             while (true)
             {
-               string memory = getAvailableRAM();
-                string cpu = getCurrentCpuUsage();
-                Console.Title = "World["+Settings.Instance.ID+"] TickPerSecont : "+Worker.Instance.TicksPerSecond+" Free Memory : " + memory + " CPU: " + cpu + " Network : bytes send: " + (performanceCounterSent.NextValue() / 1024).ToString("N2") + " bytes received: " + (performanceCounterReceived.NextValue() / 1024).ToString("N2") + " ";
-                Thread.Sleep(2000);
+                try
+                {
+                    string memory = getAvailableRAM();
+                    string cpu = getCurrentCpuUsage();
+                    Console.Title = "World[" + Settings.Instance.ID + "] TickPerSecont : " + Worker.Instance.TicksPerSecond + " Free Memory : " + memory + " CPU: " + cpu + " Network : bytes send: " + (performanceCounterSent.NextValue() / 1024).ToString("N2") + " bytes received: " + (performanceCounterReceived.NextValue() / 1024).ToString("N2") + " ";
+                 
+                }
+                finally
+                {
+                    Thread.Sleep(2000);
+                }
             }
         }
     }

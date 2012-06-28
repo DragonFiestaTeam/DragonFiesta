@@ -56,10 +56,18 @@ namespace Zepheus.Zone
             RegisterCommand("&animall", AnimAll, 1, "animid");
             RegisterCommand("&perf", Performance, 1);
             RegisterCommand("&allm", Allm, 1);
+            RegisterCommand("&Reward", TestReward, 1, "ItemID", "count");
             RegisterCommand("&movetome", Movetome, 1,"playername");
             RegisterCommand("&movetoplayer", Movetoplayer, 1,"playername");
             RegisterCommand("&NpcInfo", NpcInfo, 1);
             RegisterCommand("&Ban", Ban, 1, "Charname");
+        }
+        private void TestReward(ZoneCharacter chr, params string[] param)
+        {
+             ushort ItemID = ushort.Parse(param[1]);
+             byte count = byte.Parse(param[2]);
+             chr.GiveMasterRewardItem(ItemID, count);
+         
         }
         private void NpcInfo(ZoneCharacter chr, params string[] param)
         {

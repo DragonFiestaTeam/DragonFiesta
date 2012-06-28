@@ -104,6 +104,7 @@ namespace Zepheus.Zone.Game
         public DateTime LastUse { get; set; }
         public Mount Mount { get; set; }
         #endregion
+        public long RecviveCoper { get; set; }
         public int ID { get { return Character.ID; } }
 		public int AccountID { get { return Character.AccountID; } }
 		public string Name { get { return Character.Name; } set { Character.Name = value; } }
@@ -739,7 +740,7 @@ namespace Zepheus.Zone.Game
 			}
 			else return false;
 		}
-
+ 
 		public void ChangeMoney(long newMoney)
 		{
 			this.Character.Money = newMoney;
@@ -751,6 +752,10 @@ namespace Zepheus.Zone.Game
 			}
 
 		}
+        private void GiveMoney(long money)
+        {
+           this.ChangeMoney(this.Inventory.Money += money);
+        }
 
 		public void AttackStop()
 		{
@@ -827,6 +832,15 @@ namespace Zepheus.Zone.Game
 				this.House = null;
 			}
 		}
+        public void CalculateMasterCopper(long buyprice)
+        {
+            long recvcoper = buyprice / 100 * 10;
+            RecviveCoper =+ recvcoper;
+            if (RecviveCoper > 20)//this is not offical like
+            {
+                InterHandler.SendReciveCoper(this.Name, RecviveCoper);
+            }
+        }
          public bool GiveMasterRewardItem(ushort ItemID,byte count)
         {
             MasterRewardState States;

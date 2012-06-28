@@ -33,7 +33,7 @@
 
 		FunctionAnswer = 0x4000,
 		FunctionCharIsOnline = 0x4001,
-
-        SendAddRewardItem = 0x4002,//World -> Zone 
+        SendAddRewardItem = 0x4002,//World -> Zone
+        ReciveCoper = 0x4003, //Zone -> World
 	}
 }

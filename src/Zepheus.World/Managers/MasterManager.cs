@@ -68,7 +68,7 @@ namespace Zepheus.World
         public void ApprenticeLevelUP(WorldCharacter pChar)
         {
             MasterMember pMember = pChar.MasterList.Find(d => d.IsMaster == true);
-            if (pMember.pMember != null)
+            if (pMember != null)
             {
                 SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
             }

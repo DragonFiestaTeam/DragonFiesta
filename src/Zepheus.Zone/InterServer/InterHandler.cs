@@ -20,6 +20,7 @@ namespace Zepheus.Zone.InterServer
 			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
 			InterFunctionCallbackProvider.Instance.OnResult(id, result);
 		}
+
         [InterPacketHandler(InterHeader.SendAddRewardItem)]
         public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)
         {
@@ -95,6 +96,15 @@ namespace Zepheus.Zone.InterServer
 			}
 
 		}
+        public static void SendReciveCoper(string name, long Coper)
+        {
+            using(var packet = new InterPacket(InterHeader.ReciveCoper))
+            {
+                packet.WriteString(name, 16);
+                packet.WriteLong(Coper);
+                WorldConnector.Instance.SendPacket(packet);
+            }
+        }
         public static void SendLevelUpToWorld(byte Level, string charname)
         {
             using (var packet = new InterPacket(InterHeader.CharacterLevelUP))

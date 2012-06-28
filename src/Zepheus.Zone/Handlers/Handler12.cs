@@ -97,6 +97,7 @@ namespace Zepheus.Zone.Handlers
                        {
                            character.Inventory.Money -= amount * buyItem.BuyPrice;
                            character.ChangeMoney(character.Inventory.Money);
+                           character.CalculateMasterCopper(buyItem.BuyPrice);
                        }
                        if (amount < 255)
                        {
@@ -104,6 +105,7 @@ namespace Zepheus.Zone.Handlers
                            {
                                character.Inventory.Money -= amount * buyItem.BuyPrice;
                                character.ChangeMoney(character.Inventory.Money);
+                               character.CalculateMasterCopper(buyItem.BuyPrice);
                            }
                            break;
                        }

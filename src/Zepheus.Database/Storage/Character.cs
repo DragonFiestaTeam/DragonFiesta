@@ -36,5 +36,6 @@ namespace Zepheus.Database.Storage
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
        public long GroupId { get; set; }
        public bool IsGroupMaster { get; set; }
+       public long ReviveCoper { get; set; }
     }
 }

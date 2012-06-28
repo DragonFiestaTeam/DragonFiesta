@@ -49,6 +49,21 @@ namespace Zepheus.World.InterServer
 				}
 			}
 		}
+
+        [InterPacketHandler(InterHeader.ReciveCoper)]
+        public static void ReciveCoper(ZoneConnection zc, InterPacket packet)
+        {
+            string charname;
+            long coper;
+            if (!packet.TryReadString(out charname, 16))
+                return;
+
+            if (!packet.TryReadLong(out coper))
+                return;
+
+            WorldClient pClient = ClientManager.Instance.GetClientByCharname(charname);
+            pClient.Character.RecviveCoperMaster += coper;
+        }
         [InterPacketHandler(InterHeader.CharacterLevelUP)]
         public static void CharLevelUP(ZoneConnection zc, InterPacket packet)
         {

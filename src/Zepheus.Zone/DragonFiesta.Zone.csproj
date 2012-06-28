@@ -53,6 +53,7 @@
     <Compile Include="Game\Trade\TradeItem.cs" />
     <Compile Include="Game\Trade\TradeReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
+    <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandInfo.cs" />

@@ -28,6 +28,8 @@ namespace Zepheus.World.Data
 		public GroupMember GroupMember { get; internal set; }
 		private List<Friend> friends;
 		private List<Friend> friendsby;
+        public long RecviveCoperMaster  { get; set;}
+
         public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
@@ -112,6 +114,7 @@ namespace Zepheus.World.Data
 			}
 			UpdateFriendStates();
 		}
+
         public void LoadMasterList()
         {
             DataTable Masterdata = null;
@@ -269,6 +272,16 @@ namespace Zepheus.World.Data
             MasterManager.Instance.ApprenticeLevelUP(this);
          
 		}
+        public void SendReciveMasterCoper()
+        {
+            if(this.Character.ReviveCoper > 0)
+
+            using (var packet = new Packet(SH37Type.SendRecivveCopper))
+            {
+                packet.WriteLong(this.Character.ReviveCoper);
+                this.Client.SendPacket(packet);
+            }
+        }
 		public void UpdateFriendsStatus(bool state, WorldClient sender)
         {
 			foreach (Friend frend in friendsby)
@@ -292,6 +305,15 @@ namespace Zepheus.World.Data
 				}
 			}
 		}
+        public void UpdateRecviveCoper()
+        {
+            MasterMember Master = this.MasterList.Find(m => m.IsMaster == true);
+            if (Master != null)
+            {
+                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE character SET ReviveCoper='" + RecviveCoperMaster + "' WHERE CharID ='" + Master.CharID + "'");
+            }
+
+        }
 		public void UpdateFriendStates()
 		{
 			List<Friend> unknowns = new List<Friend>();
@@ -328,6 +350,7 @@ namespace Zepheus.World.Data
 		}
 		public void Loggeout(WorldClient pChar)
 		{
+            this.UpdateRecviveCoper();
 			this.IsIngame = false;
             foreach(var Member in MasterList)
             {
@@ -436,7 +459,10 @@ namespace Zepheus.World.Data
              this.UpdateFriendsStatus(true,this.Client);
              this.WriteBlockList();
              this.LoadMasterList();
+             this.SendReciveMasterCoper();
+
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
+
 
         }
 		private void UpdateGroupStatus()
