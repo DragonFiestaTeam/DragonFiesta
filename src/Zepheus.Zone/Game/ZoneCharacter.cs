@@ -149,12 +149,15 @@ namespace Zepheus.Zone.Game
         public ushort MagicDef { get { return Character.CharacterStats.MagicDef; } set { Character.CharacterStats.MagicDef = value; } }
         #endregion
         //Parrty Shit
-		public Dictionary<string, ZoneClient> Party = new Dictionary<string, ZoneClient>();
+        #region Party Variabels
+        public Dictionary<string, ZoneClient> Party = new Dictionary<string, ZoneClient>();
 		public bool IsInParty { get; set; } //check variabel for heath update
 		public bool HealthThreadState { get; set; }
 		public bool SendGrpInsector { get; set; }
-		//local shit
-		public ZoneClient Client { get; set; }
+        #endregion
+        //local shit
+        #region ZoneCharacter Variabels
+        public ZoneClient Client { get; set; }
 		public Dictionary<ushort, Skill> SkillsActive { get; private set; }
 		public Dictionary<ushort, Skill> SkillsPassive { get; private set; }
 		public PlayerState State { get; set; }
@@ -172,8 +175,8 @@ namespace Zepheus.Zone.Game
 		public DateTime ChatBlocked { get; set; }
 		public DateTime NextHPRest { get; set; }
 		public DateTime NextSPRest { get; set; }
-
-		//lazy loading cheattracker
+        #endregion
+        //lazy loading cheattracker
 		private CheatTracker tracker;
 		public CheatTracker CheatTracker { get { return tracker ?? (tracker = new CheatTracker(this)); } }
 		#endregion

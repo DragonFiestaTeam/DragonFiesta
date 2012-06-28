@@ -55,25 +55,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\MasterRequestResponse.cs" />
+    <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
     <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\MasterManager.cs" />
-    <Compile Include="Data\MasterMember.cs" />
-    <Compile Include="Data\MasterRequest.cs" />
+    <Compile Include="Data\MasterSystem\MasterMember.cs" />
+    <Compile Include="Data\MasterSystem\MasterRequest.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\DropState.cs" />
     <Compile Include="Data\Equip.cs" />
     <Compile Include="Data\Friend.cs" />
-    <Compile Include="Data\Group.cs" />
-    <Compile Include="Data\GroupMember.cs" />
+    <Compile Include="Data\Group\Group.cs" />
+    <Compile Include="Data\Group\GroupMember.cs" />
     <Compile Include="Data\DataProvider.cs" />
-    <Compile Include="Data\GroupRequest.cs" />
-    <Compile Include="Data\GroupRole.cs" />
-    <Compile Include="Data\Guilds.cs" />
+    <Compile Include="Data\Group\GroupRequest.cs" />
+    <Compile Include="Data\Group\GroupRole.cs" />
+    <Compile Include="Data\Guild\Guilds.cs" />
     <Compile Include="Data\Inventory.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
-    <Compile Include="Data\WorldGuild.cs" />
+    <Compile Include="Data\Guild\WorldGuild.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />
