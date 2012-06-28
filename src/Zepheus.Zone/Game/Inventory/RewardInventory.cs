@@ -90,11 +90,10 @@ namespace Zepheus.Zone.Game
         {
             pSlot = 0;
             PageID = 0;
-            for (byte i = 0; i < this.MaxPageCount; ++i)
+            for (byte i = 0; i < this.RewardItems.Count; ++i)
             {
-                if (!this.RewardItems.ContainsKey(i))
-                {
-                    for (byte i2 = 0; i2 < (this.RewardItems[i].Count * 24); ++i2)
+                System.Console.WriteLine((this.RewardItems[i].Count * 24));
+                    for (byte i2 = 0; i2 < 24; ++i2)
                     {
                         RewardItem Item = this.RewardItems[i].Find(ss => ss.Slot == i2);
                         if (Item == null)
@@ -104,7 +103,6 @@ namespace Zepheus.Zone.Game
                             return true;
                         }
                     }
-                }
             }
             return false; //no more empty slots found
         }

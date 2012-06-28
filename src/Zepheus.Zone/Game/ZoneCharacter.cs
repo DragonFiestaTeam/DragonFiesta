@@ -850,7 +850,8 @@ namespace Zepheus.Zone.Game
             if (this.RewardInventory.GetEmptySlot(out pSlot, out PageID))
             {
               if (!Data.DataProvider.Instance.MasterRewardStates.TryGetValue(ItemID, out States))
-                   return false;
+                 return false;
+
                 RewardItem Reward = new RewardItem
                   {
                       ID = ItemID,
