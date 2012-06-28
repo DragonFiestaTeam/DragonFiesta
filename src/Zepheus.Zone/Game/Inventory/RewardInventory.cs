@@ -92,7 +92,6 @@ namespace Zepheus.Zone.Game
             PageID = 0;
             for (byte i = 0; i < this.RewardItems.Count; ++i)
             {
-                System.Console.WriteLine((this.RewardItems[i].Count * 24));
                     for (byte i2 = 0; i2 < 24; ++i2)
                     {
                         RewardItem Item = this.RewardItems[i].Find(ss => ss.Slot == i2);
