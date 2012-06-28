@@ -71,7 +71,6 @@
     <Compile Include="Data\Inventory.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
     <Compile Include="Data\WorldGuild.cs" />
-    <Compile Include="InterServer\ZoneInfo.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />

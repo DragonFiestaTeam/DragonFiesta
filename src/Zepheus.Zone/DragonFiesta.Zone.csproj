@@ -44,6 +44,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="ChatLog.cs" />
     <Compile Include="Game\Inventory\PremiumInventory.cs" />
     <Compile Include="Game\Inventory\RewardInventory.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Game\AttackSequence_.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\Buffs.cs" />
-    <Compile Include="Game\Trade\AttackSequence.cs" />
     <Compile Include="Game\Drop.cs" />
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
