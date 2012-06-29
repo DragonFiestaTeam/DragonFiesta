@@ -165,7 +165,7 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteInt(x);
                 packet.WriteInt(y);
 
-                packet.WriteString(character.Client.Host == "127.0.0.1" ? "127.0.0.1" : ip, 16);
+                packet.WriteString(Settings.Instance.IP, 16);
                 packet.WriteUShort(port);
                 packet.WriteUShort(randomid);
                 character.Client.SendPacket(packet);

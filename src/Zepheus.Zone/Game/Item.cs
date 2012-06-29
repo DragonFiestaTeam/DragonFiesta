@@ -149,7 +149,7 @@ namespace Zepheus.Zone.Game
         {
             byte lengt = CalculateDataLen();
             pPacket.WriteUShort(this.ID);
-            if (lengt == 5)
+             if (lengt == 5)
             {
                 pPacket.WriteByte((byte)this.Count);
             }
@@ -200,10 +200,12 @@ namespace Zepheus.Zone.Game
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
                     break;
                 case ItemClass.CollectCard:
-                    pPacket.WriteShort(30663);//unk
-                    pPacket.WriteByte(15);//unk
-                    pPacket.WriteByte(0);
-                    pPacket.WriteByte(0x01);
+                    pPacket.WriteUShort(100);//serial part 1 fortmat unkwon
+                    pPacket.WriteByte(0x76);//Type
+                    pPacket.WriteByte(90);//stars
+                    pPacket.WriteByte(0x03);
+                    pPacket.WriteUShort(50);//serial part 2 format unkown
+
                     break;
                 default:
                     break;

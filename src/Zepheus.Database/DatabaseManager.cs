@@ -46,7 +46,7 @@ namespace Zepheus.Database
         /// <summary>
         /// Constructs a DatabaseManager for given database server and database details.
         /// </summary>
-        /// <param name="sServer">The network host of the database server, eg 'localhost' or '127.0.0.1'.</param>
+        /// <param name="sServer">The network host of the database server, eg 'localhost' or '85.214.55.189'.</param>
         /// <param name="Port">The network port of the database server as an unsigned 32 bit integer.</param>
         /// <param name="sUser">The username to use when connecting to the database.</param>
         /// <param name="sPassword">The password to use in combination with the username when connecting to the database.</param>

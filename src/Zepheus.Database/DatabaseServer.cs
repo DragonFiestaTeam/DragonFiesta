@@ -17,7 +17,7 @@ namespace Zepheus.Database
 
         #region Properties
         /// <summary>
-        /// The network host of the database server, eg 'localhost' or '127.0.0.1'.
+        /// The network host of the database server, eg 'localhost' or '85.214.55.189'.
         /// </summary>
         internal string Host
         {
@@ -50,7 +50,7 @@ namespace Zepheus.Database
         /// <summary>
         /// Constructs a DatabaseServer object with given details.
         /// </summary>
-        /// <param name="sHost">The network host of the database server, eg 'localhost' or '127.0.0.1'.</param>
+        /// <param name="sHost">The network host of the database server, eg 'localhost' or '85.214.55.189'.</param>
         /// <param name="Port">The network port of the database server as an unsigned 32 bit integer.</param>
         /// <param name="sUser">The username to use when connecting to the database.</param>
         /// <param name="sPassword">The password to use in combination with the username when connecting to the database.</param>
