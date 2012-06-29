@@ -17,8 +17,6 @@ namespace Zepheus.Zone.Handlers
             byte anwser;
             if (packet.TryReadByte(out anwser))
             {
-                Npc Target = client.Character.CharacterInTarget as Npc;
-                if (Target == null && Target.Point.Flags != (ushort)NpcFlags.Teleporter) return;
                 using (Packet Packet = new Packet(SH6Type.TelePorter))
                 {
                     Packet.WriteShort(6593);//code for normal teleport
@@ -27,16 +25,19 @@ namespace Zepheus.Zone.Handlers
                 switch (anwser)
                 {
                     case 0:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap0, Target.Point.TeleNpc.AnswerMap0X, Target.Point.TeleNpc.AnswerMap0Y);
+                        client.Character.ChangeMap(0, 4199, 4769);//Roumen
+
                         break;
                     case 1:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap1, Target.Point.TeleNpc.AnswerMap1X, Target.Point.TeleNpc.AnswerMap1Y);
+                        client.Character.ChangeMap(9, 11802, 10466);//Eldrine
+
                         break;
                     case 2:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
+                        client.Character.ChangeMap(75, 9069, 9312);//EldGbl02
                         break;
                     case 3:
-                        client.Character.ChangeMap(Target.Point.TeleNpc.AnswerMap3, Target.Point.TeleNpc.AnswerMap3X, Target.Point.TeleNpc.AnswerMap3Y);
+                        client.Character.ChangeMap(5,13658,7812);//RouVal01
+
                         break;
                     default:
                         Log.WriteLine(LogLevel.Warn,"Unkown Teleport Answer {1}",anwser);
