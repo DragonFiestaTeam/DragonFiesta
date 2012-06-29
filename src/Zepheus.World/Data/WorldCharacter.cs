@@ -215,8 +215,8 @@ namespace Zepheus.World.Data
 		}
         public void UpdateMasterJoin()
         {
-           // this.Character.MasterJoin = DateTime.Now;
-            //Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE characters SET MasterJoin='" + DateTime.Now.ToString("yyyy-MM-dd hh:mm") + "' WHERE CharID='" + this.ID + "'");
+            this.Character.MasterJoin = DateTime.Now;
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE characters SET MasterJoin='" + DateTime.Now.ToString("yyyy-MM-dd hh:mm") + "' WHERE CharID='" + this.ID + "'");
         }
         public void SendPacketToAllOnlineMasters(Packet packet)
         {
@@ -313,7 +313,7 @@ namespace Zepheus.World.Data
             MasterMember Master = this.MasterList.Find(m => m.IsMaster == true);
             if (Master != null)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE character SET ReviveCoper='" + RecviveCoperMaster + "' WHERE CharID ='" + Master.CharID + "'");
+                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE character SET ReviveCoper=" + RecviveCoperMaster + " WHERE CharID =" + Master.CharID + "");
             }
 
         }

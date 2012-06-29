@@ -70,11 +70,12 @@ namespace Zepheus.World
             MasterMember pMember = pChar.MasterList.Find(d => d.IsMaster == true);
             if (pMember != null)
             {
+                //Todo Add Break if the difference is greater than 5
+                AddApprenticeReward(pChar);
+                MasterMember.UpdateLevel(pChar.Character.CharLevel, pChar.Character.Name);
+                if(pMember.pMember.Character.Client != null)
                 SendApprenticeLevelUp(pMember.pMember,pChar.Character.Name,pChar.Character.CharLevel);
             }
-            AddApprenticeReward(pChar);
-            MasterMember.UpdateLevel(pChar.Character.CharLevel,pChar.Character.Name);
-           //Todo Add Apprentice Reward
         }
         public void RemoveMasterMember(WorldCharacter pChar,string name)
         {

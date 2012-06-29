@@ -19,7 +19,6 @@ namespace Zepheus.World.Data
         {
             this.pRequest = pRequest;
             this.responseAnswer = this.CheckRequestBeforSendRequest(pRequest);
-            InvideResponse(pRequest.InviterClient, pRequest.InvitedClient.Character.Character.Name);
         }
         public MasterRequestResponse(WorldClient Target,WorldClient Reqeuster)
         {
@@ -65,7 +64,7 @@ namespace Zepheus.World.Data
                 return false;
             }
             this.SendMasterApprentice(0x1740,Reqeuster,Target);//${Target} has been registered as your apprentice.
-            this.InvideResponse(Reqeuster, Target.Character.Character.Name);
+            this.InvideResponse(Reqeuster, Target.Character.Character.Name,Reqeuster.Character.Character.CharLevel);
             return true;
         }
         #endregion
@@ -98,26 +97,25 @@ namespace Zepheus.World.Data
                 Requester.SendPacket(packet);
             }
         }
-        private void InvideResponse(WorldClient pClient,string name)
+        private void InvideResponse(WorldClient pClient,string name,byte level)
         {
             using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
             {
                 DateTime now = DateTime.Now;
                 packet.WriteUShort(0x1740);//pcode
                 packet.WriteString(name, 16);
-                packet.WriteByte(0);//IsOnline?
-                packet.WriteByte(146);
-                packet.WriteByte((byte)31);//day
-                packet.WriteByte(1);//job
-                packet.WriteByte(10);//level
+                packet.WriteByte(0x01);//IsOnline (now.Year - 1900 << 1) | isonline
+                packet.WriteByte((byte)(now.Month << 4));
+                packet.WriteByte((byte)now.Day);//day
+                packet.WriteByte(0);//year
+                packet.WriteByte(level);//level
                 packet.WriteByte(0);//unk
                 packet.WriteByte(2);//unk
                 packet.WriteString("KüssMirDieFüße",14);//WTF?
-                 //Todo Sniff Shit Later
                 packet.Fill(22, 0x00);
-                packet.WriteByte(0);
                 packet.WriteByte(112);//unk
-                packet.WriteByte(0);//yeas 1900-2012
+                packet.WriteByte(112);//unk
+                packet.WriteByte(0);//unk
                 pClient.SendPacket(packet);
 
             }
