@@ -19,6 +19,7 @@ namespace Zepheus.World.Data
         {
             this.pRequest = pRequest;
             this.responseAnswer = this.CheckRequestBeforSendRequest(pRequest);
+            InvideResponse(pRequest.InviterClient, pRequest.InvitedClient.Character.Character.Name);
         }
         public MasterRequestResponse(WorldClient Target,WorldClient Reqeuster)
         {
@@ -45,7 +46,7 @@ namespace Zepheus.World.Data
            
             if (DateTime.Now.Subtract(pRequest.InviterClient.Character.Character.MasterJoin).TotalHours < 24)
             {
-                
+ 
                 RequestResponse(pRequest.InviterClient, 0x174A, pRequest.InviterClient.Character.Character.MasterJoin);//24 hours must pass before a master can receive a new apprentice.
                 return false;
             }
@@ -101,15 +102,22 @@ namespace Zepheus.World.Data
         {
             using (var packet = new Packet(SH37Type.SendMasterRequestReponse))
             {
+                DateTime now = DateTime.Now;
                 packet.WriteUShort(0x1740);//pcode
                 packet.WriteString(name, 16);
-                packet.Fill(4, 0x00);
+                packet.WriteByte(0);//IsOnline?
+                packet.WriteByte(146);
+                packet.WriteByte((byte)31);//day
+                packet.WriteByte(1);//job
+                packet.WriteByte(10);//level
                 packet.WriteByte(0);//unk
-                packet.WriteByte(255);
+                packet.WriteByte(2);//unk
                 packet.WriteString("KüssMirDieFüße",14);//WTF?
                  //Todo Sniff Shit Later
-                packet.Fill(25, 0x00);
-                packet.WriteByte(112);//yeas 1900-2012
+                packet.Fill(22, 0x00);
+                packet.WriteByte(0);
+                packet.WriteByte(112);//unk
+                packet.WriteByte(0);//yeas 1900-2012
                 pClient.SendPacket(packet);
 
             }

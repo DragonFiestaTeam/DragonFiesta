@@ -27,6 +27,7 @@ namespace Zepheus.FiestaLib.Data
             this.Dex = GetDataTypes.GetUshort(row["Dex"]);
             this.Int = GetDataTypes.GetUshort(row["Int"]);
             this.Spr = GetDataTypes.GetUshort(row["Spr"]);
+            this.ItemID = GetDataTypes.GetUshort(row["ItemID"]);
         }
     }
 }

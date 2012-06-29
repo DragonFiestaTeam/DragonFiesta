@@ -48,6 +48,11 @@ namespace Zepheus.World.InterServer
 
         void WorldConnection_OnPacket(object sender, InterPacketReceivedEventArgs e)
         {
+#if DEBUG
+            // so the startup works
+          System.Threading.Thread.Sleep(TimeSpan.FromSeconds(3));
+#endif
+
             if (e.Client.Assigned == false)
             {
                 if (Program.Zones.Count >= 3)

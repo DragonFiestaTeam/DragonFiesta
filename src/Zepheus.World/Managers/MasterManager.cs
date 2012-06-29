@@ -52,7 +52,7 @@ namespace Zepheus.World
         public void RemoveMasterMember(WorldClient pClient)
         {
             MasterMember pMember = pClient.Character.MasterList.Find(d => d.IsMaster == true);
-            if(pMember.pMember != null)
+            if(pMember != null)
             {
              SendApprenticeRemoveMaster(pMember.pMember, pClient.Character.Character.Name);
              MasterMember Memb =  pMember.pMember.Character.MasterList.Find(d => d.pMemberName == pClient.Character.Character.Name);
@@ -103,7 +103,7 @@ namespace Zepheus.World
                 target.Character.MasterList.Add(ReqMember);
                 requester.Character.MasterList.Add(TargetM);
                 ReqMember.AddToDatabase();
-                ReqMember.IsMaster = true;
+                TargetM.IsMaster = true;
                 TargetM.AddToDatabase();
                 SendMasterRequestAccept(requester, TargetName);
             }
