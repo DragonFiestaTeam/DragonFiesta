@@ -187,6 +187,7 @@ namespace Zepheus.Zone.Game
                 case ItemClass.Emotion:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
                     break;
+ 
                 case ItemClass.SilverWingsOnly:
                     //now Client crashing?
                     pPacket.WriteHexAsBytes("90 C8 09 01 FF FF 10 27 00 00 10 27 00 00 0F");
@@ -194,10 +195,15 @@ namespace Zepheus.Zone.Game
                 case ItemClass.PresentBox:
                     pPacket.WriteByte(10);
                     pPacket.WriteHexAsBytes("00 0C 98 3A A7 ED C4 00 00 0C 9C 3A A7 ED C4 00 00 0C A0 3A A7 ED C4 00");
-                  
                     break;
                 case ItemClass.House:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
+                    break;
+                case ItemClass.CollectCard:
+                    pPacket.WriteShort(30663);//unk
+                    pPacket.WriteByte(15);//unk
+                    pPacket.WriteByte(0);
+                    pPacket.WriteByte(0x01);
                     break;
                 default:
                     break;

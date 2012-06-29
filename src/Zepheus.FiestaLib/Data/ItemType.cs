@@ -7,5 +7,6 @@ namespace Zepheus.FiestaLib.Data
 		Etc = 2,
 		Unknown = 3,
 		Unknown2 = 5,
+        CollectCard = 6,
 	}
 }
