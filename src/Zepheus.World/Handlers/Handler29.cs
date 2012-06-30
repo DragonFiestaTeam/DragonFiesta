@@ -47,7 +47,7 @@ namespace Zepheus.World.Handlers
           foreach(var GuildMember in client.Character.Guild.GuildMembers)
           {
                 Ppacket.WriteString(GuildMember.pMemberName, 16);
-                Ppacket.WriteByte(GuildMember.GuildRank);//rank
+                Ppacket.WriteByte((byte)GuildMember.GuildRank);//rank
                 Ppacket.WriteInt(0);
 
                 Ppacket.WriteUShort(GuildMember.Korp);//korp

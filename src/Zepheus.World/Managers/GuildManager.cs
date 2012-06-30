@@ -37,7 +37,7 @@ namespace Zepheus.World.Managers
                 pMemberJob = pChar.Character.Job,
                 pClient = pChar.Client,
                 isOnline = true,
-                GuildRank = 6,// 6 = GuildMember
+                GuildRank = GuildRanks.Member,
                 GuildID = GuildID, 
             };
             pMember.AddToDatabase();
