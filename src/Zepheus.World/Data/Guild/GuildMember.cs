@@ -10,7 +10,7 @@ namespace Zepheus.World.Data
         public WorldClient pClient { get;  set; }
         public int GuildID { get;  set; }
         public bool isOnline { get; set; }
-        public byte GuildRank { get; set; }
+        public GuildRanks GuildRank { get; set; }
         public byte Level { get; set; }
         public string pMemberName { get; set; }
         public byte pMemberJob { get; set; }
@@ -30,7 +30,7 @@ namespace Zepheus.World.Data
             GuildMember pMember = new GuildMember
             {
                 CharID = GetDataTypes.GetInt(row["CharID"]),
-                GuildRank = GetDataTypes.GetByte(row["Rank"]),
+                GuildRank = (GuildRanks)GetDataTypes.GetByte(row["Rank"]),
                 Korp = GetDataTypes.GetUshort(row["Korp"]),
                 GuildID = GetDataTypes.GetInt(row["GuildID"]),
             };

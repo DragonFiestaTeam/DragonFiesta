@@ -101,7 +101,7 @@ namespace Zepheus.World.Handlers
                     {
                         ppacket.WriteUShort(3137);
                         ppacket.WriteUInt(32);//unk
-                        //:TODO create Guild shit
+                        GuildManager.Instance.CreateGuild(client.Character, GuildName, GuildPassword, GuildWar);
                     }
                     ppacket.WriteString(GuildName, 16);
                     ppacket.WriteString(GuildPassword, 8);

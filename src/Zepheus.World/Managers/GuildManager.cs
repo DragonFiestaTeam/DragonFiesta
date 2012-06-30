@@ -55,6 +55,35 @@ namespace Zepheus.World.Managers
             pChar.Guild = null;
          }
 
+        public void CreateGuild(WorldCharacter pChar,string GuildeName,string GuildPassword,bool GuildWar)
+        {
+            Guild gg = new Guild
+             {
+                 GuildMaster = pChar.Character.Name,
+                 GuildPassword = GuildPassword,
+                 Name = GuildeName,
+                 GuildWar = GuildWar,
+                 ID = DataProvider.Instance.Guilds.Count + 1,
+             };
+
+            GuildMember MasterMember = new GuildMember
+            {
+                CharID = pChar.ID,
+                GuildRank = GuildRanks.Master,
+                pClient = pChar.Client,
+                isOnline = true,
+                GuildID = gg.ID,
+                Korp = 0,
+                Level = pChar.Character.CharLevel,
+                pMemberJob = pChar.Character.Job,
+                pMemberName = pChar.Character.Name,
+                MapName = DataProvider.Instance.GetMapname(pChar.Character.PositionInfo.Map),
+            };
+            MasterMember.AddToDatabase();
+            gg.AddToDatabase();
+            gg.GuildMembers.Add(MasterMember);
+            DataProvider.Instance.Guilds.Add(gg.ID, gg);
+        }
         public Guild GetGuildByID(int GuildID)
        {
            Guild Guild;
