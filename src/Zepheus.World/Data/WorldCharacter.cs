@@ -9,6 +9,7 @@ using Zepheus.Database;
 using Zepheus.World.Networking;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib.Data;
+using Zepheus.World.Data;
 
 namespace Zepheus.World.Data
 {
@@ -29,7 +30,8 @@ namespace Zepheus.World.Data
 		private List<Friend> friends;
 		private List<Friend> friendsby;
         public long RecviveCoperMaster  { get; set;}
-
+        public Guild Guild { get; set; }
+       
         public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
@@ -134,6 +136,10 @@ namespace Zepheus.World.Data
                     }
                 }
             }
+        }
+        public void LoadGuild()
+        {
+      
         }
 		public void ChangeMap(string mapname)
 		{

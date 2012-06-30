@@ -6,6 +6,7 @@ using Zepheus.FiestaLib.Data;
 using Zepheus.Util;
 using Zepheus.Database.Storage;
 using Zepheus.Database;
+using Zepheus.World.Data;
 using System.Data;
 using System.Diagnostics;
 
@@ -18,7 +19,7 @@ namespace Zepheus.World.Data
 		public List<string> BadNames { get; private set; }
 		public Dictionary<ushort, MapInfo> Maps { get; private set; }
 		public Dictionary<Job, BaseStatsEntry> JobBasestats { get; private set; }
-		public Dictionary<int, WorldGuild> Guilds { get; private set; }
+		public Dictionary<int, Guild> Guilds { get; private set; }
         public List<MasterRewardItem> MasterRewards { get; private set; }
 
 		public DataProvider()
@@ -81,32 +82,23 @@ namespace Zepheus.World.Data
 		}
 		private void LoadGuilds()
 		{
-			Guilds = new Dictionary<int, WorldGuild>();
+			Guilds = new Dictionary<int, Guild>();
 			DataTable guildData = null;
 			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
 				guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
 
-
+                int GuildMemberCount = 0;
 			if (guildData != null)
 			{
 				foreach (DataRow row in guildData.Rows)
 				{
-					Guild guild = new Guild();
-					guild.Name = (string)row["Name"];
-					guild.ID = (int)row["ID"];
-                    guild.GuildPassword = (string)row["Password"];
-                    guild.GuildMaster = (int)row["GuildMaster"];
-                    DataTable Members = dbClient.ReadDataTable("SELECT *FROM characters WHERE GuildID='" + guild.ID + "'");
-                    foreach (DataRow grow in guildData.Rows)
-                    {
-                        guild.GuildMembers.Add((int)row["ID"]);
-                    }
-                    Guilds.Add(guild.ID, new WorldGuild(guild));
-
-
+					Guild guild = Guild.LoadFromDatabase(row);
+                    guild.GuildMembers = new List<GuildMember>();
+                    GuildMemberCount += guild.GuildMembers.Count;
+                    Guilds.Add(guild.ID, guild);
 				}
 			}
-
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} Members", this.Guilds.Count, GuildMemberCount);
 		}
 		
 		public void LoadBasestats()

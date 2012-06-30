@@ -55,8 +55,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Guild\Guild.cs" />
+    <Compile Include="Data\Guild\GuildMember.cs" />
     <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
     <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Managers\GuildManager.cs" />
     <Compile Include="Managers\MasterManager.cs" />
     <Compile Include="Data\MasterSystem\MasterMember.cs" />
     <Compile Include="Data\MasterSystem\MasterRequest.cs" />
@@ -70,10 +73,8 @@
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\Group\GroupRequest.cs" />
     <Compile Include="Data\Group\GroupRole.cs" />
-    <Compile Include="Data\Guild\Guilds.cs" />
     <Compile Include="Data\Inventory.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
-    <Compile Include="Data\Guild\WorldGuild.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />

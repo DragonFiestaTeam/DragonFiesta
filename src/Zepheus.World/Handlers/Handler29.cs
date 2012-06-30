@@ -4,6 +4,7 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Networking;
+using Zepheus.World.Managers;
 
 namespace Zepheus.World.Handlers
 {
@@ -17,10 +18,9 @@ namespace Zepheus.World.Handlers
                 Log.WriteLine(LogLevel.Warn, "Failed reading Guild Name Request packet {0}", client.Character.Character.Name);
                 return;
             }
-            var guild = WorldGuild.GetGuild(id);
-            if (guild != null)
+            if (client.Character.Guild != null)
             {
-                SendGuildNameResult(client, id, guild.Name);
+                SendGuildNameResult(client, id, client.Character.Guild.Name);
             }
         }
 
