@@ -16,10 +16,12 @@ namespace Zepheus.World.Data
         public byte pMemberJob { get; set; }
         public ushort Korp { get; set; }
         public int CharID { get; set; }
+        public string MapName { get; set; }
         #endregion
         #region .ctor
         public GuildMember()
         {
+            this.MapName = "Rou";
         }
         #endregion
         #region Methods
@@ -39,8 +41,12 @@ namespace Zepheus.World.Data
             this.Level = GetDataTypes.GetByte(row["Level"]);
             this.pMemberJob = GetDataTypes.GetByte(row["Job"]);
             this.pMemberName = row["Name"].ToString();
+            ushort mapid = GetDataTypes.GetUshort(row["Map"]);
+            if(mapid > 0)
+            this.MapName = DataProvider.Instance.GetMapname(mapid);
         }
-        public void SetMemberStatus(bool Status, string name)
+
+        public void SendMemberStatus(bool Status, string name)
         {
             if (Status)
             {
@@ -54,18 +60,21 @@ namespace Zepheus.World.Data
 
         public void AddToDatabase()
         {
+            using(Database.DatabaseClient Client =  Program.DatabaseManager.GetClient())
+             {
+                 Client.ExecuteQuery("INSERT INTO GuildMembers (CharID,Rank,Korp,GuildID) VALUES ('"+this.CharID+"','"+this.GuildRank+"','"+this.Korp+"','"+this.GuildID+"')");
+                 Client.ExecuteQuery("UPDATE Characters set GuildID =" + this.GuildID + " WHERE CharID=" + this.CharID + "");
+             }
         }
         #endregion
         #region Packets
         private void SetOffline(string name)
         {
-            this.isOnline= false;
             //Todo Packet
 
         }
         private void SetOnline(string name)
         {
-            this.isOnline = true;
             //TodoPacket
         }
         #endregion

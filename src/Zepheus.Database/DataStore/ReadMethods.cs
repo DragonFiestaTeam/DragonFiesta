@@ -159,6 +159,7 @@ namespace Zepheus.Database.DataStore
 					ch.Exp = GetDataTypes.GetLong(row["Exp"]);
 					ch.HP = GetDataTypes.GetInt(row["CurHP"]);
 					ch.HPStones = 10;
+                    ch.GuildID = GetDataTypes.GetInt(row["GuildID"]);
 					ch.SP = GetDataTypes.GetInt(row["CurSP"]);
 					ch.SPStones = 10;
                     ch.MountFood = GetDataTypes.GetInt(row["MountFood"]);

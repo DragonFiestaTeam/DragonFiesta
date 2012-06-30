@@ -36,32 +36,34 @@ namespace Zepheus.World.Handlers
         [PacketHandler(CH29Type.GuildListReqest)]
         public static void GuildListReqest(WorldClient client, Packet packet)
         {
+            if (client.Character.Guild == null)
+                return;
+
             using (var Ppacket = new Packet(SH29Type.GuildList))
             {
                 
-                Ppacket.WriteInt(20);
-                Ppacket.WriteUShort(20);
-                for (int i = 0; i < 20; i++)
-                {
-                Ppacket.WriteString("charname", 16);
-                Ppacket.WriteByte(6);//rank
+                Ppacket.WriteInt((ushort)client.Character.Guild.GuildMembers.Count);
+                Ppacket.WriteUShort((ushort)client.Character.Guild.GuildMembers.Count);
+          foreach(var GuildMember in client.Character.Guild.GuildMembers)
+          {
+                Ppacket.WriteString(GuildMember.pMemberName, 16);
+                Ppacket.WriteByte(GuildMember.GuildRank);//rank
                 Ppacket.WriteInt(0);
 
-                Ppacket.WriteUShort(9000);//korp
+                Ppacket.WriteUShort(GuildMember.Korp);//korp
                 Ppacket.WriteByte(0);//unk
                 Ppacket.WriteUShort(0xffff);//unk
                 Ppacket.WriteUShort(0xffff);//unk
                 Ppacket.WriteByte(0);//unk
-                Ppacket.WriteInt(32);//isonline=
+                Ppacket.WriteInt(32);
                 Ppacket.WriteInt(32);
                 Ppacket.Fill(50, 0x00);//unk
-                bool isonline = true;
-                Ppacket.WriteByte(isonline ? (byte)0xB9 : (byte)0x00);//onlinestatus
+                Ppacket.WriteByte(GuildMember.isOnline ? (byte)0xB9 : (byte)0x00);//onlinestatus
                 Ppacket.Fill(3, 0x00);//unk
-                Ppacket.WriteByte(3);//job
-                Ppacket.WriteByte(255);//unk
+                Ppacket.WriteByte(GuildMember.pMemberJob);//job
+                Ppacket.WriteByte(GuildMember.Level);
                 Ppacket.WriteByte(0);//unk
-                Ppacket.WriteString("RouCos01",12);//charmapname
+                Ppacket.WriteString(GuildMember.MapName,12);//charmapname
                 }
                 client.SendPacket(Ppacket);
             }

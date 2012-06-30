@@ -10,6 +10,7 @@ using Zepheus.World.Networking;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib.Data;
 using Zepheus.World.Data;
+using Zepheus.World.Managers;
 
 namespace Zepheus.World.Data
 {
@@ -31,7 +32,6 @@ namespace Zepheus.World.Data
 		private List<Friend> friendsby;
         public long RecviveCoperMaster  { get; set;}
         public Guild Guild { get; set; }
-       
         public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
@@ -44,6 +44,7 @@ namespace Zepheus.World.Data
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
 			LoadEqupippet();
+          
 		}
 		public List<Friend> Friends
 		{
@@ -139,7 +140,29 @@ namespace Zepheus.World.Data
         }
         public void LoadGuild()
         {
-      
+            try
+            {
+                Guild g = GuildManager.Instance.GetGuildByID(this.Character.GuildID);
+                if (g != null)
+                {
+                    this.Guild = g;
+                    GuildMember mMember = g.GuildMembers.Find(m => m.CharID == this.ID);
+                    mMember.isOnline = true;
+                    mMember.pClient = this.Client;
+                    foreach (var pMember in g.GuildMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            pMember.SendMemberStatus(true, this.Character.Name);
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Log.WriteLine(LogLevel.Error,"Failed Load Guild {0} {1}",this.ID,ex.Message.ToString());
+            }
+
         }
 		public void ChangeMap(string mapname)
 		{
@@ -209,15 +232,6 @@ namespace Zepheus.World.Data
 				}
 				Equips.Add(realslot, (ushort)eqp.EquipID);
 			}
-		}
-		public string GetMapname(ushort mapid)
-		{
-			MapInfo mapinfo;
-			if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
-			{
-				return mapinfo.ShortName;
-			}
-			return "";
 		}
         public void UpdateMasterJoin()
         {
@@ -357,20 +371,47 @@ namespace Zepheus.World.Data
 				friend.WritePacket(pPacket);
 			}
 		}
-		public void Loggeout(WorldClient pChar)
-		{
-            this.UpdateRecviveCoper();
-			this.IsIngame = false;
-            foreach(var Member in MasterList)
+        public void SetMasterOffline()
+        {
+            foreach (var Member in MasterList)
             {
-                if(Member.pMember != null)
+                if (Member.pMember != null)
                 {
-                 Member.SetMemberStatus(false,this.Client.Character.Character.Name);
+                    Member.SetMemberStatus(false, this.Client.Character.Character.Name);
                 }
             }
+        }
+        public void SetGuildMemberStatusOffline()
+        {
+            try
+            {
+              
+                if (this.Guild != null)
+                {
+                    GuildMember mMember = this.Guild.GuildMembers.Find(m => m.CharID == this.ID);
+                    mMember.isOnline = false;
+                    mMember.pClient = null;
+                    foreach (var pMember in this.Guild.GuildMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            pMember.SendMemberStatus(false, this.Character.Name);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.WriteLine(LogLevel.Error, "Failed Load Guild {0} {1}", this.ID, ex.Message.ToString());
+            }
+        }
+		public void Loggeout(WorldClient pChar)
+		{
+            this.IsIngame = false;
+            this.UpdateRecviveCoper();
 			this.UpdateFriendsStatus(false,pChar);
 			this.UpdateFriendStates();
-			
+            this.SetGuildMemberStatusOffline();
 		}
 		public void RemoveGroup()
 		{
@@ -457,7 +498,7 @@ namespace Zepheus.World.Data
         internal void OnGotIngame()
         {
             LoadGroup();
-
+    
             if (GotIngame != null)
                 GotIngame(this, new EventArgs());
         }
@@ -469,7 +510,7 @@ namespace Zepheus.World.Data
              this.WriteBlockList();
              this.LoadMasterList();
              this.SendReciveMasterCoper();
-
+             LoadGuild();
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
 
 

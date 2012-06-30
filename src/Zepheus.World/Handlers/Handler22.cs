@@ -21,17 +21,6 @@ namespace Zepheus.World.Handlers
                p2.WriteInt(client.Character.Character.GuildID);
                client.SendPacket(p2);
            }
-    
-          /* using (var pp = new Packet())
-           {
-               pp.WriteShort(9414);
-               //packet.WriteString("", 16); //master name
-               pp.Fill(22, 0);
-               pp.WriteByte(3);
-               pp.WriteShort(0);
-               client.SendPacket(pp);
-
-           }*/
            // dafuq no op code..
            using (var p = new Packet())
            {

@@ -142,6 +142,9 @@ namespace Zepheus.World.InterServer
 			if (packet.TryReadString(out charname,16))
 			{
 			  WorldClient client =  ClientManager.Instance.GetClientByCharname(charname);
+              if (client == null)
+                  return;
+
 			  client.Character.Loggeout(client);
 			  ClientManager.Instance.RemoveClient(client);
 			}
@@ -214,7 +217,7 @@ namespace Zepheus.World.InterServer
 				{
 					z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
 					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
-					client.Character.ChangeMap(client.Character.GetMapname(mapid));
+					client.Character.ChangeMap(DataProvider.Instance.GetMapname(mapid));
 				}
 			}
 			else

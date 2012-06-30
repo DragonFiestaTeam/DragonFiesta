@@ -80,6 +80,15 @@ namespace Zepheus.World.Data
 			}
 			Log.WriteLine(LogLevel.Info, "Loaded {0} maps!", Maps.Count);
 		}
+        public string GetMapname(ushort mapid)
+        {
+            MapInfo mapinfo;
+            if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
+            {
+                return mapinfo.ShortName;
+            }
+            return "";
+        }
 		private void LoadGuilds()
 		{
 			Guilds = new Dictionary<int, Guild>();

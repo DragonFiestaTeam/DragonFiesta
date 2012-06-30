@@ -9,10 +9,15 @@ namespace Zepheus.World.Managers
 {
      [ServerModule(InitializationStage.Clients)]
        public sealed class GuildManager
+       {
+           #region Properties
+           public List<GuildRequest> pRequests { get; private set; }
+           public static GuildManager Instance { get; private set; }
+           #endregion
+           #region .ctor
+           public GuildManager()
         {
-        public static GuildManager Instance { get; private set; }
-        public GuildManager()
-        {
+            pRequests = new List<GuildRequest>();
         }
         [InitializerMethod]
         public static bool Initialize()
@@ -20,7 +25,9 @@ namespace Zepheus.World.Managers
             Instance = new GuildManager();
             return true;
         }
-       public void AddMember(WorldCharacter pChar,int GuildID)
+           #endregion
+        #region Methods
+        public void AddMember(WorldCharacter pChar,int GuildID)
         {
             GuildMember pMember = new GuildMember
             {
@@ -33,6 +40,7 @@ namespace Zepheus.World.Managers
                 GuildRank = 6,// 6 = GuildMember
                 GuildID = GuildID, 
             };
+            pMember.AddToDatabase();
             Guild g = GetGuildByID(GuildID);
            if(g != null)//prevence
            {
@@ -40,13 +48,14 @@ namespace Zepheus.World.Managers
                pChar.Guild = g;
            }
         }
-         public void RemoveMember(WorldCharacter pChar)
+        public void RemoveMember(WorldCharacter pChar)
          {
             GuildMember pMember = pChar.Guild.GuildMembers.Find(m => m.CharID == pChar.ID);
             pChar.Guild.GuildMembers.Remove(pMember);
             pChar.Guild = null;
          }
-       public Guild GetGuildByID(int GuildID)
+
+        public Guild GetGuildByID(int GuildID)
        {
            Guild Guild;
            if (DataProvider.Instance.Guilds.TryGetValue(GuildID, out Guild))
@@ -55,6 +64,6 @@ namespace Zepheus.World.Managers
            }
            return null;
        }
-        
-    }
+        #endregion
+       }
 }
