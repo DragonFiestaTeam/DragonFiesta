@@ -17,23 +17,23 @@ namespace Zepheus.Zone.Game
         private const string DeleteItem = "DELETE FROM items WHERE ID=@id";
 
         public ulong UniqueID { get; protected set; }
-        public ushort ID { get; private set; }
+        public virtual ushort ID { get;  set; }
         public uint Owner { get; set; }
         public virtual DateTime? Expires { get; set; }
         // public ItemSlot SlotType { get; private set; }
-        public sbyte Slot { get; set; }
+        public virtual sbyte Slot { get; set; }
 
-        public ushort Count { get; set; }
-        public ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+        public virtual ushort Count { get; set; }
+        public virtual ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public Mount Mount { get; set; }
 
-        public byte StatCount { get; private set; }
+        public virtual byte StatCount { get;  set; }
         public bool IsEquipped { get; set; }
-        public ushort Str { get; private set; }
-        public ushort End { get; private set; }
-        public ushort Dex { get; private set; }
-        public ushort Int { get; private set; }
-        public ushort Spr { get; private set; }
+        public ushort Str { get; set; }
+        public ushort End { get; set; }
+        public ushort Dex { get; set; }
+        public ushort Int { get; set; }
+        public ushort Spr { get; set; }
 
         public Item(uint pOwner, ushort pID, ushort pCount)
         {
@@ -48,7 +48,9 @@ namespace Zepheus.Zone.Game
             this.ID = pID;
             this.Count = pCount;
         }
-
+        public Item()
+        {
+        }
         public virtual bool Delete()
         {
             // Read up on inheritance and virtual method resolution.
@@ -133,7 +135,7 @@ namespace Zepheus.Zone.Game
             }
             return length;
         }
-        public void WriteItemInfo(Packet pPacket)
+        public virtual void WriteItemInfo(Packet pPacket)
         {
             byte lenght = CalculateDataLen();
             pPacket.WriteByte(lenght);//lenght
@@ -147,7 +149,7 @@ namespace Zepheus.Zone.Game
         {
             byte lengt = CalculateDataLen();
             pPacket.WriteUShort(this.ID);
-            if (lengt == 5)
+             if (lengt == 5)
             {
                 pPacket.WriteByte((byte)this.Count);
             }
@@ -185,6 +187,7 @@ namespace Zepheus.Zone.Game
                 case ItemClass.Emotion:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
                     break;
+ 
                 case ItemClass.SilverWingsOnly:
                     //now Client crashing?
                     pPacket.WriteHexAsBytes("90 C8 09 01 FF FF 10 27 00 00 10 27 00 00 0F");
@@ -192,10 +195,17 @@ namespace Zepheus.Zone.Game
                 case ItemClass.PresentBox:
                     pPacket.WriteByte(10);
                     pPacket.WriteHexAsBytes("00 0C 98 3A A7 ED C4 00 00 0C 9C 3A A7 ED C4 00 00 0C A0 3A A7 ED C4 00");
-                  
                     break;
                 case ItemClass.House:
                     pPacket.WriteUInt(0);//expires time 0 = 0 never
+                    break;
+                case ItemClass.CollectCard:
+                    pPacket.WriteUShort(100);//serial part 1 fortmat unkwon
+                    pPacket.WriteByte(0x76);//Type
+                    pPacket.WriteByte(90);//stars
+                    pPacket.WriteByte(0x03);
+                    pPacket.WriteUShort(50);//serial part 2 format unkown
+
                     break;
                 default:
                     break;

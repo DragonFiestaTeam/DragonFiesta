@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using MySql.Data.Types;
 
 namespace Zepheus.FiestaLib
 {
@@ -15,5 +17,10 @@ namespace Zepheus.FiestaLib
             val |= (byte)(pValue.Year - 2000);
             return val;
         }
+        public static string ToDBString(this DateTime Datetime)
+        {
+            return Datetime.ToString("yyyy/MM/dd HH/mm/ss");
+        }
+
     }
 }

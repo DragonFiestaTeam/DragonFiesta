@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,10 +47,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="ChatLog.cs" />
-    <Compile Include="Data\Commercial.cs" />
-    <Compile Include="Data\CommercialReqest.cs" />
+    <Compile Include="Game\Inventory\PremiumInventory.cs" />
+    <Compile Include="Game\Inventory\RewardInventory.cs" />
+    <Compile Include="Game\RewardItem.cs" />
+    <Compile Include="Game\Trade\Trade.cs" />
+    <Compile Include="Game\Trade\TradeItem.cs" />
+    <Compile Include="Game\Trade\TradeReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
+    <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandInfo.cs" />
@@ -62,7 +71,6 @@
     <Compile Include="Game\AttackSequence_.cs" />
     <Compile Include="Game\Buff.cs" />
     <Compile Include="Game\Buffs.cs" />
-    <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="Game\Drop.cs" />
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
@@ -70,7 +78,7 @@
     <Compile Include="Game\Guild\Guild.cs" />
     <Compile Include="Game\Guild\GuildMember.cs" />
     <Compile Include="Game\House.cs" />
-    <Compile Include="Game\Inventory.cs" />
+    <Compile Include="Game\Inventory\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
     <Compile Include="Game\LevelUpEventArgs.cs" />
     <Compile Include="Game\Mob.cs" />
@@ -83,7 +91,7 @@
     <Compile Include="Game\ZoneCharacter.cs" />
     <Compile Include="Game\Map.cs" />
     <Compile Include="Game\MapObject.cs" />
-    <Compile Include="Managers\CommercialManager.cs" />
+    <Compile Include="Managers\TradeManager.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler12.cs" />
     <Compile Include="Handlers\Handler14.cs" />
@@ -107,9 +115,15 @@
     <Compile Include="Networking\ZoneAcceptor.cs" />
     <Compile Include="Networking\ZoneClient.cs" />
     <Compile Include="PerformanceCounter.cs" />
+    <Compile Include="Game\PremiumItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Networking\Security\CheatTracker.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Worker.cs" />
     <Compile Include="ZoneData.cs" />
@@ -131,6 +145,15 @@
       <Project>{463FA649-3E4C-42A0-AF28-9132E1BE07DB}</Project>
       <Name>DragonFiesta.Util</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

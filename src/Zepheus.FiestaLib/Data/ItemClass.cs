@@ -18,5 +18,6 @@ namespace Zepheus.FiestaLib.Data
 		Crafting = 24,
 		Overlay = 26,
 		Emotion = 27,
+        CollectCard = 31,
 	}
 }

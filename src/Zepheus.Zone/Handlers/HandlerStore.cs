@@ -27,7 +27,6 @@ namespace Zepheus.Zone.Handlers
                     Handlers[attribute.Header].Remove(attribute.Type);
                 }
                 Handlers[attribute.Header].Add(attribute.Type, method);
-                Log.WriteLine(LogLevel.Warn, "Duplicate handler found: {0}:{1}", attribute.Header, attribute.Type);
             }
 
             int count = 0;

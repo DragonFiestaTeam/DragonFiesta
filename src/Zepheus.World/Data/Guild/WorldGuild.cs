@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Zepheus.Database.Storage;
+using Zepheus.World.Data.Guild;
 
 namespace Zepheus.World.Data
 {

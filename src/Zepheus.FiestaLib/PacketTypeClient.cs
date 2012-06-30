@@ -101,6 +101,8 @@ namespace Zepheus.FiestaLib
         Unequip = 18,
         UseItem = 21,
         ItemEnhance = 23,
+        GetPremiumItemList = 32,
+        GetRewardItemList = 44,
     }
 
     public enum CH15Type : byte
@@ -109,9 +111,15 @@ namespace Zepheus.FiestaLib
     }
     public enum CH19Type : byte
     {
-        CommercialReqest = 1,
-        CommercialReqestDecline = 3,
-        CommercialAccept = 6,
+        TradeReqest = 1,
+        TradeReqestDecline = 3,
+        TradeAccept = 6,
+        TradeBreak = 10,
+        TradeAddItem = 13,
+        TradeRemoveItem = 17,
+        TradeChangeMoney = 21,
+        TradeLock = 25,
+        TradeAgree = 31,
     }
     public enum CH20Type : byte
     {
@@ -147,14 +155,25 @@ namespace Zepheus.FiestaLib
 
     public enum CH29Type : byte
     {
-        GuildNameRequest = 118,
         CreateGuild = 5,
+        GuildInvideRequest = 9,
+        GuildNameRequest = 118,
         GuildListReqest = 190,
+
     }
 
     public enum CH31Type : byte
     {
         GetUnknown = 6,
+    }
+    public enum CH37Type : byte
+    {
+        MasterRequest = 1,
+        MasterRequestResponse = 5,
+        RemoveMasterByApprentice = 6,
+        MasterRemove = 10,
+        MasterRewardCoperRquest= 60,
+        SendReciveCoperAccept = 64,
     }
     public enum CH42Type : byte
     {

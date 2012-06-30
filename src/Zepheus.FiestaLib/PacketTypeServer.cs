@@ -14,8 +14,20 @@ namespace Zepheus.FiestaLib
     }
     public enum SH19Type : byte
     {
-        SendCommercialReqest = 2,
+        SendTradeReqest = 2,
         DeclineRequest = 4,
+        SendTradeAccept = 9,
+        SendTradeBreak = 12,
+        SendAddItemSuccefull = 15,
+        SendAddItem = 16,
+        SendItemRemove = 19,
+        SendChangeMoney = 24,
+        SendTradeRdy = 27,
+        SendTradeLock = 28,
+        SendRemoveItemFromHandel = 20,
+        SendTradeAgreeMe = 33,
+        SendTradeAgreeTo = 34,
+        SendTradeComplett = 36,
     }
     public enum SH3Type : byte
     {
@@ -147,6 +159,8 @@ namespace Zepheus.FiestaLib
         ItemUseEffect = 22,
         ItemUpgrade = 24,
         ItemUsedOk = 26,
+        SendPremiumItemList = 33,
+        SendRewardList = 45,
     }
     public enum SH14Type : byte
     {
@@ -223,6 +237,25 @@ namespace Zepheus.FiestaLib
     {
         GuildNameResult = 119,
         GuildList = 27,
+    }
+    public enum SH37Type : byte
+    {
+        SendMasterRequestAccept = 3,
+        SendMasterRequestReponse = 2,
+        SendMasterRequest = 4,
+        SendMasterResponseRemove = 7,
+        SendRemoveMember = 11,
+        SendMasterList = 20,
+        SendRegisterApprentice = 21,
+        SendMasterMemberOnline = 22,
+        SendMasterMemberOffline = 23,
+        SendApprenticeRemoveMaster = 24,
+        SendApprenticeLevelUp = 25,
+        SendApprenticeReward = 26,
+        SendRecivveCopper = 61,
+        SendGiveMasterReward = 65,
+        MasterReiveCopperDecline = 69,
+    
     }
     public enum SH42Type : byte
     {

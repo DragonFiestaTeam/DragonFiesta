@@ -50,6 +50,46 @@ namespace Zepheus.World.InterServer
 			}
 		}
 
+        [InterPacketHandler(InterHeader.ReciveCoper)]
+        public static void ReciveCoper(ZoneConnection zc, InterPacket packet)
+        {
+            string charname;
+            long coper;
+            bool typ;
+            if (!packet.TryReadString(out charname, 16))
+                return;
+
+            if (!packet.TryReadLong(out coper))
+                return;
+            if (!packet.TryReadBool(out typ))
+                return;
+
+            WorldClient pClient = ClientManager.Instance.GetClientByCharname(charname);
+            if (typ)
+            {
+              pClient.Character.Character.ReviveCoper += coper;
+
+            }
+            else
+            {
+              
+                pClient.Character.RecviveCoperMaster += coper;
+                pClient.Character.UpdateRecviveCoper();
+            }
+        }
+        [InterPacketHandler(InterHeader.CharacterLevelUP)]
+        public static void CharLevelUP(ZoneConnection zc, InterPacket packet)
+        {
+            byte level;
+            string charname;
+            if (!packet.TryReadByte(out level))
+                return;
+            if(!packet.TryReadString(out charname,16))
+            return;
+
+            WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+            client.Character.LevelUp(level);
+        }
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{
@@ -102,6 +142,9 @@ namespace Zepheus.World.InterServer
 			if (packet.TryReadString(out charname,16))
 			{
 			  WorldClient client =  ClientManager.Instance.GetClientByCharname(charname);
+              if (client == null)
+                  return;
+
 			  client.Character.Loggeout(client);
 			  ClientManager.Instance.RemoveClient(client);
 			}
@@ -174,7 +217,7 @@ namespace Zepheus.World.InterServer
 				{
 					z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
 					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
-					client.Character.ChangeMap(client.Character.GetMapname(mapid));
+					client.Character.ChangeMap(DataProvider.GetMapname(mapid));
 				}
 			}
 			else
@@ -212,6 +255,16 @@ namespace Zepheus.World.InterServer
 				lc.SendPacket(p);
 			}
 		}
+        public static void SendAddReward(ZoneConnection ZC, ushort itemID, byte count,string CharName)
+        {
+            using (var packet = new InterPacket(InterHeader.SendAddRewardItem))
+            {
+                packet.WriteUShort(itemID);
+                packet.WriteByte(count);
+                packet.WriteString(CharName, 16);
+                ZC.SendPacket(packet);
+            }
+        }
 		public static void SendZoneStarted(byte zoneid, string ip, ushort port, List<MapInfo> maps)
 		{
 			using (var packet = new InterPacket(InterHeader.Zoneopened))

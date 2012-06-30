@@ -24,7 +24,6 @@ namespace Zepheus.Zone.InterServer
                 Environment.Exit(7);
             }
         }
-
         private void ConnectAndAssign(string ip, int port)
         {
             Connect(ip, port);

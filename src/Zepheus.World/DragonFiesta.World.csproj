@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -52,23 +55,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\CommercialReqest.cs" />
+    <Compile Include="Data\Guild\Guild.cs" />
+    <Compile Include="Data\Guild\GuildMember.cs" />
+    <Compile Include="Data\Guild\GuildRequest.cs" />
+    <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
+    <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Managers\GuildManager.cs" />
+    <Compile Include="Managers\MasterManager.cs" />
+    <Compile Include="Data\MasterSystem\MasterMember.cs" />
+    <Compile Include="Data\MasterSystem\MasterRequest.cs" />
     <Compile Include="Managers\ClientManager.cs" />
-    <Compile Include="Managers\CommercialManager.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\DropState.cs" />
     <Compile Include="Data\Equip.cs" />
     <Compile Include="Data\Friend.cs" />
-    <Compile Include="Data\Group.cs" />
-    <Compile Include="Data\GroupMember.cs" />
+    <Compile Include="Data\Group\Group.cs" />
+    <Compile Include="Data\Group\GroupMember.cs" />
     <Compile Include="Data\DataProvider.cs" />
-    <Compile Include="Data\GroupRequest.cs" />
-    <Compile Include="Data\GroupRole.cs" />
-    <Compile Include="Data\Guilds.cs" />
+    <Compile Include="Data\Group\GroupRequest.cs" />
+    <Compile Include="Data\Group\GroupRole.cs" />
     <Compile Include="Data\Inventory.cs" />
     <Compile Include="Data\WorldCharacter.cs" />
-    <Compile Include="Data\WorldGuild.cs" />
-    <Compile Include="Data\ZoneInfo.cs" />
     <Compile Include="Managers\GroupManager.cs" />
     <Compile Include="Handlers\Handler14.cs" />
     <Compile Include="Handlers\Handler21.cs" />
@@ -116,6 +123,9 @@
       <Project>{463FA649-3E4C-42A0-AF28-9132E1BE07DB}</Project>
       <Name>DragonFiesta.Util</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

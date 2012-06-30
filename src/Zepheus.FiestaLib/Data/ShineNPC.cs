@@ -17,7 +17,6 @@ namespace Zepheus.FiestaLib.Data
 		public String RoleArg0 { get; private set; }
 		public ushort Flags { get; private set; }
 		public List<Vendor> VendorItems { get; set; }
-        public Teleportnpc TeleNpc { get; set; }
 
 		public static ShineNpc Load(DataRow row)
 		{

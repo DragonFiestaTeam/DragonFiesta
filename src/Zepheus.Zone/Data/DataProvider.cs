@@ -33,6 +33,8 @@ namespace Zepheus.Zone.Data
         public Dictionary<ushort, Mount> MountyByHandleID { get; private set; }
 		public Dictionary<ushort, ActiveSkillInfo> ActiveSkillsByID { get; private set; }
 		public Dictionary<string, ActiveSkillInfo> ActiveSkillsByName { get; private set; }
+        public Dictionary<ushort,MasterRewardState> MasterRewardStates  { get; private set; }
+
 		public static DataProvider Instance { get; private set; }
 
 		public DataProvider()
@@ -49,8 +51,9 @@ namespace Zepheus.Zone.Data
 			LoadMiniHouseInfo();
 			LoadActiveSkills();
 			LoadVendors();
-			LoadTeleporters();
             LoadMounts();
+            LoadMasterRewardStates();
+  
 		}
 
 		[InitializerMethod]
@@ -110,6 +113,31 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading ItemInfoServer.shn: {0}", ex);
 			}
 		}
+        private void LoadMasterRewardStates()
+        {
+            MasterRewardStates = new Dictionary<ushort, MasterRewardState>();
+                try
+                {
+                    DataTable RewardStates = null;
+                    using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+                    {
+                        RewardStates = dbClient.ReadDataTable("SELECT  *FROM MasterRewardStates");
+                    }
+                    if (RewardStates != null)
+                    {
+                        foreach (DataRow row in RewardStates.Rows)
+                        {
+                            MasterRewardState State = new MasterRewardState(row);
+                            this.MasterRewardStates.Add(State.ItemID, State);
+                        }
+                    }
+                    Log.WriteLine(LogLevel.Info, "Loaded {0} MasterRewardStates", this.MasterRewardStates.Count);
+                }
+                catch (Exception ex)
+                {
+                    Log.WriteLine(LogLevel.Exception, "Error loading MasterRewardStatesTable: {0}", ex);
+                }
+        }
 		private void LoadDrops()
 		{
 			DropGroups = new Dictionary<string, DropGroupInfo>();
@@ -199,34 +227,6 @@ namespace Zepheus.Zone.Data
                 Log.WriteLine(LogLevel.Info, "Loaded {0} Mounts.", Mountcounter);
             }
         }
-		private void LoadTeleporters()
-		{
-			DataTable Data = null;
-			int counter = 0;
-			foreach (var map in MapsByID.Values)
-			{
-				foreach (var npc in map.NPCs)
-				{
-					if (npc.Flags == (ushort)NpcFlags.Teleporter)
-					{
-						using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-						{
-							Data = dbClient.ReadDataTable("SELECT  *FROM Teleporter WHERE NPCID='" + npc.MobID + "'");
-						}
-						if (Data != null && Data.Rows.Count == 1)
-						{
-							foreach (DataRow row in Data.Rows)
-							{
-								Teleportnpc TeleData = Teleportnpc.Load(row);
-								npc.TeleNpc = TeleData;
-								counter++;
-							}
-						}
-					}
-				}
-			}
-			Log.WriteLine(LogLevel.Info, "Loaded {0} Teleporters.", counter);
-		}
 
 		private void LoadActiveSkills()
 		{
@@ -511,7 +511,7 @@ namespace Zepheus.Zone.Data
 			ulong ret = 0;
 			if (!ExpTable.TryGetValue(pLevel, out ret))
 			{
-				Log.WriteLine(LogLevel.Warn, "Something tried to get the amount of EXP for level {0} (which is higher than it's max, {1}). Please backtrace the calls to this function!", pLevel, ExpTable.Count);
+				Log.WriteLine(LogLevel.Warn, "Something tried to get the amount of EXP for level {0} (which is higher than it's max, {1}). Please backTrade the calls to this function!", pLevel, ExpTable.Count);
 				Log.WriteLine(LogLevel.Warn, Environment.StackTrace);
 			}
 			return ret;

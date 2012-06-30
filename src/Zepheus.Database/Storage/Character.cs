@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-
+using System;
 namespace Zepheus.Database.Storage
 {
    public class Character
@@ -32,9 +32,10 @@ namespace Zepheus.Database.Storage
        public int MountFood { get; set; }
        public CharacterStats CharacterStats = new CharacterStats();
        public int GuildID { get; set; }
-
+       public DateTime MasterJoin { get; set; }
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
        public long GroupId { get; set; }
        public bool IsGroupMaster { get; set; }
+       public long ReviveCoper { get; set; }
     }
 }

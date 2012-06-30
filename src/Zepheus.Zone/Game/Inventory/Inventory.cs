@@ -6,24 +6,29 @@ using System.Threading;
 using System.Data;
 using Zepheus.Database;
 using Zepheus.Database.DataStore;
+using Zepheus.Zone.Handlers;
 
 namespace Zepheus.Zone.Game
 {
-    public sealed class Inventory
+    public class Inventory
     {
         public long Money { get; set; }
         public List<Equip> EquippedItems { get; private set; }
         public Dictionary<byte, Item> InventoryItems { get; private set; }
         public byte InventoryCount { get; private set; }
         private Mutex locker = new Mutex();
-
-        public Inventory()
+        private ZoneCharacter InventoryOwner { get; set; }
+        public  Inventory(ZoneCharacter pChar)
         {
             InventoryCount = 2;
+            InventoryOwner = pChar;
             InventoryItems = new Dictionary<byte, Item>();
             EquippedItems = new List<Equip>();
         }
-
+        public Inventory()
+        {
+         
+        }
         public void Enter()
         {
             locker.WaitOne();
@@ -108,7 +113,20 @@ namespace Zepheus.Zone.Game
             Eq = this.EquippedItems.Find(d => d.Slot == slot);
             return Eq;
         }
-
+        public void RemoveInventory(Item pItem)
+        {
+            try
+            {
+                locker.WaitOne();
+                Handler12.ModifyInventorySlot(InventoryOwner, 0x24, (byte)pItem.Slot, 0, null);
+                pItem.Delete();
+                this.InventoryItems.Remove((byte)pItem.Slot);
+            }
+            finally
+            {
+                locker.ReleaseMutex();
+            }
+        }
         public void AddToInventory(Item pItem)
         {
             try
@@ -124,8 +142,7 @@ namespace Zepheus.Zone.Game
                 locker.ReleaseMutex();
             }
         }
-
-        public void AddToEquipped(Equip pEquip)
+        public  void AddToEquipped(Equip pEquip)
         {
             try
             {

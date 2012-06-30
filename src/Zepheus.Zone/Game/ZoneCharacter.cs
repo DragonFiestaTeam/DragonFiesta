@@ -15,6 +15,7 @@ using Zepheus.Zone.Networking;
 using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using Zepheus.InterLib.Networking;
+using Zepheus.Zone.Managers;
 
 namespace Zepheus.Zone.Game
 {
@@ -28,6 +29,11 @@ namespace Zepheus.Zone.Game
 				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectFromDatabase(name, Program.CharDBManager);
 				if (Character == null) throw new Exception("Character not found.");
 				Buffs = new Buffs(this);
+                this.Inventory = new Game.Inventory(this);
+                this.PremiumInventory = new PremiumInventory();
+                this.RewardInventory = new RewardInventory();
+                this.RewardInventory.LoadRewardItems(this.ID);
+                this.PremiumInventory.LoadPremiumItems(this.ID);
 				LastShout = Program.CurrentTime;
 				ChatBlocked = DateTime.MinValue;
 				NextSPRest = DateTime.MaxValue;
@@ -81,11 +87,15 @@ namespace Zepheus.Zone.Game
 		public Character Character { get; private set; }
 		public Group Group { get; set; }
 		public GroupMember GroupMember { get; set; }
-		public Inventory Inventory = new Inventory();
 
-		public bool IsAttacking { get { return attackingSequence != null && attackingSequence.State != AttackSequence.AnimationState.Ended; } }
+        #region Inventory
+        public Inventory Inventory { get; set; }
+        public RewardInventory RewardInventory { get; set; }
+        public PremiumInventory PremiumInventory { get; set; }
+        #endregion
+        public bool IsAttacking { get { return attackingSequence != null && attackingSequence.State != AttackSequence.AnimationState.Ended; } }
 		public bool IsMale { get { return Character.LookInfo.Male; } set { Character.LookInfo.Male = value; } }
-
+        public Trade Trade { get; set; }
 		public const byte ChatDelay = 0;
 		public const byte ShoutDelay = 10;
 		public static readonly TimeSpan HpSpUpdateRate = TimeSpan.FromSeconds(3);
@@ -94,6 +104,7 @@ namespace Zepheus.Zone.Game
         public DateTime LastUse { get; set; }
         public Mount Mount { get; set; }
         #endregion
+        public long RecviveCoper { get; set; }
         public int ID { get { return Character.ID; } }
 		public int AccountID { get { return Character.AccountID; } }
 		public string Name { get { return Character.Name; } set { Character.Name = value; } }
@@ -105,6 +116,7 @@ namespace Zepheus.Zone.Game
 		public long Exp { get; set; }
 		public short StonesSP { get; set; }
 		public short StonesHP { get; set; }
+        
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
@@ -137,12 +149,15 @@ namespace Zepheus.Zone.Game
         public ushort MagicDef { get { return Character.CharacterStats.MagicDef; } set { Character.CharacterStats.MagicDef = value; } }
         #endregion
         //Parrty Shit
-		public Dictionary<string, ZoneClient> Party = new Dictionary<string, ZoneClient>();
+        #region Party Variabels
+        public Dictionary<string, ZoneClient> Party = new Dictionary<string, ZoneClient>();
 		public bool IsInParty { get; set; } //check variabel for heath update
 		public bool HealthThreadState { get; set; }
 		public bool SendGrpInsector { get; set; }
-		//local shit
-		public ZoneClient Client { get; set; }
+        #endregion
+        //local shit
+        #region ZoneCharacter Variabels
+        public ZoneClient Client { get; set; }
 		public Dictionary<ushort, Skill> SkillsActive { get; private set; }
 		public Dictionary<ushort, Skill> SkillsPassive { get; private set; }
 		public PlayerState State { get; set; }
@@ -152,6 +167,7 @@ namespace Zepheus.Zone.Game
 		public House House { get; set; }
 		public MapObject CharacterInTarget { get; set; }
 		public Question Question { get; set; }
+     
 		private AttackSequence attackingSequence;
 
 		public DateTime LastShout { get; set; }
@@ -159,8 +175,8 @@ namespace Zepheus.Zone.Game
 		public DateTime ChatBlocked { get; set; }
 		public DateTime NextHPRest { get; set; }
 		public DateTime NextSPRest { get; set; }
-
-		//lazy loading cheattracker
+        #endregion
+        //lazy loading cheattracker
 		private CheatTracker tracker;
 		public CheatTracker CheatTracker { get { return tracker ?? (tracker = new CheatTracker(this)); } }
 		#endregion
@@ -306,7 +322,10 @@ namespace Zepheus.Zone.Game
 			Handler4.SendTitleList(this);
 			Handler4.SendCharacterChunkEnd(this);
 			Handler6.SendDetailedCharacterInfo(this);
+            this.WritePremiumList(0);
+            this.WriteRewardList(0);
 		}
+ 
 		public void SwapEquips(Equip sourceEquip, Equip destEquip)
 		{
 			try
@@ -415,6 +434,7 @@ namespace Zepheus.Zone.Game
                 //TODO Mounting Failed
             }
         }
+  
         public void UpdateMountFood()
         {
             if (this.Mount != null)
@@ -724,6 +744,7 @@ namespace Zepheus.Zone.Game
 			else return false;
 		}
 
+
 		public void ChangeMoney(long newMoney)
 		{
 			this.Character.Money = newMoney;
@@ -735,6 +756,10 @@ namespace Zepheus.Zone.Game
 			}
 
 		}
+        private void GiveMoney(long money)
+        {
+           this.ChangeMoney(this.Inventory.Money += money);
+        }
 
 		public void AttackStop()
 		{
@@ -811,6 +836,82 @@ namespace Zepheus.Zone.Game
 				this.House = null;
 			}
 		}
+        public void CalculateMasterCopper(long buyprice)
+        {
+            long recvcoper = buyprice / 100 * 10;
+            RecviveCoper =+ recvcoper;
+            if (RecviveCoper > 20)//this is not offical like
+            {
+                InterHandler.SendReciveCoper(this.Name, RecviveCoper,false);
+            }
+        }
+         public bool GiveMasterRewardItem(ushort ItemID,byte count)
+        {
+            MasterRewardState States;
+            ushort PageID;
+            byte pSlot;
+            if (this.RewardInventory.GetEmptySlot(out pSlot, out PageID))
+            {
+              if (!Data.DataProvider.Instance.MasterRewardStates.TryGetValue(ItemID, out States))
+                 return false;
+
+                RewardItem Reward = new RewardItem
+                  {
+                      ID = ItemID,
+                      Slot = (sbyte)pSlot,
+                      PageID = PageID,
+                      Count = count,
+                      Str = States.Str,
+                      Int = States.Int,
+                      Spr = States.Spr,
+                      Dex = States.Dex,
+                      End = States.End,
+
+                  };
+                this.RewardInventory.AddRewardItem(Reward);
+                return true;
+            }
+            else
+            {
+                //Todo Send FULL
+                return false;
+            }
+        }
+        public void WritePremiumList(byte PageID)
+        {
+            List<PremiumItem> Items;
+            if(this.PremiumInventory.PremiumItems.TryGetValue(PageID, out Items))
+            {
+            using (var packet = new Packet(SH12Type.SendPremiumItemList))
+            {
+                packet.WriteUShort(0x1041);
+                packet.WriteByte(1);//unk
+                packet.WriteUShort((ushort)this.PremiumInventory.PremiumItems.Count);
+                foreach (PremiumItem pItem in Items)
+                {
+                    pItem.WritePremiumInfo(packet);
+                }
+                this.Client.SendPacket(packet);
+            }
+            }
+        }
+        public void WriteRewardList(ushort PageID)
+        {
+            List<RewardItem> Items;
+            if (this.RewardInventory.RewardItems.TryGetValue(PageID, out Items))
+            {
+                using (var packet = new Packet(SH12Type.SendRewardList))
+                {
+                    packet.WriteByte((byte)Items.Count);
+                    foreach (RewardItem pItem in Items)
+                    {
+                        pItem.WriteItemInfo(packet);
+                    }
+                    packet.WriteByte(90);//unk
+                    Client.SendPacket(packet);
+                }
+            }
+        }
 
 		private void LoadSkills()
 		{
@@ -1138,6 +1239,8 @@ namespace Zepheus.Zone.Game
                 this.MagicDef = 1;
             }
         }
+   
+  
 		public void WriteUpdateStats(Packet packet)
 		{
 			packet.WriteUInt(this.HP);
@@ -1748,6 +1851,7 @@ namespace Zepheus.Zone.Game
 		{
 			SendLevelUpAnimation(pMobId);
 			Heal();
+            InterHandler.SendLevelUpToWorld((byte)pNewLevel, this.Character.Name);
 			LevelUpHandleUsablePoints((byte) (pNewLevel - pOldLevel));
 			if(LevelUp != null)
 				LevelUp(this, new LevelUpEventArgs(pOldLevel, pNewLevel, pMobId));

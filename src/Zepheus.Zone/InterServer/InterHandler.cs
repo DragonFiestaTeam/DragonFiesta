@@ -20,6 +20,29 @@ namespace Zepheus.Zone.InterServer
 			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
 			InterFunctionCallbackProvider.Instance.OnResult(id, result);
 		}
+
+        [InterPacketHandler(InterHeader.SendAddRewardItem)]
+        public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)
+        {
+            byte count;
+            ushort ItemID;
+            string Charname;
+            if (!pPacket.TryReadUShort(out ItemID))
+                return;
+
+            if (!pPacket.TryReadByte(out count))
+                return;
+
+            if(!pPacket.TryReadString(out Charname,16))
+                return;
+
+             ZoneClient pClient =  ClientManager.Instance.GetClientByName(Charname);
+            if(pClient == null)
+                return;
+
+            pClient.Character.GiveMasterRewardItem(ItemID, count);
+
+        }
 		[InterPacketHandler(InterHeader.Assigned)]
 		public static void HandleAssigned(WorldConnector lc, InterPacket packet)
 		{
@@ -71,7 +94,27 @@ namespace Zepheus.Zone.InterServer
 			{
 				Log.WriteLine(LogLevel.Info, "Removed zone {0} from zones (disconnected)", id);
 			}
+
 		}
+        public static void SendReciveCoper(string name, long Coper,bool CoperType)
+        {
+            using(var packet = new InterPacket(InterHeader.ReciveCoper))
+            {
+                packet.WriteString(name, 16);
+                packet.WriteLong(Coper);
+                packet.WriteBool(CoperType);
+                WorldConnector.Instance.SendPacket(packet);
+            }
+        }
+        public static void SendLevelUpToWorld(byte Level, string charname)
+        {
+            using (var packet = new InterPacket(InterHeader.CharacterLevelUP))
+            {
+                packet.WriteByte(Level);
+                packet.WriteString(charname, 16);
+                WorldConnector.Instance.SendPacket(packet);
+            }
+        }
         public static void UpdateMoneyWorld(long Money,string charname)
         {
             using (var packet = new InterPacket(InterHeader.UpdateMoney))

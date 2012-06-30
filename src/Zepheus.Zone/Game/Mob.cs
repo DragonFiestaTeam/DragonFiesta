@@ -21,11 +21,10 @@ namespace Zepheus.Zone.Game
         private bool deathTriggered;
         private bool DropState { get; set; }
         public MobInfo Info { get; private set; }
+
         public MobInfoServer InfoServer { get; private set; }
-
-        public override uint MaxHP { get { return Info.MaxHP; } set { return; } }
-        public override uint MaxSP { get { return InfoServer.MaxSP; } set { return; } } //TODO: load from mobinfo
-
+        public override uint MaxSP { get { if (InfoServer == null) return 100; return InfoServer.MaxSP; } set { return; } }
+        public override uint MaxHP { get { if (Info == null) return 100; return Info.MaxHP; } set { return; } }
         private DateTime nextUpdate;
         private Vector2 boundryLT;
         private Vector2 boundryRB;
