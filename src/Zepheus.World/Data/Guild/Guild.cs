@@ -27,6 +27,10 @@ namespace Zepheus.World.Data
             g.LoadMembers();
             return g;
         }
+        public Guild()
+        {
+            this.GuildMembers = new List<GuildMember>();
+        }
        private void LoadMembers()
        {
            DataTable MemberData = null;

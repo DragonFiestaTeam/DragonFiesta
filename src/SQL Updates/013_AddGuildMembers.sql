@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50516
 File Encoding         : 65001
 
-Date: 2012-06-30 10:50:49
+Date: 2012-06-30 11:02:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,3 +29,4 @@ CREATE TABLE `guildmembers` (
 -- ----------------------------
 -- Records of guildmembers
 -- ----------------------------
+INSERT INTO `guildmembers` VALUES ('44', '6', '9000', '99');
