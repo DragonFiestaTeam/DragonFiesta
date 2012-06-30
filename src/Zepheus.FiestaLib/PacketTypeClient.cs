@@ -155,9 +155,11 @@ namespace Zepheus.FiestaLib
 
     public enum CH29Type : byte
     {
-        GuildNameRequest = 118,
         CreateGuild = 5,
+        GuildInvideRequest = 9,
+        GuildNameRequest = 118,
         GuildListReqest = 190,
+
     }
 
     public enum CH31Type : byte

@@ -25,12 +25,10 @@ namespace Zepheus.World.Data
 		public DataProvider()
 		{
 		   
-			LoadGuilds();
 			LoadMaps();
 			LoadBasestats();
 			LoadBadNames();
             LoadMasterReward();
-
 
 		}
         private void LoadMasterReward()
@@ -80,7 +78,7 @@ namespace Zepheus.World.Data
 			}
 			Log.WriteLine(LogLevel.Info, "Loaded {0} maps!", Maps.Count);
 		}
-        public string GetMapname(ushort mapid)
+        public static string GetMapname(ushort mapid)
         {
             MapInfo mapinfo;
             if (DataProvider.Instance.Maps.TryGetValue(mapid, out mapinfo))
@@ -246,6 +244,7 @@ namespace Zepheus.World.Data
 			try
 			{
 				Instance = new DataProvider();
+                Instance.LoadGuilds();
 				Log.WriteLine(LogLevel.Info, "DataProvider initialized successfully!");
 				return true;
 			}

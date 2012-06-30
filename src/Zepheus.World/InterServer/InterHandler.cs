@@ -217,7 +217,7 @@ namespace Zepheus.World.InterServer
 				{
 					z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
 					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
-					client.Character.ChangeMap(DataProvider.Instance.GetMapname(mapid));
+					client.Character.ChangeMap(DataProvider.GetMapname(mapid));
 				}
 			}
 			else

@@ -48,6 +48,16 @@ namespace Zepheus.World.Managers
                pChar.Guild = g;
            }
         }
+        public void CreateGuildInvideRequest(string InvidetName, WorldCharacter pRequester)
+        {
+            Networking.WorldClient TargetClient = ClientManager.Instance.GetClientByCharname(InvidetName);
+            if (TargetClient != null)
+            {
+                GuildRequest pRequest = new GuildRequest(pRequester.Client, TargetClient, pRequester.Guild);
+                this.pRequests.Add(pRequest);
+            }
+
+        }
         public void RemoveMember(WorldCharacter pChar)
          {
             GuildMember pMember = pChar.Guild.GuildMembers.Find(m => m.CharID == pChar.ID);
@@ -77,7 +87,7 @@ namespace Zepheus.World.Managers
                 Level = pChar.Character.CharLevel,
                 pMemberJob = pChar.Character.Job,
                 pMemberName = pChar.Character.Name,
-                MapName = DataProvider.Instance.GetMapname(pChar.Character.PositionInfo.Map),
+                MapName = DataProvider.GetMapname(pChar.Character.PositionInfo.Map),
             };
             MasterMember.AddToDatabase();
             gg.AddToDatabase();

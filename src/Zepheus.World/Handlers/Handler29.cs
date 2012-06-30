@@ -10,6 +10,17 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler29
     {
+          [PacketHandler(CH29Type.GuildInvideRequest)]
+        public static void GuildInvideRequest(WorldClient client, Packet packet)
+        {
+            string targetName;
+              if(!packet.TryReadString(out targetName,16))
+                  return;
+              if (client.Character.Guild == null)
+                  return;
+
+              GuildManager.Instance.CreateGuildInvideRequest(targetName,client.Character);
+        }
         [PacketHandler(CH29Type.GuildNameRequest)]
         public static void GuildNameRequest(WorldClient client, Packet packet)
         {

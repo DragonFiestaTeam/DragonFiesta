@@ -42,8 +42,7 @@ namespace Zepheus.World.Data
             this.pMemberJob = GetDataTypes.GetByte(row["Job"]);
             this.pMemberName = row["Name"].ToString();
             ushort mapid = GetDataTypes.GetUshort(row["Map"]);
-            if(mapid > 0)
-            this.MapName = DataProvider.Instance.GetMapname(mapid);
+            this.MapName = DataProvider.GetMapname(mapid);
         }
 
         public void SendMemberStatus(bool Status, string name)

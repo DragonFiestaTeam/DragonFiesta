@@ -95,7 +95,7 @@ namespace Zepheus.World.Data
             {
 
                 packet.WriteString(target.Character.Character.Name, 16);
-                packet.WriteString(DataProvider.Instance.GetMapname(target.Character.Character.PositionInfo.Map), 12);
+                packet.WriteString(DataProvider.GetMapname(target.Character.Character.PositionInfo.Map), 12);
                 client.SendPacket(packet);
             }
         }
