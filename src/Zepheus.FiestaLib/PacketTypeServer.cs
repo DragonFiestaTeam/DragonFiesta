@@ -166,10 +166,15 @@ namespace Zepheus.FiestaLib
     {
         // According to my informations, 7 is InviteDeclined.
         // NOTE - IT IS.
+		// Header 7 somehow changed I guess?
+		// seems to be answer or related to CH14::72
+		// new data is CHAR[16] NAME | USHORT UNK (C1 04)
+		// purpose complete unknown
         InviteDeclined = 7,
         UpdatePartyMemberLoc = 73,
         UpdatePartyMemberStats = 50,
         SetMemberStats = 51,
+		// Invite/Accept might be switched up
         PartyInvite = 3,
         PartyAccept = 4,
         PartyDropState = 76,
@@ -181,6 +186,10 @@ namespace Zepheus.FiestaLib
         KickPartyMember = 21,
 
         BreakUp = 30,
+
+		// COMPLETE UNKOWN
+		// DATA: CHAR[16] NAME, thats it.
+		UNK_1 = 71,
     }
     public enum SH15Type : byte
     {
