@@ -79,6 +79,7 @@ namespace Zepheus.FiestaLib.Networking
 		public Packet(SH31Type type) : this(31, (byte)type) { }
 		public Packet(SH14Type type) : this(14, (byte)type) { }
         public Packet(SH37Type type) : this(37, (byte)type) { }
+        public Packet(SH38Type type) : this(38, (byte)type) { }
         public Packet(SH42Type type) : this(42, (byte)type) { }
 
 		public void Dispose()

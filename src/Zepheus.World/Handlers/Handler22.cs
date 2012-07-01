@@ -14,8 +14,8 @@ namespace Zepheus.World.Handlers
            using (var p1 = new Packet(0x1097))
            {
                // Guild academy info
-               p1.WriteInt(0x11111111);
-               p1.WriteByte(1);
+               p1.WriteInt(0);//GuildAcadermyid?
+               p1.WriteByte(0);//unk
                client.SendPacket(p1);
            }
            using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
@@ -24,9 +24,9 @@ namespace Zepheus.World.Handlers
                client.SendPacket(p2);
            }
            // dafuq no op code..
-           using (var p = new Packet())
+           using (var p = new Packet(0x581C))
            {
-               p.WriteShort(0x581C);
+             //p.WriteShort();
                p.WriteUInt(0x4d0bc167);   // 21h
                client.SendPacket(p);
            }
@@ -40,9 +40,8 @@ namespace Zepheus.World.Handlers
                client.SendPacket(pack);
            }
            // dafuq no op code..
-           using (var p3 = new Packet())
+           using (var p3 = new Packet(0x581D))
            {
-               p3.WriteShort(0x581D);
                p3.WriteShort(0);           //zero kingdom quests!
                client.SendPacket(p3);
            }

@@ -10,6 +10,29 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler29
     {
+        [PacketHandler(CH29Type.GuildRquestAnswer)]
+        public static void GuildRquestAnswer(WorldClient client, Packet packet)
+        {
+            bool Answer;
+            string GuildName;
+            if(!packet.TryReadString(out GuildName,16))
+                return;
+
+            if (!packet.TryReadBool(out Answer))
+                return;
+            GuildRequest pRequest = GuildManager.Instance.pRequests.Find(G => G.Guild.Name == GuildName);
+            if (Answer)
+            {
+                GuildManager.Instance.AddMember(pRequest);
+                GuildManager.Instance.RemoveGuildRequest(pRequest);
+            }
+            else
+            {
+                GuildManager.Instance.pRequests.Remove(pRequest);
+                GuildManager.Instance.RemoveGuildRequest(pRequest);
+            }
+
+        }
           [PacketHandler(CH29Type.GuildInvideRequest)]
         public static void GuildInvideRequest(WorldClient client, Packet packet)
         {
@@ -29,7 +52,8 @@ namespace Zepheus.World.Handlers
                 Log.WriteLine(LogLevel.Warn, "Failed reading Guild Name Request packet {0}", client.Character.Character.Name);
                 return;
             }
-            if (client.Character.Guild != null)
+            Guild g = GuildManager.Instance.GetGuildByID(id);
+            if (g != null)
             {
                 SendGuildNameResult(client, id, client.Character.Guild.Name);
             }

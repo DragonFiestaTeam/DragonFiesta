@@ -157,6 +157,7 @@ namespace Zepheus.FiestaLib
     {
         CreateGuild = 5,
         GuildInvideRequest = 9,
+        GuildRquestAnswer = 12,
         GuildNameRequest = 118,
         GuildListReqest = 190,
 
@@ -174,6 +175,11 @@ namespace Zepheus.FiestaLib
         MasterRemove = 10,
         MasterRewardCoperRquest= 60,
         SendReciveCoperAccept = 64,
+    }
+
+    public enum CH38Type : byte
+    {
+       GetGuildAcademyDetails = 7,
     }
     public enum CH42Type : byte
     {
