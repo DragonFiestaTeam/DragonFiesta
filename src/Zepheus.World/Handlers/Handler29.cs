@@ -55,7 +55,7 @@ namespace Zepheus.World.Handlers
             Guild g = GuildManager.Instance.GetGuildByID(id);
             if (g != null)
             {
-                SendGuildNameResult(client, id, client.Character.Guild.Name);
+                SendGuildNameResult(client, id, g.Name);
             }
         }
 

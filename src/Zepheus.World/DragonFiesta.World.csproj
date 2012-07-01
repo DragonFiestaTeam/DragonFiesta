@@ -55,6 +55,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Guild\Academy\Academy.cs" />
+    <Compile Include="Data\Guild\Academy\AcademyMember.cs" />
     <Compile Include="Data\Guild\Guild.cs" />
     <Compile Include="Data\Guild\GuildMember.cs" />
     <Compile Include="Data\Guild\GuildRequest.cs" />

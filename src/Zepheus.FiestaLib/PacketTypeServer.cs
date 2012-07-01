@@ -48,6 +48,7 @@ namespace Zepheus.FiestaLib
         Money = 51,
         UpdateStats = 53,
         ConnectError = 2,
+        Unk = 222,
         ServerIP = 3,
         CharacterGuildinfo = 18,
         CharacterInfo = 56,

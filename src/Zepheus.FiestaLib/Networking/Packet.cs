@@ -217,7 +217,7 @@ namespace Zepheus.FiestaLib.Networking
 			byte[] buffer = Encoding.ASCII.GetBytes(pValue);
 			if (buffer.Length > pLen)
 			{
-				throw new ArgumentException("pValue is bigger than pLen", "pLen");
+				throw new ArgumentException("pValue is bigger than pLen", "pLen "+buffer.Length +"");
 			}
 			else
 			{

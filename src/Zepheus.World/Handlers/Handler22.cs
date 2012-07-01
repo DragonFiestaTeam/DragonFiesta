@@ -14,15 +14,15 @@ namespace Zepheus.World.Handlers
            using (var p1 = new Packet(0x1097))
            {
                // Guild academy info
-               p1.WriteInt(0);//GuildAcadermyid?
-               p1.WriteByte(0);//unk
+               p1.WriteInt(6584);//GuildAcadermyid?
+               p1.WriteByte(1);//unk
                client.SendPacket(p1);
            }
-           using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
+          /*using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
            {      // Guild info
                p2.WriteInt(client.Character.Character.GuildID);
                client.SendPacket(p2);
-           }
+           }*/
            // dafuq no op code..
            using (var p = new Packet(0x581C))
            {

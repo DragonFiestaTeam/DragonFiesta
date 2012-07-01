@@ -13,3 +13,7 @@ public enum GuildRanks : byte
     Default = 5,
     Member = 6,
 }
+public enum GuildAcademyRank : byte
+{
+
+}
