@@ -1,0 +1,8 @@
+using (ScriptAPI) {
+	count = AddByte("charcount");
+for(i=0; i<count; i++)
+	{
+	AddField("Name",16);
+	AddByte("isOnline");
+	}
+}
