@@ -1766,6 +1766,11 @@ namespace Zepheus.Zone.Game
 				{
 					Broadcast(packet);
 				}
+
+				if (this.Group != null)
+				{
+					this.Group.CharacterMoved(this.GroupMember, oldx, oldy, newx, newy);
+				}
 			}
 		}
 

@@ -231,6 +231,10 @@ namespace Zepheus.Zone.Game
             // Forced update.
             Update();
         }
+		internal void CharacterMoved(GroupMember groupMember, int oldx, int oldy, int newx, int newy)
+		{
+			throw new NotImplementedException();
+		}
 
 		#region Private
 		private void AnnouncePacket(Packet pPacket)
@@ -270,5 +274,5 @@ namespace Zepheus.Zone.Game
 		}
 		#endregion
 		#endregion
-    }
+	}
 }
