@@ -48,6 +48,7 @@ namespace Zepheus.FiestaLib
         Money = 51,
         UpdateStats = 53,
         ConnectError = 2,
+        Unk = 222,
         ServerIP = 3,
         CharacterGuildinfo = 18,
         CharacterInfo = 56,
@@ -246,8 +247,9 @@ namespace Zepheus.FiestaLib
 
     public enum SH29Type : byte
     {
-        GuildNameResult = 119,
+        SendGuildInvideRequest = 11,
         GuildList = 27,
+        GuildNameResult = 119,
     }
     public enum SH37Type : byte
     {
@@ -267,6 +269,10 @@ namespace Zepheus.FiestaLib
         SendGiveMasterReward = 65,
         MasterReiveCopperDecline = 69,
     
+    }
+    public enum SH38Type : byte
+    {
+       GuildAcademyDetails = 8,
     }
     public enum SH42Type : byte
     {

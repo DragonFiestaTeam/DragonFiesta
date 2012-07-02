@@ -15,6 +15,8 @@ namespace Zepheus.World.Data
         public string GuildPassword { get; set; }
         public string GuildMaster { get; set; }
         public bool GuildWar { get; set; }
+        public Academy GuildAcademy { get; set; }
+
         public static Guild LoadFromDatabase(DataRow row)
         {
             Guild g = new Guild

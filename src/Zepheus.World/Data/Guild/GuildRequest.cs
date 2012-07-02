@@ -1,7 +1,8 @@
 ﻿using System;
 using Zepheus.World.Networking;
 using Zepheus.World.Data;
-
+using Zepheus.FiestaLib;
+using Zepheus.FiestaLib.Networking;
 namespace Zepheus.World.Data
 {
    public class GuildRequest
@@ -14,12 +15,24 @@ namespace Zepheus.World.Data
        {
            this.pRequester = pRequester;
            this.pTarget = pTarget;
+           this.Guild = pGuild;
            this.CreationTime = DateTime.Now;
            SendRequest();
+           RequestSendedOK();
+
+       }
+         private void RequestSendedOK()
+       {
+             //Todo Send Packet to requester
        }
        private void SendRequest()
        {
-       //Todo Send Request packet
+           using (var packet = new Packet(SH29Type.SendGuildInvideRequest))
+           {
+               packet.WriteString(Guild.Name, 16);
+               packet.WriteString(pRequester.Character.Character.Name, 16);
+               pTarget.SendPacket(packet);
+           }
        }
     }
 }

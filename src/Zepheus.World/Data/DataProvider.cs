@@ -205,7 +205,6 @@ namespace Zepheus.World.Data
 				return toret;
 			}
 		}
-
 		private void LoadBadNames()
 		{
 			BadNames = new List<string>();

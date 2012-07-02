@@ -27,26 +27,24 @@ namespace Zepheus.World.Managers
         }
            #endregion
         #region Methods
-        public void AddMember(WorldCharacter pChar,int GuildID)
+        public void AddMember(GuildRequest pRequest)
         {
+           
             GuildMember pMember = new GuildMember
             {
-                CharID = pChar.ID,
-                pMemberName = pChar.Character.Name,
-                Level = pChar.Character.CharLevel,
-                pMemberJob = pChar.Character.Job,
-                pClient = pChar.Client,
+                CharID = pRequest.pTarget.Character.ID,
+                pMemberName = pRequest.pTarget.Character.Character.Name,
+                Level = pRequest.pTarget.Character.Character.CharLevel,
+                pMemberJob = pRequest.pTarget.Character.Character.Job,
+                pClient = pRequest.pTarget,
                 isOnline = true,
                 GuildRank = GuildRanks.Member,
-                GuildID = GuildID, 
+                GuildID = pRequest.Guild.ID, 
             };
             pMember.AddToDatabase();
-            Guild g = GetGuildByID(GuildID);
-           if(g != null)//prevence
-           {
-               g.GuildMembers.Add(pMember);
-               pChar.Guild = g;
-           }
+            pRequest.Guild.GuildMembers.Add(pMember);
+            pRequest.pTarget.Character.Character.GuildID = pMember.GuildID;
+            pRequest.pTarget.Character.Guild = pRequest.Guild;
         }
         public void CreateGuildInvideRequest(string InvidetName, WorldCharacter pRequester)
         {
@@ -57,6 +55,10 @@ namespace Zepheus.World.Managers
                 this.pRequests.Add(pRequest);
             }
 
+        }
+         public void RemoveGuildRequest(GuildRequest pRequest)
+        {
+           this.pRequests.Remove(pRequest);
         }
         public void RemoveMember(WorldCharacter pChar)
          {
