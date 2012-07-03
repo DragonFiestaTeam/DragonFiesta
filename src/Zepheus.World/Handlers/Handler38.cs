@@ -21,19 +21,38 @@ namespace Zepheus.World.Handlers
             var pp = new Packet(38, 14);
             pp.WriteInt(3);//count
             pp.WriteUShort(3);//Academy Member count
-            pp.WriteString("charname",16);
-            pp.WriteShort(10);//unk
-            pp.WriteInt(100);
-            pp.WriteUShort(0);
-            pp.WriteLong(1);
-            pp.WriteUShort(0xffff);//unk
-            pp.WriteUShort(0xFF7F);
-            pp.WriteByte(0);//0 unk
-            pp.WriteInt(32);//unk
-            pp.WriteInt(32);//unk
-            pp.WriteByte(16);//Job?
-           // packet.WriteUShort(0xff7F);//unk
-            pp.WriteHexAsBytes("00 00 01 00 00 00 E9 03 00 00 66 00 02 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B8 6F D7 02 15 03 00 52 6F 75 00 00 00 00 00 00 00 00 00 B8 5F 03 6E 03 44 61 72 6B 65 73 74 44 72 65 61 6D 00 00 00 00 00 00 58 00 00 00 00 00 01 00 00 00 00 00 00 00 FF FF FF 7F 00 20 00 00 00 20 00 00 00 10 00 00 01 00 00 00 E9 03 00 00 66 00 02 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B8 2F BD 00 02 2E 00 52 6F 75 56 61 6C 30 31 00 00 00 00 B8 2F 14 6E 2E 4C 75 78 5A 69 66 65 72 00 00 00 00 00 00 00 00 00 00 58 00 00 00 00 00 01 00 00 00 00 00 00 00 FF FF FF 7F 00 20 00 00 00 20 00 00 00 10 00 00 01 00 00 00 E9 03 00 00 66 00 02 00 08 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B9 6F 9E 02 15 08 00 52 6F 75 00 00 00 00 00 00 00 00 00 B8 4F 77 6E 07");
+            for (int i = 1; i < 3; i++)
+            {
+                pp.WriteString("charname"+i, 16);
+                pp.WriteShort(10);//unk
+                pp.WriteInt(100);
+                pp.WriteUShort(0);
+                pp.WriteLong(1);
+                pp.WriteUShort(0xffff);//unk
+                pp.WriteUShort(0xFF7F);
+                pp.WriteByte(0);//0 unk
+                pp.WriteInt(32);//unk
+                pp.WriteInt(32);//unk
+                pp.WriteByte(16);//Job?
+                // packet.WriteUShort(0xff7F);//unk
+                pp.WriteUShort(0);//unk
+                pp.WriteInt(1);//unk
+                pp.WriteUShort(1001);//kp
+                pp.WriteUShort(0);//kp
+                pp.WriteUShort(102);//kp
+                pp.Fill(22, 0);
+                pp.WriteUShort(2600);//pos x
+                pp.WriteUShort(700);//pos y
+                pp.WriteByte(0);//unk
+                pp.WriteByte(16);//job
+                pp.WriteByte(255);
+                pp.WriteByte(1);//unk
+                pp.WriteString("Rou", 12);//mapname
+                pp.WriteHexAsBytes("B8 5F");
+                pp.WriteByte(12);//day
+                pp.WriteByte(111);
+                pp.WriteByte(0);//unk
+            }
             client.SendPacket(pp);
           /*  var pack = new Packet(38,8);
             pack.WriteUShort(6584);//GuildAcadmyID

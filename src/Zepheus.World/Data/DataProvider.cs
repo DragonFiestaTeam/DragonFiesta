@@ -91,20 +91,33 @@ namespace Zepheus.World.Data
 		{
 			Guilds = new Dictionary<int, Guild>();
 			DataTable guildData = null;
-			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
-				guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
 
-                int GuildMemberCount = 0;
+			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
+                guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
+
+             int GuildMemberCount = 0;
+             int AcademyMemberCount = 0;
 			if (guildData != null)
 			{
 				foreach (DataRow row in guildData.Rows)
 				{
 					Guild guild = Guild.LoadFromDatabase(row);
+                    guild.GuildAcademy = new Academy
+                    {
+                         Guild = guild,
+                         ID = guild.ID,
+                         Name = guild.Name,
+                         AcademyMembers = new List<AcademyMember>(),
+                    };
+                    guild.GuildAcademy.LoadMembers();
                     GuildMemberCount += guild.GuildMembers.Count;
+                    AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
                     Guilds.Add(guild.ID, guild);
 				}
 			}
-            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} Members", this.Guilds.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.Guilds.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
+
 		}
 		
 		public void LoadBasestats()

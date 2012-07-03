@@ -9,15 +9,15 @@ namespace Zepheus.World.Data
 {
     public class Guild
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public virtual int ID { get; set; }
+        public virtual string Name { get; set; }
         public List<GuildMember> GuildMembers { get; set; }
         public string GuildPassword { get; set; }
         public string GuildMaster { get; set; }
         public bool GuildWar { get; set; }
         public Academy GuildAcademy { get; set; }
 
-        public static Guild LoadFromDatabase(DataRow row)
+        public  static Guild LoadFromDatabase(DataRow row)
         {
             Guild g = new Guild
             {
@@ -38,7 +38,7 @@ namespace Zepheus.World.Data
         {
         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"')");
         }
-       private void LoadMembers()
+       public virtual void LoadMembers()
        {
            DataTable MemberData = null;
            DataTable GuildExtraData = null;

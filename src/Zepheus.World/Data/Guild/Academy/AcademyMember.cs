@@ -6,30 +6,21 @@ using System.Data;
 
 namespace Zepheus.World.Data
 {
-   public class AcademyMember
+   public class AcademyMember : GuildMember
     {
         #region Properties
-        public WorldClient pClient { get; set; }
-        public int GuildAcademyID { get; set; }
-        public bool isOnline { get; set; }
-        public GuildAcademyRank  Rank { get; set; }
-        public byte Level { get; set; }
-        public string pMemberName { get; set; }
-        public byte pMemberJob { get; set; }
-        public int CharID { get; set; }
-        public int OwnerGuild { get; set; }
 
-        public string MapName { get; set; }
+        public GuildAcademyRank  Rank { get; set; }
+
         #endregion
 
-        public static AcademyMember LoadFromDatabase(DataRow row)
+        public  static  new AcademyMember  LoadFromDatabase(DataRow row)
         {
             AcademyMember pMember = new AcademyMember
             {
                 CharID = GetDataTypes.GetInt(row["CharID"]),
                 Rank = (GuildAcademyRank)GetDataTypes.GetByte(row["Rank"]),
-                OwnerGuild = GetDataTypes.GetInt(row["OwnerGuildID"]),
-                GuildAcademyID = GetDataTypes.GetInt(row["GuildAcademyID"]),
+                GuildID = GetDataTypes.GetInt(row["OwnerGuildID"]),
             };
             return pMember;
         }

@@ -4,19 +4,19 @@ using Zepheus.Database.DataStore;
 using System.Data;
 namespace Zepheus.World.Data
 {
-    public sealed class GuildMember
+    public  class GuildMember
     {
         #region Properties
-        public WorldClient pClient { get;  set; }
-        public int GuildID { get;  set; }
-        public bool isOnline { get; set; }
+        public virtual WorldClient pClient { get;  set; }
+        public virtual int GuildID { get;  set; }
+        public virtual bool isOnline { get; set; }
         public GuildRanks GuildRank { get; set; }
-        public byte Level { get; set; }
-        public string pMemberName { get; set; }
-        public byte pMemberJob { get; set; }
+        public virtual byte Level { get; set; }
+        public virtual string pMemberName { get; set; }
+        public virtual byte pMemberJob { get; set; }
         public ushort Korp { get; set; }
-        public int CharID { get; set; }
-        public string MapName { get; set; }
+        public virtual int CharID { get; set; }
+        public virtual string MapName { get; set; }
         #endregion
         #region .ctor
         public GuildMember()
@@ -25,7 +25,7 @@ namespace Zepheus.World.Data
         }
         #endregion
         #region Methods
-        public static GuildMember LoadFromDatabase(DataRow row)
+        public  static GuildMember LoadFromDatabase(DataRow row)
         {
             GuildMember pMember = new GuildMember
             {
@@ -45,7 +45,7 @@ namespace Zepheus.World.Data
             this.MapName = DataProvider.GetMapname(mapid);
         }
 
-        public void SendMemberStatus(bool Status, string name)
+        public virtual void SendMemberStatus(bool Status, string name)
         {
             if (Status)
             {
@@ -57,7 +57,7 @@ namespace Zepheus.World.Data
             }
         }
 
-        public void AddToDatabase()
+        public virtual void AddToDatabase()
         {
             using(Database.DatabaseClient Client =  Program.DatabaseManager.GetClient())
              {
