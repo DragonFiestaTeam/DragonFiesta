@@ -180,8 +180,10 @@ namespace Zepheus.FiestaLib
         PartyAccept = 4,
         PartyDropState = 76,
         PartyList = 9,
+		// changed.
         PartyLeave = 11,
         GroupList = 85,
+		// might changed as well?
         ChangePartyMaster = 41,
         ChangePartyDrop = 75,
         KickPartyMember = 21,

@@ -233,7 +233,14 @@ namespace Zepheus.Zone.Game
         }
 		internal void CharacterMoved(GroupMember groupMember, int oldx, int oldy, int newx, int newy)
 		{
-			throw new NotImplementedException();
+			using (var packet = new Packet(SH14Type.UpdatePartyMemberLoc))
+			{
+				packet.WriteByte(1);	// 		unk
+				packet.WriteString(groupMember.Name, 16);
+				packet.WriteInt(newx);
+				packet.WriteInt(newy);
+				AnnouncePacket(packet);
+			}
 		}
 
 		#region Private
