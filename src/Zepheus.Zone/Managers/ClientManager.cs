@@ -2,6 +2,8 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Timers;
+using System.Threading;
+
 using Zepheus.Util;
 using Zepheus.Zone.Networking;
 namespace Zepheus.Zone
@@ -11,16 +13,16 @@ namespace Zepheus.Zone
 	{
 		public static ClientManager Instance { get; private set; }
 		public int ZoneLoad { get { return ClientCount(); } }
-
+        private Mutex ClientManagerMutex = new Mutex();
 		//private List<ZoneClient> clients = new List<ZoneClient>();
 		private readonly ConcurrentDictionary<string, ZoneClient> clientsByName = new ConcurrentDictionary<string, ZoneClient>();
 		private readonly ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
-		private readonly Timer expirator;
+		private readonly System.Timers.Timer expirator;
 		private int transferTimeout = 1;
 
 		public ClientManager()
 		{
-			expirator = new Timer(1000);
+			expirator = new System.Timers.Timer(1000);
 			expirator.Elapsed += new ElapsedEventHandler(ExpiratorElapsed);
 			expirator.Start();
 		}
@@ -109,68 +111,100 @@ namespace Zepheus.Zone
         }
 		public bool AddClient(ZoneClient client)
 		{
-	  
-			if (client.Character.Character == null)
-			{
-				Log.WriteLine(LogLevel.Warn, "ClientManager trying to add character = null.", client.Username);
-				return false;
-			}
-			else if (clientsByName.ContainsKey(client.Character.Character.Name))
-			{
-				Log.WriteLine(LogLevel.Warn, "Character {0} is already registered to client manager!", client.Character.Character.Name);
-				return false;
-			}
-			else
-			{
-				if (!clientsByName.TryAdd(client.Character.Character.Name, client))
-				{
-					Log.WriteLine(LogLevel.Warn, "Could not add client to list!");
-					return false;
-				}
-			}
-			return true;
+            ClientManagerMutex.WaitOne();
+            try
+            {
+
+                if (client.Character.Character == null)
+                {
+                    Log.WriteLine(LogLevel.Warn, "ClientManager trying to add character = null.", client.Username);
+                    return false;
+                }
+                else if (clientsByName.ContainsKey(client.Character.Character.Name))
+                {
+                    Log.WriteLine(LogLevel.Warn, "Character {0} is already registered to client manager!", client.Character.Character.Name);
+                    return false;
+                }
+                else
+                {
+                    if (!clientsByName.TryAdd(client.Character.Character.Name, client))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Could not add client to list!");
+                        return false;
+                    }
+                }
+                return true;
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
 		}
 
 		public void RemoveClient(ZoneClient client)
 		{
-			if(client.Character == null) return;
-			ZoneClient deleted;
-			clientsByName.TryRemove(client.Character.Character.Name, out deleted);
-			GroupManager.Instance.OnCharacterRemove(client.Character);
-			if (deleted != client)
-			{
-				Log.WriteLine(LogLevel.Warn, "There was a duplicate client object registered for {0}.", client.Character.Name);
-			}
+            ClientManagerMutex.WaitOne();
+            try
+            {
+                if (client.Character == null) return;
+                ZoneClient deleted;
+                clientsByName.TryRemove(client.Character.Character.Name, out deleted);
+                GroupManager.Instance.OnCharacterRemove(client.Character);
+                if (deleted != client)
+                {
+                    Log.WriteLine(LogLevel.Warn, "There was a duplicate client object registered for {0}.", client.Character.Name);
+                }
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
 		}
 
 		public void AddTransfer(ClientTransfer transfer)
 		{
-			if (transfer.Type != TransferType.Game)
-			{
-				Log.WriteLine(LogLevel.Warn, "Zone received a World transfer request. Trashing it.");
-				return;
-			}
+            ClientManagerMutex.WaitOne();
+            try
+            {
+                if (transfer.Type != TransferType.Game)
+                {
+                    Log.WriteLine(LogLevel.Warn, "Zone received a World transfer request. Trashing it.");
+                    return;
+                }
 
-			if (transfers.ContainsKey(transfer.CharacterName))
-			{
-				ClientTransfer trans;
-				if (transfers.TryRemove(transfer.CharacterName, out trans))
-				{
-					Log.WriteLine(LogLevel.Warn, "Duplicate client transfer (Char={0}) attempt from {1}.", transfer.CharacterName, trans.HostIP);
-				}
-			}
+                if (transfers.ContainsKey(transfer.CharacterName))
+                {
+                    ClientTransfer trans;
+                    if (transfers.TryRemove(transfer.CharacterName, out trans))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Duplicate client transfer (Char={0}) attempt from {1}.", transfer.CharacterName, trans.HostIP);
+                    }
+                }
 
-			if (!transfers.TryAdd(transfer.CharacterName, transfer))
-			{
-				Log.WriteLine(LogLevel.Warn, "Error registering client transfer for {0}.", transfer.CharacterName);
-			}
-			else Log.WriteLine(LogLevel.Debug, "Transfering {0}.", transfer.CharacterName);
+                if (!transfers.TryAdd(transfer.CharacterName, transfer))
+                {
+                    Log.WriteLine(LogLevel.Warn, "Error registering client transfer for {0}.", transfer.CharacterName);
+                }
+                else Log.WriteLine(LogLevel.Debug, "Transfering {0}.", transfer.CharacterName);
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
 		}
 
 		public bool RemoveTransfer(string charname)
 		{
-			ClientTransfer trans;
-			return transfers.TryRemove(charname, out trans);
+            ClientManagerMutex.WaitOne();
+            try
+            {
+                ClientTransfer trans;
+                return transfers.TryRemove(charname, out trans);
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
 		}
 
 		public ClientTransfer GetTransfer(string charname)
