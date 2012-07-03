@@ -17,7 +17,7 @@ namespace Zepheus.World.Data
         public  Academy()
         {
         }
-        public virtual AcademyMember GetMemberByName(string CharName)
+        public  AcademyMember GetAcademyMemberByName(string CharName)
         {
             return this.AcademyMembers.Find(m => m.pMemberName == CharName);
         }

@@ -12,32 +12,27 @@ namespace Zepheus.World.Managers
      [ServerModule(InitializationStage.Clients)] 
    public class AcademyManager : GuildManager
     {
-       public static AcademyManager Instance { get; private set; }
-       public AcademyManager()
-        {
-      
-        }
+
+        public static new  AcademyManager Instance { get; private set; }
+
         [InitializerMethod]
-        public static bool Initialize()
+        public static new bool Initialize()
         {
             Instance = new AcademyManager();
             return true;
         }
-         public void SendAcademyRequest(WorldClient pclient, AcademyRequestCode ErorCode,string Name)
+       public AcademyManager()
+       {
+
+       }
+        public void SendAcademyRequest(WorldClient pclient, AcademyRequestCode ErorCode,string Name)
         {
              using(var packet = new Packet(SH38Type.GuildAcademyRequest))
              {
                  packet.WriteString(Name, 16);
                  packet.WriteUShort((ushort)ErorCode);
+                 pclient.SendPacket(packet);
              }
-        }
-         public Academy GetAcademyByName(string AcademyName)
-        {
-            Guild gg;
-            if (!DataProvider.Instance.GuildsByName.TryGetValue(AcademyName,out gg))
-                return null;
-
-            return gg.GuildAcademy;
         }
     }
 }

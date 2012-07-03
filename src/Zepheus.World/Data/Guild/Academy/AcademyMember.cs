@@ -1,4 +1,5 @@
 ﻿using System;
+using Zepheus.World.Managers;
 using Zepheus.Database.DataStore;
 using Zepheus.World.Networking;
 using Zepheus.FiestaLib;
@@ -11,6 +12,7 @@ namespace Zepheus.World.Data
         #region Properties
 
         public GuildAcademyRank  Rank { get; set; }
+        public Academy Academy { get; set; }
 
         #endregion
 
@@ -26,7 +28,7 @@ namespace Zepheus.World.Data
         }
         public override void AddToDatabase()
         {
-            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + this.Rank + "'");
+                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + this.Rank + "')");
         }
     }
 }

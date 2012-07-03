@@ -19,42 +19,36 @@ namespace Zepheus.World.Handlers
             if (client.Character.Character.CharLevel > 60)
                 return;
 
-             Academy Academy =  AcademyManager.Instance.GetAcademyByName(AcademyName);
+             Guild pGuild =  GuildManager.Instance.GetGuildByName(AcademyName);
 
-             if (Academy == null)
+             if (pGuild == null)
              {
                  AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.NotFound, AcademyName);
                  return;
              }
-             else if (Academy.AcademyMembers.Count >= 50)
+             else if (pGuild.GuildAcademy.AcademyMembers.Count >= 50)
              {
                  AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AcademyFull, AcademyName);
              }
-             else if (Academy.GetMemberByName(client.Character.Character.Name) != null)
+             else if (pGuild.GuildAcademy.GetMemberByName(client.Character.Character.Name) != null)
              {
                  AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AlreadyExists, AcademyName);
              }
-             try
+             AcademyMember pMember = new AcademyMember
              {
-                 AcademyMember pMember = new AcademyMember
-                 {
-                     CharID = client.Character.ID,
-                     isOnline = true,
-                     Level = client.Character.Character.CharLevel,
-                     Rank = 0,//rank unkown for member
-                     pClient = client,
-                     MapName = DataProvider.Instance.GetMapShortNameFromMapid(client.Character.Character.PositionInfo.Map),
-                     pMemberName = client.Character.Character.Name,
-                     pMemberJob = client.Character.Character.Job,
-
-                 };
+                 CharID = client.Character.ID,
+                 isOnline = true,
+                 Level = client.Character.Character.CharLevel,
+                 Rank = 0,//rank unkown for member
+                 pClient = client,
+                 MapName = DataProvider.Instance.GetMapShortNameFromMapid(client.Character.Character.PositionInfo.Map),
+                 pMemberName = client.Character.Character.Name,
+                 pMemberJob = client.Character.Character.Job,
+                 GuildID = pGuild.ID,
+             };
                  pMember.AddToDatabase();
-                 Academy.AcademyMembers.Add(pMember);
-             }
-             catch
-             {
-                 AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.dbEror, AcademyName);
-             }
+                 pGuild.GuildAcademy.AcademyMembers.Add(pMember);
+
              AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.Sucess, AcademyName);
         }
         [PacketHandler(CH38Type.GuildAcademyRequestList)]

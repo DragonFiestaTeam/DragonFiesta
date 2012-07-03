@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Zepheus.World.Data
 {
-    enum AcademyRequestCode : ushort
+   public enum AcademyRequestCode : ushort
     {
         Sucess = 6024,
         AlreadyExists = 6025,

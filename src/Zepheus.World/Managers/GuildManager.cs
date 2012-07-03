@@ -97,6 +97,14 @@ namespace Zepheus.World.Managers
             gg.GuildMembers.Add(MasterMember);
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
         }
+        public Guild GetGuildByName(string GuildName)
+        {
+            Guild gg;
+            if (!DataProvider.Instance.GuildsByName.TryGetValue(GuildName, out gg))
+                return null;
+
+            return gg;
+        }
         public Guild GetGuildByID(int GuildID)
        {
            Guild Guild;
