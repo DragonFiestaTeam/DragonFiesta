@@ -19,7 +19,8 @@ namespace Zepheus.World.Data
 		public List<string> BadNames { get; private set; }
 		public Dictionary<ushort, MapInfo> Maps { get; private set; }
 		public Dictionary<Job, BaseStatsEntry> JobBasestats { get; private set; }
-		public Dictionary<int, Guild> Guilds { get; private set; }
+		public Dictionary<int, Guild> GuildsByID { get; private set; }
+        public Dictionary<string, Guild> GuildsByName { get; private set; }
         public List<MasterRewardItem> MasterRewards { get; private set; }
 
 		public DataProvider()
@@ -89,7 +90,8 @@ namespace Zepheus.World.Data
         }
 		private void LoadGuilds()
 		{
-			Guilds = new Dictionary<int, Guild>();
+			GuildsByID = new Dictionary<int, Guild>();
+            GuildsByName = new Dictionary<string, Guild>();
 			DataTable guildData = null;
 
 			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
@@ -112,10 +114,11 @@ namespace Zepheus.World.Data
                     guild.GuildAcademy.LoadMembers();
                     GuildMemberCount += guild.GuildMembers.Count;
                     AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
-                    Guilds.Add(guild.ID, guild);
+                    GuildsByName.Add(guild.Name, guild);
+                    GuildsByID.Add(guild.ID, guild);
 				}
 			}
-            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.Guilds.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.GuildsByID.Count, GuildMemberCount);
             Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
 
 		}
@@ -189,7 +192,15 @@ namespace Zepheus.World.Data
 				MaxSP = 21
 			});
 		}
-
+        public string GetMapShortNameFromMapid(ushort id)
+        {
+            MapInfo mi = null;
+            if (this.Maps.TryGetValue(id, out mi))
+            {
+                return mi.ShortName;
+            }
+            return "";
+        }
 		public List<ushort> GetMapsForZone(int id)
 		{
 			int zonecount = Settings.Instance.ZoneCount;

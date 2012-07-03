@@ -24,5 +24,9 @@ namespace Zepheus.World.Data
             };
             return pMember;
         }
+        public override void AddToDatabase()
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + this.Rank + "'");
+        }
     }
 }

@@ -180,7 +180,8 @@ namespace Zepheus.FiestaLib
     public enum CH38Type : byte
     {
        GetGuildAcademyDetails = 7,
-      GuildAcademyRequestList = 13,
+       GuildAcademyReuqest = 17,
+       GuildAcademyRequestList = 13,
 
     }
     public enum CH42Type : byte

@@ -30,6 +30,10 @@ namespace Zepheus.World.Data
             g.LoadMembers();
             return g;
         }
+        public virtual GuildMember GetMemberByName(string CharName)
+        {
+          return  this.GuildMembers.Find(m => m.pMemberName == CharName);
+        }
         public Guild()
         {
             this.GuildMembers = new List<GuildMember>();

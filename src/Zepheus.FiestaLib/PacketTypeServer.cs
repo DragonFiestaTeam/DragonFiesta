@@ -272,7 +272,8 @@ namespace Zepheus.FiestaLib
     }
     public enum SH38Type : byte
     {
-       GuildAcademyDetails = 8,
+        GuildAcademyDetails = 8,
+        GuildAcademyRequest = 18,
     }
     public enum SH42Type : byte
     {

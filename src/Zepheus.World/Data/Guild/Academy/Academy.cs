@@ -17,6 +17,10 @@ namespace Zepheus.World.Data
         public  Academy()
         {
         }
+        public virtual AcademyMember GetMemberByName(string CharName)
+        {
+            return this.AcademyMembers.Find(m => m.pMemberName == CharName);
+        }
         public override void LoadMembers()
         {
             DataTable MemberData = null;
