@@ -273,7 +273,13 @@ namespace Zepheus.FiestaLib
     public enum SH38Type : byte
     {
         GuildAcademyDetails = 8,// Send When Join
+        GuildAcademyList = 14,
         GuildAcademyRequest = 18,
+        GuildAcademyJoin = 19,
+
+        GuildAcademyDekanChange = 91,
+        GuildAcademyMemberLoggetOn = 97,
+        GuildAcademyMemberChangeMap = 99,
     }
     public enum SH42Type : byte
     {

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System;
+using Zepheus.FiestaLib;
 using Zepheus.Database;
+using Zepheus.FiestaLib.Networking;
 using Zepheus.Database.DataStore;
 using Zepheus.Util;
 
@@ -22,7 +25,7 @@ namespace Zepheus.World.Data
         {
             return this.AcademyMembers.Find(m => m.pMemberName == CharName);
         }
-       
+
         public override void LoadMembers()
         {
             DataTable MemberData = null;
@@ -57,5 +60,36 @@ namespace Zepheus.World.Data
                 }
             }
         }
+        #region Packets
+        public void ChangeDekan(string name)
+        {
+            using (var packet = new Packet(SH38Type.GuildAcademyDekanChange))
+            {
+                packet.WriteString(name);
+
+            }
+        }
+        public static Packet MultiMemberList(List<AcademyMember> objs, int start, int end,int countGesammt)
+        {
+           Packet packet = new Packet(SH38Type.GuildAcademyList);
+           packet.WriteUShort((ushort)countGesammt);//GuildMembercount
+           int Rest = countGesammt - end;
+           packet.WriteUShort((ushort)Rest);// GuildMemberCount - ForeachCount = RestCount
+           packet.WriteUShort((ushort)end);//foreachcount
+            for (int i = start; i < end; i++)
+            {
+                objs[i].WriteInfo(packet);
+            }
+            return packet;
+        }
+        public void SendAcademyJoin(AcademyMember pMember )
+        {
+            using(var packet = new Packet(SH38Type.GuildAcademyJoin))
+            {
+                pMember.WriteInfo(packet);
+
+            }
+        }
+        #endregion
     }
 }

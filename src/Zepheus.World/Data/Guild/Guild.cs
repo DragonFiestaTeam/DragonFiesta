@@ -1,6 +1,8 @@
 ﻿using System;
 using Zepheus.Database.DataStore;
 using System.Collections.Generic;
+using Zepheus.FiestaLib.Networking;
+using Zepheus.FiestaLib;
 using System.Data;
 using Zepheus.Util;
 using Zepheus.Database;
@@ -42,8 +44,10 @@ namespace Zepheus.World.Data
             };
             g.Details = new DetailsMessage
            {
-               Message = row["GuildMessage"].ToString(),
-               GuildOwner = g.GuildMaster,
+                Message = row["GuildMessage"].ToString(),
+                GuildOwner = g.GuildMaster,
+                Creater = row["GuildMessageCreater"].ToString(),
+                CreateTime = DateTime.Parse(row["GuildMessageCreateDate"].ToString()),
            };
             g.GuildAcademy.Details = new DetailsMessage
              {
@@ -52,6 +56,19 @@ namespace Zepheus.World.Data
              };
             g.LoadMembers();
             return g;
+        }
+        public static Packet MultiMemberList(List<GuildMember> objs, int start, int end, int countGesammt)
+        {
+            Packet packet = new Packet(SH29Type.GuildList);
+            packet.WriteUShort((ushort)countGesammt);//GuildMembercount
+            int Rest = countGesammt - end;
+            packet.WriteUShort((ushort)Rest);// GuildMemberCount - ForeachCount = RestCount
+            packet.WriteUShort((ushort)end);//foreachcount
+            for (int i = start; i < end; i++)
+            {
+                objs[i].WriteInfo(packet);
+            }
+            return packet;
         }
         public virtual GuildMember GetMemberByName(string CharName)
         {

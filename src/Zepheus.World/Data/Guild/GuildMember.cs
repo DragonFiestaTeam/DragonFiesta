@@ -1,7 +1,11 @@
 ﻿using Zepheus.World.Data;
+using System.Collections.Generic;
 using Zepheus.World.Networking;
+using Zepheus.FiestaLib;
 using Zepheus.Database.DataStore;
 using System.Data;
+using Zepheus.FiestaLib.Networking;
+
 namespace Zepheus.World.Data
 {
     public  class GuildMember
@@ -55,6 +59,27 @@ namespace Zepheus.World.Data
             {
                 SetOffline(name);
             }
+        }
+        public void WriteInfo(Packet Ppacket)
+        {
+            Ppacket.WriteString(this.pMemberName, 16);
+            Ppacket.WriteByte((byte)this.GuildRank);//rank
+            Ppacket.WriteInt(0);
+
+            Ppacket.WriteUShort(this.Korp);//korp
+            Ppacket.WriteByte(0);//unk
+            Ppacket.WriteUShort(0xffff);//unk
+            Ppacket.WriteUShort(0xffff);//unk
+            Ppacket.WriteByte(0);//unk
+            Ppacket.WriteInt(32);
+            Ppacket.WriteInt(32);
+            Ppacket.Fill(50, 0x00);//unk
+            Ppacket.WriteByte(this.isOnline ? (byte)0xB9 : (byte)0x00);//onlinestatus
+            Ppacket.Fill(3, 0x00);//unk
+            Ppacket.WriteByte(this.pMemberJob);//job
+            Ppacket.WriteByte(this.Level);
+            Ppacket.WriteByte(0);//unk
+            Ppacket.WriteString(this.MapName, 12);//charmapname
         }
 
         public virtual void AddToDatabase()

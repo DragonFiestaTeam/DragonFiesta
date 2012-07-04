@@ -5,6 +5,7 @@ using Zepheus.Util;
 using Zepheus.World.Data;
 using Zepheus.World.Networking;
 using Zepheus.World.Managers;
+using System;
 
 namespace Zepheus.World.Handlers
 {
@@ -74,33 +75,10 @@ namespace Zepheus.World.Handlers
             if (client.Character.Guild == null)
                 return;
 
-            using (var Ppacket = new Packet(SH29Type.GuildList))
+            for (int i = 0; i < client.Character.Guild.GuildMembers.Count; i += 20)
             {
-                
-                Ppacket.WriteInt((ushort)client.Character.Guild.GuildMembers.Count);
-                Ppacket.WriteUShort((ushort)client.Character.Guild.GuildMembers.Count);
-          foreach(var GuildMember in client.Character.Guild.GuildMembers)
-          {
-                Ppacket.WriteString(GuildMember.pMemberName, 16);
-                Ppacket.WriteByte((byte)GuildMember.GuildRank);//rank
-                Ppacket.WriteInt(0);
-
-                Ppacket.WriteUShort(GuildMember.Korp);//korp
-                Ppacket.WriteByte(0);//unk
-                Ppacket.WriteUShort(0xffff);//unk
-                Ppacket.WriteUShort(0xffff);//unk
-                Ppacket.WriteByte(0);//unk
-                Ppacket.WriteInt(32);
-                Ppacket.WriteInt(32);
-                Ppacket.Fill(50, 0x00);//unk
-                Ppacket.WriteByte(GuildMember.isOnline ? (byte)0xB9 : (byte)0x00);//onlinestatus
-                Ppacket.Fill(3, 0x00);//unk
-                Ppacket.WriteByte(GuildMember.pMemberJob);//job
-                Ppacket.WriteByte(GuildMember.Level);
-                Ppacket.WriteByte(0);//unk
-                Ppacket.WriteString(GuildMember.MapName,12);//charmapname
-                }
-                client.SendPacket(Ppacket);
+                Packet pack = Guild.MultiMemberList(client.Character.Guild.GuildMembers, i, i + Math.Min(20, client.Character.Guild.GuildMembers.Count - i), client.Character.Guild.GuildMembers.Count);
+                client.SendPacket(pack);
             }
          
         }

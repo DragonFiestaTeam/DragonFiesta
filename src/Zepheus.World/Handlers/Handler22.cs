@@ -19,7 +19,7 @@ namespace Zepheus.World.Handlers
            }
            using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
            {
-           if(client.Character.Academy != null)
+           if(client.Character.Academy.Details != null)
            {
                client.Character.Academy.Details.WriteMessageAsGuildAcadmyler(p1,client.Character.Academy);
               
@@ -30,11 +30,20 @@ namespace Zepheus.World.Handlers
            }
            client.SendPacket(p1);
            }
-          /*using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
-           {      // Guild info
-               p2.WriteInt(client.Character.Character.GuildID);
-               client.SendPacket(p2);
-           }*/
+          using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
+           { 
+              if(client.Character.Guild != null)
+                  if (client.Character.Academy != null)
+                  {
+                      client.Character.Academy.Details.WriteMessageAsGuildMember(p2, client.Character.Guild);
+
+                  }
+                  else
+                  {
+                      p2.WriteInt(0);
+                  }
+              client.SendPacket(p2);
+           }
            // dafuq no op code..
            using (var p = new Packet(0x581C))
            {
