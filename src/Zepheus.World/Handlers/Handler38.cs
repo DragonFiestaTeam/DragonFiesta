@@ -47,6 +47,10 @@ namespace Zepheus.World.Handlers
                  GuildID = pGuild.ID,
              };
                  pMember.AddToDatabase();
+                 client.Character.Academy = pGuild.GuildAcademy;
+                 client.Character.Character.AcademyID = pGuild.ID;
+                 client.Character.UpdateGuildAcademyID();
+
                  pGuild.GuildAcademy.AcademyMembers.Add(pMember);
 
              AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.Sucess, AcademyName);
@@ -98,15 +102,15 @@ namespace Zepheus.World.Handlers
             }*/
             //client.SendPacket(pp);
            var pack = new Packet(38,8);
-            pack.WriteUShort(6584);//GuildAcadmyID
+            pack.WriteUShort(6584);//GuildAcadmyMessageid
             pack.WriteString("Acadmmy", 16);//Master
             pack.WriteUShort(22);//membercounts
             pack.WriteUShort(50);//max member count
             pack.WriteInt(5300);//Academy :
          //   pack.WriteUShort(0xffff);
             pack.WriteInt(10);//weeks
-            pack.WriteInt(100);
-            pack.Fill(128, 0x00);//GuildBuff?
+            pack.WriteInt(100);//MaxMembercount
+            pack.Fill(128, 0x00);//GuildBuffacadane
             pack.WriteString("Wilkommen", 512);
             client.SendPacket(pack);
           /*  using (var pack2 = new Packet(4, 18))

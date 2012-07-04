@@ -32,6 +32,7 @@ namespace Zepheus.World.Data
 		private List<Friend> friendsby;
         public long RecviveCoperMaster  { get; set;}
         public Guild Guild { get; set; }
+        public Academy Academy { get; set; }
         public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
@@ -156,7 +157,24 @@ namespace Zepheus.World.Data
                             pMember.SendMemberStatus(true, this.Character.Name);
                         }
                     }
+                    return;
                 }
+                Guild gAcademy = GuildManager.Instance.GetGuildByID(this.Character.AcademyID);
+                if(gAcademy != null)
+                {
+                    this.Academy = gAcademy.GuildAcademy;
+                   AcademyMember mMember = gAcademy.GuildAcademy.AcademyMembers.Find(m => m.CharID == this.ID);
+                    mMember.isOnline = true;
+                    mMember.pClient = this.Client;
+                    foreach (var pMember in gAcademy.GuildAcademy.AcademyMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            pMember.SendMemberStatus(true, this.Character.Name);
+                        }
+                    }
+                }
+
             }
             catch(Exception ex)
             {
@@ -219,7 +237,10 @@ namespace Zepheus.World.Data
                 this.UpdateGroupStatus();
             }
 		}
-
+        public void UpdateGuildAcademyID()
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET AcademyID='" + this.Academy.ID + "' WHERE CharID='" + this.ID + "'");
+        }
 		public void LoadEqupippet()
 		{
 			foreach (var eqp in this.Inventory.EquippedItems.Where(eq => eq.Slot < 0))
@@ -392,6 +413,19 @@ namespace Zepheus.World.Data
                     mMember.isOnline = false;
                     mMember.pClient = null;
                     foreach (var pMember in this.Guild.GuildMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            pMember.SendMemberStatus(false, this.Character.Name);
+                        }
+                    }
+                }
+                if(this.Academy != null)
+                {
+                    AcademyMember mMember = this.Academy.AcademyMembers.Find(m => m.CharID == this.ID);
+                    mMember.isOnline = false;
+                    mMember.pClient = null;
+                    foreach (var pMember in this.Academy.AcademyMembers)
                     {
                         if (pMember.isOnline)
                         {

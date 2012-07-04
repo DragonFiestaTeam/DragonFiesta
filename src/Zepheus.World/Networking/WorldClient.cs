@@ -94,7 +94,8 @@ namespace Zepheus.World.Networking
                         ch.SPStones = 10;
                         ch.StatPoints = (byte)row["StatPoints"];
                         ch.UsablePoints = (byte)row["UsablePoints"];
-                      ch.GuildID = GetDataTypes.GetInt(row["GuildID"]);
+                        ch.GuildID = GetDataTypes.GetInt(row["GuildID"]);
+                        ch.AcademyID = GetDataTypes.GetInt(row["AcademyID"]);
                         ch.Fame = 0;	// TODO
                         ch.GameSettings = Database.DataStore.ReadMethods.GetGameSettings(ch.ID, Program.DatabaseManager);
                         ch.ClientSettings = Database.DataStore.ReadMethods.GetClientSettings(ch.ID, Program.DatabaseManager);

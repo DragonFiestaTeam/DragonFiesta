@@ -15,7 +15,13 @@ namespace Zepheus.World.Data
         public string GuildPassword { get; set; }
         public string GuildMaster { get; set; }
         public bool GuildWar { get; set; }
+
+        public virtual int GuildBuffTime { get; set; }
+        public virtual ushort MaxMemberCount { get; set; }
+        public DateTime RegisterDate { get; set; }
+
         public Academy GuildAcademy { get; set; }
+        public virtual DetailsMessage Details { get; set; }
 
         public  static Guild LoadFromDatabase(DataRow row)
         {
@@ -27,6 +33,23 @@ namespace Zepheus.World.Data
                GuildMaster = row["GuildMaster"].ToString(),
                GuildWar = GetDataTypes.GetBool(row["GuildWar"]),
             };
+            g.GuildAcademy = new Academy
+            {
+                Guild = g,
+                ID = g.ID,
+                Name = g.Name,
+                AcademyMembers = new List<AcademyMember>(),
+            };
+            g.Details = new DetailsMessage
+           {
+               Message = row["GuildMessage"].ToString(),
+               GuildOwner = g.GuildMaster,
+           };
+            g.GuildAcademy.Details = new DetailsMessage
+             {
+                 Message = row["GuildAcademyMessage"].ToString(),
+                 GuildOwner = g.GuildMaster,
+             };
             g.LoadMembers();
             return g;
         }
@@ -42,6 +65,7 @@ namespace Zepheus.World.Data
         {
         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"')");
         }
+ 
        public virtual void LoadMembers()
        {
            DataTable MemberData = null;

@@ -10,14 +10,26 @@ namespace Zepheus.World.Handlers
        [PacketHandler(CH22Type.GotIngame)]
        public static void GotIngame(WorldClient client, Packet packet)
        {
-           
-        /*   using (var p1 = new Packet(0x1097))
+           if (!client.Character.IsIngame)
            {
-               // Guild academy info
-               p1.WriteInt(6584);//GuildAcadermyid?
-               p1.WriteByte(1);//unk
-               client.SendPacket(p1);
-           }*/
+               client.Character.IsIngame = true;
+               client.Character.OneIngameLoginLoad();
+               MasterManager.Instance.SendMasterList(client);
+               //SendMasterList(pClient);
+           }
+           using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
+           {
+           if(client.Character.Academy != null)
+           {
+               client.Character.Academy.Details.WriteMessageAsGuildAcadmyler(p1,client.Character.Academy);
+              
+           }
+           else
+           {
+               p1.Fill(5, 0);
+           }
+           client.SendPacket(p1);
+           }
           /*using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
            {      // Guild info
                p2.WriteInt(client.Character.Character.GuildID);
@@ -49,13 +61,6 @@ namespace Zepheus.World.Handlers
                client.SendPacket(p5);
            }
            
-         if (!client.Character.IsIngame)
-           {
-               client.Character.IsIngame = true;
-               client.Character.OneIngameLoginLoad();
-               MasterManager.Instance.SendMasterList(client);
-               //SendMasterList(pClient);
-           }
            client.Character.OnGotIngame();
        }
     }

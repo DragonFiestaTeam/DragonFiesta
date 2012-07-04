@@ -13,7 +13,8 @@ namespace Zepheus.World.Data
         public Guild Guild { get; set; }
         public override int ID { get; set; }
         public override string Name { get; set; }
-
+        public override DetailsMessage Details { get; set; }
+    
         public  Academy()
         {
         }
@@ -21,6 +22,7 @@ namespace Zepheus.World.Data
         {
             return this.AcademyMembers.Find(m => m.pMemberName == CharName);
         }
+       
         public override void LoadMembers()
         {
             DataTable MemberData = null;
