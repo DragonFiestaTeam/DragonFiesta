@@ -60,7 +60,7 @@ namespace Zepheus.World.Data
                 SetOffline(name);
             }
         }
-        public void WriteInfo(Packet Ppacket)
+        public virtual void WriteInfo(Packet Ppacket)
         {
             Ppacket.WriteString(this.pMemberName, 16);
             Ppacket.WriteByte((byte)this.GuildRank);//rank
@@ -89,6 +89,9 @@ namespace Zepheus.World.Data
                  Client.ExecuteQuery("INSERT INTO GuildMembers (CharID,Rank,Korp,GuildID) VALUES ('"+this.CharID+"','"+this.GuildRank+"','"+this.Korp+"','"+this.GuildID+"')");
                  Client.ExecuteQuery("UPDATE Characters set GuildID =" + this.GuildID + " WHERE CharID=" + this.CharID + "");
              }
+        }
+        public virtual void RemoveFromDatabase()
+        {
         }
         #endregion
         #region Packets

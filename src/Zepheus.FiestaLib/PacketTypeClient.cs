@@ -181,7 +181,9 @@ namespace Zepheus.FiestaLib
     {
        GetGuildAcademyListRequest = 7,
        GuildAcademyReuqest = 17,
+       GuildAcademyLeave = 27,
        GuildAcademyRequestList = 13,
+       GuildAcademyChatMessage = 104,
 
     }
     public enum CH42Type : byte

@@ -85,7 +85,7 @@ namespace Zepheus.World.Data
 
            }
         }
-        public override void WriteInfo(Packet pPacket)
+        public void WriteInfo(Packet pPacket)
         {
             pPacket.WriteString("AddName", 16);
             pPacket.Fill(65, 0x00);//unk

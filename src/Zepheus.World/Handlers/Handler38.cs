@@ -20,41 +20,58 @@ namespace Zepheus.World.Handlers
             if (client.Character.Character.CharLevel > 60)
                 return;
 
-             Guild pGuild =  GuildManager.Instance.GetGuildByName(AcademyName);
+            Guild pGuild = GuildManager.Instance.GetGuildByName(AcademyName);
 
-             if (pGuild == null)
-             {
-                 AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.NotFound, AcademyName);
-                 return;
-             }
-             else if (pGuild.GuildAcademy.AcademyMembers.Count >= 50)
-             {
-                 AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AcademyFull, AcademyName);
-             }
-             else if (pGuild.GuildAcademy.GetMemberByName(client.Character.Character.Name) != null)
-             {
-                 AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AlreadyExists, AcademyName);
-             }
-             AcademyMember pMember = new AcademyMember
-             {
-                 CharID = client.Character.ID,
-                 isOnline = true,
-                 Level = client.Character.Character.CharLevel,
-                 Rank = 0,//rank unkown for member
-                 pClient = client,
-                 MapName = DataProvider.Instance.GetMapShortNameFromMapid(client.Character.Character.PositionInfo.Map),
-                 pMemberName = client.Character.Character.Name,
-                 pMemberJob = client.Character.Character.Job,
-                 GuildID = pGuild.ID,
-             };
-                 pMember.AddToDatabase();
-                 client.Character.Academy = pGuild.GuildAcademy;
-                 client.Character.Character.AcademyID = pGuild.ID;
-                 client.Character.UpdateGuildAcademyID();
-
-                 pGuild.GuildAcademy.AcademyMembers.Add(pMember);
-
-             AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.Sucess, AcademyName);
+            if (pGuild == null)
+            {
+                AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.NotFound, AcademyName);
+                return;
+            }
+            else if (pGuild.GuildAcademy.AcademyMembers.Count >= 50)
+            {
+                AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AcademyFull, AcademyName);
+            }
+            else if (pGuild.GuildAcademy.GetMemberByName(client.Character.Character.Name) != null)
+            {
+                AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.AlreadyExists, AcademyName);
+            }
+            AcademyMember pMember = new AcademyMember
+            {
+                CharID = client.Character.ID,
+                isOnline = true,
+                Level = client.Character.Character.CharLevel,
+                Rank = 0,//rank unkown for member
+                pClient = client,
+                MapName = DataProvider.Instance.GetMapShortNameFromMapid(client.Character.Character.PositionInfo.Map),
+                pMemberName = client.Character.Character.Name,
+                pMemberJob = client.Character.Character.Job,
+                GuildID = pGuild.ID,
+            };
+            pMember.AddToDatabase();
+            client.Character.Academy = pGuild.GuildAcademy;
+            client.Character.Character.AcademyID = pGuild.ID;
+            client.Character.UpdateGuildAcademyID();
+            pGuild.GuildAcademy.AcademyMembers.Add(pMember);
+            AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.Sucess, AcademyName);
+            InterServer.InterHandler.AddGuildMemberToZone(false, pMember.GuildID, client.Character.Character.Name, client.Character.Character.ID);
+            pGuild.GuildAcademy.MemberJoin(pMember);//Send Join Packet To all
+        }
+        [PacketHandler(CH38Type.GuildAcademyLeave)]
+        public static void GuildAcademyLeave(WorldClient client, Packet packet)
+        {
+            if (client.Character.Academy == null)
+                return;
+            //Todo Response
+            AcademyMember pMember = client.Character.Academy.AcademyMembers.Find(m => m.pMemberName == client.Character.Character.Name);
+            if (pMember.RegisterDate.Subtract(DateTime.Now).TotalMinutes <= 60)
+            {
+                Academy.SendAcademyLeaveRequest(AcademyRequestCode.OneHoursLeave, client);
+                return;
+            }
+            InterServer.InterHandler.RemoveGuildMemberFromZone(false, pMember.GuildID, pMember.CharID);
+            Academy.SendAcademyLeaveRequest(AcademyRequestCode.LeaveSucess, client);
+            client.Character.Academy.MemberLeave(pMember);
+            
         }
         [PacketHandler(CH38Type.GuildAcademyRequestList)]
         public static void GuildAcademyRequestList(WorldClient client, Packet packet)
@@ -66,10 +83,6 @@ namespace Zepheus.World.Handlers
                 Packet pack = Academy.MultiMemberList(client.Character.Academy.AcademyMembers, i, i + Math.Min(20, client.Character.Academy.AcademyMembers.Count - i), client.Character.Academy.AcademyMembers.Count);
                 client.SendPacket(pack);
             }
-        }
-           [PacketHandler(CH38Type.GetGuildAcademyListRequest)]
-        public static void AcademyListRequest(WorldClient client, Packet packet)
-        {
         }
     }
 }

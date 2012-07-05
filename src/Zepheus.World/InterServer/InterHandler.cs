@@ -49,7 +49,32 @@ namespace Zepheus.World.InterServer
 				}
 			}
 		}
-
+        public static void AddGuildMemberToZone(bool type,int GuildID,string Charname,int CharID)
+        {
+           foreach(ZoneConnection Con in Program.Zones.Values)
+           {
+               using (var pack = new InterPacket(InterHeader.AddGuildMember))
+               {
+                   pack.WriteBool(type);
+                   pack.WriteInt(GuildID);
+                   pack.WriteInt(CharID);
+                   Con.SendPacket(pack);
+               }
+           }
+        }
+        public static void RemoveGuildMemberFromZone(bool type,int GuildID,int CharID)
+        {
+            foreach (ZoneConnection Con in Program.Zones.Values)
+            {
+                using (var pack = new InterPacket(InterHeader.RemoveGuildMember))
+                {
+                    pack.WriteBool(type);
+                    pack.WriteInt(GuildID);
+                    pack.WriteInt(CharID);
+                    Con.SendPacket(pack);
+                }
+            }
+        }
         [InterPacketHandler(InterHeader.ReciveCoper)]
         public static void ReciveCoper(ZoneConnection zc, InterPacket packet)
         {

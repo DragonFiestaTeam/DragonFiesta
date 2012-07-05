@@ -311,7 +311,10 @@ namespace Zepheus.World.Data
         {
             this.Character.CharLevel = level;
             MasterManager.Instance.ApprenticeLevelUP(this);
-         
+            if (this.Academy != null)
+            {
+                this.Academy.ChangeMemberLevel(this.Character.Name, level);
+            }
 		}
         public void SendReciveMasterCoper()
         {
@@ -447,6 +450,24 @@ namespace Zepheus.World.Data
 			this.UpdateFriendStates();
             this.SetGuildMemberStatusOffline();
 		}
+        public void GuildLoggetOut()
+        {
+            if (this.Guild != null)
+            {
+                foreach (var gMember in this.Guild.GuildMembers)
+                {
+                    gMember.SendMemberStatus(false, this.Character.Name);
+                }
+            }
+            else if (this.Academy != null)
+            {
+                foreach (var aMember in this.Academy.AcademyMembers)
+                {
+                    aMember.SendMemberStatus(false,this.Character.Name);
+                }
+            }
+
+        }
 		public void RemoveGroup()
 		{
 			this.Group = null;
