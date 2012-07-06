@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="ChatLog.cs" />
+    <Compile Include="Game\Guild\Academy.cs" />
+    <Compile Include="Game\Guild\AcademyMember.cs" />
     <Compile Include="Game\Inventory\PremiumInventory.cs" />
     <Compile Include="Game\Inventory\RewardInventory.cs" />
     <Compile Include="Game\RewardItem.cs" />

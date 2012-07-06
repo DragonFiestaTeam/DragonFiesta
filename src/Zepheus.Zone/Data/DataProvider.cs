@@ -34,6 +34,8 @@ namespace Zepheus.Zone.Data
 		public Dictionary<ushort, ActiveSkillInfo> ActiveSkillsByID { get; private set; }
 		public Dictionary<string, ActiveSkillInfo> ActiveSkillsByName { get; private set; }
         public Dictionary<ushort,MasterRewardState> MasterRewardStates  { get; private set; }
+        public Dictionary<int, Guild> GuildsByID { get; private set; }
+        public Dictionary<string, Guild> GuildsByName { get; private set; }
 
 		public static DataProvider Instance { get; private set; }
 
@@ -53,6 +55,7 @@ namespace Zepheus.Zone.Data
 			LoadVendors();
             LoadMounts();
             LoadMasterRewardStates();
+            LoadGuilds();
   
 		}
 
@@ -137,6 +140,40 @@ namespace Zepheus.Zone.Data
                 {
                     Log.WriteLine(LogLevel.Exception, "Error loading MasterRewardStatesTable: {0}", ex);
                 }
+        }
+        private void LoadGuilds()
+        {
+            GuildsByID = new Dictionary<int, Guild>();
+            GuildsByName = new Dictionary<string, Guild>();
+            DataTable guildData = null;
+
+            DatabaseClient dbClient = Program.CharDBManager.GetClient();
+            guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
+
+            int GuildMemberCount = 0;
+            int AcademyMemberCount = 0;
+            if (guildData != null)
+            {
+                foreach (DataRow row in guildData.Rows)
+                {
+                    Guild guild = Guild.LoadFromDatabase(row);
+                    guild.GuildAcademy = new Academy
+                    {
+                        Guild = guild,
+                        ID = guild.ID,
+                        Name = guild.Name,
+                        AcademyMembers = new List<AcademyMember>(),
+                    };
+                    guild.GuildAcademy.LoadMembers();
+                    GuildMemberCount += guild.GuildMembers.Count;
+                    AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
+                    GuildsByName.Add(guild.Name, guild);
+                    GuildsByID.Add(guild.ID, guild);
+                }
+            }
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.GuildsByID.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
+
         }
 		private void LoadDrops()
 		{

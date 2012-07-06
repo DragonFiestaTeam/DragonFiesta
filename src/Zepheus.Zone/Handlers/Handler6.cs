@@ -84,7 +84,6 @@ namespace Zepheus.Zone.Handlers
                 client.Username = transfer.Username;
                 client.Character = zonecharacter;
                 zonecharacter.Client = client;
-              
                 //Zonecharacter.Client. = ;
            
                

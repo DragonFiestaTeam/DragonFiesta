@@ -19,7 +19,8 @@ namespace Zepheus.World.Data
 		public List<string> BadNames { get; private set; }
 		public Dictionary<ushort, MapInfo> Maps { get; private set; }
 		public Dictionary<Job, BaseStatsEntry> JobBasestats { get; private set; }
-		public Dictionary<int, Guild> Guilds { get; private set; }
+		public Dictionary<int, Guild> GuildsByID { get; private set; }
+        public Dictionary<string, Guild> GuildsByName { get; private set; }
         public List<MasterRewardItem> MasterRewards { get; private set; }
 
 		public DataProvider()
@@ -89,22 +90,37 @@ namespace Zepheus.World.Data
         }
 		private void LoadGuilds()
 		{
-			Guilds = new Dictionary<int, Guild>();
+			GuildsByID = new Dictionary<int, Guild>();
+            GuildsByName = new Dictionary<string, Guild>();
 			DataTable guildData = null;
-			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
-				guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
 
-                int GuildMemberCount = 0;
+			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
+                guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
+
+             int GuildMemberCount = 0;
+             int AcademyMemberCount = 0;
 			if (guildData != null)
 			{
 				foreach (DataRow row in guildData.Rows)
 				{
 					Guild guild = Guild.LoadFromDatabase(row);
+                    guild.GuildAcademy = new Academy
+                    {
+                         Guild = guild,
+                         ID = guild.ID,
+                         Name = guild.Name,
+                         AcademyMembers = new List<AcademyMember>(),
+                    };
+                    guild.GuildAcademy.LoadMembers();
                     GuildMemberCount += guild.GuildMembers.Count;
-                    Guilds.Add(guild.ID, guild);
+                    AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
+                    GuildsByName.Add(guild.Name, guild);
+                    GuildsByID.Add(guild.ID, guild);
 				}
 			}
-            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} Members", this.Guilds.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.GuildsByID.Count, GuildMemberCount);
+            Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
+
 		}
 		
 		public void LoadBasestats()
@@ -176,7 +192,15 @@ namespace Zepheus.World.Data
 				MaxSP = 21
 			});
 		}
-
+        public string GetMapShortNameFromMapid(ushort id)
+        {
+            MapInfo mi = null;
+            if (this.Maps.TryGetValue(id, out mi))
+            {
+                return mi.ShortName;
+            }
+            return "";
+        }
 		public List<ushort> GetMapsForZone(int id)
 		{
 			int zonecount = Settings.Instance.ZoneCount;

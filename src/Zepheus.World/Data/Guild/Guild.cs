@@ -1,6 +1,8 @@
 ﻿using System;
 using Zepheus.Database.DataStore;
 using System.Collections.Generic;
+using Zepheus.FiestaLib.Networking;
+using Zepheus.FiestaLib;
 using System.Data;
 using Zepheus.Util;
 using Zepheus.Database;
@@ -9,15 +11,21 @@ namespace Zepheus.World.Data
 {
     public class Guild
     {
-        public int ID { get; set; }
-        public string Name { get; set; }
+        public virtual int ID { get; set; }
+        public virtual string Name { get; set; }
         public List<GuildMember> GuildMembers { get; set; }
         public string GuildPassword { get; set; }
         public string GuildMaster { get; set; }
         public bool GuildWar { get; set; }
-        public Academy GuildAcademy { get; set; }
 
-        public static Guild LoadFromDatabase(DataRow row)
+        public virtual int GuildBuffTime { get; set; }
+        public virtual ushort MaxMemberCount { get; set; }
+        public DateTime RegisterDate { get; set; }
+
+        public Academy GuildAcademy { get; set; }
+        public virtual DetailsMessage Details { get; set; }
+
+        public  static Guild LoadFromDatabase(DataRow row)
         {
             Guild g = new Guild
             {
@@ -27,8 +35,44 @@ namespace Zepheus.World.Data
                GuildMaster = row["GuildMaster"].ToString(),
                GuildWar = GetDataTypes.GetBool(row["GuildWar"]),
             };
+            g.GuildAcademy = new Academy
+            {
+                Guild = g,
+                ID = g.ID,
+                Name = g.Name,
+                AcademyMembers = new List<AcademyMember>(),
+            };
+            g.Details = new DetailsMessage
+           {
+                Message = row["GuildMessage"].ToString(),
+                GuildOwner = g.GuildMaster,
+                Creater = row["GuildMessageCreater"].ToString(),
+                CreateTime = DateTime.Parse(row["GuildMessageCreateDate"].ToString()),
+           };
+            g.GuildAcademy.Details = new DetailsMessage
+             {
+                 Message = row["GuildAcademyMessage"].ToString(),
+                 GuildOwner = g.GuildMaster,
+             };
             g.LoadMembers();
             return g;
+        }
+        public static Packet MultiMemberList(List<GuildMember> objs, int start, int end, int countGesammt)
+        {
+            Packet packet = new Packet(SH29Type.GuildList);
+            packet.WriteUShort((ushort)countGesammt);//GuildMembercount
+            int Rest = countGesammt - end;
+            packet.WriteUShort((ushort)Rest);// GuildMemberCount - ForeachCount = RestCount
+            packet.WriteUShort((ushort)end);//foreachcount
+            for (int i = start; i < end; i++)
+            {
+                objs[i].WriteInfo(packet);
+            }
+            return packet;
+        }
+        public virtual GuildMember GetMemberByName(string CharName)
+        {
+          return  this.GuildMembers.Find(m => m.pMemberName == CharName);
         }
         public Guild()
         {
@@ -38,7 +82,8 @@ namespace Zepheus.World.Data
         {
         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"')");
         }
-       private void LoadMembers()
+ 
+       public virtual void LoadMembers()
        {
            DataTable MemberData = null;
            DataTable GuildExtraData = null;

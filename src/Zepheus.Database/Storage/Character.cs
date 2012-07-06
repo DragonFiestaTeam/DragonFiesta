@@ -32,6 +32,7 @@ namespace Zepheus.Database.Storage
        public int MountFood { get; set; }
        public CharacterStats CharacterStats = new CharacterStats();
        public int GuildID { get; set; }
+       public int AcademyID { get; set; }
        public DateTime MasterJoin { get; set; }
        public List<DatabaseSkill> SkillList = new List<DatabaseSkill>();
        public long GroupId { get; set; }

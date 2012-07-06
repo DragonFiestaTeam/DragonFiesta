@@ -35,5 +35,9 @@
 		FunctionCharIsOnline = 0x4001,
         SendAddRewardItem = 0x4002,//World -> Zone
         ReciveCoper = 0x4003, //Zone -> World
+
+        //Guild Shit
+        AddGuildMember = 0x5000,
+        RemoveGuildMember = 0x5001,
 	}
 }

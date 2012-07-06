@@ -8,7 +8,7 @@ using Zepheus.World.Data;
 namespace Zepheus.World.Managers
 {
      [ServerModule(InitializationStage.Clients)]
-       public sealed class GuildManager
+       public  class GuildManager : Academy
        {
            #region Properties
            public List<GuildRequest> pRequests { get; private set; }
@@ -23,6 +23,7 @@ namespace Zepheus.World.Managers
         public static bool Initialize()
         {
             Instance = new GuildManager();
+      
             return true;
         }
            #endregion
@@ -75,7 +76,7 @@ namespace Zepheus.World.Managers
                  GuildPassword = GuildPassword,
                  Name = GuildeName,
                  GuildWar = GuildWar,
-                 ID = DataProvider.Instance.Guilds.Count + 1,
+                 ID = DataProvider.Instance.GuildsByID.Count + 1,
              };
 
             GuildMember MasterMember = new GuildMember
@@ -94,12 +95,20 @@ namespace Zepheus.World.Managers
             MasterMember.AddToDatabase();
             gg.AddToDatabase();
             gg.GuildMembers.Add(MasterMember);
-            DataProvider.Instance.Guilds.Add(gg.ID, gg);
+            DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
+        }
+        public Guild GetGuildByName(string GuildName)
+        {
+            Guild gg;
+            if (!DataProvider.Instance.GuildsByName.TryGetValue(GuildName, out gg))
+                return null;
+
+            return gg;
         }
         public Guild GetGuildByID(int GuildID)
        {
            Guild Guild;
-           if (DataProvider.Instance.Guilds.TryGetValue(GuildID, out Guild))
+           if (DataProvider.Instance.GuildsByID.TryGetValue(GuildID, out Guild))
            {
                return Guild;
            }

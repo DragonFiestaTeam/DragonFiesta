@@ -5,6 +5,7 @@ using System.Timers;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Networking;
+using System.Threading;
 
 namespace Zepheus.World
 {
@@ -18,12 +19,13 @@ namespace Zepheus.World
         private readonly ConcurrentDictionary<int, WorldClient> clientsByCharID = new ConcurrentDictionary<int, WorldClient>();
         private readonly ConcurrentDictionary<string, WorldClient> zoneAdd = new ConcurrentDictionary<string, WorldClient>();
         private readonly ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
-        private readonly Timer expirator;
+        private Mutex ClientManagerMutex = new Mutex();
+        private readonly System.Timers.Timer expirator;
         private int transferTimeout = 1;
 
         public ClientManager()
         {
-            expirator = new Timer(2000);
+            expirator = new System.Timers.Timer(2000);
             expirator.Elapsed += ExpiratorElapsed;
             expirator.Start();
         }
@@ -38,18 +40,20 @@ namespace Zepheus.World
 
         public void AddClient(WorldClient client)
         {
-            lock (clients)
+            ClientManagerMutex.WaitOne();
+            try
             {
-                try
-                {
-                    clients.Add(client);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-
+                clients.Add(client);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
+            
         }
         public void UpdateClientTime(DateTime dateTime)
         {
@@ -63,21 +67,44 @@ namespace Zepheus.World
         }
         public void AddClientByName(WorldClient client)
         {
-            if (client.Character != null && !clientsByName.ContainsKey(client.Character.Character.Name))
+            ClientManagerMutex.WaitOne();
+            try
             {
-                clientsByCharID.TryAdd(client.Character.Character.ID, client);
-                clientsByName.TryAdd(client.Character.Character.Name, client);
+                if (client.Character != null && !clientsByName.ContainsKey(client.Character.Character.Name))
+                {
+                    clientsByCharID.TryAdd(client.Character.Character.ID, client);
+                    clientsByName.TryAdd(client.Character.Character.Name, client);
 
+                }
+                else Log.WriteLine(LogLevel.Warn, "Trying to register client by name without having Character object.");
             }
-            else Log.WriteLine(LogLevel.Warn, "Trying to register client by name without having Character object.");
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
         }
         public void AddZoneTrans(string name, WorldClient client)
         {
+            ClientManagerMutex.WaitOne();
+            try
+            {
             zoneAdd.TryAdd(name, client);
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
         }
         public void RemoveZoneTrand(string name, WorldClient ccclient)
         {
-            zoneAdd.TryRemove(name, out ccclient);
+            try
+            {
+                zoneAdd.TryRemove(name, out ccclient);
+            }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
         }
         readonly List<WorldClient> pingTimeouts = new List<WorldClient>();
         public void PingCheck(DateTime now)
@@ -134,20 +161,27 @@ namespace Zepheus.World
         }
         public void RemoveClient(WorldClient client)
         {
-            lock (clients)
+            ClientManagerMutex.WaitOne();
+            try
             {
                 clients.Remove(client);
-            }
 
-            if (client.Character != null)
-            {
-                WorldClient deleted;
-                clientsByName.TryRemove(client.Character.Character.Name, out deleted);
-                if (deleted != client)
+
+                if (client.Character != null)
                 {
-                    Log.WriteLine(LogLevel.Warn, "There was a duplicate client in clientsByName: {0}", client.Character.Character.Name);
+                    WorldClient deleted;
+                    clientsByName.TryRemove(client.Character.Character.Name, out deleted);
+                    if (deleted != client)
+                    {
+                        Log.WriteLine(LogLevel.Warn, "There was a duplicate client in clientsByName: {0}", client.Character.Character.Name);
+                    }
                 }
             }
+            finally
+            {
+                ClientManagerMutex.ReleaseMutex();
+            }
+        
         }
 
         public void AddTransfer(ClientTransfer transfer)

@@ -272,7 +272,19 @@ namespace Zepheus.FiestaLib
     }
     public enum SH38Type : byte
     {
-       GuildAcademyDetails = 8,
+        GuildAcademyDetails = 8,// Send When Join
+        GuildAcademyList = 14,
+        GuildAcademyRequest = 18,
+        GuildAcademyJoin = 19,
+        GuildAcademyLeaveResponse = 28,//6052 = failed becouase hour 6016 // Succfuell
+        GuildAcademyDekanChange = 91,
+        GuildAcademyMemberLeave = 96,
+        GuildAcademyMemberLoggetOn = 97,
+        GuildAcademyMemberOffline = 98,
+        GuildAcademyMemberChangeMap = 99,
+        GuildAcademyMemberLevelUp = 102,
+        GuildAcademMemberChangeJob = 103,
+        GuildAcademyReward = 115,
     }
     public enum SH42Type : byte
     {

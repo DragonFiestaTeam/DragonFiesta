@@ -465,15 +465,7 @@ namespace Zepheus.Zone
         private void Testg(ZoneCharacter character, params string[] param)
         {
             //05 58 00 04 0A 7A 0F 00 90 2B
-            var packet = new Packet(49,6);
-
-            packet.WriteString("test",16);
-            packet.WriteUShort(11200);
-            packet.WriteHexAsBytes("16 9C 29 00 00 00");
-            character.Client.SendPacket(packet);
-            var packet2 = new Packet(49,5);
-            packet2.WriteHexAsBytes("49 73 63 68 69 6B 61 33 34 00 00 00 00 00 00 00 C0 2B 16 9C 29 00 1B 00 6C 95 D5 4F 0D 6A 0F 00 0A 00 07 36 73 DC 4F 11 8B 0F 00 1D 00 05 CE 29 E8 4F 4E 75 0F 00 20 00 05 63 25 CF 4F 3B 6A 0F 00 23 00 06 D7 6C E9 4F 48 6C 0F 00 2D 00 07 4B E0 D0 4F 21 6C 0F 00 57 00 05 7D 25 CF 4F 4B 6B 0F 00 5B 00 05 8F E4 D0 4F 33 6B 0F 00 5D 00 03 D8 7E D4 4F 31 6B 0F 00 60 00 04 B5 2B D3 4F 2B 6E 0F 00 63 00 03 CB 78 DC 4F 50 6E 0F 00 64 00 05 4B D8 E6 4F E5 6C 0F 00 65 00 04 72 80 D4 4F 26 70 0F 00 67 00 03 C8 29 E8 4F 04 6D 0F 00 6D 00 05 8D 80 D4 4F 3C 6F 0F 00 9F 00 03 43 66 E4 4F 37 74 0F 00 A4 00 01 70 95 D5 4F 7B 70 0F 00 A5 00 02 9D 25 CF 4F DD 6E 0F 00 A6 00 01 8B 25 CF 4F C9 6D 0F 00 AA 00 02 6C A6 DD 4F D4 76 0F 00 AD 00 03 FE 37 D3 4F FD 6B 0F 00 AE 00 03 71 25 CF 4F 17 6B 0F 00 B0 00 02 C2 7E D4 4F E1 6D 0F 00 B1 00 02 31 73 DC 4F 20 6D 0F 00 B2 00 03 77 D1 E6 4F 8E 6E 0F 00 B3 00 03 90 80 D4 4F 0D 6E 0F 00 B5 00 03 67 95 D5 4F D4 6B 0F 00 B8 00 02");
-          character.Client.SendPacket(packet2);
+  
 
         }
         private void ChangeMap(ZoneCharacter character, params string[] param)

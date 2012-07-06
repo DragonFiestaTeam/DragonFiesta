@@ -57,12 +57,15 @@
   <ItemGroup>
     <Compile Include="Data\Guild\Academy\Academy.cs" />
     <Compile Include="Data\Guild\Academy\AcademyMember.cs" />
+    <Compile Include="Data\Guild\Academy\AcademyRequestCode.cs" />
+    <Compile Include="Data\Guild\DetailsMessage.cs" />
     <Compile Include="Data\Guild\Guild.cs" />
     <Compile Include="Data\Guild\GuildMember.cs" />
     <Compile Include="Data\Guild\GuildRequest.cs" />
     <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
     <Compile Include="Handlers\Handler38.cs" />
     <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Managers\AcademyManager.cs" />
     <Compile Include="Managers\GuildManager.cs" />
     <Compile Include="Managers\MasterManager.cs" />
     <Compile Include="Data\MasterSystem\MasterMember.cs" />
