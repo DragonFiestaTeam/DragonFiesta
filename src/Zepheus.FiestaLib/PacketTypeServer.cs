@@ -250,6 +250,8 @@ namespace Zepheus.FiestaLib
         SendRequesterResponse = 10,
         SendGuildInvideRequest = 11,
         GuildList = 27,
+        SendMemberGoOnline = 61,
+        SendMemberGoOffline = 62,
         GuildNameResult = 119,
     }
     public enum SH37Type : byte

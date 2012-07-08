@@ -97,12 +97,19 @@ namespace Zepheus.World.Data
         #region Packets
         private void SetOffline(string name)
         {
-            //Todo Packet
-
+            using (var pack = new Packet(SH29Type.SendMemberGoOffline))
+            {
+                pack.WriteString(name, 16);
+                this.pClient.SendPacket(pack);
+            }
         }
         private void SetOnline(string name)
         {
-            //TodoPacket
+            using (var pack = new Packet(SH29Type.SendMemberGoOnline))
+            {
+                pack.WriteString(name, 16);
+                this.pClient.SendPacket(pack);
+            }
         }
         #endregion
     }
