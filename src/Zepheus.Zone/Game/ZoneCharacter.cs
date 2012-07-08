@@ -268,17 +268,14 @@ namespace Zepheus.Zone.Game
 				}
 			}
 		}
-
 		public void DropMessage(string text, params object[] param)
 		{
 			Handler8.SendAdminNotice(Client, String.Format(text, param));
-		}
-		 
+		}		 
 		public void Broadcast(Packet packet, bool toself = false)
 		{
 			Broadcast(packet, MapSector.SurroundingSectors, toself);
 		}
-
 		public void Broadcast(Packet packet, List<Sector> sectors, bool toself = false)
 		{
 			foreach (var character in Map.GetCharactersBySectors(sectors))
@@ -287,12 +284,10 @@ namespace Zepheus.Zone.Game
 				character.Client.SendPacket(packet);
 			}
 		}
-
 		public override Packet Spawn()
 		{
 			return Handler7.SpawnSinglePlayer(this);
 		}
-
 		public void Ban()
 		{
 			Save();
@@ -304,7 +299,6 @@ namespace Zepheus.Zone.Game
 			}
 			Client.Disconnect();
 		}
-
 		public void SendGetIngameChunk()
 		{
 
@@ -325,7 +319,6 @@ namespace Zepheus.Zone.Game
             this.WritePremiumList(0);
             this.WriteRewardList(0);
 		}
- 
 		public void SwapEquips(Equip sourceEquip, Equip destEquip)
 		{
 			try

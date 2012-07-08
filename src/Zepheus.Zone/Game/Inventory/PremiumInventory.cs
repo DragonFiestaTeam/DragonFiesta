@@ -19,7 +19,7 @@ namespace Zepheus.Zone.Game
                 DataTable Premiumdata = null;
                 using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
                 {
-                    Premiumdata = dbClient.ReadDataTable("SELECT *FROM PremiumItems WHERE CharID='" + pChar + "'");
+                    Premiumdata = dbClient.ReadDataTable("SELECT *FROM PremiumItem WHERE CharID='" + pChar + "'");
                 }
                 if (Premiumdata != null)
                 {
