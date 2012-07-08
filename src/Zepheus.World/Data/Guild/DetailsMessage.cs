@@ -7,6 +7,7 @@ namespace Zepheus.World.Data
     {
         public string GuildOwner { get; set; }
         public string Message { get; set; }
+        public ushort lenght { get; set; }
         public DateTime CreateTime { get; set; }
         public string Creater { get; set; }
 
@@ -19,6 +20,18 @@ namespace Zepheus.World.Data
             else
             {
                 //Save AcademyMessage
+            }
+        }
+        public void UpdateGuildDetails(Guild gGuild, string Name,string Message,ushort lenght)
+        {
+            this.CreateTime = DateTime.Now;
+            this.Creater = Name;
+            this.Message = Message;
+            this.lenght = lenght;
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Guild SET GuildMessage='" + this.Message + "',GuildMessageCreateDate='" + this.CreateTime + "',GuildMessageCreater='" + this.Creater + "' WHERE GuildID='"+gGuild.ID+"'");
+            foreach(var pMember in gGuild.GuildMembers)
+            {
+                pMember.WriteGuildUpdateDetails(this);
             }
         }
         public void WriteMessageAsGuildAcadmyler(Packet pPacket,Academy pAcademy)

@@ -60,6 +60,10 @@ namespace Zepheus.World.Data
                 SetOffline(name);
             }
         }
+        public void WriteGuildUpdateDetails(DetailsMessage details)
+        {
+
+        }
         public virtual void WriteInfo(Packet Ppacket)
         {
             Ppacket.WriteString(this.pMemberName, 16);

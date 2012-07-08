@@ -51,6 +51,20 @@ namespace Zepheus.World.Handlers
             }
 
         }
+        [PacketHandler(CH29Type.ChangeGuildDetails)]
+        public static void ChangeGuildDetails(WorldClient client, Packet packet)
+        {
+            string Message;
+            ushort MessageLenght;
+            if (!packet.TryReadUShort(out MessageLenght))
+                return;
+            if (!packet.TryReadString(out Message, MessageLenght))
+                return;
+            if (client.Character.Guild == null)
+                return;
+
+            client.Character.Guild.Details.UpdateGuildDetails(client.Character.Guild, client.Character.Character, Message, MessageLenght);
+        }
           [PacketHandler(CH29Type.GuildInvideRequest)]
         public static void GuildInvideRequest(WorldClient client, Packet packet)
         {
