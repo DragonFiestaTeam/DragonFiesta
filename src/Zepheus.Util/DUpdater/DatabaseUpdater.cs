@@ -12,14 +12,8 @@ namespace Zepheus.Util.DUpdater
 			World,
 		}
 
-		private EntitySetting Setting { get; set; }
 		private DatabaseTypes Type { get; set; }
 
-		public DatabaseUpdater(EntitySetting pSettings, DatabaseTypes pType)
-		{
-			this.Setting = pSettings;
-			this.Type = pType;
-		}
 
 		public void Update()
 		{

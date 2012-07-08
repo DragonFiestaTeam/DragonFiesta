@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using Zepheus.FiestaLib;
 using Zepheus.FiestaLib.Networking;
 using Zepheus.Util;
 using Zepheus.World.Data;
+using Zepheus.World.Networking;
 
 namespace Zepheus.World.Managers
 {
@@ -52,8 +54,12 @@ namespace Zepheus.World.Managers
             Networking.WorldClient TargetClient = ClientManager.Instance.GetClientByCharname(InvidetName);
             if (TargetClient != null)
             {
-                GuildRequest pRequest = new GuildRequest(pRequester.Client, TargetClient, pRequester.Guild);
-                this.pRequests.Add(pRequest);
+                GuildRequesterResponse Response = new GuildRequesterResponse(pRequester.Client, TargetClient);
+                if (Response.GetReponse())
+                {
+                    GuildRequest pRequest = new GuildRequest(pRequester.Client, TargetClient, pRequester.Guild);
+                    this.pRequests.Add(pRequest);
+                }
             }
 
         }
@@ -95,6 +101,7 @@ namespace Zepheus.World.Managers
             MasterMember.AddToDatabase();
             gg.AddToDatabase();
             gg.GuildMembers.Add(MasterMember);
+            pChar.Guild = gg;
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
         }
         public Guild GetGuildByName(string GuildName)

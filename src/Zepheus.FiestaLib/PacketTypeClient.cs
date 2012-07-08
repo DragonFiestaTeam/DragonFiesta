@@ -158,6 +158,7 @@ namespace Zepheus.FiestaLib
         CreateGuild = 5,
         GuildInvideRequest = 9,
         GuildRquestAnswer = 12,
+        ChangeMemberRank = 22,
         GuildNameRequest = 118,
         GuildListReqest = 190,
 

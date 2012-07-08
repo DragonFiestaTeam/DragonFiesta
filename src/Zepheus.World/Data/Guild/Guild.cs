@@ -80,7 +80,7 @@ namespace Zepheus.World.Data
         }
         public void AddToDatabase()
         {
-        Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"')");
+        Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster,GuildWar) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"','"+Convert.ToByte(this.GuildWar)+"')");
         }
  
        public virtual void LoadMembers()

@@ -247,6 +247,7 @@ namespace Zepheus.FiestaLib
 
     public enum SH29Type : byte
     {
+        SendRequesterResponse = 10,
         SendGuildInvideRequest = 11,
         GuildList = 27,
         GuildNameResult = 119,

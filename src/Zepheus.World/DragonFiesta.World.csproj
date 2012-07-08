@@ -62,6 +62,8 @@
     <Compile Include="Data\Guild\Guild.cs" />
     <Compile Include="Data\Guild\GuildMember.cs" />
     <Compile Include="Data\Guild\GuildRequest.cs" />
+    <Compile Include="Data\Guild\GuildRequestCode.cs" />
+    <Compile Include="Data\Guild\GuildRequesterResponse.cs" />
     <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
     <Compile Include="Handlers\Handler38.cs" />
     <Compile Include="Handlers\Handler37.cs" />

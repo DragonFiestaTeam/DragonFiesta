@@ -11,6 +11,23 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler29
     {
+              [PacketHandler(CH29Type.ChangeMemberRank)]
+        public static void ChangeRank(WorldClient client, Packet packet)
+        {
+                  string targetName;
+                  byte Rank;
+
+            if (client.Character.Guild == null)
+                return;
+            if (client.Character.Guild.GuildMaster != client.Character.Character.Name)
+                return;
+            if (!packet.TryReadString(out targetName, 16))
+                return;
+            if (!packet.TryReadByte(out Rank))
+                return;
+            GuildMember pMember = client.Character.Guild.GuildMembers.Find(m => m.pMemberName == targetName);
+            pMember.GuildRank = (GuildRanks)Rank;
+        }
         [PacketHandler(CH29Type.GuildRquestAnswer)]
         public static void GuildRquestAnswer(WorldClient client, Packet packet)
         {
@@ -115,6 +132,7 @@ namespace Zepheus.World.Handlers
                         ppacket.WriteUShort(3137);
                         ppacket.WriteUInt(32);//unk
                         GuildManager.Instance.CreateGuild(client.Character, GuildName, GuildPassword, GuildWar);
+                       
                     }
                     ppacket.WriteString(GuildName, 16);
                     ppacket.WriteString(GuildPassword, 8);

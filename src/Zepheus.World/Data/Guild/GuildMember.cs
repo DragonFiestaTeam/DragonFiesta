@@ -86,7 +86,7 @@ namespace Zepheus.World.Data
         {
             using(Database.DatabaseClient Client =  Program.DatabaseManager.GetClient())
              {
-                 Client.ExecuteQuery("INSERT INTO GuildMembers (CharID,Rank,Korp,GuildID) VALUES ('"+this.CharID+"','"+this.GuildRank+"','"+this.Korp+"','"+this.GuildID+"')");
+                 Client.ExecuteQuery("INSERT INTO GuildMembers (CharID,Rank,Korp,GuildID) VALUES ('"+this.CharID+"','"+(byte)this.GuildRank+"','"+this.Korp+"','"+this.GuildID+"')");
                  Client.ExecuteQuery("UPDATE Characters set GuildID =" + this.GuildID + " WHERE CharID=" + this.CharID + "");
              }
         }
