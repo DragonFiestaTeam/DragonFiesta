@@ -64,6 +64,11 @@ namespace Zepheus.World.Managers
                 Packet pack = Guild.MultiMemberList(pRequest.Guild.GuildMembers, i, i + Math.Min(20, pRequest.Guild.GuildMembers.Count - i), pRequest.Guild.GuildMembers.Count);
                 pMember.pClient.SendPacket(pack);
             }
+            using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
+            {
+                pRequest.Guild.Details.WriteMessageAsGuildMember(p2, pRequest.Guild);
+                pMember.pClient.SendPacket(p2);
+            }
         }
         public void CreateGuildInvideRequest(string InvidetName, WorldCharacter pRequester)
         {
