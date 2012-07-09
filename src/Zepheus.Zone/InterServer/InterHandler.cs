@@ -22,6 +22,37 @@ namespace Zepheus.Zone.InterServer
 			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
 			InterFunctionCallbackProvider.Instance.OnResult(id, result);
 		}
+        [InterPacketHandler(InterHeader.GetBroadcastList)]
+        public static void Broadcast(WorldConnector pConnector, InterPacket pPacket)
+        {
+            int packetlenght;
+            byte[] packet;
+            string charname;
+            if (!pPacket.TryReadString(out charname, 16))
+                return;
+
+            if (!pPacket.TryReadInt(out packetlenght))
+                return;
+
+            if (!pPacket.TryReadBytes(packetlenght, out packet))
+                return;
+
+            ZoneClient pClient = ClientManager.Instance.GetClientByCharName(charname);
+            if (pClient == null)
+                return;
+            using (var ipacket = new InterPacket(InterHeader.SendBroiadCastList))
+            {
+                int count = pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors).Count;
+                ipacket.WriteInt(packetlenght);
+                ipacket.WriteBytes(packet);
+                ipacket.WriteInt(count);
+                foreach (var character in pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors))
+                {
+                    ipacket.WriteString(character.Name,16);
+                }
+                pConnector.SendPacket(ipacket);
+            }
+        }
 
         [InterPacketHandler(InterHeader.SendAddRewardItem)]
         public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)

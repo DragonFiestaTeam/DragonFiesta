@@ -157,6 +157,7 @@ namespace Zepheus.FiestaLib
     {
         CreateGuild = 5,
         GuildInvideRequest = 9,
+        GuildMemberRemoveRequest = 28,
         GuildRquestAnswer = 12,
         ChangeGuildDetails = 16,
         ChangeMemberRank = 22,
@@ -184,6 +185,8 @@ namespace Zepheus.FiestaLib
        GetGuildAcademyListRequest = 7,
        GuildAcademyReuqest = 17,
        GuildAcademyLeave = 27,
+        JumpToMember = 31,
+       ChangeDetails = 36,
        GuildAcademyRequestList = 13,
        GuildAcademyChatMessage = 104,
 

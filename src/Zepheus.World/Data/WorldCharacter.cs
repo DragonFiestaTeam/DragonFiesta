@@ -139,6 +139,21 @@ namespace Zepheus.World.Data
                 }
             }
         }
+        public void BroucastPacket(Packet pPacket)
+        {
+            InterServer.InterHandler.SendGetCharacterBroaucast(this, pPacket);
+        }
+        public void BroudCastGuildNameResult()
+        {
+            if (this.Guild == null)
+                return;
+            using (var packet = new Packet(SH29Type.GuildNameResult))
+            {
+                packet.WriteInt(this.Guild.ID);
+                packet.WriteString(this.Character.Name, 16);
+                this.BroucastPacket(packet);
+            }
+        }
         public void LoadGuild()
         {
             try
@@ -147,6 +162,7 @@ namespace Zepheus.World.Data
                 if (g != null)
                 {
                     this.Guild = g;
+                    this.BroudCastGuildNameResult();
                     GuildMember mMember = g.GuildMembers.Find(m => m.CharID == this.ID);
                     mMember.isOnline = true;
                     mMember.pClient = this.Client;
@@ -184,6 +200,7 @@ namespace Zepheus.World.Data
         }
 		public void ChangeMap(string mapname)
 		{
+      
 			foreach (var friend in friends)
 			{
 				WorldClient client = ClientManager.Instance.GetClientByCharname(friend.Name);
@@ -195,6 +212,21 @@ namespace Zepheus.World.Data
 					client.SendPacket(packet);
 				}
 			}
+        if(this.Academy != null)
+        {
+            foreach (var pMember in this.Academy.AcademyMembers)
+            {
+                pMember.ChangeMap(this.Character.Name, mapname);
+            }
+        }
+        if (this.Guild != null)
+        {
+            foreach (var pMember in this.Guild.GuildMembers)
+            {
+              //todo packet
+            }
+        }
+            //todo InterPacket
 		}
         public void LoadBlockUserList()
         {
@@ -549,7 +581,6 @@ namespace Zepheus.World.Data
 			string data = ByteArrayToStringForBlobSave(Character.Shortcuts) ?? ByteArrayToStringForBlobSave(new byte[308]);
 			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + data+ "' WHERE CharID='" + Character.ID + "';");
 		}
-
         internal void OnGotIngame()
         {
             LoadGroup();

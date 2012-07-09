@@ -113,6 +113,8 @@ namespace Zepheus.World.InterServer
             return;
 
             WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+            if (client == null)
+                return;
             client.Character.LevelUp(level);
         }
 		[InterPacketHandler(InterHeader.BanAccount)]
@@ -250,7 +252,44 @@ namespace Zepheus.World.InterServer
 				Log.WriteLine(LogLevel.Warn, "Uh oh, Zone {0} tried to transfer {1} to zone {1} D:", zc.ID, charname, zoneid);
 			}
 		}
+        public static void SendGetCharacterBroaucast(WorldCharacter pChar,FiestaLib.Networking.Packet Packet)
+        {
+            ZoneConnection conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
+            using (var packet = new InterPacket(InterHeader.GetBroadcastList))
+            {
+                packet.WriteString(pChar.Character.Name, 16);
+                packet.WriteInt(packet.ToArray().Length);
+                packet.WriteBytes(packet.ToArray());
+                conn.SendPacket(packet);
+            }
+        }
+        [InterPacketHandler(InterHeader.SendBroiadCastList)]
+        public static void GetList(ZoneConnection pConnection, InterPacket pPacket)
+        {
+            int count, packetlenght;
+            byte[] SendPacket;
 
+            if (!pPacket.TryReadInt(out packetlenght))
+                return;
+
+            if (!pPacket.TryReadBytes(packetlenght, out SendPacket))
+                return;
+
+            if (!pPacket.TryReadInt(out count))
+                return;
+            
+            for (int i = 0; i < count; i++)
+            {
+                string charname;
+                if(!pPacket.TryReadString(out charname,16))
+                return;
+                using (var packet = new FiestaLib.Networking.Packet())
+                {
+                    packet.WriteBytes(SendPacket);
+                    ClientManager.Instance.GetClientByCharname(charname).SendPacket(packet);
+                }
+            }
+        }
 		[InterPacketHandler(InterHeader.FunctionCharIsOnline)]
 		public static void FunctionGetCharacterOnline(ZoneConnection pConnection, InterPacket pPacket)
 		{

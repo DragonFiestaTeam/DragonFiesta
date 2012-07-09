@@ -32,7 +32,7 @@ namespace Zepheus.World.Managers
         #region Methods
         public void AddMember(GuildRequest pRequest)
         {
-           
+
             GuildMember pMember = new GuildMember
             {
                 CharID = pRequest.pTarget.Character.ID,
@@ -42,12 +42,28 @@ namespace Zepheus.World.Managers
                 pClient = pRequest.pTarget,
                 isOnline = true,
                 GuildRank = GuildRanks.Member,
-                GuildID = pRequest.Guild.ID, 
+                GuildID = pRequest.Guild.ID,
             };
             pMember.AddToDatabase();
             pRequest.Guild.GuildMembers.Add(pMember);
             pRequest.pTarget.Character.Character.GuildID = pMember.GuildID;
+            pMember.pClient.Character.Guild = pRequest.Guild;
             pRequest.pTarget.Character.Guild = pRequest.Guild;
+            foreach (var GuildMember in pRequest.Guild.GuildMembers)
+            {
+                using (var packet = new Packet(SH29Type.AddGuildMember))
+                {
+                    if (GuildMember.isOnline)
+                        pMember.WriteInfo(packet);
+                    GuildMember.pClient.SendPacket(packet);
+                    GuildMember.SendMemberStatus(true, pMember.pMemberName);
+                }
+            }
+            for (int i = 0; i < pRequest.Guild.GuildMembers.Count; i += 20)
+            {
+                Packet pack = Guild.MultiMemberList(pRequest.Guild.GuildMembers, i, i + Math.Min(20, pRequest.Guild.GuildMembers.Count - i), pRequest.Guild.GuildMembers.Count);
+                pMember.pClient.SendPacket(pack);
+            }
         }
         public void CreateGuildInvideRequest(string InvidetName, WorldCharacter pRequester)
         {
@@ -74,17 +90,46 @@ namespace Zepheus.World.Managers
             pChar.Guild = null;
          }
 
+        private bool GetFreeGuildSlot(out int GuildID)
+        {
+            GuildID = 0;
+            for (byte i = 0; i < DataProvider.Instance.GuildsByID.Count+1; i++)
+            {
+                if (!DataProvider.Instance.GuildsByID.ContainsKey(i))
+                {
+                    if(i != 0)
+                    {
+                    GuildID = i;
+                    return true;
+                    }
+                    GuildID = 1;
+                    return true;
+                }
+            }
+            return false;
+        }
         public void CreateGuild(WorldCharacter pChar,string GuildeName,string GuildPassword,bool GuildWar)
         {
+            int GuildID;
+            if (!GetFreeGuildSlot(out GuildID))
+                return;
+
             Guild gg = new Guild
              {
                  GuildMaster = pChar.Character.Name,
                  GuildPassword = GuildPassword,
                  Name = GuildeName,
                  GuildWar = GuildWar,
-                 ID = DataProvider.Instance.GuildsByID.Count + 1,
+                 ID = GuildID,
              };
-
+            gg.Details = new DetailsMessage
+            {
+                Creater = "",
+                Message = "",
+                CreateTime = DateTime.Now,
+                lenght = 0,
+                GuildOwner = gg.Name,
+            };
             GuildMember MasterMember = new GuildMember
             {
                 CharID = pChar.ID,
@@ -103,6 +148,7 @@ namespace Zepheus.World.Managers
             gg.GuildMembers.Add(MasterMember);
             pChar.Guild = gg;
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
+            DataProvider.Instance.GuildsByName.Add(gg.Name, gg);
         }
         public Guild GetGuildByName(string GuildName)
         {

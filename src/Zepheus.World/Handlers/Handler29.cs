@@ -43,12 +43,26 @@ namespace Zepheus.World.Handlers
             {
                 GuildManager.Instance.AddMember(pRequest);
                 GuildManager.Instance.RemoveGuildRequest(pRequest);
+                
             }
             else
             {
                 GuildManager.Instance.pRequests.Remove(pRequest);
                 GuildManager.Instance.RemoveGuildRequest(pRequest);
             }
+
+        }
+           [PacketHandler(CH29Type.GuildMemberRemoveRequest)]
+        public static void RemoveMemberByMember(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            client.Character.Guild.RemoveMember(client.Character.Character.Name);
+               using(var pack = new Packet(SH29Type.RemoveFromGuild))
+               {
+                   pack.WriteUShort(3137);//ok
+                   client.SendPacket(pack);
+               }
 
         }
         [PacketHandler(CH29Type.ChangeGuildDetails)]
@@ -62,8 +76,24 @@ namespace Zepheus.World.Handlers
                 return;
             if (client.Character.Guild == null)
                 return;
+            using (var pack = new Packet(SH29Type.UnkMessageChange))
+            {
+                pack.WriteHexAsBytes("68 1B 00 92 AD F8 4F 2E 00 00 00 2B 00 00 00 17 00 00 00 07 00 00 00 06 00 00 00 70 00 00 00 06 00 00 00 BC 00 00 00 01 00 00 00 00 00");
+                client.SendPacket(pack);
+            }
+            using (var pack = new Packet(SH29Type.ClearGuildDetailsMessage))
+            {
+                pack.WriteUShort(3137);//3138 GuildMessage not übermittelt
+                pack.WriteLong(0);
+                client.SendPacket(pack);
+            }
+            using (var pack = new Packet(SH29Type.ChangeGuildMessageResponse))
+            {
+                pack.WriteUShort(3137);//3138 GuildMessage not übermittelt
+                client.SendPacket(pack);
+            }
+            client.Character.Guild.Details.UpdateGuildDetails(client.Character.Guild, client.Character.Character.Name, Message);
 
-            client.Character.Guild.Details.UpdateGuildDetails(client.Character.Guild, client.Character.Character, Message, MessageLenght);
         }
           [PacketHandler(CH29Type.GuildInvideRequest)]
         public static void GuildInvideRequest(WorldClient client, Packet packet)
@@ -146,6 +176,7 @@ namespace Zepheus.World.Handlers
                         ppacket.WriteUShort(3137);
                         ppacket.WriteUInt(32);//unk
                         GuildManager.Instance.CreateGuild(client.Character, GuildName, GuildPassword, GuildWar);
+                        client.Character.BroudCastGuildNameResult();
                        
                     }
                     ppacket.WriteString(GuildName, 16);

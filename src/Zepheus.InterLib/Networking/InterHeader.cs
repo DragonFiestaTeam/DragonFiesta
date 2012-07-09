@@ -30,6 +30,8 @@
 		Zonelist = 0x2002,
 
 		Worldmsg = 0x3000,
+        GetBroadcastList = 0x3001,
+        SendBroiadCastList = 0x3002,
 
 		FunctionAnswer = 0x4000,
 		FunctionCharIsOnline = 0x4001,

@@ -73,6 +73,43 @@ namespace Zepheus.World.Handlers
             client.Character.Academy.MemberLeave(pMember);
             
         }
+           [PacketHandler(CH38Type.ChangeDetails)]
+        public static void GuildAcademyDetailsChange(WorldClient client, Packet packet)
+        {
+            ushort lenght;
+            string message;
+            if (!packet.TryReadUShort(out lenght))
+                return;
+
+            if (!packet.TryReadString(out message, lenght))
+                return;
+               using(var pack = new Packet(SH38Type.GuildAcademyChangeDetailsResponse))
+               {
+                   pack.WriteUShort(6016);//code for ok
+                   client.SendPacket(pack);
+               }
+               if (client.Character.Academy == null)
+                   return;
+               client.Character.Academy.Details.UpdateAcademyDetails(client.Character.Academy.Name, message);
+
+        }
+        [PacketHandler(CH38Type.JumpToMember)]
+        public static void JumpToMember(WorldClient client, Packet packet)
+        {
+            string pMemberName;
+            if (!packet.TryReadString(out pMemberName, 16))
+                return;
+
+            if (client.Character.Academy == null)
+                return;
+            AcademyMember pMember = client.Character.Academy.AcademyMembers.Find(m => m.pClient.Character.Character.Name == pMemberName);
+            if(pMember != null)
+            {
+                AcademyMember mMember = client.Character.Academy.AcademyMembers.Find(m => m.pMemberName == client.Character.Character.Name);
+                mMember.ChangeMap(mMember.MapName, pMember.MapName);
+                client.Character.ChangeMap(pMember.MapName);
+            }
+        }
         [PacketHandler(CH38Type.GuildAcademyRequestList)]
         public static void GuildAcademyRequestList(WorldClient client, Packet packet)
         {

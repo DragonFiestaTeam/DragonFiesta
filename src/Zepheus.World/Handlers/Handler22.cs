@@ -32,10 +32,9 @@ namespace Zepheus.World.Handlers
            }
           using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
            { 
-              if(client.Character.Guild != null)
-                  if (client.Character.Academy != null)
+                  if (client.Character.Guild != null)
                   {
-                      client.Character.Academy.Details.WriteMessageAsGuildMember(p2, client.Character.Guild);
+                      client.Character.Guild.Details.WriteMessageAsGuildMember(p2, client.Character.Guild);
 
                   }
                   else

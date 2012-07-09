@@ -38,10 +38,12 @@ namespace Zepheus.World.Data
                 Korp = GetDataTypes.GetUshort(row["Korp"]),
                 GuildID = GetDataTypes.GetInt(row["GuildID"]),
             };
+         
             return pMember;
         }
         public void LoadMemberExtraData(DataRow row)
         {
+    
             this.Level = GetDataTypes.GetByte(row["Level"]);
             this.pMemberJob = GetDataTypes.GetByte(row["Job"]);
             this.pMemberName = row["Name"].ToString();
@@ -60,9 +62,20 @@ namespace Zepheus.World.Data
                 SetOffline(name);
             }
         }
-        public void WriteGuildUpdateDetails(DetailsMessage details)
+        public void WriteGuildUpdateDetails(DetailsMessage details,Packet pPacket)
         {
-
+            pPacket.Fill(4, 0x00);//unk
+            pPacket.WriteInt(details.CreateTime.Second);
+            pPacket.WriteInt(details.CreateTime.Minute);//hour?
+            pPacket.WriteInt(details.CreateTime.Hour);
+            pPacket.WriteInt(details.CreateTime.Day);
+            pPacket.WriteInt(details.CreateTime.Month-1);//month or yeas
+            pPacket.WriteInt(details.CreateTime.ToFiestaYear());//year
+            pPacket.WriteInt(0);//unk
+            pPacket.WriteLong(0);//unk
+            pPacket.WriteString(details.Creater, 16);
+            pPacket.WriteUShort((ushort)details.Message.Length);
+            pPacket.WriteString(details.Message, details.Message.Length);
         }
         public virtual void WriteInfo(Packet Ppacket)
         {

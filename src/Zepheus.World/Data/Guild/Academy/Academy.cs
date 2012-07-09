@@ -54,6 +54,7 @@ namespace Zepheus.World.Data
                     }
                     else
                     {
+                        this.AcademyMembers.Remove(pMember);
                         Log.WriteLine(LogLevel.Warn, "Failed Load GuildAcademy ExtraData By Character {0}", CharID);
                     }
                 }

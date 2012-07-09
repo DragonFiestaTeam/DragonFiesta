@@ -57,6 +57,21 @@ namespace Zepheus.World.Data
             g.LoadMembers();
             return g;
         }
+        public virtual void RemoveMember(string Name)
+        {
+           GuildMember pMember = this.GuildMembers.Find(m => m.pMemberName == Name);
+           pMember.RemoveFromDatabase();
+           foreach (var pmMember in this.GuildMembers)
+           {
+               if(pmMember.isOnline)
+              using(var packet = new Packet(SH29Type.RemoveGuildMember))
+              {
+                 packet.WriteString(Name,16);
+                 pmMember.pClient.SendPacket(packet);
+              }
+           }
+           this.GuildMembers.Remove(pMember);
+        }
         public static Packet MultiMemberList(List<GuildMember> objs, int start, int end, int countGesammt)
         {
             Packet packet = new Packet(SH29Type.GuildList);
@@ -111,6 +126,7 @@ namespace Zepheus.World.Data
                    }
                    else
                    {
+                       this.GuildMembers.Remove(pMember);
                        Log.WriteLine(LogLevel.Warn, "Failed Load Guild ExtraData By Character {0}", CharID);
                    }
                }
