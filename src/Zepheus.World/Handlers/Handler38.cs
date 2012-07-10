@@ -46,6 +46,8 @@ namespace Zepheus.World.Handlers
                 pMemberName = client.Character.Character.Name,
                 pMemberJob = client.Character.Character.Job,
                 GuildID = pGuild.ID,
+                Academy = pGuild.GuildAcademy,
+                RegisterDate = DateTime.Now,
             };
             pMember.AddToDatabase();
             client.Character.Academy = pGuild.GuildAcademy;

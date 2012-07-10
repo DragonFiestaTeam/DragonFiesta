@@ -44,11 +44,11 @@ namespace Zepheus.World.Managers
                 GuildRank = GuildRanks.Member,
                 GuildID = pRequest.Guild.ID,
             };
-            pMember.AddToDatabase();
             pRequest.Guild.GuildMembers.Add(pMember);
             pRequest.pTarget.Character.Character.GuildID = pMember.GuildID;
             pMember.pClient.Character.Guild = pRequest.Guild;
             pRequest.pTarget.Character.Guild = pRequest.Guild;
+            pMember.AddToDatabase();
             foreach (var GuildMember in pRequest.Guild.GuildMembers)
             {
                 using (var packet = new Packet(SH29Type.AddGuildMember))

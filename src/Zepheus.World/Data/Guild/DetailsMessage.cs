@@ -71,14 +71,13 @@ namespace Zepheus.World.Data
         }
         public void WriteMessageAsGuildAcadmyler(Packet pPacket,Academy pAcademy)
         {
-            pPacket.WriteUShort(8433);
-            pPacket.WriteUShort(0);//unk
+            pPacket.WriteInt(pAcademy.ID);
             pPacket.WriteByte(1);//unk
             pPacket.WriteString(this.GuildOwner, 16);
-            pPacket.WriteUShort(3);//membercount
+            pPacket.WriteUShort((ushort)pAcademy.AcademyMembers.Count);//membercount
             pPacket.WriteUShort(50);//maxmembercount
             pPacket.WriteInt(pAcademy.Guild.ID);//academyid
-            pPacket.WriteInt(9);//weeks //Todo Calculate Weeks
+            pPacket.WriteInt((int)pAcademy.RegisterDate.DayOfWeek);//weeks //Todo Calculate Weeks
             pPacket.WriteInt(pAcademy.GuildBuffTime);//time in sek
             pPacket.Fill(128, 0x00);//GuildAcademyBUff
             pPacket.WriteString(this.Message, 512);

@@ -1018,14 +1018,23 @@ namespace Zepheus.Zone.Game
 			packet.WriteUShort(0xffff);
 			packet.WriteShort(0);
 			packet.WriteUShort(0);             // Mob ID (title = 10)
-
+        
 			packet.Fill(55, 0);                // Buff Bits? Something like that
-			packet.WriteInt(this.Character.GuildID);      // Guild ID
+			packet.WriteInt( this.Character.GuildID >= 0 ? this.Character.AcademyID : 0);      // Guild ID
 			packet.WriteByte(0x02);            // UNK (0x02)
-			packet.WriteBool(false);            // In Guild Academy (0 - No, 1 - Yes)
+
+			packet.WriteBool(this.IsInAcademy());            // In Guild Academy (0 - No, 1 - Yes)
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
 			packet.WriteByte(this.Level);
 		}
+            public bool IsInAcademy()
+            {
+                if (this.Character.AcademyID > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
 		public void WriteRefinement(Packet packet)
 		{
 			packet.WriteByte(Convert.ToByte(GetUpgradesBySlot(ItemSlot.Weapon) << 4 | GetUpgradesBySlot(ItemSlot.Weapon2)));

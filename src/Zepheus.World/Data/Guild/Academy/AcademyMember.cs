@@ -25,6 +25,7 @@ namespace Zepheus.World.Data
                 CharID = GetDataTypes.GetInt(row["CharID"]),
                 Rank = (GuildAcademyRank)GetDataTypes.GetByte(row["Rank"]),
                 GuildID = GetDataTypes.GetInt(row["OwnerGuildID"]),
+                RegisterDate = DateTime.Parse(row["RegisterDate"].ToString()),
             };
             return pMember;
         }
@@ -87,17 +88,17 @@ namespace Zepheus.World.Data
         }
         public override void WriteInfo(Packet pPacket)
         {
-            pPacket.WriteString("AddName", 16);
+            pPacket.WriteString(this.pMemberName, 16);
             pPacket.Fill(65, 0x00);//unk
-            pPacket.WriteBool(true);
+            pPacket.WriteBool(this.isOnline);
             pPacket.Fill(3, 0x00);//unk
-            pPacket.WriteByte(21);//job 
-            pPacket.WriteByte(90);//level
+            pPacket.WriteByte(this.pMemberJob);//job 
+            pPacket.WriteByte(this.Level);//level
             pPacket.WriteByte(0);// unk
-            pPacket.WriteString("Rou", 12);//mapName
-            pPacket.WriteByte(20);//month
-            pPacket.WriteByte(21);//year
-            pPacket.WriteByte(30);//day
+            pPacket.WriteString(this.MapName, 12);//mapName
+            pPacket.WriteByte((byte)this.RegisterDate.Month);//month
+            pPacket.WriteByte(184);//year fortmat unkown
+            pPacket.WriteByte((byte)this.RegisterDate.Day);//day
             pPacket.WriteByte(0);//unk
             pPacket.WriteByte(0);  //unk
 

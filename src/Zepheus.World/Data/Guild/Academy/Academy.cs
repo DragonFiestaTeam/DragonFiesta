@@ -24,7 +24,6 @@ namespace Zepheus.World.Data
         {
             return this.AcademyMembers.Find(m => m.pMemberName == CharName);
         }
-
         public override void LoadMembers()
         {
             DataTable MemberData = null;

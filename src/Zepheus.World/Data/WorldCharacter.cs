@@ -173,7 +173,6 @@ namespace Zepheus.World.Data
                             pMember.SendMemberStatus(true, this.Character.Name);
                         }
                     }
-                    return;
                 }
                 Guild gAcademy = GuildManager.Instance.GetGuildByID(this.Character.AcademyID);
                 if(gAcademy != null)

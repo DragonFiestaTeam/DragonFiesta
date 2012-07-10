@@ -104,13 +104,6 @@ namespace Zepheus.World.Data
 				foreach (DataRow row in guildData.Rows)
 				{
 					Guild guild = Guild.LoadFromDatabase(row);
-                    guild.GuildAcademy = new Academy
-                    {
-                         Guild = guild,
-                         ID = guild.ID,
-                         Name = guild.Name,
-                         AcademyMembers = new List<AcademyMember>(),
-                    };
                     guild.GuildAcademy.LoadMembers();
                     GuildMemberCount += guild.GuildMembers.Count;
                     AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
