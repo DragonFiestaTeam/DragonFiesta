@@ -59,6 +59,11 @@ namespace Zepheus.World.Data
                 }
             }
         }
+        public void UpdateAcademyMessage(DetailsMessage message, Packet pack)
+        {
+            pack.WriteUShort((ushort)message.Message.Length);
+            pack.WriteString(message.Message, message.lenght);
+        }
         #region Packets
   
         public static Packet MultiMemberList(List<AcademyMember> objs, int start, int end,int countGesammt)

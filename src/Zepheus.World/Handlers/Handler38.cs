@@ -54,8 +54,14 @@ namespace Zepheus.World.Handlers
             client.Character.Character.AcademyID = pGuild.ID;
             client.Character.UpdateGuildAcademyID();
             pGuild.GuildAcademy.AcademyMembers.Add(pMember);
-            AcademyManager.Instance.SendAcademyRequest(client, AcademyRequestCode.Sucess, AcademyName);
+            AcademyManager.Instance.SendAcademyRequest(client,AcademyRequestCode.Sucess, AcademyName);
             InterServer.InterHandler.AddGuildMemberToZone(false, pMember.GuildID, client.Character.Character.Name, client.Character.Character.ID);
+            using (var pack = new Packet(SH4Type.CharacterGuildacademyinfo))
+            {
+                pGuild.GuildAcademy.Details.WriteMessageAsGuildAcadmyler(pack, pGuild.GuildAcademy);
+                client.SendPacket(pack);
+            }
+            client.Character.BroudCastGuildNameResult();
             pGuild.GuildAcademy.MemberJoin(pMember);//Send Join Packet To all
         }
         [PacketHandler(CH38Type.GuildAcademyLeave)]
@@ -92,7 +98,7 @@ namespace Zepheus.World.Handlers
                }
                if (client.Character.Academy == null)
                    return;
-               client.Character.Academy.Details.UpdateAcademyDetails(client.Character.Academy.Name, message);
+               client.Character.Academy.Details.UpdateAcademyDetails(client.Character.Academy.Name, message,client.Character.Character.Name);
 
         }
         [PacketHandler(CH38Type.JumpToMember)]

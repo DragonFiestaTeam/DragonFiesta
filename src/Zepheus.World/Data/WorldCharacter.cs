@@ -145,13 +145,14 @@ namespace Zepheus.World.Data
         }
         public void BroudCastGuildNameResult()
         {
-            if (this.Guild == null)
-                return;
-            using (var packet = new Packet(SH29Type.GuildNameResult))
+            if (this.Guild != null || this.Academy != null)
             {
-                packet.WriteInt(this.Guild.ID);
-                packet.WriteString(this.Character.Name, 16);
-                this.BroucastPacket(packet);
+                using (var packet = new Packet(SH29Type.GuildNameResult))
+                {
+                    packet.WriteInt(this.Character.GuildID >= 0 ? this.Character.AcademyID : 0);
+                    packet.WriteString(this.Character.Name, 16);
+                    this.BroucastPacket(packet);
+                }
             }
         }
         public void LoadGuild()
@@ -163,6 +164,7 @@ namespace Zepheus.World.Data
                 {
                     this.Guild = g;
                     this.BroudCastGuildNameResult();
+                    this.Character.AcademyID = this.Character.GuildID;
                     GuildMember mMember = g.GuildMembers.Find(m => m.CharID == this.ID);
                     mMember.isOnline = true;
                     mMember.pClient = this.Client;
@@ -178,7 +180,11 @@ namespace Zepheus.World.Data
                 if(gAcademy != null)
                 {
                     this.Academy = gAcademy.GuildAcademy;
-                   AcademyMember mMember = gAcademy.GuildAcademy.AcademyMembers.Find(m => m.CharID == this.ID);
+                    AcademyMember mMember = gAcademy.GuildAcademy.AcademyMembers.Find(m => m.CharID == this.ID);
+                    if(mMember == null)
+                    return;
+
+                    this.BroudCastGuildNameResult();
                     mMember.isOnline = true;
                     mMember.pClient = this.Client;
                     foreach (var pMember in gAcademy.GuildAcademy.AcademyMembers)
@@ -186,6 +192,13 @@ namespace Zepheus.World.Data
                         if (pMember.isOnline)
                         {
                             pMember.SendMemberStatus(true, this.Character.Name);
+                        }
+                    }
+                    foreach (var GuildMember in gAcademy.GuildMembers)
+                    {
+                        if (GuildMember.isOnline)
+                        {
+                            AcademyMember.SetOnline(mMember.pMemberName, GuildMember.pClient);
                         }
                     }
                 }
@@ -441,7 +454,7 @@ namespace Zepheus.World.Data
             try
             {
               
-                if (this.Guild != null)
+               if (this.Guild != null)
                 {
                     GuildMember mMember = this.Guild.GuildMembers.Find(m => m.CharID == this.ID);
                     mMember.isOnline = false;
@@ -466,6 +479,13 @@ namespace Zepheus.World.Data
                             pMember.SendMemberStatus(false, this.Character.Name);
                         }
                     }
+                    foreach (var pMember in  this.Academy.Guild.GuildMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            AcademyMember.SetOffline(this.Character.Name, pMember.pClient);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -481,24 +501,6 @@ namespace Zepheus.World.Data
 			this.UpdateFriendStates();
             this.SetGuildMemberStatusOffline();
 		}
-        public void GuildLoggetOut()
-        {
-            if (this.Guild != null)
-            {
-                foreach (var gMember in this.Guild.GuildMembers)
-                {
-                    gMember.SendMemberStatus(false, this.Character.Name);
-                }
-            }
-            else if (this.Academy != null)
-            {
-                foreach (var aMember in this.Academy.AcademyMembers)
-                {
-                    aMember.SendMemberStatus(false,this.Character.Name);
-                }
-            }
-
-        }
 		public void RemoveGroup()
 		{
 			this.Group = null;

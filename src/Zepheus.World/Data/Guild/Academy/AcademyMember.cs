@@ -41,20 +41,20 @@ namespace Zepheus.World.Data
         {
             if (Status)
             {
-                SetOnline(name);
+                SetOnline(name,this.pClient);
             }
             else
             {
-                SetOffline(name);
+                SetOffline(name,pClient);
             }
         }
         #region Packets
-        private void SetOffline(string name)
+        public static void SetOffline(string name,WorldClient pClient)
         {
             using (var packet = new Packet(SH38Type.GuildAcademyMemberOffline))
             {
                 packet.WriteString(name, 16);
-                this.pClient.SendPacket(packet);
+                pClient.SendPacket(packet);
 
             }
         }
@@ -77,12 +77,12 @@ namespace Zepheus.World.Data
             }
 
         }
-        private void SetOnline(string name)
+        public static void SetOnline(string name,WorldClient pClient)
         {
            using(var packet = new Packet(SH38Type.GuildAcademyMemberLoggetOn))
            {
                packet.WriteString(name, 16);
-               this.pClient.SendPacket(packet);
+               pClient.SendPacket(packet);
 
            }
         }
@@ -131,11 +131,6 @@ namespace Zepheus.World.Data
 
            }
 
-        }
-        public void UpdateAcademyMessage(DetailsMessage message ,Packet pack)
-        {
-            pack.WriteUShort((ushort)message.Message.Length);
-            pack.WriteString(message.Message, message.lenght);
         }
         #endregion
     }

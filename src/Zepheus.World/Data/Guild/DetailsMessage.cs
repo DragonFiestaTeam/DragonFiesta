@@ -40,7 +40,7 @@ namespace Zepheus.World.Data
                 }
             }
         }
-         public void UpdateAcademyDetails(string GuildName ,string Message)
+         public void UpdateAcademyDetails(string GuildName ,string Message,string Creater)
         {
              Guild g;
              if (!DataProvider.Instance.GuildsByName.TryGetValue(GuildName, out g))
@@ -48,23 +48,25 @@ namespace Zepheus.World.Data
 
             this.CreateTime = DateTime.Now;
             this.Message = Message;
+            this.Creater = Creater;
             this.lenght = (ushort)Message.Length;
+
             Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Guild SET GuildAcademyMessage='" + this.Message + "' WHERE ID='" + g.ID + "'");
             foreach (var pMember in g.GuildMembers)
             {
                 if (pMember.isOnline)
-                    using (var pack = new Packet(SH29Type.SendUpdateDetails))
+                    using (var pack = new Packet(SH38Type.GuildAcademyChangeDetails))
                     {
-                        pMember.WriteGuildUpdateDetails(this, pack);
+                      g.GuildAcademy.UpdateAcademyMessage(this, pack);
                         pMember.pClient.SendPacket(pack);
                     }
             }
             foreach (var pMember in g.GuildAcademy.AcademyMembers)//send to members
             {
                 if (pMember.isOnline)
-                    using (var pack = new Packet(SH29Type.SendUpdateDetails))
+                    using (var pack = new Packet(SH38Type.GuildAcademyChangeDetails))
                     {
-                        pMember.WriteGuildUpdateDetails(this, pack);
+                        g.GuildAcademy.UpdateAcademyMessage(this, pack);
                         pMember.pClient.SendPacket(pack);
                     }
             }
