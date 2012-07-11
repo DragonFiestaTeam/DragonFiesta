@@ -59,7 +59,7 @@ namespace Zepheus.World.Handlers
             byte lenght;
             if(!packet.TryReadByte(out lenght))
                 return;
-            if (packet.TryReadString(out message, (int)lenght))
+            if (!packet.TryReadString(out message, lenght))
                 return;
             //Todo Log Messages
             client.Character.Guild.SendChatMessage(client.Character.Character.Name, message);
@@ -91,6 +91,11 @@ namespace Zepheus.World.Handlers
                 case GuildRanks.guard:
                     break;
                 case GuildRanks.Master:
+                    client.Character.Guild.ChangeGuildMaster(targetName);
+                    GuildMember Master = client.Character.Guild.GuildMembers.Find(m => m.pMemberName == client.Character.Character.Name);
+                    if (Master == null)
+                        return;
+                    Master.GuildRank = GuildRanks.Member;
                     using (var pack2 = new Packet(SH29Type.ChangeRank))
                     {
                         pack2.WriteString(client.Character.Character.Name, 16);

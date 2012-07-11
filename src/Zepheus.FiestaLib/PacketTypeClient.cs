@@ -194,6 +194,7 @@ namespace Zepheus.FiestaLib
         BlockAcademyChat = 33,
         ChangeDetails = 36,
         ChangeFromGuildAcademyToGuild = 41,
+        ChangeRequestAnswer = 44,
         GuildAcademyChatMessage = 104,
 
     }

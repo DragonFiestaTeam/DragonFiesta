@@ -26,7 +26,7 @@ namespace Zepheus.World.Data
         }
         public void SendChatMessage(Networking.WorldClient pClient, string Sender, string Message)
         {
-            using (var packet = new Packet(SH29Type.GuildChatMessage))
+            using (var packet = new Packet(SH38Type.GuildAcademyChatessage))
             {
                 packet.WriteInt(this.ID);
                 packet.WriteString(Sender, 16);
@@ -107,16 +107,8 @@ namespace Zepheus.World.Data
             }
 
         }
-        public void MemberLeave(AcademyMember LeavepMember)
-        {
-            //Todo More Leave Logic
-            LeavepMember.RemoveFromDatabase();
-            this.AcademyMembers.Remove(LeavepMember);
-            foreach (var pMember in this.AcademyMembers)
-            {
-                pMember.SendMemberLeave(LeavepMember.pMemberName);
-            }
-        }
+
+  
         public static void SendAcademyLeaveRequest(AcademyRequestCode pCode,Networking.WorldClient pClient)
         {
             using(var packet = new Packet(SH38Type.GuildAcademyLeaveResponse))

@@ -121,6 +121,10 @@ namespace Zepheus.World.Data
         {
         Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster,GuildWar) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"','"+Convert.ToByte(this.GuildWar)+"')");
         }
+        public void ChangeGuildMaster(string NewMaster)
+        {
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Guild SET GuildMaster ='" + NewMaster + "' WHERE ID ='" + this.ID + "'");
+        }
        public virtual void LoadMembers()
        {
            DataTable MemberData = null;

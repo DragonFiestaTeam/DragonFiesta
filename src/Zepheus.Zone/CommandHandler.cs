@@ -465,7 +465,21 @@ namespace Zepheus.Zone
         private void Testg(ZoneCharacter character, params string[] param)
         {
             //05 58 00 04 0A 7A 0F 00 90 2B
-  
+            using (var pack = new Packet(SH38Type.JoinGuildFromAcademy))
+            {
+                pack.WriteString("invider", 16);
+                pack.WriteString("Create", 16);
+                pack.WriteByte(6);//rank
+                pack.WriteInt(0);//unk
+                pack.WriteUShort(9000);//korp
+                pack.Fill(64, 0x00);//unk
+                pack.WriteByte(95);// (this.isOnline ? (byte)0x95 : (byte)0x00);
+                pack.Fill(3, 0x00);//unk
+                pack.WriteByte(21);
+                pack.WriteByte(255);
+                pack.Fill(13, 0x00);//unk
+                character.Client.SendPacket(pack);
+            }
 
         }
         private void ChangeMap(ZoneCharacter character, params string[] param)

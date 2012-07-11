@@ -42,11 +42,13 @@ namespace Zepheus.Zone.InterServer
                 return;
             using (var ipacket = new InterPacket(InterHeader.SendBroiadCastList))
             {
-                int count = pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors).Count;
+                List<ZoneCharacter> Sender = pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors);
+                if (Sender.Count == 0)
+                    return;
                 ipacket.WriteInt(packetlenght);
                 ipacket.WriteBytes(packet);
-                ipacket.WriteInt(count);
-                foreach (var character in pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors))
+                ipacket.WriteInt(Sender.Count);
+                foreach (var character in Sender)
                 {
                     ipacket.WriteString(character.Name,16);
                 }

@@ -32,15 +32,17 @@ namespace Zepheus.World.Data
         }
         public void ChatBlockToDatabase()
         {
-            //Todo
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE academymembers SET ChatBlock='" + Convert.ToByte(this.HasAcademyChatBlock) + "' WHERE CharID='"+this.CharID+"'");
         }
         public override void AddToDatabase()
         {
                 Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + (byte)this.Rank + "')");
+                Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET AcademyID='" + this.Academy.ID + "' WHERE CharID='" + this.CharID+ "'");
         }
         public override void RemoveFromDatabase()
         {
             Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM AcademyMembers WHERE CharID ='" + this.CharID + "'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET AcademyID='0' WHERE CharID='" + this.CharID + "'");
         }
         public override void SendMemberStatus(bool Status, string name)
         {
@@ -63,14 +65,6 @@ namespace Zepheus.World.Data
 
             }
         }
-        public void SendMemberLeave(string Name)
-       {
-           using (var packet = new Packet(SH38Type.GuildAcademyMemberLeave))
-           {
-               packet.WriteString(Name, 16);
-               this.pClient.SendPacket(packet);
-           }
-       }
         public void SendMemberLevel(byte level,string Charname)
         {
             using (var packet = new Packet(SH38Type.GuildAcademyMemberOffline))

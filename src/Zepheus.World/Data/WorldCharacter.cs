@@ -149,7 +149,18 @@ namespace Zepheus.World.Data
             {
                 using (var packet = new Packet(SH29Type.GuildNameResult))
                 {
-                    packet.WriteInt(this.Character.GuildID >= 0 ? this.Character.AcademyID : 0);
+                    if(this.Character.GuildID > 0)
+                    {
+                        packet.WriteInt(this.Character.GuildID);
+                    }
+                    else if (this.Character.AcademyID > 0)
+                    {
+                        packet.WriteInt(this.Character.AcademyID);
+                    }
+                    else
+                    {
+                        packet.WriteInt(0);
+                    }
                     packet.WriteString(this.Character.Name, 16);
                     this.BroucastPacket(packet);
                 }
@@ -163,8 +174,8 @@ namespace Zepheus.World.Data
                 if (g != null)
                 {
                     this.Guild = g;
-                    this.BroudCastGuildNameResult();
                     this.Character.AcademyID = this.Character.GuildID;
+                    this.BroudCastGuildNameResult();
                     GuildMember mMember = g.GuildMembers.Find(m => m.CharID == this.ID);
                     mMember.isOnline = true;
                     mMember.pClient = this.Client;
@@ -281,10 +292,7 @@ namespace Zepheus.World.Data
                 this.UpdateGroupStatus();
             }
 		}
-        public void UpdateGuildAcademyID()
-        {
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET AcademyID='" + this.Academy.ID + "' WHERE CharID='" + this.ID + "'");
-        }
+
 		public void LoadEqupippet()
 		{
 			foreach (var eqp in this.Inventory.EquippedItems.Where(eq => eq.Slot < 0))

@@ -14,6 +14,7 @@ namespace Zepheus.World.Data
             this.pTarget = pTarget;
             this.Guild = pGuild;
             this.CreationTime = DateTime.Now;
+            SendRequest();
           
         }
         public override void SendRequest()

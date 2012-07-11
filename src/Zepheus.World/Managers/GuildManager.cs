@@ -141,6 +141,22 @@ namespace Zepheus.World.Managers
                 lenght = 0,
                 GuildOwner = gg.Name,
             };
+            gg.GuildAcademy = new Academy
+            {
+                AcademyMembers = new List<AcademyMember>(),
+                Details = gg.Details,
+                Guild = gg,
+                GuildAcademy = gg.GuildAcademy,
+                GuildBuffTime = 0,
+                GuildMaster = gg.GuildMaster,
+                GuildMembers = gg.GuildMembers,
+                GuildPassword = gg.GuildPassword,
+                GuildWar = gg.GuildWar,
+                ID = gg.ID,
+                MaxMemberCount = gg.MaxMemberCount,
+                Name = gg.Name,
+                RegisterDate = gg.RegisterDate,
+            };
             GuildMember MasterMember = new GuildMember
             {
                 CharID = pChar.ID,

@@ -109,6 +109,8 @@ namespace Zepheus.World.Data
         }
         public virtual void RemoveFromDatabase()
         {
+            Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM GuildMembers WHERE CharID='" + this.CharID + "'");
+            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters set GuildID =0 WHERE CharID=" + this.CharID + "");
         }
         #endregion
         #region Packets
