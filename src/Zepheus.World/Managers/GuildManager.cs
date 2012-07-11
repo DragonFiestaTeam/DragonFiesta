@@ -14,12 +14,14 @@ namespace Zepheus.World.Managers
        {
            #region Properties
            public List<GuildRequest> pRequests { get; private set; }
+           public List<ChangeRequest> ChangeRequest { get; private set; }
            public static GuildManager Instance { get; private set; }
            #endregion
            #region .ctor
            public GuildManager()
         {
             pRequests = new List<GuildRequest>();
+            ChangeRequest = new List<ChangeRequest>();
         }
         [InitializerMethod]
         public static bool Initialize()
@@ -30,6 +32,10 @@ namespace Zepheus.World.Managers
         }
            #endregion
         #region Methods
+        public void AddReuest(ChangeRequest Request)
+        {
+            this.ChangeRequest.Add(Request);
+        }
         public void AddMember(GuildRequest pRequest)
         {
 

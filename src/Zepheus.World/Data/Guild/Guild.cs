@@ -61,16 +61,40 @@ namespace Zepheus.World.Data
         {
            GuildMember pMember = this.GuildMembers.Find(m => m.pMemberName == Name);
            pMember.RemoveFromDatabase();
-           foreach (var pmMember in this.GuildMembers)
-           {
-               if(pmMember.isOnline)
               using(var packet = new Packet(SH29Type.RemoveGuildMember))
               {
                  packet.WriteString(Name,16);
-                 pmMember.pClient.SendPacket(packet);
+                 this.SendPacketToAllOnlineMember(packet);
               }
-           }
            this.GuildMembers.Remove(pMember);
+        }
+        public void SendChatMessage(string Sender, string Message)
+        {
+             using (var packet = new Packet(SH29Type.GuildChatMessage))
+             {
+                 packet.WriteInt(this.ID);
+                 packet.WriteString(Sender, 16);
+                 packet.WriteUShort(0);//unk
+                 packet.WriteByte((byte)Message.Length);
+                 packet.WriteString(Message, Message.Length);
+                 this.SendPacketToAllOnlineMember(packet);
+             }
+        }
+        public virtual void SendPacketToAllOnlineMember(Packet packet)
+        {
+            foreach (var pMember in this.GuildMembers)
+            {
+                if (pMember.isOnline)
+                    pMember.pClient.SendPacket(packet);
+            }
+        }
+        public void SendRemoveMemberFromGuild(string name)
+        {
+            using (var packet = new Packet(SH29Type.RemoveGuildMember))
+            {
+                packet.WriteString(name, 16);
+                SendPacketToAllOnlineMember(packet);
+            }
         }
         public static Packet MultiMemberList(List<GuildMember> objs, int start, int end, int countGesammt)
         {

@@ -249,16 +249,22 @@ namespace Zepheus.FiestaLib
     {
         SendRequesterResponse = 10,
         SendGuildInvideRequest = 11,
+        GuildKickResponse = 15,
         ChangeGuildMessageResponse = 17,
+        RankChangeResponse = 23,
+        LeaveResponse = 29,
         ClearGuildDetailsMessage = 191,
         UnkMessageChange = 196,
         GuildList = 27,
         RemoveFromGuild = 29,
         SendUpdateDetails = 45,
         AddGuildMember = 54,
+        GuildMemberKick = 55,
         RemoveGuildMember = 56,
+        ChangeRank = 57,
         SendMemberGoOnline = 61,
         SendMemberGoOffline = 62,
+        GuildChatMessage = 116,
         GuildNameResult = 119,
 
     }
@@ -289,7 +295,12 @@ namespace Zepheus.FiestaLib
         GuildAcademyJoin = 19,
         GuildAcademyChangeDetailsResponse = 37,
         GuildAcademyChangeDetails = 38,
+        KickResponse = 23,
+        KickGuildAcademyMember = 24,
         GuildAcademyLeaveResponse = 28,//6052 = failed becouase hour 6016 // Succfuell
+        BlockMessage = 35,
+        ChangeResponsePacket = 42,
+        ChangeRequest = 43,
         GuildAcademyDekanChange = 91,
         GuildAcademyMemberLeave = 96,
         GuildAcademyMemberLoggetOn = 97,
@@ -297,6 +308,8 @@ namespace Zepheus.FiestaLib
         GuildAcademyMemberChangeMap = 99,
         GuildAcademyMemberLevelUp = 102,
         GuildAcademMemberChangeJob = 103,
+        GuildAcademyChatessage = 105,
+        ChatBlock = 106,
         GuildAcademyReward = 115,
     }
     public enum SH42Type : byte

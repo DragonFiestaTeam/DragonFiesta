@@ -15,5 +15,5 @@ public enum GuildRanks : byte
 }
 public enum GuildAcademyRank : byte
 {
-
+    Member = 0,
 }

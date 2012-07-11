@@ -7,10 +7,14 @@ namespace Zepheus.World.Data
 {
    public class GuildRequest
     {
-       public WorldClient pRequester { get; private set; }
-       public WorldClient pTarget { get; private set; }
-       public Guild Guild { get; private set; }
-       public DateTime CreationTime { get; private set; }
+       public WorldClient pRequester { get;  set; }
+       public WorldClient pTarget { get;  set; }
+       public Guild Guild { get; set; }
+       public DateTime CreationTime { get;  set; }
+
+       public GuildRequest()
+       {
+       }
        public GuildRequest(WorldClient pRequester, WorldClient pTarget,Guild pGuild)
        {
            this.pRequester = pRequester;
@@ -25,7 +29,7 @@ namespace Zepheus.World.Data
        {
              //Todo Send Packet to requester
        }
-       private void SendRequest()
+      public virtual void SendRequest()
        {
            using (var packet = new Packet(SH29Type.SendGuildInvideRequest))
            {

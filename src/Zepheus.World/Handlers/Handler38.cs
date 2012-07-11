@@ -11,6 +11,111 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler38
     {
+        [PacketHandler(CH38Type.ChangeFromGuildAcademyToGuild)]
+        public static void ChangeFromGuildAcademyToGuild(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            string ChangeName;
+            if (!packet.TryReadString(out ChangeName, 16))
+                return;
+            WorldClient pClient = ClientManager.Instance.GetClientByCharname(ChangeName);
+            if(pClient == null)
+             return;
+            ChangeRequest pRequest = new ChangeRequest(client, pClient, client.Character.Guild);
+            GuildManager.Instance.AddReuest(pRequest);
+            using (var pack = new Packet(SH38Type.ChangeResponsePacket))
+            {
+                pack.WriteString(ChangeName, 16);
+                pack.WriteUShort(6016);//ok
+                client.SendPacket(pack);
+            }
+      
+         
+
+        }
+        [PacketHandler(CH38Type.KickMember)]
+        public static void LeaveGuild(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            //todo check rank
+
+            string KickName;
+            if (!packet.TryReadString(out KickName, 16))
+                return;
+            using (var pack = new Packet(SH38Type.KickResponse))
+            {
+                pack.WriteString(KickName, 16);
+                pack.WriteUShort(6016);//ok
+                client.SendPacket(pack);
+            }
+            using (var pack = new Packet(SH38Type.KickGuildAcademyMember))
+            {
+                pack.WriteString(KickName, 16);
+                client.Character.Guild.SendPacketToAllOnlineMember(pack);
+                client.Character.Guild.GuildAcademy.SendPacketToAllOnlineMember(pack);
+            }
+        }
+        [PacketHandler(CH38Type.BlockAcademyChat)]
+        public static void GuildAcademyChatBlock(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            string Blockname;
+            if (!packet.TryReadString(out Blockname, 16))
+                return;
+            AcademyMember pMember = client.Character.Guild.GuildAcademy.AcademyMembers.Find(m => m.pMemberName == Blockname);
+            if (pMember == null)
+                return;
+            pMember.HasAcademyChatBlock = true;
+            pMember.ChatBlockToDatabase();
+            using (var pack = new Packet(SH38Type.BlockMessage))
+            {
+                pack.WriteString(client.Character.Character.Name,16);
+                pack.WriteString(Blockname, 16);
+                client.Character.Guild.SendPacketToAllOnlineMember(pack);
+                client.Character.Guild.GuildAcademy.SendPacketToAllOnlineMember(pack);
+            }
+        }
+        [PacketHandler(CH38Type.GuildAcademyChatMessage)]
+        public static void GuildAcademyChat(WorldClient client, Packet packet)
+        {
+            if (client.Character.Academy == null)
+                return;
+            string message;
+            byte lenght;
+            if(!packet.TryReadByte(out lenght))
+                return;
+            if(!packet.TryReadString(out message,lenght))
+                return;
+          AcademyMember pMember = client.Character.Academy.AcademyMembers.Find(m => m.pMemberName == client.Character.Character.Name);
+            if (pMember != null)
+            {
+                if (pMember.HasAcademyChatBlock)
+                    using (var pack2 = new Packet(SH38Type.ChatBlock))
+                    {
+                        pack2.WriteUShort(6140);
+                        client.SendPacket(pack2);
+                    }//block chat
+                    return;
+            }
+
+            //Todo Log Message
+
+            foreach(var pAcademyMember in client.Character.Academy.AcademyMembers)
+            {
+                if(pAcademyMember.isOnline && !pAcademyMember.HasAcademyChatBlock)
+                client.Character.Academy.SendChatMessage(pAcademyMember.pClient,client.Character.Character.Name, message);
+            }
+
+            foreach(var pGuildMember in client.Character.Academy.Guild.GuildMembers)
+            {
+                if(pGuildMember.isOnline)
+                client.Character.Academy.SendChatMessage(pGuildMember.pClient, client.Character.Character.Name, message);
+            }
+            
+        }
         [PacketHandler(CH38Type.GuildAcademyReuqest)]
         public static void GuildAcademyRequest(WorldClient client, Packet packet)
         {
@@ -62,7 +167,13 @@ namespace Zepheus.World.Handlers
                 client.SendPacket(pack);
             }
             client.Character.BroudCastGuildNameResult();
-            pGuild.GuildAcademy.MemberJoin(pMember);//Send Join Packet To all
+            using (var pack = new Packet(SH38Type.GuildAcademyJoin))
+            {
+              pMember.WriteInfo(packet);
+              pGuild.SendPacketToAllOnlineMember(pack);
+              pGuild.GuildAcademy.SendPacketToAllOnlineMember(pack);
+            }
+          
         }
         [PacketHandler(CH38Type.GuildAcademyLeave)]
         public static void GuildAcademyLeave(WorldClient client, Packet packet)

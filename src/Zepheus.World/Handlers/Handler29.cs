@@ -11,6 +11,59 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler29
     {
+        [PacketHandler(CH29Type.GuildLeaveByMember)]
+        public static void LeaveGuild(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            client.Character.Guild.RemoveMember(client.Character.Character.Name);
+            client.Character.Guild.SendRemoveMemberFromGuild(client.Character.Character.Name);
+            using (var pack = new Packet(SH29Type.LeaveResponse))
+            {
+                pack.WriteUShort(3137);
+                client.SendPacket(pack);
+            }
+            client.Character.Guild = null;
+        }
+        [PacketHandler(CH29Type.KickGuildMember)]
+        public static void KickGuildMember(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            //todo check Rank
+            string removename;
+            if (!packet.TryReadString(out removename, 16))
+                return;
+            GuildMember pMember = client.Character.Guild.GuildMembers.Find(m => m.pMemberName == removename);
+            if (pMember == null)
+                return;
+            using (var pack = new Packet(SH29Type.GuildKickResponse))
+            {
+                pack.WriteString(pMember.pMemberName, 16);
+                pack.WriteUShort(3137);//response ok
+                client.SendPacket(pack);
+            }
+            pMember.RemoveFromDatabase();
+            client.Character.Guild.RemoveMember(pMember.pMemberName);
+            client.Character.Guild.SendRemoveMemberFromGuild(pMember.pMemberName);
+            client.Character.Guild = null;
+            //Todo Broudcast remove Guild
+          
+        }
+        [PacketHandler(CH29Type.GuildChatClientMessage)]
+        public static void GuildChat(WorldClient client, Packet packet)
+        {
+            if (client.Character.Guild == null)
+                return;
+            string message;
+            byte lenght;
+            if(!packet.TryReadByte(out lenght))
+                return;
+            if (packet.TryReadString(out message, (int)lenght))
+                return;
+            //Todo Log Messages
+            client.Character.Guild.SendChatMessage(client.Character.Character.Name, message);
+        }
               [PacketHandler(CH29Type.ChangeMemberRank)]
         public static void ChangeRank(WorldClient client, Packet packet)
         {
@@ -27,6 +80,42 @@ namespace Zepheus.World.Handlers
                 return;
             GuildMember pMember = client.Character.Guild.GuildMembers.Find(m => m.pMemberName == targetName);
             pMember.GuildRank = (GuildRanks)Rank;
+            switch ((GuildRanks)Rank)
+            {
+                case GuildRanks.Admin:
+                    break;
+                case GuildRanks.advice:
+                    break;
+                case GuildRanks.Commander:
+                    break;
+                case GuildRanks.guard:
+                    break;
+                case GuildRanks.Master:
+                    using (var pack2 = new Packet(SH29Type.ChangeRank))
+                    {
+                        pack2.WriteString(client.Character.Character.Name, 16);
+                        pack2.WriteByte((byte)GuildRanks.Member);
+                        client.Character.Guild.SendPacketToAllOnlineMember(pack2);
+                    }
+                    break;
+                case GuildRanks.Member:
+                    break;
+                default:
+                    break;
+            }
+            using (var pack = new Packet(SH29Type.RankChangeResponse))
+            {
+                pack.WriteString(targetName, 16);
+                pack.WriteByte(Rank);
+                pack.WriteUShort(3137);//responseok
+                client.SendPacket(pack);
+            }
+            using (var pack2 = new Packet(SH29Type.ChangeRank))
+            {
+                pack2.WriteString(targetName, 16);
+                pack2.WriteByte(Rank);
+                client.Character.Guild.SendPacketToAllOnlineMember(pack2);
+            }
         }
         [PacketHandler(CH29Type.GuildRquestAnswer)]
         public static void GuildRquestAnswer(WorldClient client, Packet packet)

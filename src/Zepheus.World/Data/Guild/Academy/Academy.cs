@@ -24,6 +24,26 @@ namespace Zepheus.World.Data
         {
             return this.AcademyMembers.Find(m => m.pMemberName == CharName);
         }
+        public void SendChatMessage(Networking.WorldClient pClient, string Sender, string Message)
+        {
+            using (var packet = new Packet(SH29Type.GuildChatMessage))
+            {
+                packet.WriteInt(this.ID);
+                packet.WriteString(Sender, 16);
+                packet.WriteUShort(0);//unk
+                packet.WriteByte((byte)Message.Length);
+                packet.WriteString(Message, Message.Length);
+                pClient.SendPacket(packet);
+            }
+        }
+        public override  void SendPacketToAllOnlineMember(Packet packet)
+        {
+            foreach (var pMember in this.AcademyMembers)
+            {
+                if (pMember.isOnline)
+                    pMember.pClient.SendPacket(packet);
+            }
+        }
         public override void LoadMembers()
         {
             DataTable MemberData = null;
@@ -95,24 +115,6 @@ namespace Zepheus.World.Data
             foreach (var pMember in this.AcademyMembers)
             {
                 pMember.SendMemberLeave(LeavepMember.pMemberName);
-            }
-        }
-        public void MemberJoin(AcademyMember JoinMember)
-        {
-            foreach (var pMember in this.AcademyMembers)
-            {
-                if (pMember.isOnline)
-                {
-                    this.SendAcademyJoin(pMember);
-                }
-            }
-        }
-        private void SendAcademyJoin(AcademyMember pMember)
-        {
-            using (var packet = new Packet(SH38Type.GuildAcademyJoin))
-            {
-                pMember.WriteInfo(packet);
-                pMember.pClient.SendPacket(packet);
             }
         }
         public static void SendAcademyLeaveRequest(AcademyRequestCode pCode,Networking.WorldClient pClient)

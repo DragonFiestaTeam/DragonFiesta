@@ -58,6 +58,7 @@
     <Compile Include="Data\Guild\Academy\Academy.cs" />
     <Compile Include="Data\Guild\Academy\AcademyMember.cs" />
     <Compile Include="Data\Guild\Academy\AcademyRequestCode.cs" />
+    <Compile Include="Data\Guild\ChangeRequest.cs" />
     <Compile Include="Data\Guild\DetailsMessage.cs" />
     <Compile Include="Data\Guild\Guild.cs" />
     <Compile Include="Data\Guild\GuildMember.cs" />

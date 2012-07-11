@@ -15,7 +15,7 @@ namespace Zepheus.World.Data
         public GuildAcademyRank  Rank { get; set; }
         public Academy Academy { get; set; }
         public DateTime RegisterDate { get; set; }
-
+        public bool HasAcademyChatBlock { get; set; }
         #endregion
 
         public  static  new AcademyMember  LoadFromDatabase(DataRow row)
@@ -26,12 +26,17 @@ namespace Zepheus.World.Data
                 Rank = (GuildAcademyRank)GetDataTypes.GetByte(row["Rank"]),
                 GuildID = GetDataTypes.GetInt(row["OwnerGuildID"]),
                 RegisterDate = DateTime.Parse(row["RegisterDate"].ToString()),
+                HasAcademyChatBlock = GetDataTypes.GetBool(row["ChatBlock"]),
             };
             return pMember;
         }
+        public void ChatBlockToDatabase()
+        {
+            //Todo
+        }
         public override void AddToDatabase()
         {
-                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + this.Rank + "')");
+                Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO academymembers (OwnerGuildID,CharID,Rank) VALUES ('" + this.GuildID + "','" + this.CharID + "','" + (byte)this.Rank + "')");
         }
         public override void RemoveFromDatabase()
         {
