@@ -236,7 +236,7 @@ namespace Zepheus.World
             //this is actually executed in the main thread! (ctor is in STAThread)
             foreach (var transfer in transfers.Values)
             {
-                if ((DateTime.Now - transfer.Time).TotalMilliseconds >= transferTimeout)
+                if ((DateTime.Now - transfer.Time).TotalMilliseconds >= 5000000)
                 {
                     toExpire.Add(transfer.Hash);
                     Log.WriteLine(LogLevel.Debug, "Transfer timeout for {0}", transfer.Username);

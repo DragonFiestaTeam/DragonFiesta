@@ -1710,14 +1710,14 @@ namespace Zepheus.Zone.Game
 				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
 				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username, this.Name, randomID, this.Client.Admin, this.Client.Host);
-                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
-                ClientManager.Instance.AddTransfer(Zonetran);
+                //ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
+               // ClientManager.Instance.AddTransfer(Zonetran);
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;
 				Position.Y = toy;
 				Character.PositionInfo.Map = (byte)id;
 				Save();
-
+                InterHandler.SendChangeZoneToWorld(this, id, tox, toy, zci.IP, zci.Port, randomID);
 				Handler6.SendChangeZone(this, id, tox, toy, zci.IP, zci.Port, randomID);
 			}
 			else

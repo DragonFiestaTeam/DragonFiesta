@@ -50,7 +50,7 @@ namespace Zepheus.World.Handlers
                 to.WriteByte(Convert.ToByte(now.Hour));
                 to.WriteByte(Convert.ToByte(now.Minute));
                 to.WriteByte(Convert.ToByte(now.Second));
-               // character.SendPacket(to);
+                character.SendPacket(to);
             }
         }
         public static void SendPing(WorldClient client)

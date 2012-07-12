@@ -179,7 +179,7 @@ namespace Zepheus.World.InterServer
                 return;
             if(!packet.TryReadString(out ip,16))
                 return;
-            if(packet.TryReadUShort(out port))
+            if(!packet.TryReadUShort(out port))
                 return;
             if(!packet.TryReadUShort(out randomid))
                 return;
@@ -190,8 +190,6 @@ namespace Zepheus.World.InterServer
             client.Character.Character.PositionInfo.Map = mapid;
             client.Character.Character.PositionInfo.XPos = x;
             client.Character.Character.PositionInfo.YPos = y;
-            //todo check rest shit
-             ClientManager.Instance.AddZoneTrans(charname,client);
             
 		}
 		[InterPacketHandler(InterHeader.Assigned)]

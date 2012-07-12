@@ -467,7 +467,21 @@ namespace Zepheus.Zone.InterServer
 				lc.SendPacket(p);
 			}
 		}
-
+        public static void SendChangeZoneToWorld(ZoneCharacter character, ushort mapid, int x, int y, string ip, ushort port, ushort randomid)
+        {
+           
+              using (var packet = new InterPacket(InterHeader.ChangeZone))
+              {
+                  packet.WriteUShort(mapid);
+                  packet.WriteInt(x);
+                  packet.WriteInt(y);
+                  packet.WriteString(character.Name,16);
+                  packet.WriteString(Settings.Instance.IP, 16);
+                  packet.WriteUShort(port);
+                  packet.WriteUShort(randomid);
+                  WorldConnector.Instance.SendPacket(packet);
+              }
+        }
 		public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
 		{
 			using (var packet = new InterPacket(InterHeader.Clienttransferzone))
