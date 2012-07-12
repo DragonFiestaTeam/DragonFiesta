@@ -79,6 +79,7 @@ namespace Zepheus.World.Data
         }
         public virtual void WriteInfo(Packet Ppacket)
         {
+            if(this.pMemberName != null)
             Ppacket.WriteString(this.pMemberName, 16);
             Ppacket.WriteByte((byte)this.GuildRank);//rank
             Ppacket.WriteInt(0);

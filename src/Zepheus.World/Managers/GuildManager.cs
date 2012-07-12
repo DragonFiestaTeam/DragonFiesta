@@ -57,12 +57,15 @@ namespace Zepheus.World.Managers
             pMember.AddToDatabase();
             foreach (var GuildMember in pRequest.Guild.GuildMembers)
             {
-                using (var packet = new Packet(SH29Type.AddGuildMember))
+                if (GuildMember.isOnline)
                 {
-                    if (GuildMember.isOnline)
+                    using (var packet = new Packet(SH29Type.AddGuildMember))
+                    {
                         pMember.WriteInfo(packet);
-                    GuildMember.pClient.SendPacket(packet);
-                    GuildMember.SendMemberStatus(true, pMember.pMemberName);
+                        GuildMember.pClient.SendPacket(packet);
+                        GuildMember.SendMemberStatus(true, pMember.pMemberName);
+
+                    }
                 }
             }
             for (int i = 0; i < pRequest.Guild.GuildMembers.Count; i += 20)
@@ -104,7 +107,7 @@ namespace Zepheus.World.Managers
         private bool GetFreeGuildSlot(out int GuildID)
         {
             GuildID = 0;
-            for (byte i = 0; i < int.MaxValue; i++)
+            for (int i = 0; i < int.MaxValue; i++)
             {
                 if (!DataProvider.Instance.GuildsByID.ContainsKey(i))
                 {
@@ -175,8 +178,10 @@ namespace Zepheus.World.Managers
             gg.AddToDatabase();
             gg.GuildMembers.Add(MasterMember);
             pChar.Guild = gg;
+            Log.WriteLine(LogLevel.Debug, "Create New Guild With ID {0}", gg.ID);
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
             DataProvider.Instance.GuildsByName.Add(gg.Name, gg);
+            pChar.BroudCastGuildNameResult();
             InterServer.InterHandler.CreateGuildOfZones(gg);
         }
         public Guild GetGuildByName(string GuildName)
