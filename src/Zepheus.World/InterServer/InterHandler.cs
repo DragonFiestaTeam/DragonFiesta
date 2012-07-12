@@ -138,7 +138,33 @@ namespace Zepheus.World.InterServer
 		[InterPacketHandler(InterHeader.ChangeZone)]
 		public static void ChangeZoneBeginn(ZoneConnection zc, InterPacket packet)
 		{
-		   // ClientManager.Instance.AddZoneTrans(
+            ushort mapid,randomid,port;
+            string charname,ip;
+            int x,y;
+            if(!packet.TryReadUShort(out mapid))
+                return;
+            if(!packet.TryReadInt(out x))
+                return;
+            if(!packet.TryReadInt(out y))
+                return;
+            if(!packet.TryReadString(out charname,16))
+                return;
+            if(!packet.TryReadString(out ip,16))
+                return;
+            if(packet.TryReadUShort(out port))
+                return;
+            if(!packet.TryReadUShort(out randomid))
+                return;
+            
+            WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+            if(client == null)
+                return;
+            client.Character.Character.PositionInfo.Map = mapid;
+            client.Character.Character.PositionInfo.XPos = x;
+            client.Character.Character.PositionInfo.YPos = y;
+            //todo check rest shit
+             ClientManager.Instance.AddZoneTrans(charname,client);
+            
 		}
 		[InterPacketHandler(InterHeader.Assigned)]
 		public static void HandleAssigned(LoginConnector lc, InterPacket packet)

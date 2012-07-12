@@ -20,7 +20,7 @@ namespace Zepheus.Login.InterServer
 
         public WorldConnection(Socket sock) : base(sock)
         {
-            Status = WorldStatus.Low;
+            Status = WorldStatus.Maintenance;
             IsAWorld = false;
             this.OnPacket += new EventHandler<InterPacketReceivedEventArgs>(WorldConnection_OnPacket);
             this.OnDisconnect += new EventHandler<InterLib.Networking.SessionCloseEventArgs>(WorldConnection_OnDisconnect);

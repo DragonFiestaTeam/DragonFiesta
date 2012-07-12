@@ -164,7 +164,7 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteUShort(mapid);
                 packet.WriteInt(x);
                 packet.WriteInt(y);
-
+                packet.WriteString(character.Name,16);
                 packet.WriteString(Settings.Instance.IP, 16);
                 packet.WriteUShort(port);
                 packet.WriteUShort(randomid);
