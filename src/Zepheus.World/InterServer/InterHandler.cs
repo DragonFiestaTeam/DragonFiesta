@@ -117,6 +117,34 @@ namespace Zepheus.World.InterServer
                 return;
             client.Character.LevelUp(level);
         }
+        public static void CreateGuildOfZones(Guild pGuild)
+        {
+           foreach(var Conn in Program.Zones.Values)
+           {
+               using(var packet = new InterPacket(InterHeader.CreateGuild))
+               {
+                   packet.WriteInt(pGuild.ID);
+                   packet.WriteString(pGuild.Name, 16);
+                   packet.WriteString(pGuild.GuildPassword, 16);
+                   packet.WriteString(pGuild.GuildMaster, 16);
+                   packet.WriteBool(pGuild.GuildWar);
+                   Conn.SendPacket(packet);
+               }
+           }
+        }
+        public static void RemoveGuildFromZone(int GuildID,string GuildName)
+        {
+            foreach (var Conn in Program.Zones.Values)
+            {
+                using (var packet = new InterPacket(InterHeader.RemoveGuild))
+                {
+                    packet.WriteInt(GuildID);
+                    packet.WriteString(GuildName, 16);
+                    Conn.SendPacket(packet);
+                }
+            }
+        }
+
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{

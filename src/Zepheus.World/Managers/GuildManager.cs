@@ -104,7 +104,7 @@ namespace Zepheus.World.Managers
         private bool GetFreeGuildSlot(out int GuildID)
         {
             GuildID = 0;
-            for (byte i = 0; i < DataProvider.Instance.GuildsByID.Count+1; i++)
+            for (byte i = 0; i < int.MaxValue; i++)
             {
                 if (!DataProvider.Instance.GuildsByID.ContainsKey(i))
                 {
@@ -113,9 +113,10 @@ namespace Zepheus.World.Managers
                     GuildID = i;
                     return true;
                     }
-                    GuildID = 1;
-                    return true;
+                    //GuildID = 1;
+                 
                 }
+
             }
             return false;
         }
@@ -176,6 +177,7 @@ namespace Zepheus.World.Managers
             pChar.Guild = gg;
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
             DataProvider.Instance.GuildsByName.Add(gg.Name, gg);
+            InterServer.InterHandler.CreateGuildOfZones(gg);
         }
         public Guild GetGuildByName(string GuildName)
         {

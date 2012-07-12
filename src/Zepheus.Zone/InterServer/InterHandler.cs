@@ -12,7 +12,65 @@ namespace Zepheus.Zone.InterServer
 {
 	public sealed class InterHandler
 	{
-	
+        [InterPacketHandler(InterHeader.RemoveGuild)]
+        public static void RemoveGuildFromZone(WorldConnector pConnector, InterPacket pPacket)
+        {
+            int GuildID;
+            string GuildName;
+
+            if (!pPacket.TryReadInt(out GuildID))
+                return;
+            if (!pPacket.TryReadString(out GuildName, 16))
+                return;
+
+            if (DataProvider.Instance.GuildsByID.ContainsKey(GuildID))
+            {
+                DataProvider.Instance.GuildsByID.Remove(GuildID);
+                DataProvider.Instance.GuildsByName.Remove(GuildName);
+                Log.WriteLine(LogLevel.Debug, "Remove {0} Guild From Zone", GuildName);
+            }
+        }
+        [InterPacketHandler(InterHeader.CreateGuild)]
+        public static void CreateGuildOfZone(WorldConnector pConnector, InterPacket pPacket)
+        {
+            int GuildID;
+            string GuildName, GuildPassword, GuildMaster;
+            bool GuildWar;
+            if (!pPacket.TryReadInt(out GuildID) || !pPacket.TryReadString(out GuildName, 16) || !pPacket.TryReadString(out GuildPassword, 16)
+                || !pPacket.TryReadString(out GuildMaster, 16) || !pPacket.TryReadBool(out GuildWar))
+                return;
+
+            Guild NewGuild = new Guild
+            {
+                ID = GuildID,
+                GuildMaster = GuildMaster,
+                GuildMembers = new List<GuildMember>(),
+                GuildPassword = GuildPassword,
+                Name = GuildName,
+                MaxMemberCount = 50,
+                GuildWar = GuildWar,
+                RegisterDate = DateTime.Now,
+                GuildBuffTime = 0,
+            };
+            NewGuild.GuildAcademy = new Academy
+            {
+                AcademyMembers = new List<AcademyMember>(),
+                Guild = NewGuild,
+                GuildMaster = GuildMaster,
+                GuildMembers = NewGuild.GuildMembers,
+                GuildPassword = GuildPassword,
+                GuildBuffTime = 0,
+                GuildWar = GuildWar,
+                ID = GuildID,
+                Name = GuildName,
+                MaxMemberCount = 50,
+                RegisterDate = DateTime.Now,
+            };
+            NewGuild.GuildAcademy.GuildAcademy = NewGuild.GuildAcademy;
+            DataProvider.Instance.GuildsByName.Add(GuildName, NewGuild);
+            DataProvider.Instance.GuildsByID.Add(GuildID, NewGuild);
+            Log.WriteLine(LogLevel.Debug, "Create {0}  Guild to ZoneServer", GuildName);
+        }
 		[InterPacketHandler(InterHeader.FunctionAnswer)]
 		public static void FunctionAnswer(WorldConnector pConnector, InterPacket pPacket)
 		{

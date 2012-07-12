@@ -251,6 +251,7 @@ namespace Zepheus.FiestaLib
         SendGuildInvideRequest = 11,
         GuildKickResponse = 15,
         ChangeGuildMessageResponse = 17,
+        KickFromGuildForMember = 20,
         RankChangeResponse = 23,
         LeaveResponse = 29,
         ClearGuildDetailsMessage = 191,

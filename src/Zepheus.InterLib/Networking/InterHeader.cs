@@ -39,7 +39,9 @@
         ReciveCoper = 0x4003, //Zone -> World
 
         //Guild Shit
-        AddGuildMember = 0x5000,
-        RemoveGuildMember = 0x5001,
+        AddGuildMember = 0x5000, //WORLD -> Zone
+        RemoveGuildMember = 0x5001,//WORLD -> Zone
+        CreateGuild = 0x5002,// WORLD -> Zone
+        RemoveGuild = 0x5003,//WORLD -> Zone
 	}
 }

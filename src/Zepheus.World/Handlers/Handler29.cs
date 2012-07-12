@@ -47,6 +47,12 @@ namespace Zepheus.World.Handlers
             client.Character.Guild.RemoveMember(pMember.pMemberName);
             client.Character.Guild.SendRemoveMemberFromGuild(pMember.pMemberName);
             client.Character.Guild = null;
+            if(pMember.pClient != null)
+                using (var pack = new Packet(SH29Type.KickFromGuildForMember))
+                {
+                    pack.WriteHexAsBytes("00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 B8 7F CC 01 01 00 03 00 00");
+                    pMember.pClient.SendPacket(pack);
+                }
             //Todo Broudcast remove Guild
           
         }
