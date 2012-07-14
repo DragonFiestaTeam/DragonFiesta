@@ -276,7 +276,7 @@ namespace Zepheus.World.Handlers
                         ppacket.WriteUShort(3137);
                         ppacket.WriteUInt(32);//unk
                         GuildManager.Instance.CreateGuild(client.Character, GuildName, GuildPassword, GuildWar);
-                        client.Character.BroudCastGuildNameResult();
+                        //client.Character.BroudCastGuildNameResult();
                        
                     }
                     ppacket.WriteString(GuildName, 16);

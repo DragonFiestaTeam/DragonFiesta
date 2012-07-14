@@ -335,10 +335,13 @@ namespace Zepheus.World.InterServer
                 string charname;
                 if(!pPacket.TryReadString(out charname,16))
                 return;
+               WorldClient client=  ClientManager.Instance.GetClientByCharname(charname);
+                if(client !=null)
                 using (var packet = new FiestaLib.Networking.Packet())
                 {
                     packet.WriteBytes(SendPacket);
-                    ClientManager.Instance.GetClientByCharname(charname).SendPacket(packet);
+                    client.SendPacket(packet);
+                    Log.WriteLine(LogLevel.Debug, "Send borcast to {0}", charname);
                 }
             }
         }

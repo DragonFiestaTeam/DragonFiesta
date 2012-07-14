@@ -39,7 +39,7 @@ namespace Zepheus.Zone.InterServer
             if (!pPacket.TryReadInt(out GuildID) || !pPacket.TryReadString(out GuildName, 16) || !pPacket.TryReadString(out GuildPassword, 16)
                 || !pPacket.TryReadString(out GuildMaster, 16) || !pPacket.TryReadBool(out GuildWar))
                 return;
-
+          
             Guild NewGuild = new Guild
             {
                 ID = GuildID,

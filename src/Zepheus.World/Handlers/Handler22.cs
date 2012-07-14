@@ -68,7 +68,10 @@ namespace Zepheus.World.Handlers
                p5.WriteShort(256);
                client.SendPacket(p5);
            }
-           
+           if (client.Character.Academy != null || client.Character.Guild != null)
+           {
+               client.Character.BroudCastGuildNameResult();
+           }
            client.Character.OnGotIngame();
        }
     }

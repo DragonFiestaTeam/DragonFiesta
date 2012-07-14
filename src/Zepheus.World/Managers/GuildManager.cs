@@ -178,11 +178,12 @@ namespace Zepheus.World.Managers
             gg.AddToDatabase();
             gg.GuildMembers.Add(MasterMember);
             pChar.Guild = gg;
+            pChar.Character.GuildID = gg.ID;
             Log.WriteLine(LogLevel.Debug, "Create New Guild With ID {0}", gg.ID);
             DataProvider.Instance.GuildsByID.Add(gg.ID, gg);
             DataProvider.Instance.GuildsByName.Add(gg.Name, gg);
-            pChar.BroudCastGuildNameResult();
             InterServer.InterHandler.CreateGuildOfZones(gg);
+            pChar.BroudCastGuildNameResult();
         }
         public Guild GetGuildByName(string GuildName)
         {

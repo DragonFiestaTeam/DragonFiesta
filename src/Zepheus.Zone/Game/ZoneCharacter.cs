@@ -1020,7 +1020,18 @@ namespace Zepheus.Zone.Game
 			packet.WriteUShort(0);             // Mob ID (title = 10)
         
 			packet.Fill(55, 0);                // Buff Bits? Something like that
-			packet.WriteInt( this.Character.GuildID >= 0 ? this.Character.AcademyID : 0);      // Guild ID
+            if (this.Character.GuildID > 0)
+            {
+                packet.WriteInt(this.Character.GuildID);
+            }
+            else if (this.Character.AcademyID > 0)
+            {
+                packet.WriteInt(this.Character.AcademyID);
+            }
+            else
+            {
+                packet.WriteInt(0);
+            }
 			packet.WriteByte(0x02);            // UNK (0x02)
 
 			packet.WriteBool(this.IsInAcademy());            // In Guild Academy (0 - No, 1 - Yes)
@@ -1710,8 +1721,8 @@ namespace Zepheus.Zone.Game
 				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
 				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username, this.Name, randomID, this.Client.Admin, this.Client.Host);
-                //ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
-               // ClientManager.Instance.AddTransfer(Zonetran);
+                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
+                ClientManager.Instance.AddTransfer(Zonetran);
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;
 				Position.Y = toy;
