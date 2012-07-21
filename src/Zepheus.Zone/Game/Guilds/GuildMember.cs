@@ -1,10 +1,8 @@
-﻿/*File for this file Basic Copyright 2012 no0dl */
-using System;
-using System.Data;
-using MySql.Data.MySqlClient;
-using Zepheus.Zone.Game;
+﻿using System;
+using System.Data.SqlClient;
+using Fiesta.Zone.Game.Characters;
 
-namespace Zepheus.Zone.Game.Guilds
+namespace Fiesta.Zone.Game.Guilds
 {
     public sealed class GuildMember
     {
@@ -18,11 +16,11 @@ namespace Zepheus.Zone.Game.Guilds
 
         public bool IsOnline { get; set; }
         public bool IsOnThisZone { get { return (Character != null); } }
-        public ZoneCharacter Character { get; set; }
+        public Character Character { get; set; }
 
 
 
-        public GuildMember(Guild Guild, MySqlDataReader reader)
+        public GuildMember(Guild Guild, SqlDataReader reader)
         {
             this.Guild = Guild;
             

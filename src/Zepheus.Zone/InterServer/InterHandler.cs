@@ -30,47 +30,6 @@ namespace Zepheus.Zone.InterServer
                 Log.WriteLine(LogLevel.Debug, "Remove {0} Guild From Zone", GuildName);
             }
         }
-        [InterPacketHandler(InterHeader.CreateGuild)]
-        public static void CreateGuildOfZone(WorldConnector pConnector, InterPacket pPacket)
-        {
-            int GuildID;
-            string GuildName, GuildPassword, GuildMaster;
-            bool GuildWar;
-            if (!pPacket.TryReadInt(out GuildID) || !pPacket.TryReadString(out GuildName, 16) || !pPacket.TryReadString(out GuildPassword, 16)
-                || !pPacket.TryReadString(out GuildMaster, 16) || !pPacket.TryReadBool(out GuildWar))
-                return;
-          
-            Guild NewGuild = new Guild
-            {
-                ID = GuildID,
-                GuildMaster = GuildMaster,
-                GuildMembers = new List<GuildMember>(),
-                GuildPassword = GuildPassword,
-                Name = GuildName,
-                MaxMemberCount = 50,
-                GuildWar = GuildWar,
-                RegisterDate = DateTime.Now,
-                GuildBuffTime = 0,
-            };
-            NewGuild.GuildAcademy = new Academy
-            {
-                AcademyMembers = new List<AcademyMember>(),
-                Guild = NewGuild,
-                GuildMaster = GuildMaster,
-                GuildMembers = NewGuild.GuildMembers,
-                GuildPassword = GuildPassword,
-                GuildBuffTime = 0,
-                GuildWar = GuildWar,
-                ID = GuildID,
-                Name = GuildName,
-                MaxMemberCount = 50,
-                RegisterDate = DateTime.Now,
-            };
-            NewGuild.GuildAcademy.GuildAcademy = NewGuild.GuildAcademy;
-            DataProvider.Instance.GuildsByName.Add(GuildName, NewGuild);
-            DataProvider.Instance.GuildsByID.Add(GuildID, NewGuild);
-            Log.WriteLine(LogLevel.Debug, "Create {0}  Guild to ZoneServer", GuildName);
-        }
 		[InterPacketHandler(InterHeader.FunctionAnswer)]
 		public static void FunctionAnswer(WorldConnector pConnector, InterPacket pPacket)
 		{
@@ -174,79 +133,6 @@ namespace Zepheus.Zone.InterServer
 			ZoneAcceptor.Load();
 
 		}
-        [InterPacketHandler(InterHeader.RemoveGuildMember)]
-        public static void RemoveGuildMember(WorldConnector lc, InterPacket packet)
-        {
-            bool type;
-            int GuildID,CharID;
-            Guild Guild;
-            if (!packet.TryReadBool(out type))
-                return;
-            if (!packet.TryReadInt(out GuildID))
-                return;
-            if (!packet.TryReadInt(out CharID))
-                return;
-            if (!DataProvider.Instance.GuildsByID.TryGetValue(GuildID, out Guild))
-                return;
-            if (type)
-            {
-                GuildMember gpMember = Guild.GuildMembers.Find(g => g.CharID == CharID);
-                if (gpMember != null)
-                    Guild.GuildMembers.Remove(gpMember);
-            }
-            else
-            {
-                AcademyMember ACMember = Guild.GuildAcademy.AcademyMembers.Find(m => m.CharID == CharID);
-                if (ACMember != null)
-                    Guild.GuildAcademy.AcademyMembers.Remove(ACMember);
-            }
-        }
-        [InterPacketHandler(InterHeader.AddGuildMember)]
-		public static void AddGuildMember(WorldConnector lc, InterPacket packet)
-		{
-            bool type;
-            string Charname;
-            int CharID,GuildID;
-            Guild Guild;
-            if (!packet.TryReadBool(out type))
-                return;
-            if (!packet.TryReadString(out Charname, 16))
-                return;
-            if (!packet.TryReadInt(out GuildID))
-                return;
-            if (!packet.TryReadInt(out CharID))
-                return;
-            if (!DataProvider.Instance.GuildsByID.TryGetValue(GuildID,out Guild))
-                return;
-
-            if(type)
-            {
-                GuildMember gMember = new GuildMember
-                 {
-                     isOnline = ClientManager.Instance.HasClient(Charname),
-                     GuildID = GuildID,
-                     pClient = ClientManager.Instance.GetClientByName(Charname),
-                     pMemberName = Charname,
-                     CharID = CharID,
-                 };
-                Guild.GuildMembers.Add(gMember);
-            }
-            else
-            {
-                AcademyMember ACMember = new AcademyMember
-                {
-                    isOnline = ClientManager.Instance.HasClient(Charname),
-                    GuildID = GuildID,
-                    pClient = ClientManager.Instance.GetClientByName(Charname),
-                    pMemberName = Charname,
-                    CharID = CharID,
-                    Academy = Guild.GuildAcademy,
-                };
-                Guild.GuildAcademy.AcademyMembers.Add(ACMember);
-            }
-
-                
-        }
 		[InterPacketHandler(InterHeader.Zoneclosed)]
 		public static void HandleZoneClosed(WorldConnector lc, InterPacket packet)
 		{

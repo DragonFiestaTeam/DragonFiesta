@@ -39,6 +39,20 @@
         ReciveCoper = 0x4003, //Zone -> World
 
         //Guild Shit
+        ZONE_AcademyMemberJoined = 0x4101,
+        ZONE_AcademyMemberLeft = 0x4102,
+        ZONE_AcademyMemberOnline = 0x4103,
+        ZONE_AcademyMemberOffline = 0x4104,
+        ZONE_GuildMessageUpdate = 0x4105,
+        ZONE_AcademyBuffUpdate = 0x4106,
+        ZONE_GuildMemberLogout = 4107,
+        ZONE_ZONE_GuildMessageUpdate = 4108,
+        ZONE_GuildMemberAdd = 4109,
+        ZONE_GuildMemberRemove = 4110,
+        ZONE_GuildMemberRankUpdate = 4111,
+        ZONE_GuildMemberLogin = 4112,
+        ZONE_GuildCreated = 4113,
+
         AddGuildMember = 0x5000, //WORLD -> Zone
         RemoveGuildMember = 0x5001,//WORLD -> Zone
         CreateGuild = 0x5002,// WORLD -> Zone

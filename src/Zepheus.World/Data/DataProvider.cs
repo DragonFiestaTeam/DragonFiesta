@@ -19,8 +19,6 @@ namespace Zepheus.World.Data
 		public List<string> BadNames { get; private set; }
 		public Dictionary<ushort, MapInfo> Maps { get; private set; }
 		public Dictionary<Job, BaseStatsEntry> JobBasestats { get; private set; }
-		public Dictionary<int, Guild> GuildsByID { get; private set; }
-        public Dictionary<string, Guild> GuildsByName { get; private set; }
         public List<MasterRewardItem> MasterRewards { get; private set; }
 
 		public DataProvider()
@@ -88,33 +86,6 @@ namespace Zepheus.World.Data
             }
             return "";
         }
-		private void LoadGuilds()
-		{
-			GuildsByID = new Dictionary<int, Guild>();
-            GuildsByName = new Dictionary<string, Guild>();
-			DataTable guildData = null;
-
-			DatabaseClient dbClient = Program.DatabaseManager.GetClient();
-                guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
-
-             int GuildMemberCount = 0;
-             int AcademyMemberCount = 0;
-			if (guildData != null)
-			{
-				foreach (DataRow row in guildData.Rows)
-				{
-					Guild guild = Guild.LoadFromDatabase(row);
-                    guild.GuildAcademy.LoadMembers();
-                    GuildMemberCount += guild.GuildMembers.Count;
-                    AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
-                    GuildsByName.Add(guild.Name, guild);
-                    GuildsByID.Add(guild.ID, guild);
-				}
-			}
-            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.GuildsByID.Count, GuildMemberCount);
-            Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
-
-		}
 		
 		public void LoadBasestats()
 		{
@@ -260,7 +231,6 @@ namespace Zepheus.World.Data
 			try
 			{
 				Instance = new DataProvider();
-                Instance.LoadGuilds();
 				Log.WriteLine(LogLevel.Info, "DataProvider initialized successfully!");
 				return true;
 			}

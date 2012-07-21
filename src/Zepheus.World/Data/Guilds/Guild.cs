@@ -1,19 +1,16 @@
-﻿/*File for this file Basic Copyright 2012 no0dl */
-using System;
+﻿using System;
 using System.Text;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 using System.Collections.Generic;
-using Zepheus.World.Data.Guilds.Academy;
-using Zepheus.FiestaLib;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.World.Networking;
-using Zepheus.World;
-using Zepheus.World.Managers;
-using Zepheus.InterLib;
-using Zepheus.InterLib.Networking;
+using Fiesta.Core.Cryptography;
+using Fiesta.Core.Networking;
+using Fiesta.World.Game.Characters;
+using Fiesta.World.Game.Guilds.Academy;
+using Fiesta.World.Game.Zones;
+using Fiesta.World.Networking;
 
-namespace Zepheus.World.Data.Guilds
+namespace Fiesta.World.Game.Guilds
 {
     public sealed class Guild
     {
@@ -25,14 +22,14 @@ namespace Zepheus.World.Data.Guilds
             get
             {
                 var data = _Password;
-                //InterCrypto.Decrypt(ref data, 0, data.Length);
+                InterCrypto.Decrypt(ref data, 0, data.Length);
 
                 return Encoding.UTF8.GetString(data);
             }
             set
             {
                 var data = Encoding.UTF8.GetBytes(value);
-               // InterCrypto.Encrypt(ref data, 0, data.Length);
+                InterCrypto.Encrypt(ref data, 0, data.Length);
 
                 _Password = data;
             }
@@ -43,7 +40,7 @@ namespace Zepheus.World.Data.Guilds
         public bool AllowGuildWar { get; set; }
         public string Message { get; set; }
         public DateTime MessageCreateTime { get; set; }
-        public WorldCharacter MessageCreater { get; set; }
+        public Character MessageCreater { get; set; }
 
         public DateTime CreateTime { get; private set; }
 
@@ -63,7 +60,7 @@ namespace Zepheus.World.Data.Guilds
 
 
 
-        public Guild(MySqlConnection con, int ID, string Name, byte[] Password, bool AllowGuildWar, WorldCharacter Creater, DateTime CreateTime)
+        public Guild(SqlConnection con, int ID, string Name, byte[] Password, bool AllowGuildWar, Character Creater, DateTime CreateTime)
             : this()
         {
             this.ID = ID;
@@ -75,13 +72,13 @@ namespace Zepheus.World.Data.Guilds
             this.CreateTime = CreateTime;
 
             Message = "";
-            MessageCreateTime = Program.CurrentTime;
+            MessageCreateTime = WorldService.Instance.Time;
             MessageCreater = Creater;
 
 
             Load(con);
         }
-        public Guild(MySqlConnection con, MySqlDataReader reader)
+        public Guild(SqlConnection con, SqlDataReader reader)
             : this()
         {
             ID = reader.GetInt32(0);
@@ -95,8 +92,8 @@ namespace Zepheus.World.Data.Guilds
             MessageCreateTime = reader.GetDateTime(5);
 
 
-            WorldCharacter creater;
-            if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32(6), out creater))
+            Character creater;
+            if (!CharacterManager.GetCharacterByID(reader.GetInt32(6), out creater))
                 throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32(6));
 
             MessageCreater = creater;
@@ -134,14 +131,14 @@ namespace Zepheus.World.Data.Guilds
 
 
 
-        private void Load(MySqlConnection con)
+        private void Load(SqlConnection con)
         {
             //members
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = "SELECT * FROM GuildMembers WHERE GuildID = @pGuildID";
 
-                cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+                cmd.Parameters.Add(new SqlParameter("@pGuildID", ID));
 
 
                 using (var reader = cmd.ExecuteReader())
@@ -149,8 +146,8 @@ namespace Zepheus.World.Data.Guilds
                     while (reader.Read())
                     {
                         //get character
-                        WorldCharacter character;
-                        if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32(1), out character, con))
+                        Character character;
+                        if (!CharacterManager.GetCharacterByID(reader.GetInt32(1), out character, con))
                             continue;
 
                         var member = new GuildMember(this,
@@ -168,14 +165,14 @@ namespace Zepheus.World.Data.Guilds
             Academy = new GuildAcademy(this, con);
         }
 
-        public void Save(MySqlConnection con = null)
+        public void Save(SqlConnection con = null)
         {
             lock (ThreadLocker)
             {
                 var conCreated = (con == null);
                 if (conCreated)
                 {
-                    con = Program.DatabaseManager.GetClient().GetConnection();
+                    con = DatabaseManager.DB_Game.GetConnection();
                 }
 
                 //save the guild itself
@@ -184,13 +181,13 @@ namespace Zepheus.World.Data.Guilds
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "dbo.Guild_Save";
 
-                    cmd.Parameters.Add(new MySqlParameter("@pID", ID));
-                    cmd.Parameters.Add(new MySqlParameter("@pName", Name));
-                    cmd.Parameters.Add(new MySqlParameter("@pPassword", _Password));
-                    cmd.Parameters.Add(new MySqlParameter("@pAllowGuildWar", AllowGuildWar));
-                    cmd.Parameters.Add(new MySqlParameter("@pMessage", Message));
-                    cmd.Parameters.Add(new MySqlParameter("@pMessageCreateTime", MessageCreateTime));
-                    cmd.Parameters.Add(new MySqlParameter("@pMessageCreaterID", MessageCreater.ID));
+                    cmd.Parameters.Add(new SqlParameter("@pID", ID));
+                    cmd.Parameters.Add(new SqlParameter("@pName", Name));
+                    cmd.Parameters.Add(new SqlParameter("@pPassword", _Password));
+                    cmd.Parameters.Add(new SqlParameter("@pAllowGuildWar", AllowGuildWar));
+                    cmd.Parameters.Add(new SqlParameter("@pMessage", Message));
+                    cmd.Parameters.Add(new SqlParameter("@pMessageCreateTime", MessageCreateTime));
+                    cmd.Parameters.Add(new SqlParameter("@pMessageCreaterID", MessageCreater.ID));
 
 
 
@@ -217,7 +214,7 @@ namespace Zepheus.World.Data.Guilds
         }
 
 
-        public void Broadcast(Packet Packet, GuildMember Exclude = null)
+        public void Broadcast(GamePacket Packet, GuildMember Exclude = null)
         {
             lock (ThreadLocker)
             {
@@ -232,7 +229,7 @@ namespace Zepheus.World.Data.Guilds
                     {
                         try
                         {
-                            member.Character.Client.SendPacket(Packet);
+                            member.Character.Client.Send(Packet);
                         }
                         catch (Exception)
                         {
@@ -242,42 +239,42 @@ namespace Zepheus.World.Data.Guilds
                 }
             }
         }
-        public void WriteGuildInfo(Packet Packet)
+        public void WriteGuildInfo(GamePacket Packet)
         {
-            Packet.WriteInt(ID);
-            Packet.WriteInt(ID); // academy id?
+            Packet.WriteInt32(ID);
+            Packet.WriteInt32(ID); // academy id?
             Packet.WriteString(Name, 16);
 
             Packet.Fill(24, 0x00); //unk
-            Packet.WriteUShort(38);
-            Packet.WriteInt(100);
+            Packet.WriteUInt16(38);
+            Packet.WriteInt32(100);
             Packet.Fill(233, 0x00);//unk
-            Packet.WriteUShort(11779);
-            Packet.WriteShort(20082);
-            Packet.WriteInt(31);
-            Packet.WriteInt(55);
-            Packet.WriteInt(18);//unk
-            Packet.WriteInt(15);
-            Packet.WriteInt(8);//unk
-            Packet.WriteInt(111);//unk
-            Packet.WriteInt(4);
+            Packet.WriteUInt16(11779);
+            Packet.WriteUInt16(20082);
+            Packet.WriteInt32(31);
+            Packet.WriteInt32(55);
+            Packet.WriteInt32(18);//unk
+            Packet.WriteInt32(15);
+            Packet.WriteInt32(8);//unk
+            Packet.WriteInt32(111);//unk
+            Packet.WriteInt32(4);
             Packet.Fill(136, 0);//buff or string
-            Packet.WriteUShort(1824);
-            Packet.WriteUShort(20152);
-            Packet.WriteInt(16);
-            Packet.WriteInt(28);
-            Packet.WriteInt(MessageCreateTime.Minute);//createDetails Guild Minutes Date
-            Packet.WriteInt(MessageCreateTime.Hour); //create Details Guild Hours Date
-            Packet.WriteInt(MessageCreateTime.Day);//create details Guild Day Date
-            Packet.WriteInt(MessageCreateTime.Month);//create details Month
-            Packet.WriteInt(MessageCreateTime.Year - 1900);//creae details year 1900- 2012
-            Packet.WriteInt(10);//unk
-            Packet.WriteUShort(2);
+            Packet.WriteUInt16(1824);
+            Packet.WriteUInt16(20152);
+            Packet.WriteInt32(16);
+            Packet.WriteInt32(28);
+            Packet.WriteInt32(MessageCreateTime.Minute);//createDetails Guild Minutes Date
+            Packet.WriteInt32(MessageCreateTime.Hour); //create Details Guild Hours Date
+            Packet.WriteInt32(MessageCreateTime.Day);//create details Guild Day Date
+            Packet.WriteInt32(MessageCreateTime.Month);//create details Month
+            Packet.WriteInt32(MessageCreateTime.Year - 1900);//creae details year 1900- 2012
+            Packet.WriteInt32(10);//unk
+            Packet.WriteUInt16(2);
             Packet.Fill(6, 0);//unk
-            Packet.WriteString(MessageCreater.Character.Name, 16);
+            Packet.WriteString(MessageCreater.Name, 16);
             Packet.WriteString(Message, 512);//details message
         }
-        public void SendMemberList(WorldClient Client)
+        public void SendMemberList(GameClient Client)
         {
             lock (ThreadLocker)
             {
@@ -285,21 +282,21 @@ namespace Zepheus.World.Data.Guilds
                 {
                     using (var packet = GetMemberListPacket(i, i + Math.Min(20, Members.Count - i)))
                     {
-                        Client.SendPacket(packet);
+                        Client.Send(packet);
                     }
                 }
             }
         }
-        private Packet GetMemberListPacket(int Start, int End)
+        private GamePacket GetMemberListPacket(int Start, int End)
         {
             var left = (Members.Count - End);
 
 
-            var packet = new Packet(SH29Type.GuildList);
+            var packet = new GamePacket(GameOpCode.Server.H29.GuildMemberList);
 
-            packet.WriteUShort((ushort)Members.Count);
-            packet.WriteUShort((ushort)left);
-            packet.WriteUShort((ushort)End);
+            packet.WriteUInt16((ushort)Members.Count);
+            packet.WriteUInt16((ushort)left);
+            packet.WriteUInt16((ushort)End);
             for (int i = Start; i < End; i++)
             {
                 Members[i].WriteInfo(packet);
@@ -313,19 +310,19 @@ namespace Zepheus.World.Data.Guilds
         {
             lock (ThreadLocker)
             {
-                Member = Members.Find(m => m.Character.Character.Name.Equals(Name));
+                Member = Members.Find(m => m.Character.Name.Equals(Name));
             }
 
             return (Member != null);
         }
-        public void AddMember(WorldCharacter Character, GuildRank Rank, MySqlConnection con = null, bool BroadcastAdd = true, bool SendGuildInfoToClient = true)
+        public void AddMember(Character Character, GuildRank Rank, SqlConnection con = null, bool BroadcastAdd = true, bool SendGuildInfoToClient = true)
         {
             lock (ThreadLocker)
             {
                 var conCreated = (con == null);
                 if (conCreated)
                 {
-                    con = Program.DatabaseManager.GetClient().GetConnection();
+                    con = DatabaseManager.DB_Game.GetConnection();
                 }
 
                 //add to db
@@ -334,10 +331,10 @@ namespace Zepheus.World.Data.Guilds
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.CommandText = "dbo.GuildMember_Create";
 
-                    cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
-                    cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Character.ID));
-                    cmd.Parameters.Add(new MySqlParameter("@pRank", (byte)Rank));
-                    cmd.Parameters.Add(new MySqlParameter("@pCorp", Convert.ToInt16("0")));
+                    cmd.Parameters.Add(new SqlParameter("@pGuildID", ID));
+                    cmd.Parameters.Add(new SqlParameter("@pCharacterID", Character.ID));
+                    cmd.Parameters.Add(new SqlParameter("@pRank", (byte)Rank));
+                    cmd.Parameters.Add(new SqlParameter("@pCorp", Convert.ToInt16("0")));
 
 
 
@@ -361,16 +358,16 @@ namespace Zepheus.World.Data.Guilds
                     newMember.BroadcastGuildName();
 
                     //broadcast that guild member joined
-                    using (var packet = new Packet(SH29Type.AddGuildMember))
+                    using (var packet = new GamePacket(GameOpCode.Server.H29.GuildMemberJoined))
                     {
                         newMember.WriteInfo(packet);
 
 
                         Broadcast(packet, newMember);
                     }
-                    using (var packet = new Packet(SH29Type.SendMemberGoOnline))
+                    using (var packet = new GamePacket(GameOpCode.Server.H29.GuildMemberLoggedIn))
                     {
-                        packet.WriteString(newMember.Character.Character.Name, 16);
+                        packet.WriteString(newMember.Character.Name, 16);
 
 
                         Broadcast(packet, newMember);
@@ -378,16 +375,16 @@ namespace Zepheus.World.Data.Guilds
 
 
                     //let zone know that a new member has been added to guild
-                    using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberAdd))
+                    using (var packet = new InterPacket(InterOpCode.World.H53.ZONE_GuildMemberAdd))
                     {
-                        packet.WriteInt(ID);
-                        packet.WriteInt(Character.ID);
+                        packet.WriteInt32(ID);
+                        packet.WriteInt32(Character.ID);
                         packet.WriteByte((byte)newMember.Rank);
-                        packet.WriteUShort(newMember.Corp);
+                        packet.WriteUInt16(newMember.Corp);
 
 
-                     
-                       Managers.ZoneManager.Instance.Broadcast(packet);
+
+                        ZoneManager.Broadcast(packet);
                     }
                 }
 
@@ -396,10 +393,12 @@ namespace Zepheus.World.Data.Guilds
                 {
                     SendMemberList(newMember.Character.Client);
 
-                    using (var packet = new Packet(SH4Type.CharacterGuildinfo))
+                    using (var packet = new GamePacket(GameOpCode.Server.H4.CharacterGuildinfo))
                     {
                         WriteGuildInfo(packet);
-                        newMember.Character.Client.SendPacket(packet);
+
+
+                        newMember.Character.Client.Send(packet);
                     }
                 }
 
@@ -411,14 +410,14 @@ namespace Zepheus.World.Data.Guilds
                 }
             }
         }
-        public void RemoveMember(GuildMember Member, MySqlConnection con = null, bool BroadcastRemove = true)
+        public void RemoveMember(GuildMember Member, SqlConnection con = null, bool BroadcastRemove = true)
         {
             lock (ThreadLocker)
             {
                 var conCreated = (con == null);
                 if (conCreated)
                 {
-                    con = Program.DatabaseManager.GetClient().GetConnection();
+                    con = DatabaseManager.DB_Game.GetConnection();
                 }
 
 
@@ -427,8 +426,8 @@ namespace Zepheus.World.Data.Guilds
                 {
                     cmd.CommandText = "dbo.GuildMember_Remove";
 
-                    cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
-                    cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Member.Character.ID));
+                    cmd.Parameters.Add(new SqlParameter("@pGuildID", ID));
+                    cmd.Parameters.Add(new SqlParameter("@pCharacterID", Member.Character.ID));
 
 
                     
@@ -448,9 +447,9 @@ namespace Zepheus.World.Data.Guilds
                 //broadcast member left packet
                 if (BroadcastRemove)
                 {
-                    using (var packet = new Packet(SH29Type.RemoveGuildMember))
+                    using (var packet = new GamePacket(GameOpCode.Server.H29.GuildMemberLeft))
                     {
-                        packet.WriteString(Member.Character.Character.Name);
+                        packet.WriteString(Member.Character.Name);
 
 
 
@@ -458,13 +457,13 @@ namespace Zepheus.World.Data.Guilds
                     }
 
                     //send packet to zones that a member has been removed
-                    using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberRemove))
+                    using (var packet = new InterPacket(InterOpCode.World.H53.ZONE_GuildMemberRemove))
                     {
-                        packet.WriteInt(ID);
-                        packet.WriteInt(Member.Character.ID);
+                        packet.WriteInt32(ID);
+                        packet.WriteInt32(Member.Character.ID);
 
 
-                        ZoneManager.Instance.Broadcast(packet);
+                        ZoneManager.Broadcast(packet);
                     }
                 }
 
@@ -487,9 +486,9 @@ namespace Zepheus.World.Data.Guilds
 
 
             //broadcast to members
-            using (var packet = new Packet(SH29Type.ChangeRank))
+            using (var packet = new GamePacket(GameOpCode.Server.H29.UpdateGuildMemberRank))
             {
-                packet.WriteString(Member.Character.Character.Name, 16);
+                packet.WriteString(Member.Character.Name, 16);
                 packet.WriteByte((byte)NewRank);
 
 
@@ -498,14 +497,14 @@ namespace Zepheus.World.Data.Guilds
 
 
             //broadcast to zones
-            using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberRankUpdate))
+            using (var packet = new InterPacket(InterOpCode.World.H53.ZONE_GuildMemberRankUpdate))
             {
-                packet.WriteInt(ID);
-                packet.WriteInt(Member.Character.ID);
+                packet.WriteInt32(ID);
+                packet.WriteInt32(Member.Character.ID);
                 packet.WriteByte((byte)NewRank);
 
 
-                ZoneManager.Instance.Broadcast(packet);
+                ZoneManager.Broadcast(packet);
             }
         }
     }

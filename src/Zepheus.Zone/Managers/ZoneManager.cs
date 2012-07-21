@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Zepheus.World.Data
+namespace Zepheus.Zone.Managers
 {
-    public enum GuildRequstCode : ushort
+    class ZoneManager
     {
-    MemberHasAlredyAcademy = 7,
     }
 }

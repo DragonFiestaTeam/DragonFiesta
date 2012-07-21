@@ -1,13 +1,13 @@
-﻿/*File for this file Basic Copyright 2012 no0dl */
-using System;
+﻿using System;
 using System.Text;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 using System.Collections.Generic;
-using Zepheus.Zone.Game;
-using Zepheus.Zone.Game.Guilds.Academy;
+using Fiesta.Zone.Game.Characters;
+using Fiesta.Zone.Game.Guilds.Academy;
+using Fiesta.Core.Cryptography;
 
-namespace Zepheus.Zone.Game.Guilds
+namespace Fiesta.Zone.Game.Guilds
 {
     public sealed class Guild
     {
@@ -19,14 +19,14 @@ namespace Zepheus.Zone.Game.Guilds
             get
             {
                 var data = _Password;
-               // InterCrypto.Decrypt(ref data, 0, data.Length);
+                InterCrypto.Decrypt(ref data, 0, data.Length);
 
                 return Encoding.UTF8.GetString(data);
             }
             set
             {
                 var data = Encoding.UTF8.GetBytes(value);
-              //  InterCrypto.Encrypt(ref data, 0, data.Length);
+                InterCrypto.Encrypt(ref data, 0, data.Length);
 
                 _Password = data;
             }
@@ -51,13 +51,13 @@ namespace Zepheus.Zone.Game.Guilds
 
 
 
-        public Guild(MySqlDataReader reader, MySqlConnection con)
+        public Guild(SqlDataReader reader, SqlConnection con)
         {
-            ID = reader.GetInt32("ID");
-            Name = reader.GetString("Name");
-           // _Password = (byte[])reader.GetValue("Password");
-            _Password = new byte[12];
-            AllowGuildWar = reader.GetBoolean("GuildWar");
+            ID = reader.GetInt32(0);
+            Name = reader.GetString(1);
+            _Password = (byte[])reader.GetValue(2);
+
+            AllowGuildWar = reader.GetBoolean(3);
             Message = reader.GetString(4);
             MessageCreateTime = reader.GetDateTime(5);
             MessageCreaterID = reader.GetInt32(6);
@@ -88,14 +88,14 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
 
-        private void Load(MySqlConnection con)
+        private void Load(SqlConnection con)
         {
             //members
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = "SELECT * FROM GuildMembers WHERE GuildID = @pGuildID";
 
-                cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+                cmd.Parameters.Add(new SqlParameter("@pGuildID", ID));
 
 
                 using (var reader = cmd.ExecuteReader())

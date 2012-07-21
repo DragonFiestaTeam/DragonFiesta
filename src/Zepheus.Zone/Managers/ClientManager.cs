@@ -16,6 +16,8 @@ namespace Zepheus.Zone
         private Mutex ClientManagerMutex = new Mutex();
 		//private List<ZoneClient> clients = new List<ZoneClient>();
 		private readonly ConcurrentDictionary<string, ZoneClient> clientsByName = new ConcurrentDictionary<string, ZoneClient>();
+        private readonly ConcurrentDictionary<int, ZoneClient> clientsByID = new ConcurrentDictionary<int, ZoneClient>();
+
 		private readonly ConcurrentDictionary<string, ClientTransfer> transfers = new ConcurrentDictionary<string, ClientTransfer>();
 		private readonly System.Timers.Timer expirator;
 		private int transferTimeout = 1;
@@ -83,7 +85,15 @@ namespace Zepheus.Zone
 				pingTimeouts.Clear();
 			}
 		}
-
+        public ZoneClient GetClientByCharID(int pCharID)
+        {
+          ZoneClient pclient;
+          if (this.clientsByID.TryGetValue(pCharID, out pclient))
+          {
+              return pclient;
+          }
+          return null;
+        }
 		public bool HasClient(string charName)
 		{
 			return clientsByName.ContainsKey(charName);
@@ -127,6 +137,11 @@ namespace Zepheus.Zone
                 }
                 else
                 {
+                    if (!this.clientsByID.TryAdd(client.Character.Character.ID, client))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Could not add client to idlist!");
+                        return false;
+                    }
                     if (!clientsByName.TryAdd(client.Character.Character.Name, client))
                     {
                         Log.WriteLine(LogLevel.Warn, "Could not add client to list!");
@@ -149,6 +164,7 @@ namespace Zepheus.Zone
                 if (client.Character == null) return;
                 ZoneClient deleted;
                 clientsByName.TryRemove(client.Character.Character.Name, out deleted);
+                this.clientsByID.TryRemove(client.Character.ID,out deleted);
                 GroupManager.Instance.OnCharacterRemove(client.Character);
                 if (deleted != client)
                 {

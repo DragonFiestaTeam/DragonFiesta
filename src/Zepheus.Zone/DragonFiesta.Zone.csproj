@@ -49,8 +49,14 @@
   <ItemGroup>
     <Compile Include="Game\AttackSequence.cs" />
     <Compile Include="ChatLog.cs" />
-    <Compile Include="Game\Guild\Academy.cs" />
-    <Compile Include="Game\Guild\AcademyMember.cs" />
+    <Compile Include="Game\Guild\Academy\GuildAcademy.cs" />
+    <Compile Include="Game\Guild\Academy\GuildAcademyManager.cs" />
+    <Compile Include="Game\Guild\Academy\GuildAcademyMember.cs" />
+    <Compile Include="Game\Guild\Academy\GuildAcademyRank.cs" />
+    <Compile Include="Game\Guild\Guild.cs" />
+    <Compile Include="Game\Guild\GuildManager.cs" />
+    <Compile Include="Game\Guild\GuildMember.cs" />
+    <Compile Include="Game\Guild\GuildRank.cs" />
     <Compile Include="Game\Inventory\PremiumInventory.cs" />
     <Compile Include="Game\Inventory\RewardInventory.cs" />
     <Compile Include="Game\RewardItem.cs" />
@@ -59,6 +65,7 @@
     <Compile Include="Game\Trade\TradeReqest.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Managers\CharacterManager.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />
     <Compile Include="CommandInfo.cs" />
@@ -77,8 +84,6 @@
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
     <Compile Include="Game\Equip.cs" />
-    <Compile Include="Game\Guild\Guild.cs" />
-    <Compile Include="Game\Guild\GuildMember.cs" />
     <Compile Include="Game\House.cs" />
     <Compile Include="Game\Inventory\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
@@ -113,6 +118,7 @@
     <Compile Include="InterServer\InterHandlerStore.cs" />
     <Compile Include="InterServer\WorldConnector.cs" />
     <Compile Include="Managers\MapManager.cs" />
+    <Compile Include="Managers\ZoneManager.cs" />
     <Compile Include="Networking\Security\CheatTypes.cs" />
     <Compile Include="Networking\ZoneAcceptor.cs" />
     <Compile Include="Networking\ZoneClient.cs" />

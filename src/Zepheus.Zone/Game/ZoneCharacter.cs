@@ -16,6 +16,8 @@ using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using Zepheus.InterLib.Networking;
 using Zepheus.Zone.Managers;
+using Zepheus.Zone.Game.Guilds;
+using Zepheus.Zone.Game.Guilds.Academy;
 
 namespace Zepheus.Zone.Game
 {
@@ -87,7 +89,6 @@ namespace Zepheus.Zone.Game
 		public Character Character { get; private set; }
 		public Group Group { get; set; }
 		public GroupMember GroupMember { get; set; }
-
         #region Inventory
         public Inventory Inventory { get; set; }
         public RewardInventory RewardInventory { get; set; }
@@ -117,6 +118,11 @@ namespace Zepheus.Zone.Game
 		public short StonesSP { get; set; }
 		public short StonesHP { get; set; }
         
+        //Guild & GuildAcademy
+        public Guild Guild { get; set; }
+        public GuildAcademy GuildAcademy { get; set; }
+        public GuildAcademyMember GuildAcademyMember { get; set; }
+        public GuildMember GuildMember { get; set; }
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
