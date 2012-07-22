@@ -52,10 +52,7 @@
         ZONE_GuildMemberRankUpdate = 4111,
         ZONE_GuildMemberLogin = 4112,
         ZONE_GuildCreated = 4113,
-
-        AddGuildMember = 0x5000, //WORLD -> Zone
-        RemoveGuildMember = 0x5001,//WORLD -> Zone
-        CreateGuild = 0x5002,// WORLD -> Zone
-        RemoveGuild = 0x5003,//WORLD -> Zone
+        ZONE_CharacterSetBuff = 4114,
+        ZONE_CharacterRemoveBuff = 4115,
 	}
 }

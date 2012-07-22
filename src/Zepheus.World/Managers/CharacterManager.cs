@@ -6,12 +6,17 @@ using Zepheus.Util;
 
 namespace Zepheus.World.Managers
 {
+    public delegate void CharacterEvent(WorldCharacter Character);
+
     public class CharacterManager
     {
 
-        public static event EventHandler<WorldCharacter> OnCharacterLogin;
-        public static event EventHandler<OnCharacterLogoutArgs> OnCharacterLogout;
-        public static event EventHandler<OnCharacterLevelUpArgs> OnCharacterLevelUp;
+        public static event CharacterEvent OnCharacterLogin;
+        public static event CharacterEvent OnCharacterLogout;
+        public static event CharacterEvent OnCharacterLevelUp;
+
+    //    public delegate void OnCharacterLogin(WorldCharacter Character);
+
         public static CharacterManager Instance { get; set; }
         [InitializerMethod]
         public static bool init()

@@ -24,8 +24,6 @@ namespace Zepheus.World.Data.Guilds
         public static object ThreadLocker { get; private set; }
 
 
-
-
         private static List<Guild> LoadedGuilds;
 
         [InitializerMethod]

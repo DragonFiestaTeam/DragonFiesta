@@ -78,9 +78,10 @@ namespace Zepheus.World.Data.Guilds.Academy
         }
         private static void On_CharacterManager_CharacterLevelUp(WorldCharacter Character)
         {
-            /*if (Character.IsInGuildAcademy)
+            //fix later
+            if (Character.IsInGuildAcademy)
             {
-                using (var packet = new Packet(GameOpCode.Server.H38.AcademyMemberLevelUp))
+                using (var packet = new Packet(SH38Type.GuildAcademyMemberLevelUp))
                 {
                     packet.WriteString(Character.Character.Name, 16);
                     packet.WriteByte(Character.Character.CharLevel);
@@ -94,7 +95,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                 lock (Character.Guild.ThreadLocker)
                 {
                     uint points;
-                    if (GuildDataProvider.AcademyLevelUpPoints.TryGetValue(Character.Level, out points))
+                    if (GuildDataProvider.Instance.AcademyLevelUpPoints.TryGetValue(Character.Character.CharLevel, out points))
                     {
                         Character.GuildAcademy.Points += (ushort)points;
                     }
@@ -103,8 +104,8 @@ namespace Zepheus.World.Data.Guilds.Academy
 
                     //add time to guild buff
                     var time = Program.CurrentTime;
-                    var newTime = Math.Min(CharacterDataProvider.ChrCommon.GuildBuffMaxTime.TotalSeconds, (CharacterDataProvider.ChrCommon.GuildBuffAddTime.TotalSeconds + Character.GuildAcademy.GuildBuffKeepTime.TotalSeconds));
-                    Character.GuildAcademy.GuildBuffKeepTime = TimeSpan.FromSeconds(newTime);
+                    //var newTime = Math.Min(CharacterDataProvider.ChrCommon.GuildBuffMaxTime.TotalSeconds, (CharacterDataProvider.ChrCommon.GuildBuffAddTime.TotalSeconds + Character.GuildAcademy.GuildBuffKeepTime.TotalSeconds));
+                    //Character.GuildAcademy.GuildBuffKeepTime = TimeSpan.FromSeconds(newTime);
 
                     //update guild buff to all guild/aka members
                     var toUpdate = new List<WorldCharacter>();
@@ -124,7 +125,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                         }
                     }
 
-                    BuffManager.SetBuff(GuildDataProvider.AcademyBuff, GuildDataProvider.AcademyBuffStrength, (uint)(newTime * 1000), toUpdate.ToArray());
+                   //BuffManager.SetBuff(GuildDataProvider.AcademyBuff, GuildDataProvider.AcademyBuffStrength, (uint)(newTime * 1000), toUpdate.ToArray());
 
                     toUpdate.Clear();
                     toUpdate = null;
@@ -134,11 +135,11 @@ namespace Zepheus.World.Data.Guilds.Academy
                     {
                         packet.WriteInt(Character.Guild.ID);
                         packet.WriteDateTime(time);
-                        packet.WriteDouble(newTime);
+                        packet.WriteDouble(900);//fix later
 
 
 
-                        ZoneManager.Broadcast(packet);
+                        ZoneManager.Instance.Broadcast(packet);
                     }
 
 
@@ -149,7 +150,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                     Character.GuildAcademy.BroadcastInfo();
                     Character.GuildAcademy.Save();
                }
-            }*/
+            }
         }
 
 

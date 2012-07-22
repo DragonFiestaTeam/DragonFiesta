@@ -12,24 +12,6 @@ namespace Zepheus.Zone.InterServer
 {
 	public sealed class InterHandler
 	{
-        [InterPacketHandler(InterHeader.RemoveGuild)]
-        public static void RemoveGuildFromZone(WorldConnector pConnector, InterPacket pPacket)
-        {
-            int GuildID;
-            string GuildName;
-
-            if (!pPacket.TryReadInt(out GuildID))
-                return;
-            if (!pPacket.TryReadString(out GuildName, 16))
-                return;
-
-            if (DataProvider.Instance.GuildsByID.ContainsKey(GuildID))
-            {
-                DataProvider.Instance.GuildsByID.Remove(GuildID);
-                DataProvider.Instance.GuildsByName.Remove(GuildName);
-                Log.WriteLine(LogLevel.Debug, "Remove {0} Guild From Zone", GuildName);
-            }
-        }
 		[InterPacketHandler(InterHeader.FunctionAnswer)]
 		public static void FunctionAnswer(WorldConnector pConnector, InterPacket pPacket)
 		{

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ConnectErrors.cs" />
     <Compile Include="CreateCharError.cs" />
+    <Compile Include="Data\AbStateInfo.cs" />
     <Compile Include="Data\ActiveSkillInfo.cs" />
     <Compile Include="Data\BaseStats.cs" />
     <Compile Include="Data\BaseStatsEntry.cs" />
