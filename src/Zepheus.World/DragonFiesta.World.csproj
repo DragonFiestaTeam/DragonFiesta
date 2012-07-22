@@ -71,6 +71,7 @@
     <Compile Include="Events\OnCharacterLevelUp.cs" />
     <Compile Include="Events\OnCharacterLoginArgs.cs" />
     <Compile Include="Events\OnCharacterLogout.cs" />
+    <Compile Include="Game\MapObjectBuffCollection.cs" />
     <Compile Include="Handlers\Handler38.cs" />
     <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\BroadcastManager.cs" />
@@ -143,6 +144,7 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

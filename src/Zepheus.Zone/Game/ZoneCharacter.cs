@@ -18,6 +18,7 @@ using Zepheus.InterLib.Networking;
 using Zepheus.Zone.Managers;
 using Zepheus.Zone.Game.Guilds;
 using Zepheus.Zone.Game.Guilds.Academy;
+using Zepheus.Zone.Game.Buffs;
 
 namespace Zepheus.Zone.Game
 {
@@ -30,7 +31,7 @@ namespace Zepheus.Zone.Game
 			{
 				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectFromDatabase(name, Program.CharDBManager);
 				if (Character == null) throw new Exception("Character not found.");
-				Buffs = new Buffs(this);
+				Buffs = new Buffs.Buffs(this);
                 this.Inventory = new Game.Inventory(this);
                 this.PremiumInventory = new PremiumInventory();
                 this.RewardInventory = new RewardInventory();
@@ -169,7 +170,7 @@ namespace Zepheus.Zone.Game
 		public PlayerState State { get; set; }
 		public MapObject SelectedObject { get; set; }
 		public FiestaBaseStat BaseStats { get { return DataProvider.Instance.GetBaseStats(Job, Level); } }
-		private Buffs Buffs { get; set; }
+		private Buffs.Buffs Buffs { get; set; }
 		public House House { get; set; }
 		public MapObject CharacterInTarget { get; set; }
 		public Question Question { get; set; }

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿﻿/*File for this file Basic Copyright 2012 no0dl */
+using System.Collections.Generic;
 
-namespace Zepheus.Zone.Game
+namespace Zepheus.Zone.Game.Buffs
 {
 	public class Buffs
     {
