@@ -61,6 +61,7 @@ namespace Zepheus.World.Data
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
 			LoadEqupippet();
+          ;
           
 		}
 		public List<Friend> Friends

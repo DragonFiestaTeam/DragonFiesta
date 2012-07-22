@@ -22,12 +22,12 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
 
-        public GuildAcademyMember(GuildAcademy Academy, WorldCharacter Character, MySqlDataReader reader)
+        public GuildAcademyMember(GuildAcademy Academy, WorldCharacter Character, DataRow Row)
         {
             this.Academy = Academy;
             this.Character = Character;
 
-            Load(reader);
+            Load(Row);
         }
         public GuildAcademyMember(GuildAcademy Academy, WorldCharacter Character, DateTime RegisterDate, GuildAcademyRank Rank)
         {
@@ -44,11 +44,11 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
 
-        private void Load(MySqlDataReader reader)
+        private void Load(DataRow Row)
         {
-            RegisterDate = reader.GetDateTime(2);
-            IsChatBlocked = reader.GetBoolean(3);
-            Rank = (GuildAcademyRank)reader.GetByte(4);
+            RegisterDate = (DateTime)Row["RegisterDate"];
+            IsChatBlocked = (bool)Row["ChatBlock"];
+            Rank = (GuildAcademyRank)Row["Rank"];
         }
         public void Save(MySqlConnection con)
         {

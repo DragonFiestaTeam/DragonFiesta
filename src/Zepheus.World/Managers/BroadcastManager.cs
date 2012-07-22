@@ -5,6 +5,7 @@ using Zepheus.Util;
 
 namespace Zepheus.World.Managers
 {
+    [ServerModule(InitializationStage.Clients)]
     public class BroadcastManager
     {
         public static BroadcastManager Instance { get; set; }

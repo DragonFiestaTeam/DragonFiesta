@@ -10,6 +10,8 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using Zepheus.World.Data;
 using Zepheus.World.Managers;
+using Zepheus.Database.DataStore;
+using Zepheus.Database;
 
 namespace Zepheus.World.Data.Guilds.Academy
 {
@@ -32,13 +34,13 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
 
-        public GuildAcademy(Guild Guild, MySqlConnection con)
+        public GuildAcademy(Guild Guild)
         {
             this.Guild = Guild;
 
             Members = new List<GuildAcademyMember>();
 
-            Load(con);
+            Load();
         }
         public void Dispose()
         {
@@ -51,50 +53,36 @@ namespace Zepheus.World.Data.Guilds.Academy
             Members = null;
         }
 
-        private void Load(MySqlConnection con)
+        private void Load()
         {
+                DataTable AcademyData = null;
+                DataTable MemberData = null;
+           using(DatabaseClient DBClient = Program.DatabaseManager.GetClient())
+           {
+               AcademyData = DBClient.ReadDataTable("SELECT * FROM GuildAcademy WHERE GuildID = "+Guild.ID+"");
+              MemberData = DBClient.ReadDataTable("SELECT * FROM GuildAcademyMembers WHERE GuildID = "+Guild.ID+"");
+
+           }
+
+           foreach (DataRow row in AcademyData.Rows)
+           {
             //load academy info
-            using (var cmd = con.CreateCommand())
-            {
-                cmd.CommandText = "SELECT * FROM GuildAcademy WHERE GuildID = @pGuildID";
 
-                cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
-
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (!reader.Read())
-                        throw new InvalidOperationException("Error getting guild academy info from database for guild: " + Guild.Name);
-
-                    Message = reader.GetString(1);
-                    Points = (ushort)reader.GetInt16(2);
-                }
+               Message = row["Message"].ToString();
+               Points = GetDataTypes.GetUshort(row["Points"]);
             }
 
-
-
             //members
-            using (var cmd = con.CreateCommand())
+            foreach(DataRow MemberRow in MemberData.Rows)
             {
-                cmd.CommandText = "SELECT * FROM GuildAcademyMembers WHERE GuildID = @pGuildID";
 
-                cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
+                WorldCharacter character;
+                if (!CharacterManager.Instance.GetCharacterByID(MemberRow["Name"].ToString(), out character))
+                    continue; // maybe deleted
 
+                var member = new GuildAcademyMember(this, character,MemberRow);
 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        
-                        WorldCharacter character;
-                        if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32(1), out character, con))
-                            continue; // maybe deleted
-
-                        var member = new GuildAcademyMember(this, character, reader);
-
-                        Members.Add(member);
-                    }
-                }
+                Members.Add(member);
             }
         }
         public void Save(MySqlConnection con = null)

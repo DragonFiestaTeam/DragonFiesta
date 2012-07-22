@@ -19,6 +19,7 @@ using Zepheus.Util;
 
 namespace Zepheus.World.Data.Guilds
 {
+    [ServerModule(InitializationStage.Clients)]
     public static class GuildManager
     {
         public static object ThreadLocker { get; private set; }
@@ -27,7 +28,7 @@ namespace Zepheus.World.Data.Guilds
         private static List<Guild> LoadedGuilds;
 
         [InitializerMethod]
-        public static void OnAppStart()
+        public static bool OnAppStart()
         {
             ThreadLocker = new object();
 
@@ -35,6 +36,7 @@ namespace Zepheus.World.Data.Guilds
 
             CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
             CharacterManager.OnCharacterLogout += On_CharacterManager_CharacterLogout;
+            return true;
         }
         private static void On_CharacterManager_CharacterLogin(WorldCharacter Character)
         {
@@ -395,7 +397,7 @@ namespace Zepheus.World.Data.Guilds
                         using (var cmd = con.CreateCommand())
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
-                            cmd.CommandText = "dbo.Guild_Create";
+                            cmd.CommandText = "Guild_Create";
 
                             cmd.Parameters.Add(new MySqlParameter("@pName", name));
                             cmd.Parameters.Add(new MySqlParameter("@pPassword", pwData));

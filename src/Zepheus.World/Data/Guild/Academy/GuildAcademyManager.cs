@@ -21,14 +21,16 @@ using Fiesta.World.Networking.Helpers;*/
 
 namespace Zepheus.World.Data.Guilds.Academy
 {
+    [ServerModule(InitializationStage.Clients)]  
     public static class GuildAcademyManager
     {
         [InitializerMethod]
-        public static void OnAppStart()
+        public static bool OnAppStart()
         {
             CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
             CharacterManager.OnCharacterLogout += On_CharacterManager_CharacterLogout;
             CharacterManager.OnCharacterLevelUp += On_CharacterManager_CharacterLevelUp;
+            return true;
         }
         private static void On_CharacterManager_CharacterLogin(WorldCharacter Character)
         {
@@ -178,7 +180,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                         cmd.CommandText = "SELECT COUNT(*) FROM Guilds";
 
 
-                        guildCount = (int)cmd.ExecuteScalar();
+                        guildCount = Convert.ToInt32(cmd.ExecuteScalar());
                     }
 
 
@@ -209,7 +211,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
                                 Guild guild;
-                                if (GuildManager.GetGuildByID(reader.GetInt32(0), out guild))
+                                if (GuildManager.GetGuildByID(reader.GetInt32("ID"), out guild))
                                 {
                                     //write packet
                                     listPacket.WriteString(guild.Name, 16);

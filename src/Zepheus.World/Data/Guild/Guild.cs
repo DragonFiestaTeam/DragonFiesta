@@ -12,6 +12,8 @@ using Zepheus.World;
 using Zepheus.World.Managers;
 using Zepheus.InterLib;
 using Zepheus.InterLib.Networking;
+using Zepheus.Database;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.World.Data.Guilds
 {
@@ -79,32 +81,32 @@ namespace Zepheus.World.Data.Guilds
             MessageCreater = Creater;
 
 
-            Load(con);
+            Load();
         }
         public Guild(MySqlConnection con, MySqlDataReader reader)
             : this()
         {
-            ID = reader.GetInt32(0);
+            ID = reader.GetInt32("ID");
 
-            Name = reader.GetString(1);
-            _Password = (byte[])reader.GetValue(2);
+            Name = reader.GetString("Name");
+           //_Password = 
 
-            AllowGuildWar = reader.GetBoolean(3);
+            AllowGuildWar = reader.GetBoolean("GuildWar");
 
-            Message = reader.GetString(4);
-            MessageCreateTime = reader.GetDateTime(5);
+            Message = reader.GetString("GuildMessage");
+            MessageCreateTime = reader.GetDateTime("GuildMessageCreateDate");
 
 
             WorldCharacter creater;
-            if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32(6), out creater))
-                throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32(6));
+            if (!CharacterManager.Instance.GetCharacterByID(reader.GetString("GuildMessageCreater"), out creater))
+                throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32("GuildMessageCreater"));
 
             MessageCreater = creater;
 
-            CreateTime = reader.GetDateTime(7);
+            CreateTime = reader.GetDateTime("GuildMessageCreateDate");
 
             
-            Load(con);
+            Load();
         }
         private Guild()
         {
@@ -134,38 +136,34 @@ namespace Zepheus.World.Data.Guilds
 
 
 
-        private void Load(MySqlConnection con)
+        private void Load()
         {
             //members
-            using (var cmd = con.CreateCommand())
-            {
-                cmd.CommandText = "SELECT * FROM GuildMembers WHERE GuildID = @pGuildID";
+            DataTable MemberData = null;
+           using(DatabaseClient DBClient = Program.DatabaseManager.GetClient())
+           {
+              MemberData = DBClient.ReadDataTable("SELECT * FROM GuildMembers WHERE GuildID = "+this.ID+"");
 
-                cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+           }
 
-
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
+           foreach (DataRow row in MemberData.Rows)
+           {
                         //get character
                         WorldCharacter character;
-                        if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32(1), out character, con))
+                        if (!CharacterManager.Instance.GetCharacterByID(row["CharName"].ToString(), out character))
                             continue;
 
                         var member = new GuildMember(this,
                                                      character,
-                                                     (GuildRank)reader.GetByte(2),
-                                                     (ushort)reader.GetInt16(3));
+                                                     (GuildRank)row["Rank"],
+                                                     (ushort)row["Korp"]);
 
                         Members.Add(member);
-                    }
-                }
-            }
+               }
 
 
             //academy
-            Academy = new GuildAcademy(this, con);
+            Academy = new GuildAcademy(this);
         }
 
         public void Save(MySqlConnection con = null)

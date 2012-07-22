@@ -12,6 +12,7 @@ using Zepheus.Zone.Managers;
 
 namespace Zepheus.Zone.Game.Guilds
 {
+    [ServerModule(InitializationStage.Clients)]  
     public static class GuildManager
     {
         private static List<Guild> LoadedGuilds;
@@ -23,14 +24,15 @@ namespace Zepheus.Zone.Game.Guilds
 
 
         [InitializerMethod]
-        public static void OnAppStart()
+        public static bool OnAppStart()
         {
             LoadedGuilds = new List<Guild>();
             ThreadLocker = new object();
 
 
             
-      //   Managers.CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
+        Managers.CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
+        return true;
         }
         private static void On_CharacterManager_CharacterLogin(ZoneCharacter Character)
         {
