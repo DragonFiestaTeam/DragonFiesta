@@ -451,16 +451,6 @@ namespace Zepheus.Zone
         }
         private void Clone(ZoneCharacter character, params string[] param)
         {
-            var dummyChar = new ZoneCharacter("DummyChar")
-            {
-                MapObjectID = 90,
-                Client = character.Client,
-			    Character = {PositionInfo = character.Character.PositionInfo}
-            };
-            Packet dummy = Handler7.SpawnSinglePlayer(dummyChar);
-            dummyChar.Client.SendPacket(dummy);
-            //character.Client.SendPacket(clone);
-
         }
         private void Testg(ZoneCharacter character, params string[] param)
         {

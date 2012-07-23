@@ -42,9 +42,9 @@ namespace Zepheus.World.Managers
             }
             return false;
         }
-        public bool GetCharacterByID(string Name, out WorldCharacter pChar)
+        public bool GetCharacterByID(int ID, out WorldCharacter pChar)
         {
-         World.Networking.WorldClient pclient = ClientManager.Instance.GetClientByCharname(Name);
+         World.Networking.WorldClient pclient = ClientManager.Instance.GetClientByCharID(ID);
            if (pclient != null)
            {
                pChar = pclient.Character;
@@ -53,7 +53,7 @@ namespace Zepheus.World.Managers
            else
            {
                pChar = null;
-              Character DBpChar  =  ReadMethods.ReadCharObjectFromDatabase(Name,Program.DatabaseManager);
+              Character DBpChar  =  ReadMethods.ReadCharObjectByIDFromDatabase(ID,Program.DatabaseManager);
               WorldCharacter ReaderChar = new WorldCharacter(DBpChar, null);
               pChar = ReaderChar;
               if (DBpChar == null)

@@ -191,21 +191,21 @@ namespace Zepheus.World.InterServer
 				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out hash) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip)) {
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, admin, hostip, hash);
+				ClientTransfer ct = new ClientTransfer(accountid, username,0, admin, hostip, hash);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 			else if (v == 1)
 			{
 				byte admin;
-				int accountid;
+				int accountid,CharID;
 				string username, charname, hostip;
 				ushort randid;
-				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) || 
+                if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) || !packet.TryReadInt(out CharID) ||
 					!packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip))
 				{
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, charname, randid, admin, hostip);
+				ClientTransfer ct = new ClientTransfer(accountid, username, charname,CharID, randid, admin, hostip);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 		}
@@ -214,11 +214,11 @@ namespace Zepheus.World.InterServer
 		public static void HandleClientTransferZone(ZoneConnection zc, InterPacket packet)
 		{
 			byte admin, zoneid;
-			int accountid;
+			int accountid,CharID;
 			string username, charname, hostip;
 			ushort randid, mapid;
 			if (!packet.TryReadByte(out zoneid) || !packet.TryReadInt(out accountid) || !packet.TryReadUShort(out mapid) || !packet.TryReadString(out username) ||
-				!packet.TryReadString(out charname) || !packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) ||
+				!packet.TryReadString(out charname)||!packet.TryReadInt(out CharID) || !packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) ||
 				!packet.TryReadString(out hostip))
 			{
 				return;
@@ -228,7 +228,7 @@ namespace Zepheus.World.InterServer
 				ZoneConnection z;
 				if (Program.Zones.TryGetValue(zoneid, out z))
 				{
-					z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
+					z.SendTransferClientFromZone(accountid, username, charname,CharID, randid, admin, hostip);
 					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
 					client.Character.ChangeMap(DataProvider.GetMapname(mapid));
 				}

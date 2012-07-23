@@ -25,11 +25,11 @@ namespace Zepheus.Zone.Game
 	public class ZoneCharacter : MapObject
 	{
 		#region .ctor
-		public ZoneCharacter(string name, bool loadequips = true)
+		public ZoneCharacter(int CharID, bool loadequips = true)
 		{
 			try
 			{
-				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectFromDatabase(name, Program.CharDBManager);
+				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectByIDFromDatabase(CharID, Program.CharDBManager);
 				if (Character == null) throw new Exception("Character not found.");
 				Buffs = new Buffs.Buffs(this);
                 this.Inventory = new Game.Inventory(this);
@@ -1727,8 +1727,8 @@ namespace Zepheus.Zone.Game
 				// Try setting up transfer
 				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
-				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username, this.Name, randomID, this.Client.Admin, this.Client.Host);
-                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
+				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username,this.Character.ID, this.Name, randomID, this.Client.Admin, this.Client.Host);
+                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.ID,this.Client.Admin,this.Client.Host,"");
                 ClientManager.Instance.AddTransfer(Zonetran);
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;

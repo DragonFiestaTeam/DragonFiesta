@@ -112,7 +112,7 @@ namespace Zepheus.Login.InterServer
             }
         }
 
-        public void SendTransferClientFromZone(int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
+        public void SendTransferClientFromZone(int accountID, string userName, string charName,int CharID, ushort randid, byte admin, string hostIP)
         {
             using (var packet = new InterPacket(InterHeader.Clienttransfer))
             {
@@ -120,6 +120,7 @@ namespace Zepheus.Login.InterServer
                 packet.WriteInt(accountID);
                 packet.WriteStringLen(userName);
                 packet.WriteStringLen(charName);
+                packet.WriteInt(CharID);
                 packet.WriteUShort(randid);
                 packet.WriteByte(admin);
                 packet.WriteStringLen(hostIP);

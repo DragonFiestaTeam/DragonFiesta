@@ -69,7 +69,7 @@ namespace Zepheus.Zone.Handlers
             {
                ClientManager.Instance.RemoveTransfer(characterName);
  
-                ZoneCharacter zonecharacter = new ZoneCharacter(characterName);
+                 ZoneCharacter zonecharacter = new ZoneCharacter(transfer.CharID);
                 if (zonecharacter.Character.AccountID != transfer.AccountID)
                 {
                     Log.WriteLine(LogLevel.Warn, "Character is logging in with wrong account ID.");

@@ -98,7 +98,7 @@ namespace Zepheus.World.Data.Guilds
 
 
             WorldCharacter creater;
-            if (!CharacterManager.Instance.GetCharacterByID(reader.GetString("GuildMessageCreater"), out creater))
+            if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32("GuildMessageCreater"), out creater))
                 throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32("GuildMessageCreater"));
 
             MessageCreater = creater;
@@ -150,7 +150,7 @@ namespace Zepheus.World.Data.Guilds
            {
                         //get character
                         WorldCharacter character;
-                        if (!CharacterManager.Instance.GetCharacterByID(row["CharName"].ToString(), out character))
+                        if (!CharacterManager.Instance.GetCharacterByID((int)row["CharName"], out character))
                             continue;
 
                         var member = new GuildMember(this,
