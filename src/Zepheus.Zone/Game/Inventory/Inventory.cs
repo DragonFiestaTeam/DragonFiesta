@@ -13,7 +13,7 @@ namespace Zepheus.Zone.Game
     public class Inventory
     {
         public long Money { get; set; }
-        public List<Equip> EquippedItems { get; private set; }
+        public List<Item> EquippedItems { get; private set; }
         public Dictionary<byte, Item> InventoryItems { get; private set; }
         public byte InventoryCount { get; private set; }
         private Mutex locker = new Mutex();
@@ -23,7 +23,7 @@ namespace Zepheus.Zone.Game
             InventoryCount = 2;
             InventoryOwner = pChar;
             InventoryItems = new Dictionary<byte, Item>();
-            EquippedItems = new List<Equip>();
+            EquippedItems = new List<Item>();
         }
         public Inventory()
         {
@@ -45,7 +45,7 @@ namespace Zepheus.Zone.Game
 
         public void LoadFull(ZoneCharacter pChar)
         {
-            try
+            /*try
             {
                 locker.WaitOne();
                 DataTable eq = null;
@@ -84,7 +84,7 @@ namespace Zepheus.Zone.Game
                       foreach (DataRow row in items.Rows)
                       {
                         Item loaded = Item.LoadItem(row);
-                        if (loaded.Info.Class == ItemClass.Rider)
+                        if (loaded.ItemInfo.Class == ItemClass.Rider)
                         {
                             Mount mount = Data.DataProvider.Instance.GetMountByItemID(loaded.ID);
                             if (mount != null)
@@ -105,9 +105,9 @@ namespace Zepheus.Zone.Game
             finally
             {
                 locker.ReleaseMutex();
-            }
+            }*/
         }
-        public Equip GetEquiptBySlot(byte slot, out Equip Eq)
+        public Item GetEquiptBySlot(byte slot, out Item Eq)
         {
 
             Eq = this.EquippedItems.Find(d => d.Slot == slot);
@@ -119,7 +119,7 @@ namespace Zepheus.Zone.Game
             {
                 locker.WaitOne();
                 Handler12.ModifyInventorySlot(InventoryOwner, 0x24, (byte)pItem.Slot, 0, null);
-                pItem.Delete();
+                //pItem.Delete();
                 this.InventoryItems.Remove((byte)pItem.Slot);
             }
             finally
@@ -134,7 +134,7 @@ namespace Zepheus.Zone.Game
                 locker.WaitOne();
                 if (this.InventoryItems.ContainsKey((byte)pItem.Slot))
                 {
-                    this.InventoryItems[(byte)pItem.Slot].Delete(); //removes from DB
+                    //this.InventoryItems[(byte)pItem.Slot].Delete(); //removes from DB
                     this.InventoryItems.Remove((byte)pItem.Slot);
                 }
                 this.InventoryItems.Add((byte)pItem.Slot, pItem);
@@ -142,12 +142,12 @@ namespace Zepheus.Zone.Game
                 locker.ReleaseMutex();
             }
         }
-        public  void AddToEquipped(Equip pEquip)
+        public  void AddToEquipped(Item pEquip)
         {
             try
             {
                 locker.WaitOne();
-                Equip old = EquippedItems.Find(equip => equip.Slot == pEquip.Slot);
+               Item old = EquippedItems.Find(equip => equip.Slot == pEquip.Slot);
                 if (old != null)
                 {
                     old.IsEquipped = false;
@@ -164,7 +164,7 @@ namespace Zepheus.Zone.Game
         public ushort GetEquippedBySlot(ItemSlot pSlot)
         {
             //double check if found
-            Equip equip = EquippedItems.Find(d => d.SlotType == pSlot && d.IsEquipped);
+           Item equip = EquippedItems.Find(d => d.Slot == (sbyte)pSlot && d.IsEquipped);
             if (equip == null)
             {
                 return 0xffff;

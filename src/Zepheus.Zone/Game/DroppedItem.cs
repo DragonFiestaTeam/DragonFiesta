@@ -18,7 +18,7 @@ namespace Zepheus.Zone.Game
 
         public DroppedItem(Item pBase)
         {
-            Amount = pBase.Count;
+            Amount = pBase.Ammount;
             ItemID = pBase.ID;
            // Expires = pBase;
         }

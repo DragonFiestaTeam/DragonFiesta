@@ -9,29 +9,48 @@ namespace Zepheus.Zone.Game
 {
     public sealed class RewardItem : Item
     {
+        
         public override ushort ID { get; set; }
-        public override byte StatCount { get; set; }
         public override sbyte Slot { get; set; }
-
+        public override UpgradeStats UpgradeStats { get; set; }
         public int CharID { get; set; }
         public ushort PageID { get; set; }
-        public override ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+        public override ItemInfo ItemInfo { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public  void AddToDatabase()
         {
-            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO  Rewarditems (CharID,Slot,ItemID,PageID) VALUES ('" + this.CharID + "','" + this.Slot + "','" + this.UniqueID + "','" + this.PageID + "')");
+            Program.CharDBManager.GetClient().ExecuteQuery("INSERT INTO  Rewarditems (CharID,Slot,ItemID,PageID) VALUES ('" + this.CharID + "','" + this.Slot + "','" + this.ID + "','" + this.PageID + "')");
         }
         public void RemoveFromDatabase()
         {
-            Program.CharDBManager.GetClient().ExecuteQuery("DELETE FROM Rewarditems WHERE CharID='" + this.CharID + "' AND ItemID='" + this.UniqueID + "'");
+            Program.CharDBManager.GetClient().ExecuteQuery("DELETE FROM Rewarditems WHERE CharID='" + this.CharID + "' AND ItemID='" + this.ID + "'");
         }
-        public override void WriteItemInfo(Packet pPacket)
+        public override void WriteInfo(Packet pPacket, bool WriteStats = true)
         {
-          byte lenght = this.CalculateDataLen();
-          pPacket.WriteByte(lenght);
-          pPacket.WriteByte((byte)this.Slot);//itemslot
-          pPacket.WriteByte(0x08);//unk
+            byte length;
+            byte statCount;
 
-          this.WriteItemStats(pPacket);
+            if (ItemInfo.Slot == ItemSlot.None)
+            {
+                length = GetInfoLength(ItemInfo.Class);
+                statCount = 0;
+            }
+            else
+            {
+                length = GetEquipLength(this);
+                statCount = GetInfoStatCount(this);
+            }
+            byte lenght = 9;//later
+            pPacket.WriteByte(lenght);
+            pPacket.WriteByte((byte)this.Slot);//itemslot
+            pPacket.WriteByte(0x08);//unk
+            if (WriteStats)
+            {
+                if (ItemInfo.Slot == ItemSlot.None)
+                    this.WriteStats(pPacket);
+                else
+                    WriteEquipStats(pPacket);
+            }
+
         }
 
         public static  RewardItem LoadFromDatabase(System.Data.DataRow row)

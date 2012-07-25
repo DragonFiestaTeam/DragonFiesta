@@ -16,14 +16,8 @@ namespace Zepheus.Zone.Game
 
         public Drop(Item item, MapObject dropper, int x, int y, int secondsToLive)
         {
-            if (item is Equip)
-            {
-                Item = new DroppedEquip(item as Equip);
-            }
-            else
-            {
+
                 Item = new DroppedItem(item);
-            }
             DroppedBy = dropper;
             Position = new Vector2(x, y);
             Expire = Program.CurrentTime.AddSeconds(secondsToLive);

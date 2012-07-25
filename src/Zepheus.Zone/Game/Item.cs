@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Zepheus.Database.DataStore;
@@ -12,241 +12,283 @@ namespace Zepheus.Zone.Game
 {
     public class Item
     {
-        private const string GiveItem = "give_item;";
-        private const string UpdateItem = "update_item;";
-        private const string DeleteItem = "DELETE FROM items WHERE ID=@id";
-
-        public ulong UniqueID { get; protected set; }
-        public virtual ushort ID { get;  set; }
-        public uint Owner { get; set; }
-        public virtual DateTime? Expires { get; set; }
-        // public ItemSlot SlotType { get; private set; }
-        public virtual sbyte Slot { get; set; }
-
-        public virtual ushort Count { get; set; }
-        public virtual ItemInfo Info { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
-        public Mount Mount { get; set; }
-
-        public virtual byte StatCount { get;  set; }
+        public virtual ushort ID { get; set; }
+        public virtual ItemInfo ItemInfo { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
+        public virtual UpgradeStats UpgradeStats { get; set; }
         public bool IsEquipped { get; set; }
-        public ushort Str { get; set; }
-        public ushort End { get; set; }
-        public ushort Dex { get; set; }
-        public ushort Int { get; set; }
-        public ushort Spr { get; set; }
+        public virtual sbyte Slot { get; set; }
+        public virtual ushort Ammount { get; set; }
+        public virtual uint Owner { get; set; }
 
-        public Item(uint pOwner, ushort pID, ushort pCount)
+        public Item(uint pOwner, ushort pID, sbyte Slot,ushort Amount = 1)
         {
             ItemSlot type;
             if (!DataProvider.GetItemType(pID, out type))
             {
                 throw new InvalidOperationException("Invalid item ID.");
             }
+      
             this.Slot = (sbyte)type;
 
             this.Owner = pOwner;
             this.ID = pID;
-            this.Count = pCount;
+            this.Slot = Slot;
+
         }
         public Item()
         {
         }
-        public virtual bool Delete()
+        public virtual void WriteInfo(Packet Packet, bool WriteStats = true)
         {
-            // Read up on inheritance and virtual method resolution.
-            // This will NOT execute for objects of type Equip unless you call base.Delete() in Equip.Delete().
+            byte length;
+            byte statCount;
 
-            if (this.UniqueID > 0)
+            if (ItemInfo.Slot == ItemSlot.None)
             {
-                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID=" + this.UniqueID + " AND Slot='" + this.Slot + "'");
-                UniqueID = 0;
-                Owner = 0;
-                return true;
+                length = GetInfoLength(ItemInfo.Class);
+                statCount = 0;
             }
             else
             {
-                return false;
+                length = GetEquipLength(this);
+                statCount = GetInfoStatCount(this);
             }
-        }
-        public uint GetExpirationTime()
-        {
-            return this.Expires.HasValue ? this.Expires.Value.ToFiestaTime() : 0;
-        }
 
-        public virtual void Save()
-        {
-            if (UniqueID == 0)
-            {
-                using (var command = new MySqlCommand(GiveItem))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
-                    command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
-                    command.Parameters.AddWithValue("@powner", this.Owner);
-                    command.Parameters.AddWithValue("@pslot", this.Slot);
-                    command.Parameters.AddWithValue("@pitemid", this.ID);
-                    command.Parameters.AddWithValue("@pamount", this.Count);
-                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
-                    this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
-                }
-            }
-            else
-            {
-                using (var command = new MySqlCommand(UpdateItem))
-                {
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
-                    command.Parameters.AddWithValue("@powner", this.Owner);
-                    command.Parameters.AddWithValue("@pslot", this.Slot);
-                    command.Parameters.AddWithValue("@pamount", this.Count);
-                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
-                }
-            }
-        }
-        public byte CalculateDataLen()
-        {
-            byte length = 0;
-            switch (this.Info.Class)
-            {
-                case ItemClass.Rider:
-                    length = 16;
-                    break;
-                case ItemClass.Emotion:
-                   length = 8;
-                    break;
-                case ItemClass.Furniture:
-                    length = 8;
-                    break;
-                case ItemClass.House:
-                    length = 8;
-                    break;
-                case ItemClass.SilverWingsOnly:
-                    length = 15;
-                    break;
-                case ItemClass.Accessory:
-                    length = 12;
-                    break;
-                case ItemClass.PresentBox:
-                    length = 29;
-                    break;
-                default:
-                    length = 5;
-                    break;
-            }
-            return length;
-        }
-        public virtual void WriteItemInfo(Packet pPacket)
-        {
-            byte lenght = CalculateDataLen();
-            pPacket.WriteByte(lenght);//lenght
-            pPacket.WriteByte((byte)this.Slot);
-           // pPacket.WriteByte(1);
-           pPacket.WriteByte(0x24);//status
-            WriteItemStats(pPacket);
-        }
+            length += (byte)(statCount * 3);
 
-        public void WriteItemStats(Packet pPacket)
-        {
-            byte lengt = CalculateDataLen();
-            pPacket.WriteUShort(this.ID);
-             if (lengt == 5)
+
+
+
+            Packet.WriteByte(length);
+            Packet.WriteByte((byte)Slot);
+            Packet.WriteByte((byte)(IsEquipped ? 0x20 : 0x24));
+
+        
+
+            if (WriteStats)
             {
-                pPacket.WriteByte((byte)this.Count);
+                if (ItemInfo.Slot == ItemSlot.None)
+                    this.WriteStats(Packet);
+                else
+                    WriteEquipStats(Packet);
             }
-            // pPacket.WriteByte((byte)this.Count);
-            WriteItemExtraData(pPacket);
         }
-        public void WriteItemExtraData(Packet pPacket)
+        public void WriteStats(Packet Packet)
         {
-            byte statCount = 0;
-            if (Str > 0) statCount++;
-            if (End > 0) statCount++;
-            if (Dex > 0) statCount++;
-            if (Spr > 0) statCount++;
-            if (Int > 0) statCount++;
-            switch (this.Info.Class)
+            Packet.WriteUShort(ItemInfo.ItemID);
+
+
+            switch (ItemInfo.Class)
             {
-                case ItemClass.Rider:
-                    pPacket.WriteByte(1);   // Pet Refinement Lol
-                    pPacket.Fill(2, 0);                     // UNK
-                    pPacket.WriteUInt(1992027391);               // Expiring time (1992027391 -  never expires)
-                    pPacket.WriteUInt(1992027391);               // Time? (1992027391 -  never expires)
+                case ItemClass.Mount:
+                    Packet.WriteUShort(100); // food ?
+                    Packet.WriteUInt(0); // use time?
+                    Packet.WriteUInt(1992027391); // expire time?
+                    Packet.WriteUShort(0); // unk ?
+                    break;
+                case ItemClass.QuestItem:
+                    Packet.WriteByte(0); // unk ?
                     break;
                 case ItemClass.PremiumItem:
-                    //todo sniff
+                    Packet.WriteUInt(0); // use time
+                    Packet.WriteUInt(1992027391); // expire time
                     break;
-                case ItemClass.Accessory:
-                      pPacket.WriteUInt(0); //time shit
-                    pPacket.WriteUInt(0);
-                    break;
-                case ItemClass.Furniture:
-                    pPacket.WriteUInt(0);//expires time 0 = 0 never
-                    break;
-                case ItemClass.Skillbook:
-                    break;
-                case ItemClass.Emotion:
-                    pPacket.WriteUInt(0);//expires time 0 = 0 never
-                    break;
- 
-                case ItemClass.SilverWingsOnly:
-                    //now Client crashing?
-                    pPacket.WriteHexAsBytes("90 C8 09 01 FF FF 10 27 00 00 10 27 00 00 0F");
-                    break;
-                case ItemClass.PresentBox:
-                    pPacket.WriteByte(10);
-                    pPacket.WriteHexAsBytes("00 0C 98 3A A7 ED C4 00 00 0C 9C 3A A7 ED C4 00 00 0C A0 3A A7 ED C4 00");
-                    break;
-                case ItemClass.House:
-                    pPacket.WriteUInt(0);//expires time 0 = 0 never
-                    break;
+
                 case ItemClass.CollectCard:
-                    pPacket.WriteUShort(100);//serial part 1 fortmat unkwon
-                    pPacket.WriteByte(0x76);//Type
-                    pPacket.WriteByte(90);//stars
-                    pPacket.WriteByte(0x03);
-                    pPacket.WriteUShort(50);//serial part 2 format unkown
+                    Packet.WriteUInt(1000); // serial
+                    Packet.WriteByte(5); // stars
+                    break;
+            }
+        }
+        public void WriteEquipStats(Packet Packet)
+        {
+            var length = GetEquipLength(this);
+            var statCount = GetInfoStatCount(this);
+
+            length += (byte)(statCount * 3);
+
+
+
+
+
+            Packet.WriteUShort(ItemInfo.ItemID);
+
+
+            switch (ItemInfo.Slot)
+            {
+                case ItemSlot.Weapon:
+                case ItemSlot.Weapon2:
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                case ItemSlot.Helm:
+                case ItemSlot.Pet:
+                    Packet.WriteByte(0);//upgrades
+                    Packet.WriteByte(0); // unk
+                    Packet.WriteUInt(0); // unk2
+                    Packet.WriteByte(0); // unk3
+
+                    if ((ItemInfo.Slot == ItemSlot.Weapon
+                        || ItemInfo.Slot == ItemSlot.Weapon2)
+                        && ItemInfo.Class != ItemClass.Shield)
+                    {
+                        Packet.WriteUShort(0xFFFF); // title mob 1
+                        Packet.WriteUInt(0);      // title mob 1 kill count
+                        Packet.WriteUShort(0xFFFF); // title mob 2
+                        Packet.WriteUInt(0);      // title mob 2 kill count
+                        Packet.WriteUShort(0xFFFF); // title mob 3
+                        Packet.WriteUInt(0);      // title mob 3 kill count
+
+                        Packet.WriteUShort(0xFFFF); // unk
+                        Packet.WriteString("", 16); // license adder name
+                        Packet.WriteByte(0);
+                    }
+
+                    Packet.WriteUInt(1992027391); // unk4
+                    break;
+
+
+                case ItemSlot.Necklace:
+                case ItemSlot.Earings:
+                case ItemSlot.Ring:
+                case ItemSlot.Ring2:
+                    Packet.WriteUInt(1992027391); // expire time?
+                    Packet.WriteUInt(0); // time ?
+                    Packet.WriteByte(0);//upgrades
+
+                    Packet.WriteUShort(0); // refinement stats?
+                    Packet.WriteUShort((ushort)UpgradeStats.Str);
+                    Packet.WriteUShort((ushort)UpgradeStats.End);
+                    Packet.WriteUShort((ushort)UpgradeStats.Dex);
+                    Packet.WriteUShort((ushort)UpgradeStats.Int);
+                    Packet.WriteUShort((ushort)UpgradeStats.Spr);
 
                     break;
+
+
                 default:
+                    Packet.WriteUInt(0);
+                    Packet.WriteUInt(1992027391); // expire time?
                     break;
             }
-            switch (this.Info.Class)
-            {                       // Stat count (StatCount << 1 | Visible(0 or 1 are stats shown or not))
-                case ItemClass.Rider:
-                    pPacket.WriteByte((byte)(statCount << 1 | 1));
-                    break;
-                case ItemClass.PremiumItem:
-                    break;
-                case ItemClass.Skillbook:
-                    break;
-                case ItemClass.PresentBox:
-                 //   pPacket.WriteByte((byte)(statCount << 1 | 1));
-                    break;
-                case ItemClass.CraftStones:
-                    pPacket.WriteByte((byte)(statCount << 1 | 1));
-                    break;
-                default:
-                    break;
-            }
-            if (Str > 0) { pPacket.WriteByte(0); pPacket.WriteUShort(Str); }
-            if (End > 0) { pPacket.WriteByte(1); pPacket.WriteUShort(End); }
-            if (Dex > 0) { pPacket.WriteByte(2); pPacket.WriteUShort(Dex); }
-            if (Spr > 0) { pPacket.WriteByte(3); pPacket.WriteUShort(Spr); }
-            if (Int > 0) { pPacket.WriteByte(4); pPacket.WriteUShort(Int); }
-        }
-        public static Item LoadItem(DataRow Row)
-        {
-            ulong id = GetDataTypes.GetUlong(Row["ID"]);
-            uint owner = GetDataTypes.GetUint(Row["Owner"]);
-            sbyte slot = GetDataTypes.GetSByte(Row["Slot"]);
-            ushort equipID = GetDataTypes.GetUshort(Row["ItemID"]);
-            ushort amount = GetDataTypes.GetUshort(Row["Amount"]);
-            Item item = new Item(owner, equipID, amount)
+
+
+
+
+
+
+
+
+
+
+
+            switch (ItemInfo.Slot)
             {
-                UniqueID = id,
-                Slot = slot,
-            };
-            return item;
+                case ItemSlot.Weapon:
+                case ItemSlot.Weapon2:
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                case ItemSlot.Helm:
+                case ItemSlot.Pet:
+                case ItemSlot.Necklace:
+                case ItemSlot.Earings:
+                case ItemSlot.Ring:
+                case ItemSlot.Ring2:
+                    Packet.WriteByte((byte)(statCount << 1 | 1));
+
+
+
+
+
+                    if (ItemInfo.Stats.Str > 0) { Packet.WriteByte(0); Packet.WriteUShort((ushort)ItemInfo.Stats.Str); }
+                    if (ItemInfo.Stats.End > 0) { Packet.WriteByte(1); Packet.WriteUShort((ushort)ItemInfo.Stats.End); }
+                    if (ItemInfo.Stats.Dex > 0) { Packet.WriteByte(2); Packet.WriteUShort((ushort)ItemInfo.Stats.Dex); }
+                    if (ItemInfo.Stats.Spr > 0) { Packet.WriteByte(3); Packet.WriteUShort((ushort)ItemInfo.Stats.Spr); }
+                    if (ItemInfo.Stats.Int > 0) { Packet.WriteByte(4); Packet.WriteUShort((ushort)ItemInfo.Stats.Int); }
+                    break;
+            }
+        }
+       public static byte GetInfoLength(ItemClass Class)
+        {
+            switch (Class)
+            {
+                case ItemClass.Mount:
+                    return 16;
+
+                case ItemClass.QuestItem:
+                    return 6;
+
+                case ItemClass.PremiumItem:
+                    return 12;
+
+                case ItemClass.CollectCard:
+                    return 9;
+
+                case ItemClass.Lizenz:
+                case ItemClass.Scroll:
+                case ItemClass.NonUse:
+                default:
+                    return 5;
+            }
+        }
+        public static byte GetEquipLength(Item Item)
+        {
+            switch (Item.ItemInfo.Slot)
+            {
+                case ItemSlot.Weapon:
+                case ItemSlot.Weapon2:
+                    if (Item.ItemInfo.Class == ItemClass.Shield)
+                        return 16;
+                    else
+                        return 53;
+
+
+                case ItemSlot.Armor:
+                case ItemSlot.Pants:
+                case ItemSlot.Boots:
+                case ItemSlot.Helm:
+                case ItemSlot.Pet:
+                    return 16;
+
+
+                case ItemSlot.Necklace:
+                case ItemSlot.Earings:
+                case ItemSlot.Ring:
+                case ItemSlot.Ring2:
+                    return 26;
+
+
+                case ItemSlot.CostumeArmor:
+                case ItemSlot.CostumeBoots:
+                case ItemSlot.CostumeHelm:
+                case ItemSlot.CostumePants:
+                default:
+                    return 12;
+            }
+        }
+         public static byte GetInfoStatCount(Item Item)
+        {
+            byte count = 0;
+
+            if (Item.ItemInfo.Stats.Str > 0)
+                count++;
+
+            if (Item.ItemInfo.Stats.End > 0)
+                count++;
+
+            if (Item.ItemInfo.Stats.Dex > 0)
+                count++;
+
+            if (Item.ItemInfo.Stats.Int > 0)
+                count++;
+
+            if (Item.ItemInfo.Stats.Spr > 0)
+                count++;
+
+
+
+            return count;
         }
     }
 }

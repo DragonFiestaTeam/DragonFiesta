@@ -10,15 +10,15 @@ namespace Zepheus.Zone.Game
         public ushort Spr { get; set; }
         public ushort Upgrades { get; set; }
 
-        public DroppedEquip(Equip pBase)
+        public DroppedEquip(Item pBase)
         {
             this.Amount = 1;
             //this.Expires = pBase.Expires;
-            this.Dex = pBase.Dex;
-            this.Str = pBase.Str;
-            this.End = pBase.End;
-            this.Int = pBase.Int;
-            this.Upgrades = pBase.Upgrades;
+            this.Dex = pBase.UpgradeStats.Dex;
+            this.Str = pBase.UpgradeStats.Str;
+            this.End = pBase.UpgradeStats.End;
+            this.Int = pBase.UpgradeStats.Int;
+            this.Upgrades = pBase.UpgradeStats.Upgrades;
             this.ItemID = pBase.ID;
         }
     }
