@@ -38,11 +38,11 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            Equip sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => (byte)e.SlotType == sourceSlot);
+            Item sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => (byte)e.Slot == sourceSlot);
             //Item destinationItem = pClient.Character.Inventory.EquippedItems.Find(i => i.Slot == destinationSlot);// Item was searched from wrong place
             Item destinationItem;
             pClient.Character.Inventory.InventoryItems.TryGetValue(destinationSlot, out destinationItem);       // check if something there
-            if (destinationItem != null && !(destinationItem is Equip))
+            if (destinationItem != null && !(destinationItem.ItemInfo.Slot == ItemSlot.None))
             {
                 Log.WriteLine(LogLevel.Warn, "Equipping an item, not possible.");
                 // Failed to unequip message here, no need to log it
@@ -61,7 +61,7 @@ namespace Zepheus.Zone.Handlers
 
             if (destinationItem != null)
             {
-                Equip destinationEquip = (Equip)destinationItem;
+                Item destinationEquip = (Item)destinationItem;
                 pClient.Character.SwapEquips(sourceEquip, destinationEquip);
             }
             else
@@ -128,10 +128,10 @@ namespace Zepheus.Zone.Handlers
                if (item != null)
                {
           
-                   long fullSellPrice = sellcount * item.Info.SellPrice;
-                   if (item.Count > 1)
+                   long fullSellPrice = sellcount * item.ItemInfo.SellPrice;
+                   if (item.Ammount > 1)
                    {
-                       item.Count-= (ushort)sellcount;
+                       item.Ammount-= (ushort)sellcount;
                        byte Slot = (byte)item.Slot;
                        Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
                        character.Inventory.Money += fullSellPrice;
@@ -144,7 +144,7 @@ namespace Zepheus.Zone.Handlers
                        character.Inventory.InventoryItems.Remove(slot);
                        ResetInventorySlot(character, slot);
                    }
-                   System.Console.WriteLine(item.Info.Type);
+                   System.Console.WriteLine(item.ItemInfo.Type);
                }
            }
         }
@@ -247,20 +247,19 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            Equip fromEquip = fromItem as Equip;
+            Item fromEquip = fromItem as Item;
             if (fromEquip == null)
             {
                 Log.WriteLine(LogLevel.Warn, "Client tries to equip an ITEM, not EQUIP!");
                 return;
             }
-            ItemInfo fromInfo = fromEquip.GetInfo();
-            byte toSlot = (byte)fromInfo.Type;
-            Equip toEquip = pClient.Character.Inventory.EquippedItems.Find(e => e.Slot == toSlot);
+            byte toSlot = (byte)fromEquip.ItemInfo.Type;
+            Item toEquip = pClient.Character.Inventory.EquippedItems.Find(e => e.Slot == toSlot);
 
             // TODO: Check, does user equip item to correct slot. Right now client only does it.
 
             ZoneClient client = pClient;
-            if (fromInfo.Level > pClient.Character.Level)
+            if (fromEquip.ItemInfo.Level > pClient.Character.Level)
             {
                 FailedEquip(client.Character, 645); // 85 02
             }
@@ -410,15 +409,15 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    Equip equip = pItem as Equip;
-                    if (equip != null)
+                    if (pItem.ItemInfo.Slot == ItemSlot.None)
                     {
-                        equip.WriteEquipStats(packet);
+                        pItem.WriteStats(packet);
                     }
                     else
                     {
-                        pItem.WriteItemStats(packet);
+                        pItem.WriteEquipStats(packet);
                     }
+                    pItem.WriteStats(packet);
                 }
                 pChar.Client.SendPacket(packet);
             }
@@ -437,15 +436,7 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    Equip equip = pItem as Equip;
-                    if (equip != null)
-                    {
-                        equip.WriteEquipStats(packet);
-                    }
-                    else
-                    {
-                        pItem.WriteItemStats(packet);
-                    }
+                    pItem.WriteStats(packet);
                 }
                 pClient.Client.SendPacket(packet);
             }
@@ -469,14 +460,7 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    if (item is Equip)
-                    {
-                        ((Equip)item).WriteEquipStats(packet);
-                    }
-                    else
-                    {
-                        item.WriteItemStats(packet);
-                    }
+                    item.WriteStats(packet);
                 }
                 character.Client.SendPacket(packet);
             }

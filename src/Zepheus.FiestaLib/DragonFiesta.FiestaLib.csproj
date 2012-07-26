@@ -81,6 +81,7 @@
     <Compile Include="Data\Vendor.cs" />
     <Compile Include="InventoryStatus.cs" />
     <Compile Include="ItemSlot.cs" />
+    <Compile Include="Data\ItemStats.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Encryption\FileCrypto.cs" />

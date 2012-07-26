@@ -119,7 +119,7 @@ namespace Zepheus.Zone.Game
             {
                 locker.WaitOne();
                 Handler12.ModifyInventorySlot(InventoryOwner, 0x24, (byte)pItem.Slot, 0, null);
-                //pItem.Delete();
+                pItem.Delete();
                 this.InventoryItems.Remove((byte)pItem.Slot);
             }
             finally
@@ -134,7 +134,7 @@ namespace Zepheus.Zone.Game
                 locker.WaitOne();
                 if (this.InventoryItems.ContainsKey((byte)pItem.Slot))
                 {
-                    //this.InventoryItems[(byte)pItem.Slot].Delete(); //removes from DB
+                    this.InventoryItems[(byte)pItem.Slot].Delete(); //removes from DB
                     this.InventoryItems.Remove((byte)pItem.Slot);
                 }
                 this.InventoryItems.Add((byte)pItem.Slot, pItem);

@@ -38,6 +38,12 @@ namespace Zepheus.Zone.Game
         public Item()
         {
         }
+        public void Delete()
+        {
+        }
+        public void Save()
+        {
+        }
         public virtual void WriteInfo(Packet Packet, bool WriteStats = true)
         {
             byte length;

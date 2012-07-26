@@ -34,11 +34,11 @@ namespace Zepheus.Zone.Handlers
             return packet;
         }
 
-        public static Packet Unequip(ZoneCharacter character, Equip equip)
+        public static Packet Unequip(ZoneCharacter character, Item equip)
         {
             Packet packet = new Packet(SH7Type.ShowUnequip);
             packet.WriteUShort(character.MapObjectID);
-            packet.WriteByte((byte)equip.Info.Slot);
+            packet.WriteByte((byte)equip.ItemInfo.Slot);
             return packet;
         }
 
@@ -57,13 +57,13 @@ namespace Zepheus.Zone.Handlers
             return packet;
         }
 
-        public static Packet Equip(ZoneCharacter character, Equip equip)
+        public static Packet Equip(ZoneCharacter character, Item equip)
         {
             //B2 00 - AB 38 - 07 - 0D 00 04
             Packet packet = new Packet(SH7Type.ShowEquip);
             packet.WriteUShort(character.MapObjectID);
             packet.WriteUShort(equip.ID);
-            packet.WriteByte(equip.Upgrades);
+            packet.WriteByte(equip.UpgradeStats.Upgrades);
             packet.Fill(3, 0xff);
             return packet;
         }

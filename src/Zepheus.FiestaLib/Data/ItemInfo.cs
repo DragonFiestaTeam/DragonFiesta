@@ -25,6 +25,7 @@ namespace Zepheus.FiestaLib.Data
 		public ushort MagicDef { get; private set; }
 		public long BuyPrice { get; private set; }
 		public long SellPrice { get; private set; }
+        public ItemStats Stats { get; private set; }
 		//item upgrade
 		public ushort UpSucRation { get; private set; }
 		public ushort UpResource { get; private set; }

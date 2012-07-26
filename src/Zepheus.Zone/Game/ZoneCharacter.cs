@@ -341,8 +341,8 @@ namespace Zepheus.Zone.Game
 				destEquip.IsEquipped = true;
 				this.Inventory.AddToEquipped(destEquip);
 				this.Inventory.AddToInventory(sourceEquip);
-				//sourceEquip.Save();
-				//destEquip.Save();
+				sourceEquip.Save();
+				destEquip.Save();
 				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.Slot, destEquip);
 				Handler12.UpdateInventorySlot(this, (byte)sourceEquip.Slot, 0x20, (byte)destEquip.Slot, sourceEquip);
                 this.UpdateStats();
@@ -372,10 +372,10 @@ namespace Zepheus.Zone.Game
 					pEquip.IsEquipped = true;
 					pEquip.Slot = (sbyte)pEquip.Slot;
 					this.Inventory.AddToEquipped(pEquip);
-					//pEquip.Save();
+					pEquip.Save();
 
-					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.Slot, pEquip);
-					Handler12.UpdateInventorySlot(this, (byte)pEquip.Slot, 0x20, sourceSlot, null);
+					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.ItemInfo.Slot, pEquip);
+					Handler12.UpdateInventorySlot(this, (byte)pEquip.ItemInfo.Slot, 0x20, sourceSlot, null);
                     this.UpdateStats();
 				}
 			}
@@ -487,7 +487,7 @@ namespace Zepheus.Zone.Game
 				pEquip.Slot = (sbyte)destSlot;
 				pEquip.IsEquipped = false;
 				this.Inventory.AddToInventory(pEquip);
-				//pEquip.Save();
+				pEquip.Save();
 				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.Slot, null);
 				Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, pEquip);
 				this.UpdateStats();
@@ -686,7 +686,7 @@ namespace Zepheus.Zone.Game
 			{
 				if (this.Inventory.InventoryItems.Remove((byte)item.Slot))
 				{
-					//item.Delete();
+					item.Delete();
 					Handler12.ModifyInventorySlot(this, 0x24, sendslot, sendslot, null);
 				}
 				else Log.WriteLine(LogLevel.Warn, "Error deleting item from slot {0}.", item.Slot);
@@ -1428,7 +1428,7 @@ namespace Zepheus.Zone.Game
 
 					Item equip = new Item((uint)this.ID, inf.ItemID, (sbyte)targetSlot);
                     equip.UpgradeStats = new UpgradeStats();
-					//equip.Save();
+					equip.Save();
 					Inventory.AddToInventory(equip);
 					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, equip);
 				return InventoryStatus.Added;
@@ -1567,7 +1567,7 @@ namespace Zepheus.Zone.Game
             if(drop == null) 
             return;
 			this.Inventory.InventoryItems.Remove((byte)item.Slot);
-			//item.Delete();
+			item.Delete();
 			Handler12.ModifyInventorySlot(this, 0x24, (byte)item.Slot, 0, null);
 			Map.AddDrop(drop);
 		}

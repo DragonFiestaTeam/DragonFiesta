@@ -63,6 +63,7 @@
     <Compile Include="Game\Trade\Trade.cs" />
     <Compile Include="Game\Trade\TradeItem.cs" />
     <Compile Include="Game\Trade\TradeReqest.cs" />
+    <Compile Include="Game\UpgradeStats.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Handlers\Handler37.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Game\Drop.cs" />
     <Compile Include="Game\DroppedEquip.cs" />
     <Compile Include="Game\DroppedItem.cs" />
-    <Compile Include="Game\Equip.cs" />
     <Compile Include="Game\House.cs" />
     <Compile Include="Game\Inventory\Inventory.cs" />
     <Compile Include="Game\Item.cs" />
