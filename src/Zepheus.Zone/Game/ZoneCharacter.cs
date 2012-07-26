@@ -343,8 +343,8 @@ namespace Zepheus.Zone.Game
 				this.Inventory.AddToInventory(sourceEquip);
 				sourceEquip.Save();
 				destEquip.Save();
-				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.Slot, destEquip);
-				Handler12.UpdateInventorySlot(this, (byte)sourceEquip.Slot, 0x20, (byte)destEquip.Slot, sourceEquip);
+				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.ItemInfo.Slot, destEquip);
+                Handler12.UpdateInventorySlot(this, (byte)sourceSlot, 0x20, (byte)destSlot, sourceEquip);
                 this.UpdateStats();
 			}
 			finally
@@ -480,7 +480,11 @@ namespace Zepheus.Zone.Game
 		{
 			try
 			{
-			   
+                if (pEquip == null)
+                {
+                    Log.WriteLine(LogLevel.Error, "Unequip Failed by Slot {0}", destSlot);
+                    return;
+                }
 				  this.Inventory.Enter();
 				  byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.EquippedItems.Remove(pEquip);
@@ -488,7 +492,7 @@ namespace Zepheus.Zone.Game
 				pEquip.IsEquipped = false;
 				this.Inventory.AddToInventory(pEquip);
 				pEquip.Save();
-				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.Slot, null);
+				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.ItemInfo.Slot, null);
 				Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, pEquip);
 				this.UpdateStats();
 			}
@@ -1707,7 +1711,7 @@ namespace Zepheus.Zone.Game
 				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
 				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username,this.Character.ID, this.Name, randomID, this.Client.Admin, this.Client.Host);
-                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.ID,this.Client.Admin,this.Client.Host,"");
+                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,Client.Character.Name, this.Client.Character.ID,randomID,this.Client.Admin,this.Client.Host);
                 ClientManager.Instance.AddTransfer(Zonetran);
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;

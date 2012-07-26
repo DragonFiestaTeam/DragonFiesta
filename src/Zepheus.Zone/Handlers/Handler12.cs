@@ -38,11 +38,11 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            Item sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => (byte)e.Slot == sourceSlot);
+            Item sourceEquip = pClient.Character.Inventory.EquippedItems.Find(e => (byte)e.ItemInfo.Slot == sourceSlot);
             //Item destinationItem = pClient.Character.Inventory.EquippedItems.Find(i => i.Slot == destinationSlot);// Item was searched from wrong place
             Item destinationItem;
             pClient.Character.Inventory.InventoryItems.TryGetValue(destinationSlot, out destinationItem);       // check if something there
-            if (destinationItem != null && !(destinationItem.ItemInfo.Slot == ItemSlot.None))
+            if (destinationItem != null && (destinationItem.ItemInfo.Slot == ItemSlot.None))
             {
                 Log.WriteLine(LogLevel.Warn, "Equipping an item, not possible.");
                 // Failed to unequip message here, no need to log it
@@ -66,7 +66,11 @@ namespace Zepheus.Zone.Handlers
             }
             else
             {
-                if(sourceEquip == null) Handler12.UpdateEquipSlot(pClient.Character, destinationSlot, 0x24, 0, null);
+                if (sourceEquip == null)
+                {
+                    Handler12.UpdateEquipSlot(pClient.Character, destinationSlot, 0x24, 0, null);
+                    return;
+                }
                 pClient.Character.UnequipItem(sourceEquip, destinationSlot);
             }
         }
@@ -247,19 +251,18 @@ namespace Zepheus.Zone.Handlers
                 return;
             }
 
-            Item fromEquip = fromItem as Item;
-            if (fromEquip == null)
+            if (fromItem == null)
             {
                 Log.WriteLine(LogLevel.Warn, "Client tries to equip an ITEM, not EQUIP!");
                 return;
             }
-            byte toSlot = (byte)fromEquip.ItemInfo.Type;
-            Item toEquip = pClient.Character.Inventory.EquippedItems.Find(e => e.Slot == toSlot);
+            byte toSlot = (byte)fromItem.Slot;
+            Item toEquip = pClient.Character.Inventory.EquippedItems.Find(e => e.ItemInfo.Slot == fromItem.ItemInfo.Slot);
 
             // TODO: Check, does user equip item to correct slot. Right now client only does it.
 
             ZoneClient client = pClient;
-            if (fromEquip.ItemInfo.Level > pClient.Character.Level)
+            if (fromItem.ItemInfo.Level > pClient.Character.Level)
             {
                 FailedEquip(client.Character, 645); // 85 02
             }
@@ -267,11 +270,11 @@ namespace Zepheus.Zone.Handlers
             {
                 if (toEquip == null)
                 {
-                  pClient.Character.EquipItem(fromEquip);
+                  pClient.Character.EquipItem(fromItem);
                 }
                 else
                 {
-                    pClient.Character.SwapEquips(toEquip,fromEquip);
+                    pClient.Character.SwapEquips(toEquip,fromItem);
                 }
             }
         }
@@ -417,7 +420,6 @@ namespace Zepheus.Zone.Handlers
                     {
                         pItem.WriteEquipStats(packet);
                     }
-                    pItem.WriteStats(packet);
                 }
                 pChar.Client.SendPacket(packet);
             }
@@ -436,7 +438,10 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    pItem.WriteStats(packet);
+                    if (pItem.ItemInfo.Slot == ItemSlot.None)
+                        pItem.WriteStats(packet);
+                    else
+                        pItem.WriteEquipStats(packet);
                 }
                 pClient.Client.SendPacket(packet);
             }
@@ -460,7 +465,14 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
+                    if(item.ItemInfo.Slot == ItemSlot.None)
+                    {
                     item.WriteStats(packet);
+                    }
+                    else
+                    {
+                        item.WriteEquipStats(packet);
+                    }
                 }
                 character.Client.SendPacket(packet);
             }

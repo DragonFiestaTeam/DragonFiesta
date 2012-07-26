@@ -106,6 +106,7 @@ namespace Zepheus.Zone.Handlers
                 packet.WriteByte(115);         // UNK    (In newest client it exists, in bit older, not) // might be shit from old buffers lol
                 foreach (var eqp in character.Inventory.EquippedItems)
                 {
+                    
                     eqp.WriteInfo(packet);
                 }
                 character.Client.SendPacket(packet);

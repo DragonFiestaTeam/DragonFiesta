@@ -52,6 +52,7 @@ namespace Zepheus.Zone.Data
 			LoadMobs();
 			LoadDrops();
 			LoadItemInfoServer();
+            LoadItemStats();
 			LoadMiniHouseInfo();
 			LoadActiveSkills();
 			LoadVendors();
@@ -117,6 +118,25 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading ItemInfoServer.shn: {0}", ex);
 			}
 		}
+        private void LoadItemStats()
+        {
+            	DataTable itemStats = null;
+				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+				{
+					itemStats = dbClient.ReadDataTable("SELECT  *FROM ItemStats");
+				}
+                foreach (DataRow row in itemStats.Rows)
+                {
+                   string Iteminx = row["itemIndex"].ToString();
+                    ItemInfo Iteminf;
+                    if (!this.ItemsByName.TryGetValue(Iteminx, out Iteminf))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Can not Find item {0} by ItemStatLoad", Iteminx);
+                        continue;
+                    }
+                     Iteminf.Stats = ItemStats.LoadItemStatsFromDatabase(row);
+                }
+        }
         private void LoadMasterRewardStates()
         {
             MasterRewardStates = new Dictionary<ushort, MasterRewardState>();

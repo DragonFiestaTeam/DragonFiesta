@@ -12,6 +12,11 @@ namespace Zepheus.Zone.Game
 {
     public class Item
     {
+        private const string GiveItem = "give_item;";
+        private const string UpdateItem = "update_item;";
+        private const string DeleteItem = "DELETE FROM items WHERE ID=@id";
+
+
         public virtual ushort ID { get; set; }
         public virtual ItemInfo ItemInfo { get { return DataProvider.Instance.GetItemInfo(this.ID); } }
         public virtual UpgradeStats UpgradeStats { get; set; }
@@ -19,6 +24,7 @@ namespace Zepheus.Zone.Game
         public virtual sbyte Slot { get; set; }
         public virtual ushort Ammount { get; set; }
         public virtual uint Owner { get; set; }
+        public virtual ulong UniqueID { get; set; }
 
         public Item(uint pOwner, ushort pID, sbyte Slot,ushort Amount = 1)
         {
@@ -38,11 +44,64 @@ namespace Zepheus.Zone.Game
         public Item()
         {
         }
-        public void Delete()
+        public bool Delete()
         {
+            if (this.UniqueID > 0)
+            {
+                Program.DatabaseManager.GetClient().ExecuteQuery("DELETE FROM items WHERE ID=" + this.UniqueID + " AND Slot='" + this.Slot + "'");
+                UniqueID = 0;
+                Owner = 0;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public void Save()
         {
+            if (this.UniqueID == 0)
+            {
+                using (var command = new MySqlCommand(GiveItem))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.Add("@puniqueid", MySqlDbType.Int64);
+                    command.Parameters["@puniqueid"].Direction = System.Data.ParameterDirection.Output;
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.Slot);
+                    command.Parameters.AddWithValue("@pitemid", this.ID);
+                    command.Parameters.AddWithValue("@pamount", this.Ammount);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
+                    this.UniqueID = Convert.ToUInt64(command.Parameters["@puniqueid"].Value);
+                }
+            }
+            else
+            {
+                using (var command = new MySqlCommand(UpdateItem))
+                {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
+                    command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pslot", this.Slot);
+                    command.Parameters.AddWithValue("@pamount", this.Ammount);
+                    Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
+                }
+            }
+        }
+        public static Item LoadItem(DataRow Row)
+        {
+            ulong id = GetDataTypes.GetUlong(Row["ID"]);
+            uint owner = GetDataTypes.GetUint(Row["Owner"]);
+            sbyte slot = GetDataTypes.GetSByte(Row["Slot"]);
+            ushort equipID = GetDataTypes.GetUshort(Row["ItemID"]);
+           
+            ushort amount = GetDataTypes.GetUshort(Row["Amount"]);
+            Item item = new Item(owner, equipID, slot, amount)
+            {
+                Slot = slot,
+                IsEquipped = GetDataTypes.GetBool(Row["Equipt"]),
+            };
+            return item;
         }
         public virtual void WriteInfo(Packet Packet, bool WriteStats = true)
         {
