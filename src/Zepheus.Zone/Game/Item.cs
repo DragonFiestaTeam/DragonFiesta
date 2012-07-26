@@ -26,7 +26,7 @@ namespace Zepheus.Zone.Game
         public virtual uint Owner { get; set; }
         public virtual ulong UniqueID { get; set; }
 
-        public Item(uint pOwner, ushort pID, sbyte Slot,ushort Amount = 1)
+        public Item(ulong UniqueID,uint pOwner, ushort pID, sbyte Slot,ushort Amount = 1)
         {
             ItemSlot type;
             if (!DataProvider.GetItemType(pID, out type))
@@ -82,6 +82,7 @@ namespace Zepheus.Zone.Game
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@puniqueid", this.UniqueID);
                     command.Parameters.AddWithValue("@powner", this.Owner);
+                    command.Parameters.AddWithValue("@pEquipt", this.IsEquipped);
                     command.Parameters.AddWithValue("@pslot", this.Slot);
                     command.Parameters.AddWithValue("@pamount", this.Ammount);
                     Program.CharDBManager.GetClient().ExecuteQueryWithParameters(command);
@@ -96,7 +97,7 @@ namespace Zepheus.Zone.Game
             ushort equipID = GetDataTypes.GetUshort(Row["ItemID"]);
            
             ushort amount = GetDataTypes.GetUshort(Row["Amount"]);
-            Item item = new Item(owner, equipID, slot, amount)
+            Item item = new Item(id,owner, equipID, slot, amount)
             {
                 Slot = slot,
                 IsEquipped = GetDataTypes.GetBool(Row["Equipt"]),

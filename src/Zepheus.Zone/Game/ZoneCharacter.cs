@@ -1430,7 +1430,7 @@ namespace Zepheus.Zone.Game
 					return InventoryStatus.Full; //inventory is full
 				}
 
-					Item equip = new Item((uint)this.ID, inf.ItemID, (sbyte)targetSlot);
+					Item equip = new Item(0,(uint)this.ID, inf.ItemID, (sbyte)targetSlot);
                     equip.UpgradeStats = new UpgradeStats();
 					equip.Save();
 					Inventory.AddToInventory(equip);

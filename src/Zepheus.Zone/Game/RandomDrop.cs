@@ -48,13 +48,13 @@ namespace Zepheus.Zone.Game
                     if (litem.Type != ItemType.Equip)
                     {
                         ushort Amount = (ushort)new Random().Next(1, 255);
-                        Item DropItem = new Item(0, Items[index].ItemID,0, Amount);
+                        Item DropItem = new Item(0,0, Items[index].ItemID,0, Amount);
                         DropItem.UpgradeStats = new UpgradeStats();
                         this.Monster.DropItem(DropItem);
                     }
                     else
                     {
-                        Item DropEq = new Item(0, Items[index].ItemID, 0);
+                        Item DropEq = new Item(0,0, Items[index].ItemID, 0);
                         DropEq.UpgradeStats = new UpgradeStats();
                         this.Monster.DropItem(DropEq);
                     }
