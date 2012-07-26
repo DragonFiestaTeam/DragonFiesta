@@ -1,3 +1,4 @@
+/* Thanks no0dl for the base Function And Packet Structures in this File copright 2012*/
 using System;
 using System.Data;
 using MySql.Data.MySqlClient;
