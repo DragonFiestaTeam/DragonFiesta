@@ -150,6 +150,16 @@ namespace Zepheus.Zone.Game
 
 				AnnouncePacketToUpdatable(packet);
 			}
+			using(Packet packet = new Packet(SH14Type.SetMemberStats))
+			{
+				packet.WriteByte(1);				// UNK
+				packet.WriteString(pChar.Name, 16);
+				packet.WriteByte((byte) pChar.Job);
+				packet.WriteByte(pChar.Level);
+				packet.WriteUInt(pChar.MaxHP);
+				packet.WriteUInt(pChar.MaxSP);
+				packet.WriteByte(0x00);				// UNK
+			}
 		}
         public void UpdateGroupStats()
         {

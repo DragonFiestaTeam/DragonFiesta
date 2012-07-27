@@ -18,8 +18,11 @@ namespace Zepheus.Zone.Handlers
 				// TODO: ask world for group
 				return;
 			}
-			else 
+			else
+			{
 				client.Character.GroupMember.IsReadyForUpdates = true;
+				client.Character.Group.UpdateGroupStats();
+			}
 		}
 	}
 }
