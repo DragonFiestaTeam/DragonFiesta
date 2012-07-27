@@ -22,7 +22,6 @@ namespace Zepheus.Zone.InterServer
 			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
 			InterFunctionCallbackProvider.Instance.OnResult(id, result);
 		}
-
         [InterPacketHandler(InterHeader.SendAddRewardItem)]
         public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)
         {
@@ -264,6 +263,16 @@ namespace Zepheus.Zone.InterServer
             var group = GroupManager.Instance.GetGroupForCharacter(client.Character.ID);
             group.RemoveMember(name);
 		}
+		[InterPacketHandler(InterHeader.NewPartyCreated)]
+		public static void NewPartyCreated(WorldConnector lc, InterPacket packet)
+		{
+			long id;
+			if (!packet.TryReadLong(out id))
+			{
+				throw new InvalidPacketException();
+			}
+			GroupManager.Instance.NewGroupCreated(id);
+		}
 		[InterPacketHandler(InterHeader.Zonelist)]
 		public static void HandleZoneList(WorldConnector lc, InterPacket packet)
 		{
@@ -320,8 +329,6 @@ namespace Zepheus.Zone.InterServer
 			}
 			GroupManager.Instance.NewGroupCreated(groupId);
 		}
-
-
 		[InterPacketHandler(InterHeader.Clienttransfer)]
 		public static void HandleTransfer(WorldConnector lc, InterPacket packet)
 		{
@@ -376,7 +383,6 @@ namespace Zepheus.Zone.InterServer
 				lc.SendPacket(p);
 			}
 		}
-
 		public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
 		{
 			using (var packet = new InterPacket(InterHeader.Clienttransferzone))
@@ -392,7 +398,6 @@ namespace Zepheus.Zone.InterServer
 				WorldConnector.Instance.SendPacket(packet);
 			}
 		}
-
 		public static void SendWorldMessage(WorldMessageTypes type, string message, string to = "")
 		{
 			using (var packet = new InterPacket(InterHeader.Worldmsg))

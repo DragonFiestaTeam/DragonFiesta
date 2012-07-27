@@ -162,6 +162,7 @@ namespace Zepheus.World
             AddGroup(grp);
             grp.CreateInDatabase();
 
+			SendNewPartyInterPacket(grp.Id);
             return grp;
         }
 
@@ -246,6 +247,16 @@ namespace Zepheus.World
                 pMaster.SendPacket(packet);
             }
         }
+		private void SendNewPartyInterPacket(long pId)
+		{
+			using (var packet = new InterPacket(InterHeader.NewPartyCreated))
+			{
+				packet.WriteLong(pId);
+
+				foreach (var connection in Program.Zones.Select(pair => pair.Value))
+					connection.SendPacket(packet);
+			}
+		}
         private void AddGroup(Group pGroup)
         {
             this.groups.Add(pGroup);

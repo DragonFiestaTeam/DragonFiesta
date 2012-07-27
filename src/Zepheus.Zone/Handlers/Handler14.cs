@@ -13,7 +13,13 @@ namespace Zepheus.Zone.Handlers
             // NOTE: seems as here just happens nothing I guess?
             // TODO: Implement if nesseccery
             // NOTE: This starts the update loop?
-            client.Character.GroupMember.IsReadyForUpdates = true;
+			if (client.Character.GroupMember == null)
+			{
+				// TODO: ask world for group
+				return;
+			}
+			else 
+				client.Character.GroupMember.IsReadyForUpdates = true;
 		}
 	}
 }
