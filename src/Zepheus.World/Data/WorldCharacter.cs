@@ -11,6 +11,8 @@ using Zepheus.FiestaLib.Networking;
 using Zepheus.FiestaLib.Data;
 using Zepheus.World.Data;
 using Zepheus.World.Managers;
+using Zepheus.World.Data.Guilds;
+using Zepheus.World.Data.Guilds.Academy;
 
 namespace Zepheus.World.Data
 {
@@ -31,11 +33,25 @@ namespace Zepheus.World.Data
 		private List<Friend> friends;
 		private List<Friend> friendsby;
         public long RecviveCoperMaster  { get; set;}
+
+
+        public bool IsInGuildAcademy { get; set; }
+        public bool IsInGuild { get; set; }
         public Guild Guild { get; set; }
-        public Academy Academy { get; set; }
+        public GuildMember GuildMember { get; set; }
+        public GuildAcademy GuildAcademy { get; set; }
+        public GuildAcademyMember GuildAcademyMember { get; set; }
+        public DateTime LastGuildListRefresh { get; set; }
+
         public List<string> BlocketUser = new List<string>();
 		public Inventory Inventory = new Inventory();
         public event EventHandler GotIngame;
+
+        public bool IsOnline
+        {
+            get;
+            set;
+        }
 
 		public WorldCharacter(Character ch,WorldClient client)
 		{
@@ -45,6 +61,7 @@ namespace Zepheus.World.Data
 			Equips = new Dictionary<byte, ushort>();
 			Inventory.LoadBasic(this);
 			LoadEqupippet();
+          ;
           
 		}
 		public List<Friend> Friends
@@ -139,51 +156,13 @@ namespace Zepheus.World.Data
                 }
             }
         }
-        public void LoadGuild()
+        public void BroucastPacket(Packet pPacket)
         {
-            try
-            {
-                Guild g = GuildManager.Instance.GetGuildByID(this.Character.GuildID);
-                if (g != null)
-                {
-                    this.Guild = g;
-                    GuildMember mMember = g.GuildMembers.Find(m => m.CharID == this.ID);
-                    mMember.isOnline = true;
-                    mMember.pClient = this.Client;
-                    foreach (var pMember in g.GuildMembers)
-                    {
-                        if (pMember.isOnline)
-                        {
-                            pMember.SendMemberStatus(true, this.Character.Name);
-                        }
-                    }
-                    return;
-                }
-                Guild gAcademy = GuildManager.Instance.GetGuildByID(this.Character.AcademyID);
-                if(gAcademy != null)
-                {
-                    this.Academy = gAcademy.GuildAcademy;
-                   AcademyMember mMember = gAcademy.GuildAcademy.AcademyMembers.Find(m => m.CharID == this.ID);
-                    mMember.isOnline = true;
-                    mMember.pClient = this.Client;
-                    foreach (var pMember in gAcademy.GuildAcademy.AcademyMembers)
-                    {
-                        if (pMember.isOnline)
-                        {
-                            pMember.SendMemberStatus(true, this.Character.Name);
-                        }
-                    }
-                }
-
-            }
-            catch(Exception ex)
-            {
-                Log.WriteLine(LogLevel.Error,"Failed Load Guild {0} {1}",this.ID,ex.Message.ToString());
-            }
-
+            InterServer.InterHandler.SendGetCharacterBroaucast(this, pPacket);
         }
 		public void ChangeMap(string mapname)
 		{
+      
 			foreach (var friend in friends)
 			{
 				WorldClient client = ClientManager.Instance.GetClientByCharname(friend.Name);
@@ -195,22 +174,6 @@ namespace Zepheus.World.Data
 					client.SendPacket(packet);
 				}
 			}
-		}
-        public void LoadBlockUserList()
-        {
-            DataTable BlockList = null;
-            using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-			{
-		    BlockList = dbClient.ReadDataTable("SELECT * FROM BlockUser WHERE CharID='" + this.ID + "'");
-			}
-            if (BlockList != null)
-            {
-                    foreach (DataRow row in BlockList.Rows)
-                    {
-                     BlocketUser.Add((string)row["BlockCharname"]);
-
-                    }
-            }
         }
         public void WriteBlockList()
         {
@@ -237,10 +200,7 @@ namespace Zepheus.World.Data
                 this.UpdateGroupStatus();
             }
 		}
-        public void UpdateGuildAcademyID()
-        {
-            Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET AcademyID='" + this.Academy.ID + "' WHERE CharID='" + this.ID + "'");
-        }
+
 		public void LoadEqupippet()
 		{
 			foreach (var eqp in this.Inventory.EquippedItems.Where(eq => eq.Slot < 0))
@@ -307,7 +267,7 @@ namespace Zepheus.World.Data
 			}
 			return false;
 		}
-        public void LevelUp(byte level)
+       /* public void LevelUp(byte level)
         {
             this.Character.CharLevel = level;
             MasterManager.Instance.ApprenticeLevelUP(this);
@@ -315,7 +275,7 @@ namespace Zepheus.World.Data
             {
                 this.Academy.ChangeMemberLevel(this.Character.Name, level);
             }
-		}
+		}*/
         public void SendReciveMasterCoper()
         {
             if(this.Character.ReviveCoper > 0)
@@ -405,12 +365,12 @@ namespace Zepheus.World.Data
                 }
             }
         }
-        public void SetGuildMemberStatusOffline()
+      /*  public void SetGuildMemberStatusOffline()
         {
             try
             {
               
-                if (this.Guild != null)
+               if (this.Guild != null)
                 {
                     GuildMember mMember = this.Guild.GuildMembers.Find(m => m.CharID == this.ID);
                     mMember.isOnline = false;
@@ -435,39 +395,28 @@ namespace Zepheus.World.Data
                             pMember.SendMemberStatus(false, this.Character.Name);
                         }
                     }
+                    foreach (var pMember in  this.Academy.Guild.GuildMembers)
+                    {
+                        if (pMember.isOnline)
+                        {
+                            AcademyMember.SetOffline(this.Character.Name, pMember.pClient);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Log.WriteLine(LogLevel.Error, "Failed Load Guild {0} {1}", this.ID, ex.Message.ToString());
             }
-        }
+        }*/
 		public void Loggeout(WorldClient pChar)
 		{
-            this.IsIngame = false;
+            /*this.IsIngame = false;
             this.UpdateRecviveCoper();
 			this.UpdateFriendsStatus(false,pChar);
 			this.UpdateFriendStates();
-            this.SetGuildMemberStatusOffline();
+            this.SetGuildMemberStatusOffline();*/
 		}
-        public void GuildLoggetOut()
-        {
-            if (this.Guild != null)
-            {
-                foreach (var gMember in this.Guild.GuildMembers)
-                {
-                    gMember.SendMemberStatus(false, this.Character.Name);
-                }
-            }
-            else if (this.Academy != null)
-            {
-                foreach (var aMember in this.Academy.AcademyMembers)
-                {
-                    aMember.SendMemberStatus(false,this.Character.Name);
-                }
-            }
-
-        }
 		public void RemoveGroup()
 		{
 			this.Group = null;
@@ -549,7 +498,6 @@ namespace Zepheus.World.Data
 			string data = ByteArrayToStringForBlobSave(Character.Shortcuts) ?? ByteArrayToStringForBlobSave(new byte[308]);
 			 Program.DatabaseManager.GetClient().ExecuteQuery("UPDATE Characters SET Shortcuts='" + data+ "' WHERE CharID='" + Character.ID + "';");
 		}
-
         internal void OnGotIngame()
         {
             LoadGroup();
@@ -560,12 +508,12 @@ namespace Zepheus.World.Data
        public void OneIngameLoginLoad()
         {
 
-             this.LoadBlockUserList();
+            /* this.LoadBlockUserList();
              this.UpdateFriendsStatus(true,this.Client);
              this.WriteBlockList();
              this.LoadMasterList();
              this.SendReciveMasterCoper();
-             LoadGuild();
+             LoadGuild();*/
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
 
 

@@ -72,8 +72,14 @@ namespace Zepheus.InterLib.Networking
             byte[] bytes = ByteUtils.HexToBytes(hexString);
             WriteBytes(bytes);
         }
-    
-
+        public void WriteDouble(double Value)
+        {
+            writer.Write(Value);
+        }
+        public void WriteDateTime(DateTime Value)
+        {
+           WriteLong(Value.ToBinary());
+        }
         public void SetByte(long pOffset, byte pValue)
         {
             long oldoffset = this.memoryStream.Position;
@@ -89,12 +95,6 @@ namespace Zepheus.InterLib.Networking
                 WriteByte(pValue);
             }
         }
-
-        public void WriteDouble(double pValue)
-        {
-            this.writer.Write(pValue);
-        }
-
         public void WriteBool(bool pValue)
         {
             this.writer.Write(pValue);
@@ -222,7 +222,16 @@ namespace Zepheus.InterLib.Networking
         #endregion
 
         #region Read methods
+        public bool TryReadDouble(out double Value)
+        {
+            Value = 0;
 
+            if (Remaining < 8)
+                return false;
+
+            Value = reader.ReadDouble();
+            return true;
+        }
         public bool ReadSkip(int pLength)
         {
             if (Remaining < pLength) return false;
@@ -230,7 +239,19 @@ namespace Zepheus.InterLib.Networking
             this.memoryStream.Seek(pLength, SeekOrigin.Current);
             return true;
         }
+        public bool TryReadDateTime(out DateTime Value)
+        {
+            Value = DateTime.MinValue;
 
+            long data;
+            if (Remaining < 8
+            || !TryReadLong(out data))
+                return false;
+
+            Value = DateTime.FromBinary(data);
+
+            return true;
+        }
         public bool TryReadBool(out bool pValue)
         {
             pValue = false;

@@ -135,7 +135,7 @@ namespace Zepheus.World.Networking
 			WorldCharacter character;
 			if (Characters.TryGetValue(slot, out character))
 			{
-				return new ClientTransfer(AccountID, Username, character.Character.Name, RandomID, Admin, this.Host);
+				return new ClientTransfer(AccountID, Username, character.Character.Name,character.Character.ID, RandomID, Admin, this.Host);
 			}
 			else return null;
 		}

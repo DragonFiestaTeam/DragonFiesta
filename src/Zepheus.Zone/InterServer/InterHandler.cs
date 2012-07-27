@@ -12,7 +12,6 @@ namespace Zepheus.Zone.InterServer
 {
 	public sealed class InterHandler
 	{
-	
 		[InterPacketHandler(InterHeader.FunctionAnswer)]
 		public static void FunctionAnswer(WorldConnector pConnector, InterPacket pPacket)
 		{
@@ -22,6 +21,39 @@ namespace Zepheus.Zone.InterServer
 			object result = InterFunctionCallbackProvider.Instance.GetReadFunc(id)(pPacket);
 			InterFunctionCallbackProvider.Instance.OnResult(id, result);
 		}
+        [InterPacketHandler(InterHeader.GetBroadcastList)]
+        public static void Broadcast(WorldConnector pConnector, InterPacket pPacket)
+        {
+            int packetlenght;
+            byte[] packet;
+            string charname;
+            if (!pPacket.TryReadString(out charname, 16))
+                return;
+
+            if (!pPacket.TryReadInt(out packetlenght))
+                return;
+
+            if (!pPacket.TryReadBytes(packetlenght, out packet))
+                return;
+
+            ZoneClient pClient = ClientManager.Instance.GetClientByCharName(charname);
+            if (pClient == null)
+                return;
+            using (var ipacket = new InterPacket(InterHeader.SendBroiadCastList))
+            {
+                List<ZoneCharacter> Sender = pClient.Character.Map.GetCharactersBySectors(pClient.Character.MapSector.SurroundingSectors);
+                if (Sender.Count == 0)
+                    return;
+                ipacket.WriteInt(packetlenght);
+                ipacket.WriteBytes(packet);
+                ipacket.WriteInt(Sender.Count);
+                foreach (var character in Sender)
+                {
+                    ipacket.WriteString(character.Name,16);
+                }
+                pConnector.SendPacket(ipacket);
+            }
+        }
         [InterPacketHandler(InterHeader.SendAddRewardItem)]
         public static void AddRewardItem(WorldConnector pConnector, InterPacket pPacket)
         {
@@ -82,79 +114,6 @@ namespace Zepheus.Zone.InterServer
 			ZoneAcceptor.Load();
 
 		}
-        [InterPacketHandler(InterHeader.RemoveGuildMember)]
-        public static void RemoveGuildMember(WorldConnector lc, InterPacket packet)
-        {
-            bool type;
-            int GuildID,CharID;
-            Guild Guild;
-            if (!packet.TryReadBool(out type))
-                return;
-            if (!packet.TryReadInt(out GuildID))
-                return;
-            if (!packet.TryReadInt(out CharID))
-                return;
-            if (!DataProvider.Instance.GuildsByID.TryGetValue(GuildID, out Guild))
-                return;
-            if (type)
-            {
-                GuildMember gpMember = Guild.GuildMembers.Find(g => g.CharID == CharID);
-                if (gpMember != null)
-                    Guild.GuildMembers.Remove(gpMember);
-            }
-            else
-            {
-                AcademyMember ACMember = Guild.GuildAcademy.AcademyMembers.Find(m => m.CharID == CharID);
-                if (ACMember != null)
-                    Guild.GuildAcademy.AcademyMembers.Remove(ACMember);
-            }
-        }
-        [InterPacketHandler(InterHeader.AddGuildMember)]
-		public static void AddGuildMember(WorldConnector lc, InterPacket packet)
-		{
-            bool type;
-            string Charname;
-            int CharID,GuildID;
-            Guild Guild;
-            if (!packet.TryReadBool(out type))
-                return;
-            if (!packet.TryReadString(out Charname, 16))
-                return;
-            if (!packet.TryReadInt(out GuildID))
-                return;
-            if (!packet.TryReadInt(out CharID))
-                return;
-            if (!DataProvider.Instance.GuildsByID.TryGetValue(GuildID,out Guild))
-                return;
-
-            if(type)
-            {
-                GuildMember gMember = new GuildMember
-                 {
-                     isOnline = ClientManager.Instance.HasClient(Charname),
-                     GuildID = GuildID,
-                     pClient = ClientManager.Instance.GetClientByName(Charname),
-                     pMemberName = Charname,
-                     CharID = CharID,
-                 };
-                Guild.GuildMembers.Add(gMember);
-            }
-            else
-            {
-                AcademyMember ACMember = new AcademyMember
-                {
-                    isOnline = ClientManager.Instance.HasClient(Charname),
-                    GuildID = GuildID,
-                    pClient = ClientManager.Instance.GetClientByName(Charname),
-                    pMemberName = Charname,
-                    CharID = CharID,
-                    Academy = Guild.GuildAcademy,
-                };
-                Guild.GuildAcademy.AcademyMembers.Add(ACMember);
-            }
-
-                
-        }
 		[InterPacketHandler(InterHeader.Zoneclosed)]
 		public static void HandleZoneClosed(WorldConnector lc, InterPacket packet)
 		{
@@ -341,27 +300,27 @@ namespace Zepheus.Zone.InterServer
 			if (v == 0)
 			{
 				byte admin;
-				int accountid;
+				int accountid, CharID;
 				string username, hash, hostip;
-				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out hash) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip))
+				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadInt(out CharID)|| !packet.TryReadString(out hash) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip))
 				{
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, admin, hostip, hash);
+				ClientTransfer ct = new ClientTransfer(accountid, username,CharID, admin, hostip, hash);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 			else if (v == 1)
 			{
 				byte admin;
-				int accountid;
+				int accountid,CharID;
 				string username, charname, hostip;
 				ushort randid;
-				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) ||
+                if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) || !packet.TryReadInt(out CharID) ||
 					!packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip))
 				{
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, charname, randid, admin, hostip);
+				ClientTransfer ct = new ClientTransfer(accountid, username, charname,CharID, randid, admin, hostip);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 		}
@@ -383,7 +342,22 @@ namespace Zepheus.Zone.InterServer
 				lc.SendPacket(p);
 			}
 		}
-		public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName, string charName, ushort randid, byte admin, string hostIP)
+        public static void SendChangeZoneToWorld(ZoneCharacter character, ushort mapid, int x, int y, string ip, ushort port, ushort randomid)
+        {
+           
+              using (var packet = new InterPacket(InterHeader.ChangeZone))
+              {
+                  packet.WriteUShort(mapid);
+                  packet.WriteInt(x);
+                  packet.WriteInt(y);
+                  packet.WriteString(character.Name,16);
+                  packet.WriteString(Settings.Instance.IP, 16);
+                  packet.WriteUShort(port);
+                  packet.WriteUShort(randomid);
+                  WorldConnector.Instance.SendPacket(packet);
+              }
+        }
+		public static void TransferClient(byte zoneID,ushort mapid, int accountID, string userName,int CharID, string charName, ushort randid, byte admin, string hostIP)
 		{
 			using (var packet = new InterPacket(InterHeader.Clienttransferzone))
 			{
@@ -392,12 +366,14 @@ namespace Zepheus.Zone.InterServer
 				packet.WriteUShort(mapid);
 				packet.WriteStringLen(userName);
 				packet.WriteStringLen(charName);
+                packet.WriteInt(CharID);
 				packet.WriteUShort(randid);
 				packet.WriteByte(admin);
 				packet.WriteStringLen(hostIP);
 				WorldConnector.Instance.SendPacket(packet);
 			}
 		}
+
 		public static void SendWorldMessage(WorldMessageTypes type, string message, string to = "")
 		{
 			using (var packet = new InterPacket(InterHeader.Worldmsg))

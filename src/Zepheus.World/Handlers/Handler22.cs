@@ -17,7 +17,7 @@ namespace Zepheus.World.Handlers
                MasterManager.Instance.SendMasterList(client);
                //SendMasterList(pClient);
            }
-           using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
+           /*using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
            {
            if(client.Character.Academy != null)
            {
@@ -32,10 +32,9 @@ namespace Zepheus.World.Handlers
            }
           using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
            { 
-              if(client.Character.Guild != null)
-                  if (client.Character.Academy != null)
+                  if (client.Character.Guild != null)
                   {
-                      client.Character.Academy.Details.WriteMessageAsGuildMember(p2, client.Character.Guild);
+                      client.Character.Guild.Details.WriteMessageAsGuildMember(p2, client.Character.Guild);
 
                   }
                   else
@@ -43,7 +42,7 @@ namespace Zepheus.World.Handlers
                       p2.WriteInt(0);
                   }
               client.SendPacket(p2);
-           }
+           }*/
            // dafuq no op code..
            using (var p = new Packet(0x581C))
            {
@@ -69,7 +68,6 @@ namespace Zepheus.World.Handlers
                p5.WriteShort(256);
                client.SendPacket(p5);
            }
-           
            client.Character.OnGotIngame();
        }
     }

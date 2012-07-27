@@ -17,6 +17,15 @@ namespace Zepheus.FiestaLib
             val |= (byte)(pValue.Year - 2000);
             return val;
         }
+        public static byte ToFiestaMonth(this DateTime pValue)
+        {
+            return (byte)(pValue.Month << 4);  
+        }
+        public static byte ToFiestaYear(this DateTime pValue)
+        {
+            int year = pValue.Year  - 1900;
+            return (byte)year;
+        }
         public static string ToDBString(this DateTime Datetime)
         {
             return Datetime.ToString("yyyy/MM/dd HH/mm/ss");

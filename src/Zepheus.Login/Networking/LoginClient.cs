@@ -26,7 +26,7 @@ namespace Zepheus.Login.Networking
         {
             if (!IsAuthenticated) return null;
             string hash = Guid.NewGuid().ToString().Replace("-", "");
-            return new ClientTransfer(AccountID, Username, Admin, this.Host, hash);
+            return new ClientTransfer(AccountID, Username,0, Admin, this.Host, hash);
         }
 
         void LoginClient_OnDisconnect(object sender, SessionCloseEventArgs e)

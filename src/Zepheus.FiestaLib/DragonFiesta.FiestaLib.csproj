@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ConnectErrors.cs" />
     <Compile Include="CreateCharError.cs" />
+    <Compile Include="Data\AbStateInfo.cs" />
     <Compile Include="Data\ActiveSkillInfo.cs" />
     <Compile Include="Data\BaseStats.cs" />
     <Compile Include="Data\BaseStatsEntry.cs" />
@@ -76,9 +77,11 @@
     <Compile Include="Data\GateInfo.cs" />
     <Compile Include="Data\SpawnNpcPoint.cs" />
     <Compile Include="Data\StatsByte.cs" />
+    <Compile Include="Data\SubAbstateInfo.cs" />
     <Compile Include="Data\Vendor.cs" />
     <Compile Include="InventoryStatus.cs" />
     <Compile Include="ItemSlot.cs" />
+    <Compile Include="Data\ItemStats.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Networking\Client.cs" />
     <Compile Include="Encryption\FileCrypto.cs" />

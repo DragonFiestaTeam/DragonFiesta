@@ -55,18 +55,28 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Guild\Academy\Academy.cs" />
-    <Compile Include="Data\Guild\Academy\AcademyMember.cs" />
-    <Compile Include="Data\Guild\Academy\AcademyRequestCode.cs" />
-    <Compile Include="Data\Guild\DetailsMessage.cs" />
+    <Compile Include="Data\GuildDataProvider.cs" />
+    <Compile Include="Data\Guild\Academy\GuildAcademy.cs" />
+    <Compile Include="Data\Guild\Academy\GuildAcademyManager.cs" />
+    <Compile Include="Data\Guild\Academy\GuildAcademyMember.cs" />
+    <Compile Include="Data\Guild\Academy\GuildAcademyRank.cs" />
+    <Compile Include="Data\Guild\Academy\GuildAcademyResponse.cs" />
     <Compile Include="Data\Guild\Guild.cs" />
+    <Compile Include="Data\Guild\GuildCreateResponse.cs" />
+    <Compile Include="Data\Guild\GuildInviteError.cs" />
+    <Compile Include="Data\Guild\GuildManager.cs" />
     <Compile Include="Data\Guild\GuildMember.cs" />
-    <Compile Include="Data\Guild\GuildRequest.cs" />
+    <Compile Include="Data\Guild\GuildRank.cs" />
     <Compile Include="Data\MasterSystem\MasterRequestResponse.cs" />
+    <Compile Include="Events\OnCharacterLevelUp.cs" />
+    <Compile Include="Events\OnCharacterLoginArgs.cs" />
+    <Compile Include="Events\OnCharacterLogout.cs" />
+    <Compile Include="Game\MapObjectBuffCollection.cs" />
     <Compile Include="Handlers\Handler38.cs" />
     <Compile Include="Handlers\Handler37.cs" />
-    <Compile Include="Managers\AcademyManager.cs" />
-    <Compile Include="Managers\GuildManager.cs" />
+    <Compile Include="Managers\BroadcastManager.cs" />
+    <Compile Include="Managers\BuffManager.cs" />
+    <Compile Include="Managers\CharacterManager.cs" />
     <Compile Include="Managers\MasterManager.cs" />
     <Compile Include="Data\MasterSystem\MasterMember.cs" />
     <Compile Include="Data\MasterSystem\MasterRequest.cs" />
@@ -103,6 +113,7 @@
     <Compile Include="InterServer\LoginConnector.cs" />
     <Compile Include="InterServer\ZoneAcceptor.cs" />
     <Compile Include="InterServer\ZoneConnection.cs" />
+    <Compile Include="Managers\ZoneManager.cs" />
     <Compile Include="Networking\WorldAcceptor.cs" />
     <Compile Include="Networking\WorldClient.cs" />
     <Compile Include="PerformanceCounter.cs" />
@@ -133,6 +144,7 @@
   <ItemGroup>
     <Content Include="icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

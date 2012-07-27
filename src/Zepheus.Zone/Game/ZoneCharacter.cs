@@ -16,19 +16,22 @@ using Zepheus.Zone.Networking.Security;
 using Zepheus.Database.Storage;
 using Zepheus.InterLib.Networking;
 using Zepheus.Zone.Managers;
+using Zepheus.Zone.Game.Guilds;
+using Zepheus.Zone.Game.Guilds.Academy;
+using Zepheus.Zone.Game.Buffs;
 
 namespace Zepheus.Zone.Game
 {
 	public class ZoneCharacter : MapObject
 	{
 		#region .ctor
-		public ZoneCharacter(string name, bool loadequips = true)
+		public ZoneCharacter(int CharID, bool loadequips = true)
 		{
 			try
 			{
-				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectFromDatabase(name, Program.CharDBManager);
+				Character = Zepheus.Database.DataStore.ReadMethods.ReadCharObjectByIDFromDatabase(CharID, Program.CharDBManager);
 				if (Character == null) throw new Exception("Character not found.");
-				Buffs = new Buffs(this);
+				Buffs = new Buffs.Buffs(this);
                 this.Inventory = new Game.Inventory(this);
                 this.PremiumInventory = new PremiumInventory();
                 this.RewardInventory = new RewardInventory();
@@ -87,7 +90,6 @@ namespace Zepheus.Zone.Game
 		public Character Character { get; private set; }
 		public Group Group { get; set; }
 		public GroupMember GroupMember { get; set; }
-
         #region Inventory
         public Inventory Inventory { get; set; }
         public RewardInventory RewardInventory { get; set; }
@@ -117,6 +119,11 @@ namespace Zepheus.Zone.Game
 		public short StonesSP { get; set; }
 		public short StonesHP { get; set; }
         
+        //Guild & GuildAcademy
+        public Guild Guild { get; set; }
+        public GuildAcademy GuildAcademy { get; set; }
+        public GuildAcademyMember GuildAcademyMember { get; set; }
+        public GuildMember GuildMember { get; set; }
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
@@ -163,7 +170,7 @@ namespace Zepheus.Zone.Game
 		public PlayerState State { get; set; }
 		public MapObject SelectedObject { get; set; }
 		public FiestaBaseStat BaseStats { get { return DataProvider.Instance.GetBaseStats(Job, Level); } }
-		private Buffs Buffs { get; set; }
+		private Buffs.Buffs Buffs { get; set; }
 		public House House { get; set; }
 		public MapObject CharacterInTarget { get; set; }
 		public Question Question { get; set; }
@@ -319,7 +326,7 @@ namespace Zepheus.Zone.Game
             this.WritePremiumList(0);
             this.WriteRewardList(0);
 		}
-		public void SwapEquips(Equip sourceEquip, Equip destEquip)
+		public void SwapEquips(Item sourceEquip, Item destEquip)
 		{
 			try
 			{
@@ -336,8 +343,8 @@ namespace Zepheus.Zone.Game
 				this.Inventory.AddToInventory(sourceEquip);
 				sourceEquip.Save();
 				destEquip.Save();
-				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.SlotType, destEquip);
-				Handler12.UpdateInventorySlot(this, (byte)sourceEquip.SlotType, 0x20, (byte)destEquip.Slot, sourceEquip);
+				Handler12.UpdateEquipSlot(this, (byte)destSlot, 0x24, (byte)destEquip.ItemInfo.Slot, destEquip);
+                Handler12.UpdateInventorySlot(this, (byte)sourceSlot, 0x20, (byte)destSlot, sourceEquip);
                 this.UpdateStats();
 			}
 			finally
@@ -345,14 +352,14 @@ namespace Zepheus.Zone.Game
 			 this.Inventory.Release();
 			}
 		}
-		public void EquipItem(Equip pEquip)
+		public void EquipItem(Item pEquip)
 		{
 			try
 			{
 				if (pEquip == null) new ArgumentNullException();
-				if (!pEquip.IsEquipped || Level > pEquip.Info.Level) //:Todo Get race
+				if (!pEquip.IsEquipped || Level > pEquip.ItemInfo.Level) //:Todo Get race
 				{
-					Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pEquip.SlotType && d.IsEquipped);
+					Item equip = this.Inventory.EquippedItems.Find(d => d.Slot == pEquip.Slot && d.IsEquipped);
 					if (equip != null)
 					{
 						SwapEquips(pEquip, equip);
@@ -363,12 +370,12 @@ namespace Zepheus.Zone.Game
 					byte sourceSlot = (byte)pEquip.Slot;
 					this.Inventory.InventoryItems.Remove(sourceSlot);
 					pEquip.IsEquipped = true;
-					pEquip.Slot = (sbyte)pEquip.SlotType;
+					pEquip.Slot = (sbyte)pEquip.Slot;
 					this.Inventory.AddToEquipped(pEquip);
 					pEquip.Save();
 
-					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.SlotType, pEquip);
-					Handler12.UpdateInventorySlot(this, (byte)pEquip.SlotType, 0x20, sourceSlot, null);
+					Handler12.UpdateEquipSlot(this, sourceSlot, 0x24, (byte)pEquip.ItemInfo.Slot, pEquip);
+					Handler12.UpdateInventorySlot(this, (byte)pEquip.ItemInfo.Slot, 0x20, sourceSlot, null);
                     this.UpdateStats();
 				}
 			}
@@ -469,11 +476,15 @@ namespace Zepheus.Zone.Game
             }
         }
 
-		public void UnequipItem(Equip pEquip, byte destSlot)
+		public void UnequipItem(Item pEquip, byte destSlot)
 		{
 			try
 			{
-			   
+                if (pEquip == null)
+                {
+                    Log.WriteLine(LogLevel.Error, "Unequip Failed by Slot {0}", destSlot);
+                    return;
+                }
 				  this.Inventory.Enter();
 				  byte sourceSlot = (byte)pEquip.Slot;
 				this.Inventory.EquippedItems.Remove(pEquip);
@@ -481,7 +492,7 @@ namespace Zepheus.Zone.Game
 				pEquip.IsEquipped = false;
 				this.Inventory.AddToInventory(pEquip);
 				pEquip.Save();
-				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.SlotType, null);
+				Handler12.UpdateEquipSlot(this, destSlot, 0x24, (byte)pEquip.ItemInfo.Slot, null);
 				Handler12.UpdateInventorySlot(this, sourceSlot, 0x20, destSlot, pEquip);
 				this.UpdateStats();
 			}
@@ -501,25 +512,25 @@ namespace Zepheus.Zone.Game
 				return;
 			}
 
-			if (item.Info.Level > Level)
+			if (item.ItemInfo.Level > Level)
 			{
 				Handler12.SendItemUsed(this, item, 1800);
 				return;
 			}
 
-			if (((uint)item.Info.Jobs & (uint)Job) == 0)
+			if (((uint)item.ItemInfo.Jobs & (uint)Job) == 0)
 			{
 				Handler12.SendItemUsed(this, item, 1801);
 				return;
 			}
 
-			if (item.Info.Type == ItemType.Useable) //potion
+			if (item.ItemInfo.Type == ItemType.Useable) //potion
 			{
-				if (item.Info.Class == ItemClass.ReturnScroll) //return scroll
+				if (item.ItemInfo.Class == ItemClass.Scroll) //return scroll
 				{
 					RecallCoordinate coord;
 					MapInfo map;
-					if (DataProvider.Instance.RecallCoordinates.TryGetValue(item.Info.InxName, out coord)
+					if (DataProvider.Instance.RecallCoordinates.TryGetValue(item.ItemInfo.InxName, out coord)
 						&& (map = DataProvider.Instance.MapsByID.Values.First(m => m.ShortName == coord.MapName)) != null)
 					{
 						Handler12.SendItemUsed(this, item); //No idea what this does, but normally it's sent.
@@ -532,10 +543,10 @@ namespace Zepheus.Zone.Game
 						Handler12.SendItemUsed(this, item, 1811);
 					}
 				}
-                else if (item.Info.Class == ItemClass.Rider)
+                else if (item.ItemInfo.Class == ItemClass.Mount)
                 {
                     Handler12.SendItemUsed(this, item);
-                    if (this.Mount == null)
+                  /*  if (this.Mount == null)
                     {
      
                         if (item.Mount != null)
@@ -567,9 +578,9 @@ namespace Zepheus.Zone.Game
                                 this.Mounting(Mount.Handle,false);
                             }
                         }
-                    }
+                    }*/
                 }
-                else if (item.Info.Class == ItemClass.RiderFood)
+                else if (item.ItemInfo.Class == ItemClass.MountFood)
                 {
                     if (this.Mount != null)
                     {
@@ -589,11 +600,11 @@ namespace Zepheus.Zone.Game
                         }
                     }
                 }
-                else if (item.Info.Class == ItemClass.Skillbook)
+                else if (item.ItemInfo.Class == ItemClass.SkillBook)
                 {
                     //TODO: passive skills!
                     ActiveSkillInfo info;
-                    if (DataProvider.Instance.ActiveSkillsByName.TryGetValue(item.Info.InxName, out info))
+                    if (DataProvider.Instance.ActiveSkillsByName.TryGetValue(item.ItemInfo.InxName, out info))
                     {
                         if (SkillsActive.ContainsKey(info.ID))
                         {
@@ -670,9 +681,9 @@ namespace Zepheus.Zone.Game
 		private void UseOneItemStack(Item item)
 		{
 			byte sendslot = (byte)item.Slot;
-			if (item.Count > 1)
+			if (item.Ammount > 1)
 			{
-				--item.Count;
+				--item.Ammount;
 				Handler12.ModifyInventorySlot(this, 0x24, sendslot, sendslot, item);
 			}
 			else
@@ -853,14 +864,17 @@ namespace Zepheus.Zone.Game
                       ID = ItemID,
                       Slot = (sbyte)pSlot,
                       PageID = PageID,
-                      Count = count,
-                      Str = States.Str,
-                      Int = States.Int,
-                      Spr = States.Spr,
-                      Dex = States.Dex,
-                      End = States.End,
+                      Ammount = count,
 
                   };
+                Reward.UpgradeStats = new UpgradeStats
+                {
+                    Str = States.Str,
+                    Int = States.Int,
+                    Spr = States.Spr,
+                    Dex = States.Dex,
+                    End = States.End,
+                };
                 this.RewardInventory.AddRewardItem(Reward);
                 return true;
             }
@@ -898,7 +912,7 @@ namespace Zepheus.Zone.Game
                     packet.WriteByte((byte)Items.Count);
                     foreach (RewardItem pItem in Items)
                     {
-                        pItem.WriteItemInfo(packet);
+                        pItem.WriteInfo(packet);
                     }
                     packet.WriteByte(90);//unk
                     Client.SendPacket(packet);
@@ -1018,14 +1032,34 @@ namespace Zepheus.Zone.Game
 			packet.WriteUShort(0xffff);
 			packet.WriteShort(0);
 			packet.WriteUShort(0);             // Mob ID (title = 10)
-
+        
 			packet.Fill(55, 0);                // Buff Bits? Something like that
-			packet.WriteInt(this.Character.GuildID);      // Guild ID
+            if (this.Character.GuildID > 0)
+            {
+                packet.WriteInt(this.Character.GuildID);
+            }
+            else if (this.Character.AcademyID > 0)
+            {
+                packet.WriteInt(this.Character.AcademyID);
+            }
+            else
+            {
+                packet.WriteInt(0);
+            }
 			packet.WriteByte(0x02);            // UNK (0x02)
-			packet.WriteBool(false);            // In Guild Academy (0 - No, 1 - Yes)
+
+			packet.WriteBool(this.IsInAcademy());            // In Guild Academy (0 - No, 1 - Yes)
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
 			packet.WriteByte(this.Level);
 		}
+            public bool IsInAcademy()
+            {
+                if (this.Character.AcademyID > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
 		public void WriteRefinement(Packet packet)
 		{
 			packet.WriteByte(Convert.ToByte(GetUpgradesBySlot(ItemSlot.Weapon) << 4 | GetUpgradesBySlot(ItemSlot.Weapon2)));
@@ -1217,7 +1251,7 @@ namespace Zepheus.Zone.Game
             {
                 ushort wdef = 0;
                 ushort mdef = 0; //TODO magic
-                foreach (ItemInfo itemInfo in Inventory.EquippedItems.Select(e => e.GetInfo()))
+                foreach (ItemInfo itemInfo in Inventory.EquippedItems.Select(e => e.ItemInfo))
                 {
                     wdef += itemInfo.WeaponDef;
                     mdef += itemInfo.MagicDef;
@@ -1342,7 +1376,7 @@ namespace Zepheus.Zone.Game
 		public ushort GetEquippedBySlot(ItemSlot pType)
 		{
 			//double check if found
-			Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pType && d.IsEquipped);
+			Item equip = this.Inventory.EquippedItems.Find(d => d.Slot == (sbyte)pType && d.IsEquipped);
 			if (equip == null)
 			{
 				return 0xffff;
@@ -1357,14 +1391,14 @@ namespace Zepheus.Zone.Game
 		{
 			//double check if found
 
-			Equip equip = this.Inventory.EquippedItems.Find(d => d.SlotType == pType && d.IsEquipped);
+			Item equip = this.Inventory.EquippedItems.Find(d => d.Slot == (sbyte)pType && d.IsEquipped);
 			if (equip == null)
 			{
 				return 0;
 			}
 			else
 			{
-				return equip.Upgrades;
+				return equip.UpgradeStats.Upgrades;
 			}
 		} 
 	 
@@ -1373,11 +1407,11 @@ namespace Zepheus.Zone.Game
 			byte newslot;
 			if (Inventory.GetEmptySlot(out newslot))
 			{
-                if (pItem.Info.Class == ItemClass.Rider)
+               /* if (pItem.ItemInfo.Class == ItemClass.Mount)
                 {
                     pItem.Mount = DataProvider.Instance.GetMountByItemID(pItem.ID);
                     pItem.Mount.ItemSlot = newslot;
-                }
+                }*/
 				pItem.Slot = (sbyte)newslot;
 				pItem.Owner = (uint)this.ID;
 				Inventory.AddToInventory(pItem);Handler12.ModifyInventorySlot(this, (byte)pItem.Slot, 0x24, (byte)pItem.Slot, pItem);
@@ -1396,29 +1430,11 @@ namespace Zepheus.Zone.Game
 					return InventoryStatus.Full; //inventory is full
 				}
 
-				if (inf.Slot == ItemSlot.Normal)//testing?
-				{ 
-                    // Stackable item
-					Item item = new Item((uint)this.ID, inf.ItemID, pCount);
-					item.Slot = (sbyte)targetSlot;     // Else it adds item to first slot, and overwrites it
-                    if (inf.Class == ItemClass.Rider)
-                    {
-                     item.Mount = DataProvider.Instance.GetMountByItemID(inf.ItemID);
-                     item.Mount.ItemSlot = targetSlot;
-                    }
-                    item.Save();
-					Inventory.AddToInventory(item);
-					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, item);
-					
-				}
-				else
-				{
-					Equip equip = new Equip((uint)this.ID, inf.ItemID, (sbyte)targetSlot);
+					Item equip = new Item(0,(uint)this.ID, inf.ItemID, (sbyte)targetSlot);
+                    equip.UpgradeStats = new UpgradeStats();
 					equip.Save();
 					Inventory.AddToInventory(equip);
 					Handler12.ModifyInventorySlot(this, targetSlot, 0x24, targetSlot, equip);
-					
-				}
 				return InventoryStatus.Added;
 			}
 			else
@@ -1447,17 +1463,18 @@ namespace Zepheus.Zone.Game
 				drop.CanTake = false; //just to be sure
 				Map.RemoveDrop(drop);
 				Item item = null;
-				if (drop.Item is DroppedEquip)
+                //fix later
+				/*if (drop.Item is DroppedEquip)
 				{
-					item = new Equip((uint)this.ID,drop.ID, freeslot);
+                    item = new Item((uint)this.ID, drop.ID, freeslot);
 					//item.UniqueID = this.AccountID;
-					this.Inventory.EquippedItems.Add((Equip)item);
+					this.Inventory.EquippedItems.Add((Item)item);
 				}
 				else
 				{
 					item = new Item((uint)this.ID, drop.ID, (ushort)drop.Item.Amount);
 					this.Inventory.InventoryItems.Add((byte)freeslot, item);
-				}
+				}*/
 				Handler12.ObtainedItem(this, drop.Item, ObtainedItemStatus.Obtained);
 				Handler12.ModifyInventorySlot(this, 0x24, (byte)freeslot, 0, item);
 			}
@@ -1493,26 +1510,26 @@ namespace Zepheus.Zone.Game
 				return;
 			}
 
-			Equip eqp;
-			if ((eqp = eqpitem as Equip) == null)
+			Item eqp;
+			if ((eqp = eqpitem as Item) == null)
 			{
 				Log.WriteLine(LogLevel.Warn, "Character tried to upgrade non-equip item.");
 				return;
 			}
 
-			if (stone.Info.UpResource == 0)
+			if (stone.ItemInfo.UpResource == 0)
 			{
 				Log.WriteLine(LogLevel.Warn, "Character tried to upgrade with non-upgrade item.");
 				return;
 			}
 
 			byte required = 0;
-			if (eqp.Upgrades <= 2) required = 2;
-			else if (eqp.Upgrades <= 5) required = 5;
-			else if (eqp.Upgrades <= 8) required = 8;
+			if (eqp.UpgradeStats.Upgrades <= 2) required = 2;
+			else if (eqp.UpgradeStats.Upgrades <= 5) required = 5;
+			else if (eqp.UpgradeStats.Upgrades <= 8) required = 8;
 			else required = 10;
 
-			if (stone.Info.UpResource != required)
+			if (stone.ItemInfo.UpResource != required)
 			{
 				Log.WriteLine(LogLevel.Warn, "Character is using a wrong upgrade stone.");
 				return;
@@ -1520,17 +1537,17 @@ namespace Zepheus.Zone.Game
 
 			UseOneItemStack(stone);
 			int rand = Program.Randomizer.Next(0, 200);
-			bool success = rand <= stone.Info.UpSucRation;
+			bool success = rand <= stone.ItemInfo.UpSucRation;
 
 			if (success)
 			{
-				eqp.Upgrades++;
+				eqp.UpgradeStats.Upgrades++;
 				Handler12.SendUpgradeResult(this, true);
 			}
 			else
 			{
 				//TODO: destroy item rate?
-				if (eqp.Upgrades > 0) --eqp.Upgrades;
+				if (eqp.UpgradeStats.Upgrades > 0) --eqp.UpgradeStats.Upgrades;
 				Handler12.SendUpgradeResult(this, false);
 			}
 			Handler12.ModifyInventorySlot(this, 0x24, (byte)eqpslot, (byte)eqpslot, eqp);
@@ -1550,16 +1567,9 @@ namespace Zepheus.Zone.Game
 		}
 		public void DropItem(Item item)
 		{
-			Drop drop;
-			if (item is Equip)
-			{
-				drop = new Drop(item as Equip, this, Position.X, Position.Y, 120);
-			}
-			else
-			{
-				drop = new Drop(item, this, Position.X, Position.Y, 120);
-
-			}
+			Drop drop = new Drop(item, this, Position.X, Position.Y, 120);
+            if(drop == null) 
+            return;
 			this.Inventory.InventoryItems.Remove((byte)item.Slot);
 			item.Delete();
 			Handler12.ModifyInventorySlot(this, 0x24, (byte)item.Slot, 0, null);
@@ -1700,15 +1710,15 @@ namespace Zepheus.Zone.Game
 				// Try setting up transfer
 				ushort randomID = (ushort)Program.Randomizer.Next(0, ushort.MaxValue);
 
-				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username, this.Name, randomID, this.Client.Admin, this.Client.Host);
-                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,this.Client.Character.Name,randomID,this.Client.Admin,this.Client.Host);
+				InterHandler.TransferClient(zci.ID, id, this.Client.AccountID, this.Client.Username,this.Character.ID, this.Name, randomID, this.Client.Admin, this.Client.Host);
+                ClientTransfer Zonetran = new ClientTransfer(this.Client.AccountID, this.Client.Username,Client.Character.Name, this.Client.Character.ID,randomID,this.Client.Admin,this.Client.Host);
                 ClientManager.Instance.AddTransfer(Zonetran);
 				Map.RemoveObject(MapObjectID);
 				Position.X = tox;
 				Position.Y = toy;
 				Character.PositionInfo.Map = (byte)id;
 				Save();
-
+                InterHandler.SendChangeZoneToWorld(this, id, tox, toy, zci.IP, zci.Port, randomID);
 				Handler6.SendChangeZone(this, id, tox, toy, zci.IP, zci.Port, randomID);
 			}
 			else
@@ -1778,16 +1788,15 @@ namespace Zepheus.Zone.Game
 
 			if (IsAttacking || victim == null || !victim.IsAttackable) return;
 			ushort attackspeed = 1200;
-			Equip weapon;
+			Item weapon;
 			this.Inventory.GetEquiptBySlot((byte)ItemSlot.Weapon, out weapon);
-			//EquippedItems.TryGetValue(ItemSlot.Weapon, out weapon);
 			uint dmgmin = (uint)GetWeaponDamage(true);
 			uint dmgmax = (uint)(GetWeaponDamage(true) + (GetWeaponDamage(true) % 3));
 			if (weapon != null)
 			{
-				attackspeed = weapon.Info.AttackSpeed;
-				dmgmin += weapon.Info.MinMelee;
-				dmgmax += weapon.Info.MaxMelee;
+				attackspeed = weapon.ItemInfo.AttackSpeed;
+				dmgmin += weapon.ItemInfo.MinMelee;
+				dmgmax += weapon.ItemInfo.MaxMelee;
 			}
 
 			base.Attack(victim);
@@ -1802,14 +1811,14 @@ namespace Zepheus.Zone.Game
 
 			if (IsAttacking || victim == null || !victim.IsAttackable) return;
 
-			Equip weapon;
+			Item weapon;
 			this.Inventory.GetEquiptBySlot((byte)ItemSlot.Weapon, out weapon);
 			uint dmgmin = (uint)GetWeaponDamage(true);
 			uint dmgmax = (uint)(GetWeaponDamage(true) + (GetWeaponDamage(true) % 3));
 			if (weapon != null)
 			{
-				dmgmin += weapon.Info.MinMelee;
-				dmgmax += weapon.Info.MaxMelee;
+				dmgmin += weapon.ItemInfo.MinMelee;
+				dmgmax += weapon.ItemInfo.MaxMelee;
 			}
 
 			attackingSequence = new AttackSequence(this, victim, dmgmin, dmgmax, skillid, true);
@@ -1818,14 +1827,14 @@ namespace Zepheus.Zone.Game
 		{
 			if (IsAttacking) return;
 
-			Equip weapon;
+			Item weapon;
 			this.Inventory.GetEquiptBySlot((byte)ItemSlot.Weapon, out weapon);
 			uint dmgmin = (uint)GetExtraStr();
 			uint dmgmax = (uint)(GetExtraStr() + (GetExtraStr() % 3));
 			if (weapon != null)
 			{
-				dmgmin += weapon.Info.MinMelee;
-				dmgmax += weapon.Info.MaxMelee;
+				dmgmin += weapon.ItemInfo.MinMelee;
+				dmgmax += weapon.ItemInfo.MaxMelee;
 			}
 
 			attackingSequence = new AttackSequence(this, dmgmin, dmgmax, skillid, x, y);

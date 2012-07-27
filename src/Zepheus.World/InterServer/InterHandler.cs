@@ -49,32 +49,6 @@ namespace Zepheus.World.InterServer
 				}
 			}
 		}
-        public static void AddGuildMemberToZone(bool type,int GuildID,string Charname,int CharID)
-        {
-           foreach(ZoneConnection Con in Program.Zones.Values)
-           {
-               using (var pack = new InterPacket(InterHeader.AddGuildMember))
-               {
-                   pack.WriteBool(type);
-                   pack.WriteInt(GuildID);
-                   pack.WriteInt(CharID);
-                   Con.SendPacket(pack);
-               }
-           }
-        }
-        public static void RemoveGuildMemberFromZone(bool type,int GuildID,int CharID)
-        {
-            foreach (ZoneConnection Con in Program.Zones.Values)
-            {
-                using (var pack = new InterPacket(InterHeader.RemoveGuildMember))
-                {
-                    pack.WriteBool(type);
-                    pack.WriteInt(GuildID);
-                    pack.WriteInt(CharID);
-                    Con.SendPacket(pack);
-                }
-            }
-        }
         [InterPacketHandler(InterHeader.ReciveCoper)]
         public static void ReciveCoper(ZoneConnection zc, InterPacket packet)
         {
@@ -102,19 +76,9 @@ namespace Zepheus.World.InterServer
                 pClient.Character.UpdateRecviveCoper();
             }
         }
-        [InterPacketHandler(InterHeader.CharacterLevelUP)]
-        public static void CharLevelUP(ZoneConnection zc, InterPacket packet)
-        {
-            byte level;
-            string charname;
-            if (!packet.TryReadByte(out level))
-                return;
-            if(!packet.TryReadString(out charname,16))
-            return;
 
-            WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
-            client.Character.LevelUp(level);
-        }
+
+
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{
@@ -136,7 +100,31 @@ namespace Zepheus.World.InterServer
 		[InterPacketHandler(InterHeader.ChangeZone)]
 		public static void ChangeZoneBeginn(ZoneConnection zc, InterPacket packet)
 		{
-		   // ClientManager.Instance.AddZoneTrans(
+            ushort mapid,randomid,port;
+            string charname,ip;
+            int x,y;
+            if(!packet.TryReadUShort(out mapid))
+                return;
+            if(!packet.TryReadInt(out x))
+                return;
+            if(!packet.TryReadInt(out y))
+                return;
+            if(!packet.TryReadString(out charname,16))
+                return;
+            if(!packet.TryReadString(out ip,16))
+                return;
+            if(!packet.TryReadUShort(out port))
+                return;
+            if(!packet.TryReadUShort(out randomid))
+                return;
+            
+            WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
+            if(client == null)
+                return;
+            client.Character.Character.PositionInfo.Map = mapid;
+            client.Character.Character.PositionInfo.XPos = x;
+            client.Character.Character.PositionInfo.YPos = y;
+            
 		}
 		[InterPacketHandler(InterHeader.Assigned)]
 		public static void HandleAssigned(LoginConnector lc, InterPacket packet)
@@ -203,21 +191,21 @@ namespace Zepheus.World.InterServer
 				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out hash) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip)) {
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, admin, hostip, hash);
+				ClientTransfer ct = new ClientTransfer(accountid, username,0, admin, hostip, hash);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 			else if (v == 1)
 			{
 				byte admin;
-				int accountid;
+				int accountid,CharID;
 				string username, charname, hostip;
 				ushort randid;
-				if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) || 
+                if (!packet.TryReadInt(out accountid) || !packet.TryReadString(out username) || !packet.TryReadString(out charname) || !packet.TryReadInt(out CharID) ||
 					!packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) || !packet.TryReadString(out hostip))
 				{
 					return;
 				}
-				ClientTransfer ct = new ClientTransfer(accountid, username, charname, randid, admin, hostip);
+				ClientTransfer ct = new ClientTransfer(accountid, username, charname,CharID, randid, admin, hostip);
 				ClientManager.Instance.AddTransfer(ct);
 			}
 		}
@@ -226,11 +214,11 @@ namespace Zepheus.World.InterServer
 		public static void HandleClientTransferZone(ZoneConnection zc, InterPacket packet)
 		{
 			byte admin, zoneid;
-			int accountid;
+			int accountid,CharID;
 			string username, charname, hostip;
 			ushort randid, mapid;
 			if (!packet.TryReadByte(out zoneid) || !packet.TryReadInt(out accountid) || !packet.TryReadUShort(out mapid) || !packet.TryReadString(out username) ||
-				!packet.TryReadString(out charname) || !packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) ||
+				!packet.TryReadString(out charname)||!packet.TryReadInt(out CharID) || !packet.TryReadUShort(out randid) || !packet.TryReadByte(out admin) ||
 				!packet.TryReadString(out hostip))
 			{
 				return;
@@ -240,7 +228,7 @@ namespace Zepheus.World.InterServer
 				ZoneConnection z;
 				if (Program.Zones.TryGetValue(zoneid, out z))
 				{
-					z.SendTransferClientFromZone(accountid, username, charname, randid, admin, hostip);
+					z.SendTransferClientFromZone(accountid, username, charname,CharID, randid, admin, hostip);
 					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
 					client.Character.ChangeMap(DataProvider.GetMapname(mapid));
 				}
@@ -250,7 +238,47 @@ namespace Zepheus.World.InterServer
 				Log.WriteLine(LogLevel.Warn, "Uh oh, Zone {0} tried to transfer {1} to zone {1} D:", zc.ID, charname, zoneid);
 			}
 		}
+        public static void SendGetCharacterBroaucast(WorldCharacter pChar,FiestaLib.Networking.Packet Packet)
+        {
+            ZoneConnection conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
+            using (var packet = new InterPacket(InterHeader.GetBroadcastList))
+            {
+                packet.WriteString(pChar.Character.Name, 16);
+                packet.WriteInt(packet.ToArray().Length);
+                packet.WriteBytes(packet.ToArray());
+                conn.SendPacket(packet);
+            }
+        }
+        [InterPacketHandler(InterHeader.SendBroiadCastList)]
+        public static void GetList(ZoneConnection pConnection, InterPacket pPacket)
+        {
+            int count, packetlenght;
+            byte[] SendPacket;
 
+            if (!pPacket.TryReadInt(out packetlenght))
+                return;
+
+            if (!pPacket.TryReadBytes(packetlenght, out SendPacket))
+                return;
+
+            if (!pPacket.TryReadInt(out count))
+                return;
+            
+            for (int i = 0; i < count; i++)
+            {
+                string charname;
+                if(!pPacket.TryReadString(out charname,16))
+                return;
+               WorldClient client=  ClientManager.Instance.GetClientByCharname(charname);
+                if(client !=null)
+                using (var packet = new FiestaLib.Networking.Packet())
+                {
+                    packet.WriteBytes(SendPacket);
+                    client.SendPacket(packet);
+                    Log.WriteLine(LogLevel.Debug, "Send borcast to {0}", charname);
+                }
+            }
+        }
 		[InterPacketHandler(InterHeader.FunctionCharIsOnline)]
 		public static void FunctionGetCharacterOnline(ZoneConnection pConnection, InterPacket pPacket)
 		{

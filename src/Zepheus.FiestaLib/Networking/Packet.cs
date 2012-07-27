@@ -35,7 +35,6 @@ namespace Zepheus.FiestaLib.Networking
 			this.OpCode = pOpCode;
 			WriteUShort(pOpCode);
 		}
-
 		public Packet(byte pHeader, byte pType)
 		{
 			this.memoryStream = new MemoryStream();

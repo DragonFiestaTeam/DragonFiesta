@@ -25,6 +25,7 @@ namespace Zepheus.FiestaLib.Data
 		public ushort MagicDef { get; private set; }
 		public long BuyPrice { get; private set; }
 		public long SellPrice { get; private set; }
+        public ItemStats Stats { get; set; }
 		//item upgrade
 		public ushort UpSucRation { get; private set; }
 		public ushort UpResource { get; private set; }
@@ -61,6 +62,7 @@ namespace Zepheus.FiestaLib.Data
 				BuyPrice = GetDataTypes.GetUint(row["BuyPrice"]),
               
 			};
+            itemInfo.Stats = new ItemStats();
 			return itemInfo;
 		}
 

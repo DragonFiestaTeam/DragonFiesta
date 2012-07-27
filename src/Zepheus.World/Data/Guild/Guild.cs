@@ -1,121 +1,510 @@
-﻿using System;
-using Zepheus.Database.DataStore;
-using System.Collections.Generic;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.FiestaLib;
+﻿/*File for this file Basic Copyright 2012 no0dl */
+using System;
+using System.Text;
 using System.Data;
-using Zepheus.Util;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using Zepheus.World.Data.Guilds.Academy;
+using Zepheus.FiestaLib;
+using Zepheus.FiestaLib.Networking;
+using Zepheus.World.Networking;
+using Zepheus.World;
+using Zepheus.World.Managers;
+using Zepheus.InterLib;
+using Zepheus.InterLib.Networking;
 using Zepheus.Database;
+using Zepheus.Database.DataStore;
 
-namespace Zepheus.World.Data
+namespace Zepheus.World.Data.Guilds
 {
-    public class Guild
+    public sealed class Guild
     {
-        public virtual int ID { get; set; }
-        public virtual string Name { get; set; }
-        public List<GuildMember> GuildMembers { get; set; }
-        public string GuildPassword { get; set; }
-        public string GuildMaster { get; set; }
-        public bool GuildWar { get; set; }
+        public int ID { get; private set; }
 
-        public virtual int GuildBuffTime { get; set; }
-        public virtual ushort MaxMemberCount { get; set; }
-        public DateTime RegisterDate { get; set; }
-
-        public Academy GuildAcademy { get; set; }
-        public virtual DetailsMessage Details { get; set; }
-
-        public  static Guild LoadFromDatabase(DataRow row)
+        public string Name { get; set; }
+        public string Password
         {
-            Guild g = new Guild
+            get
             {
-               ID = GetDataTypes.GetInt(row["ID"]),
-               Name = row["Name"].ToString(),
-               GuildPassword = row["Password"].ToString(),
-               GuildMaster = row["GuildMaster"].ToString(),
-               GuildWar = GetDataTypes.GetBool(row["GuildWar"]),
-            };
-            g.GuildAcademy = new Academy
-            {
-                Guild = g,
-                ID = g.ID,
-                Name = g.Name,
-                AcademyMembers = new List<AcademyMember>(),
-            };
-            g.Details = new DetailsMessage
-           {
-                Message = row["GuildMessage"].ToString(),
-                GuildOwner = g.GuildMaster,
-                Creater = row["GuildMessageCreater"].ToString(),
-                CreateTime = DateTime.Parse(row["GuildMessageCreateDate"].ToString()),
-           };
-            g.GuildAcademy.Details = new DetailsMessage
-             {
-                 Message = row["GuildAcademyMessage"].ToString(),
-                 GuildOwner = g.GuildMaster,
-             };
-            g.LoadMembers();
-            return g;
-        }
-        public static Packet MultiMemberList(List<GuildMember> objs, int start, int end, int countGesammt)
-        {
-            Packet packet = new Packet(SH29Type.GuildList);
-            packet.WriteUShort((ushort)countGesammt);//GuildMembercount
-            int Rest = countGesammt - end;
-            packet.WriteUShort((ushort)Rest);// GuildMemberCount - ForeachCount = RestCount
-            packet.WriteUShort((ushort)end);//foreachcount
-            for (int i = start; i < end; i++)
-            {
-                objs[i].WriteInfo(packet);
+                var data = _Password;
+                //InterCrypto.Decrypt(ref data, 0, data.Length);
+
+                return Encoding.UTF8.GetString(data);
             }
+            set
+            {
+                var data = Encoding.UTF8.GetBytes(value);
+               // InterCrypto.Encrypt(ref data, 0, data.Length);
+
+                _Password = data;
+            }
+        }
+        private byte[] _Password;
+
+
+        public bool AllowGuildWar { get; set; }
+        public string Message { get; set; }
+        public DateTime MessageCreateTime { get; set; }
+        public WorldCharacter MessageCreater { get; set; }
+
+        public DateTime CreateTime { get; private set; }
+
+
+        public List<GuildMember> Members { get; private set; }
+        public GuildMember Master { get { return Members.Find(m => m.Rank == GuildRank.Master); } }
+
+        public GuildAcademy Academy { get; private set; }
+
+
+
+
+        public object ThreadLocker { get; private set; }
+        public const int Price = 1000000;
+
+
+
+
+
+        public Guild(MySqlConnection con, int ID, string Name, byte[] Password, bool AllowGuildWar, WorldCharacter Creater, DateTime CreateTime)
+            : this()
+        {
+            this.ID = ID;
+
+            this.Name = Name;
+            _Password = Password;
+
+            this.AllowGuildWar = AllowGuildWar;
+            this.CreateTime = CreateTime;
+
+            Message = "";
+            MessageCreateTime = Program.CurrentTime;
+            MessageCreater = Creater;
+
+
+            Load();
+        }
+        public Guild(MySqlConnection con, MySqlDataReader reader)
+            : this()
+        {
+            ID = reader.GetInt32("ID");
+
+            Name = reader.GetString("Name");
+           //_Password = 
+
+            AllowGuildWar = reader.GetBoolean("GuildWar");
+
+            Message = reader.GetString("GuildMessage");
+            MessageCreateTime = reader.GetDateTime("GuildMessageCreateDate");
+
+
+            WorldCharacter creater;
+            if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32("GuildMessageCreater"), out creater))
+                throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32("GuildMessageCreater"));
+
+            MessageCreater = creater;
+
+            CreateTime = reader.GetDateTime("GuildMessageCreateDate");
+
+            
+            Load();
+        }
+        private Guild()
+        {
+            ThreadLocker = new object();
+
+            Members = new List<GuildMember>();
+        }
+        public void Dispose()
+        {
+            Name = null;
+            _Password = null;
+            Message = null;
+            MessageCreater = null;
+
+            ThreadLocker = null;
+
+
+            Members.ForEach(m => m.Dispose());
+            Members.Clear();
+            Members = null;
+
+
+            Academy.Dispose();
+            Academy = null;
+        }
+
+
+
+
+        private void Load()
+        {
+            //members
+            DataTable MemberData = null;
+           using(DatabaseClient DBClient = Program.DatabaseManager.GetClient())
+           {
+              MemberData = DBClient.ReadDataTable("SELECT * FROM GuildMembers WHERE GuildID = "+this.ID+"");
+
+           }
+
+           foreach (DataRow row in MemberData.Rows)
+           {
+                        //get character
+                        WorldCharacter character;
+                        if (!CharacterManager.Instance.GetCharacterByID((int)row["CharName"], out character))
+                            continue;
+
+                        var member = new GuildMember(this,
+                                                     character,
+                                                     (GuildRank)row["Rank"],
+                                                     (ushort)row["Korp"]);
+
+                        Members.Add(member);
+               }
+
+
+            //academy
+            Academy = new GuildAcademy(this);
+        }
+
+        public void Save(MySqlConnection con = null)
+        {
+            lock (ThreadLocker)
+            {
+                var conCreated = (con == null);
+                if (conCreated)
+                {
+                    con = Program.DatabaseManager.GetClient().GetConnection();
+                }
+
+                //save the guild itself
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "dbo.Guild_Save";
+
+                    cmd.Parameters.Add(new MySqlParameter("@pID", ID));
+                    cmd.Parameters.Add(new MySqlParameter("@pName", Name));
+                    cmd.Parameters.Add(new MySqlParameter("@pPassword", _Password));
+                    cmd.Parameters.Add(new MySqlParameter("@pAllowGuildWar", AllowGuildWar));
+                    cmd.Parameters.Add(new MySqlParameter("@pMessage", Message));
+                    cmd.Parameters.Add(new MySqlParameter("@pMessageCreateTime", MessageCreateTime));
+                    cmd.Parameters.Add(new MySqlParameter("@pMessageCreaterID", MessageCreater.ID));
+
+
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                //save members
+                foreach (var member in Members)
+                {
+                    member.Save(con);
+                }
+
+
+                //save aka
+                Academy.Save(con);
+
+
+
+                if (conCreated)
+                {
+                    con.Dispose();
+                }
+            }
+        }
+
+
+        public void Broadcast(Packet Packet, GuildMember Exclude = null)
+        {
+            lock (ThreadLocker)
+            {
+                foreach (var member in Members)
+                {
+                    if (Exclude != null
+                        && member == Exclude)
+                        continue;
+
+
+                    if (member.Character.IsOnline)
+                    {
+                        try
+                        {
+                            member.Character.Client.SendPacket(Packet);
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+        public void WriteGuildInfo(Packet Packet)
+        {
+            Packet.WriteInt(ID);
+            Packet.WriteInt(ID); // academy id?
+            Packet.WriteString(Name, 16);
+
+            Packet.Fill(24, 0x00); //unk
+            Packet.WriteUShort(38);
+            Packet.WriteInt(100);
+            Packet.Fill(233, 0x00);//unk
+            Packet.WriteUShort(11779);
+            Packet.WriteShort(20082);
+            Packet.WriteInt(31);
+            Packet.WriteInt(55);
+            Packet.WriteInt(18);//unk
+            Packet.WriteInt(15);
+            Packet.WriteInt(8);//unk
+            Packet.WriteInt(111);//unk
+            Packet.WriteInt(4);
+            Packet.Fill(136, 0);//buff or string
+            Packet.WriteUShort(1824);
+            Packet.WriteUShort(20152);
+            Packet.WriteInt(16);
+            Packet.WriteInt(28);
+            Packet.WriteInt(MessageCreateTime.Minute);//createDetails Guild Minutes Date
+            Packet.WriteInt(MessageCreateTime.Hour); //create Details Guild Hours Date
+            Packet.WriteInt(MessageCreateTime.Day);//create details Guild Day Date
+            Packet.WriteInt(MessageCreateTime.Month);//create details Month
+            Packet.WriteInt(MessageCreateTime.Year - 1900);//creae details year 1900- 2012
+            Packet.WriteInt(10);//unk
+            Packet.WriteUShort(2);
+            Packet.Fill(6, 0);//unk
+            Packet.WriteString(MessageCreater.Character.Name, 16);
+            Packet.WriteString(Message, 512);//details message
+        }
+        public void SendMemberList(WorldClient Client)
+        {
+            lock (ThreadLocker)
+            {
+                for (int i = 0; i < Members.Count; i += 20)
+                {
+                    using (var packet = GetMemberListPacket(i, i + Math.Min(20, Members.Count - i)))
+                    {
+                        Client.SendPacket(packet);
+                    }
+                }
+            }
+        }
+        private Packet GetMemberListPacket(int Start, int End)
+        {
+            var left = (Members.Count - End);
+
+
+            var packet = new Packet(SH29Type.GuildList);
+
+            packet.WriteUShort((ushort)Members.Count);
+            packet.WriteUShort((ushort)left);
+            packet.WriteUShort((ushort)End);
+            for (int i = Start; i < End; i++)
+            {
+                Members[i].WriteInfo(packet);
+            }
+
             return packet;
         }
-        public virtual GuildMember GetMemberByName(string CharName)
+
+
+        public bool GetMember(string Name, out GuildMember Member)
         {
-          return  this.GuildMembers.Find(m => m.pMemberName == CharName);
+            lock (ThreadLocker)
+            {
+                Member = Members.Find(m => m.Character.Character.Name.Equals(Name));
+            }
+
+            return (Member != null);
         }
-        public Guild()
+        public void AddMember(WorldCharacter Character, GuildRank Rank, MySqlConnection con = null, bool BroadcastAdd = true, bool SendGuildInfoToClient = true)
         {
-            this.GuildMembers = new List<GuildMember>();
+            lock (ThreadLocker)
+            {
+                var conCreated = (con == null);
+                if (conCreated)
+                {
+                    con = Program.DatabaseManager.GetClient().GetConnection();
+                }
+
+                //add to db
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandText = "dbo.GuildMember_Create";
+
+                    cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+                    cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Character.ID));
+                    cmd.Parameters.Add(new MySqlParameter("@pRank", (byte)Rank));
+                    cmd.Parameters.Add(new MySqlParameter("@pCorp", Convert.ToInt16("0")));
+
+
+
+                    cmd.ExecuteNonQuery();
+                }
+
+                //create object
+                var newMember = new GuildMember(this, Character, Rank, 0);
+
+                //update character
+                Character.Guild = this;
+                Character.GuildMember = newMember;
+                Character.GuildAcademy = Academy;
+
+                //add to list
+                Members.Add(newMember);
+
+
+                if (BroadcastAdd)
+                {
+                    newMember.BroadcastGuildName();
+
+                    //broadcast that guild member joined
+                    using (var packet = new Packet(SH29Type.AddGuildMember))
+                    {
+                        newMember.WriteInfo(packet);
+
+
+                        Broadcast(packet, newMember);
+                    }
+                    using (var packet = new Packet(SH29Type.SendMemberGoOnline))
+                    {
+                        packet.WriteString(newMember.Character.Character.Name, 16);
+
+
+                        Broadcast(packet, newMember);
+                    }
+
+
+                    //let zone know that a new member has been added to guild
+                    using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberAdd))
+                    {
+                        packet.WriteInt(ID);
+                        packet.WriteInt(Character.ID);
+                        packet.WriteByte((byte)newMember.Rank);
+                        packet.WriteUShort(newMember.Corp);
+
+
+                     
+                       Managers.ZoneManager.Instance.Broadcast(packet);
+                    }
+                }
+
+                //send guild info to new member
+                if (SendGuildInfoToClient)
+                {
+                    SendMemberList(newMember.Character.Client);
+
+                    using (var packet = new Packet(SH4Type.CharacterGuildinfo))
+                    {
+                        WriteGuildInfo(packet);
+                        newMember.Character.Client.SendPacket(packet);
+                    }
+                }
+
+
+
+                if (conCreated)
+                {
+                    con.Dispose();
+                }
+            }
         }
-        public void AddToDatabase()
+        public void RemoveMember(GuildMember Member, MySqlConnection con = null, bool BroadcastRemove = true)
         {
-        Program.DatabaseManager.GetClient().ExecuteQuery("INSERT INTO Guild (ID,Name,Password,GuildMaster) VALUES ('"+this.ID+"','"+this.Name+"','"+this.GuildPassword+"','"+GuildMaster+"')");
+            lock (ThreadLocker)
+            {
+                var conCreated = (con == null);
+                if (conCreated)
+                {
+                    con = Program.DatabaseManager.GetClient().GetConnection();
+                }
+
+
+                //remove from db
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "dbo.GuildMember_Remove";
+
+                    cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+                    cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Member.Character.ID));
+
+
+                    
+                    cmd.ExecuteNonQuery();
+                }
+
+
+                //remove from list
+                Members.Remove(Member);
+
+                //update character
+                Member.Character.Guild = null;
+                Member.Character.GuildMember = null;
+                Member.Character.GuildAcademy = null;
+
+
+                //broadcast member left packet
+                if (BroadcastRemove)
+                {
+                    using (var packet = new Packet(SH29Type.RemoveGuildMember))
+                    {
+                        packet.WriteString(Member.Character.Character.Name);
+
+
+
+                        Broadcast(packet);
+                    }
+
+                    //send packet to zones that a member has been removed
+                    using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberRemove))
+                    {
+                        packet.WriteInt(ID);
+                        packet.WriteInt(Member.Character.ID);
+
+
+                        ZoneManager.Instance.Broadcast(packet);
+                    }
+                }
+
+
+                //clean up
+                Member.Dispose();
+
+
+
+                if (conCreated)
+                {
+                    con.Dispose();
+                }
+            }
         }
- 
-       public virtual void LoadMembers()
-       {
-           DataTable MemberData = null;
-           DataTable GuildExtraData = null;
-           using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
-           {
-               MemberData = dbClient.ReadDataTable("SELECT* FROM GuildMembers WHERE GuildID='"+this.ID+"'");
-               GuildExtraData = dbClient.ReadDataTable("SELECT* FROM Characters WHERE GuildID='" + this.ID + "'");
-           }
-           if (MemberData != null)
-           {
-               foreach (DataRow row in MemberData.Rows)
-               {
-                   GuildMember pMember = GuildMember.LoadFromDatabase(row);
-                   this.GuildMembers.Add(pMember);
-               }
-           }
-           if (GuildExtraData != null)
-           {
-               foreach (DataRow row in GuildExtraData.Rows)
-               {
-                   int CharID = GetDataTypes.GetInt(row["CharID"]);
-                   GuildMember pMember = this.GuildMembers.Find(m => m.CharID == CharID);
-                   if(pMember != null)
-                   {
-                       pMember.LoadMemberExtraData(row);
-                   }
-                   else
-                   {
-                       Log.WriteLine(LogLevel.Warn, "Failed Load Guild ExtraData By Character {0}", CharID);
-                   }
-               }
-           }
-       }
+        public void UpdateMemberRank(GuildMember Member, GuildRank NewRank)
+        {
+            Member.Rank = NewRank;
+            Member.Save();
+
+
+            //broadcast to members
+            using (var packet = new Packet(SH29Type.ChangeRank))
+            {
+                packet.WriteString(Member.Character.Character.Name, 16);
+                packet.WriteByte((byte)NewRank);
+
+
+                Broadcast(packet);
+            }
+
+
+            //broadcast to zones
+            using (var packet = new InterPacket(InterHeader.ZONE_GuildMemberRankUpdate))
+            {
+                packet.WriteInt(ID);
+                packet.WriteInt(Member.Character.ID);
+                packet.WriteByte((byte)NewRank);
+
+
+                ZoneManager.Instance.Broadcast(packet);
+            }
+        }
     }
 }

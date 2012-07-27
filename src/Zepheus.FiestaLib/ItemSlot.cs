@@ -3,7 +3,7 @@ namespace Zepheus.FiestaLib
 {
     public enum ItemSlot : byte
     {
-        Normal = 0,
+        None = 0,
         Helm = 1,
         CostumeHelm = 2,
         Necklace = 6,
@@ -24,7 +24,6 @@ namespace Zepheus.FiestaLib
         Earings = 23,
         Glasses = 26,
         Pet = 28,
-        None = 99
         //Hat: 1, Armor: 7, Weapon: 10, Pants: 19, boots: 21
     }
 }

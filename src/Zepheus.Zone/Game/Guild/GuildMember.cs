@@ -1,44 +1,46 @@
-﻿using System.Collections.Generic;
-using Zepheus.FiestaLib;
-using Zepheus.Database.DataStore;
+﻿/*File for this file Basic Copyright 2012 no0dl */
+using System;
 using System.Data;
-using Zepheus.Zone.Networking;
-using Zepheus.FiestaLib.Networking;
+using MySql.Data.MySqlClient;
+using Zepheus.Zone.Game;
 
-namespace Zepheus.Zone.Game
+namespace Zepheus.Zone.Game.Guilds
 {
-    public  class GuildMember
+    public sealed class GuildMember
     {
-        #region Properties
-        public virtual ZoneClient pClient { get;  set; }
-        public virtual int GuildID { get;  set; }
-        public virtual bool isOnline { get; set; }
-        public virtual string pMemberName { get; set; }
-        public virtual int CharID { get; set; }
+        public Guild Guild { get; private set; }
+        public int CharacterID { get; private set; }
 
-        #endregion
-        #region .ctor
-        public GuildMember()
-        {
-        }
-        #endregion
-        #region Methods
-        public  static GuildMember LoadFromDatabase(DataRow row)
-        {
-            GuildMember pMember = new GuildMember
-            {
-                CharID = GetDataTypes.GetInt(row["CharID"]),
-                GuildID = GetDataTypes.GetInt(row["GuildID"]),
-            };
-            return pMember;
-        }
-        public void LoadMemberExtraData(DataRow row)
-        {
-            this.pMemberName = row["Name"].ToString();
-        }
+        public GuildRank Rank { get; set; }
+        public ushort Corp { get; set; }
 
-        #endregion
-        #region Packets
-        #endregion
+
+
+        public bool IsOnline { get; set; }
+        public bool IsOnThisZone { get { return (Character != null); } }
+        public ZoneCharacter Character { get; set; }
+
+
+
+        public GuildMember(Guild Guild, MySqlDataReader reader)
+        {
+            this.Guild = Guild;
+            
+            CharacterID = reader.GetInt32(1);
+            Rank = (GuildRank)reader.GetByte(2);
+            Corp = (ushort)reader.GetInt16(3);
+        }
+        public GuildMember(Guild Guild, int CharacterID, GuildRank Rank, ushort Corp)
+        {
+            this.Guild = Guild;
+            this.CharacterID = CharacterID;
+            this.Rank = Rank;
+            this.Corp = Corp;
+        }
+        public void Dispose()
+        {
+            Guild = null;
+            Character = null;
+        }
     }
 }

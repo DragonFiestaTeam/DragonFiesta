@@ -1,90 +1,129 @@
-﻿using System;
-using Zepheus.Database.DataStore;
-using System.Collections.Generic;
-using Zepheus.FiestaLib.Networking;
-using Zepheus.FiestaLib;
+﻿/*File for this file Basic Copyright 2012 no0dl */
+using System;
+using System.Text;
 using System.Data;
-using Zepheus.Util;
-using Zepheus.Database;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using Zepheus.Zone.Game;
+using Zepheus.Zone.Game.Guilds.Academy;
 
-namespace Zepheus.Zone.Game
+namespace Zepheus.Zone.Game.Guilds
 {
-    public class Guild
+    public sealed class Guild
     {
-        public virtual int ID { get; set; }
-        public virtual string Name { get; set; }
-        public List<GuildMember> GuildMembers { get; set; }
-        public string GuildPassword { get; set; }
-        public string GuildMaster { get; set; }
-        public bool GuildWar { get; set; }
+        public int ID { get; private set; }
+        public string Name { get; set; }
 
-        public virtual int GuildBuffTime { get; set; }
-        public virtual ushort MaxMemberCount { get; set; }
-        public DateTime RegisterDate { get; set; }
-        public Academy GuildAcademy { get; set; }
+        public string Password
+        {
+            get
+            {
+                var data = _Password;
+               // InterCrypto.Decrypt(ref data, 0, data.Length);
 
-        public  static Guild LoadFromDatabase(DataRow row)
-        {
-            Guild g = new Guild
+                return Encoding.UTF8.GetString(data);
+            }
+            set
             {
-               ID = GetDataTypes.GetInt(row["ID"]),
-               Name = row["Name"].ToString(),
-               GuildPassword = row["Password"].ToString(),
-               GuildMaster = row["GuildMaster"].ToString(),
-               GuildWar = GetDataTypes.GetBool(row["GuildWar"]),
-            };
-            g.GuildAcademy = new Academy
+                var data = Encoding.UTF8.GetBytes(value);
+              //  InterCrypto.Encrypt(ref data, 0, data.Length);
+
+                _Password = data;
+            }
+        }
+        private byte[] _Password;
+
+        public bool AllowGuildWar { get; set; }
+        public string Message { get; set; }
+        public int MessageCreaterID { get; set; }
+        public DateTime MessageCreateTime { get; set; }
+        public DateTime CreateTime { get; private set; }
+
+
+
+        public List<GuildMember> Members { get; private set; }
+
+        public GuildAcademy Academy { get; private set; }
+
+
+        public object ThreadLocker { get; private set; }
+
+
+
+
+        public Guild(MySqlDataReader reader, MySqlConnection con)
+        {
+            ID = reader.GetInt32("ID");
+            Name = reader.GetString("Name");
+           // _Password = (byte[])reader.GetValue("Password");
+            _Password = new byte[12];
+            AllowGuildWar = reader.GetBoolean("GuildWar");
+            Message = reader.GetString(4);
+            MessageCreateTime = reader.GetDateTime(5);
+            MessageCreaterID = reader.GetInt32(6);
+            CreateTime = reader.GetDateTime(7);
+
+
+            Members = new List<GuildMember>();
+            ThreadLocker = new object();
+
+            Load(con);
+        }
+        public void Dispose()
+        {
+            Name = null;
+            _Password = null;
+
+            Message = null;
+
+
+            Members.ForEach(m => m.Dispose());
+            Members.Clear();
+            Members = null;
+
+            Academy.Dispose();
+            Academy = null;
+
+            ThreadLocker = null;
+        }
+
+
+        private void Load(MySqlConnection con)
+        {
+            //members
+            using (var cmd = con.CreateCommand())
             {
-                Guild = g,
-                ID = g.ID,
-                Name = g.Name,
-                AcademyMembers = new List<AcademyMember>(),
-            };
-            g.LoadMembers();
-            return g;
+                cmd.CommandText = "SELECT * FROM GuildMembers WHERE GuildID = @pGuildID";
+
+                cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
+
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var member = new GuildMember(this, reader);
+
+                        Members.Add(member);
+                    }
+                }
+            }
+
+            //academy
+            Academy = new GuildAcademy(this, con);
         }
-        public virtual GuildMember GetMemberByName(string CharName)
+
+
+
+
+        public bool GetMember(int CharacterID, out GuildMember Member)
         {
-          return  this.GuildMembers.Find(m => m.pMemberName == CharName);
+            lock (ThreadLocker)
+            {
+                Member = Members.Find(m => m.CharacterID.Equals(CharacterID));
+            }
+
+            return (Member != null);
         }
-        public Guild()
-        {
-            this.GuildMembers = new List<GuildMember>();
-        }
- 
-       public virtual void LoadMembers()
-       {
-           DataTable MemberData = null;
-           DataTable GuildExtraData = null;
-           using (DatabaseClient dbClient = Program.CharDBManager.GetClient())
-           {
-               MemberData = dbClient.ReadDataTable("SELECT* FROM GuildMembers WHERE GuildID='"+this.ID+"'");
-               GuildExtraData = dbClient.ReadDataTable("SELECT* FROM Characters WHERE GuildID='" + this.ID + "'");
-           }
-           if (MemberData != null)
-           {
-               foreach (DataRow row in MemberData.Rows)
-               {
-                   GuildMember pMember = GuildMember.LoadFromDatabase(row);
-                   this.GuildMembers.Add(pMember);
-               }
-           }
-           if (GuildExtraData != null)
-           {
-               foreach (DataRow row in GuildExtraData.Rows)
-               {
-                   int CharID = GetDataTypes.GetInt(row["CharID"]);
-                   GuildMember pMember = this.GuildMembers.Find(m => m.CharID == CharID);
-                   if(pMember != null)
-                   {
-                       pMember.LoadMemberExtraData(row);
-                   }
-                   else
-                   {
-                       Log.WriteLine(LogLevel.Warn, "Failed Load Guild ExtraData By Character {0}", CharID);
-                   }
-               }
-           }
-       }
     }
 }

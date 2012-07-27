@@ -8,6 +8,8 @@ using System.Data;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Data;
 using Zepheus.Database.DataStore;
+using Zepheus.Zone.Game.Guilds;
+using Zepheus.Zone.Game.Guilds.Academy;
 
 namespace Zepheus.Zone.Data
 {
@@ -50,12 +52,12 @@ namespace Zepheus.Zone.Data
 			LoadMobs();
 			LoadDrops();
 			LoadItemInfoServer();
+            LoadItemStats();
 			LoadMiniHouseInfo();
 			LoadActiveSkills();
 			LoadVendors();
             LoadMounts();
             LoadMasterRewardStates();
-            LoadGuilds();
   
 		}
 
@@ -116,6 +118,25 @@ namespace Zepheus.Zone.Data
 				Log.WriteLine(LogLevel.Exception, "Error loading ItemInfoServer.shn: {0}", ex);
 			}
 		}
+        private void LoadItemStats()
+        {
+            	DataTable itemStats = null;
+				using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
+				{
+					itemStats = dbClient.ReadDataTable("SELECT  *FROM ItemStats");
+				}
+                foreach (DataRow row in itemStats.Rows)
+                {
+                   string Iteminx = row["itemIndex"].ToString();
+                    ItemInfo Iteminf;
+                    if (!this.ItemsByName.TryGetValue(Iteminx, out Iteminf))
+                    {
+                        Log.WriteLine(LogLevel.Warn, "Can not Find item {0} by ItemStatLoad", Iteminx);
+                        continue;
+                    }
+                     Iteminf.Stats = ItemStats.LoadItemStatsFromDatabase(row);
+                }
+        }
         private void LoadMasterRewardStates()
         {
             MasterRewardStates = new Dictionary<ushort, MasterRewardState>();
@@ -140,40 +161,6 @@ namespace Zepheus.Zone.Data
                 {
                     Log.WriteLine(LogLevel.Exception, "Error loading MasterRewardStatesTable: {0}", ex);
                 }
-        }
-        private void LoadGuilds()
-        {
-            GuildsByID = new Dictionary<int, Guild>();
-            GuildsByName = new Dictionary<string, Guild>();
-            DataTable guildData = null;
-
-            DatabaseClient dbClient = Program.CharDBManager.GetClient();
-            guildData = dbClient.ReadDataTable("SELECT *FROM Guild");
-
-            int GuildMemberCount = 0;
-            int AcademyMemberCount = 0;
-            if (guildData != null)
-            {
-                foreach (DataRow row in guildData.Rows)
-                {
-                    Guild guild = Guild.LoadFromDatabase(row);
-                    guild.GuildAcademy = new Academy
-                    {
-                        Guild = guild,
-                        ID = guild.ID,
-                        Name = guild.Name,
-                        AcademyMembers = new List<AcademyMember>(),
-                    };
-                    guild.GuildAcademy.LoadMembers();
-                    GuildMemberCount += guild.GuildMembers.Count;
-                    AcademyMemberCount += guild.GuildAcademy.AcademyMembers.Count;
-                    GuildsByName.Add(guild.Name, guild);
-                    GuildsByID.Add(guild.ID, guild);
-                }
-            }
-            Log.WriteLine(LogLevel.Info, "Load {0} Guilds With {1} GuildMembers", this.GuildsByID.Count, GuildMemberCount);
-            Log.WriteLine(LogLevel.Info, "Load {0}  AcademyMembers", AcademyMemberCount);
-
         }
 		private void LoadDrops()
 		{

@@ -21,7 +21,7 @@ namespace Zepheus.Login
 		{
 			Worlds = new ConcurrentDictionary<byte, WorldConnection>();
 
-			updater = new Timer(30000);
+			updater = new Timer(10000);
 			updater.Elapsed += new ElapsedEventHandler(UpdaterElapsed);
 			updater.Start();
 		}

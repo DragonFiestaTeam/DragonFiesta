@@ -231,17 +231,14 @@ namespace Zepheus.Zone.Data
             using (var packet = new Packet(SH19Type.SendAddItem))
             {
                 packet.WriteByte(TradepSlot);
-              if(pItem is Equip)
-              {
-                  Equip eq = pItem as Equip;
-                  eq.WritEquipInfo(packet);
-              }
-              else
-              {
-                  Item item = pItem as Item;
-                
-                  item.WriteItemStats(packet);
-              }
+                if (pItem.ItemInfo.Slot == ItemSlot.None)
+
+                    pItem.WriteStats(packet);
+
+                else
+
+                   pItem.WriteEquipStats(packet);
+
               pClient.SendPacket(packet);
             }
 

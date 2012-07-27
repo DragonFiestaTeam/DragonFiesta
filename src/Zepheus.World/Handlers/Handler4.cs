@@ -30,7 +30,7 @@ namespace Zepheus.World.Handlers
                     client.Characters.Clear(); //we clear the other ones from memory
                     client.Character = character; //only keep the one selecte
                     //Database.Storage.Characters.AddChars(character.Character);
-                    zone.SendTransferClientFromZone(client.AccountID, client.Username, client.Character.Character.Name, client.RandomID, client.Admin, client.Host);
+                    zone.SendTransferClientFromZone(client.AccountID, client.Username, client.Character.Character.Name,client.Character.ID, client.RandomID, client.Admin, client.Host);
                     ClientManager.Instance.AddClientByName(client); //so we can look them up fast using charname later.
                     SendZoneServerIP(client, zone);
                 }
