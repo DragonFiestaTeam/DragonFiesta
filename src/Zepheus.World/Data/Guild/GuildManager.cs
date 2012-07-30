@@ -409,10 +409,7 @@ namespace Zepheus.World.Data.Guilds
                                 {
                                     Direction = ParameterDirection.Output
                                 });
-
-
-
-                            result = (int)cmd.ExecuteScalar();
+                            result = Convert.ToInt32(cmd.ExecuteScalar());
                             guildID = (int)idParam.Value;
                         }
 

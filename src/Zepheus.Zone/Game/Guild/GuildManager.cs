@@ -9,6 +9,7 @@ using Zepheus.InterLib.Networking;
 using Zepheus.InterLib;
 using System.Collections.Generic;
 using Zepheus.Zone.Managers;
+using Zepheus.Zone.InterServer;
 
 namespace Zepheus.Zone.Game.Guilds
 {
@@ -112,11 +113,11 @@ namespace Zepheus.Zone.Game.Guilds
         #region Internal Client Handlers
 
         [InterPacketHandler(InterHeader.ZONE_GuildCreated)]
-        public static void On_InterClient_GuildCreated(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildCreated(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -144,11 +145,11 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMemberLogin)]
-        public static void On_InterClient_GuildMemberLogin(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMemberLogin(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -175,11 +176,11 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMemberLogout)]
-        public static void On_InterClient_GuildMemberLogout(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMemberLogout(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
 
                 return;
@@ -198,17 +199,17 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMessageUpdate)]
-        public static void On_InterClient_GuildMessageUpdate(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMessageUpdate(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
             DateTime createTime;
             ushort length;
             string message;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID)
-                || !Packet.TryReadDateTime(out createTime)
-                || !Packet.TryReadUShort(out length)
-                || !Packet.TryReadString(out message, length))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID)
+                || !pPacket.TryReadDateTime(out createTime)
+                || !pPacket.TryReadUShort(out length)
+                || !pPacket.TryReadString(out message, length))
             {
                 return;
             }
@@ -225,15 +226,15 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMemberAdd)]
-        public static void On_InterClient_GuildMemberAdd(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMemberAdd(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
             byte rank;
             ushort corp;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID)
-                || !Packet.TryReadByte(out rank)
-                || !Packet.TryReadUShort(out corp))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID)
+                || !pPacket.TryReadByte(out rank)
+                || !pPacket.TryReadUShort(out corp))
             {
                 return;
             }
@@ -271,11 +272,11 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMemberRemove)]
-        public static void On_InterClient_GuildMemberRemove(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMemberRemove(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -312,13 +313,13 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
         [InterPacketHandler(InterHeader.ZONE_GuildMemberRankUpdate)]
-        public static void On_InterClient_GuildMemberRankUpdate(InterClient Client, InterPacket Packet)
+        public static void On_InterClient_GuildMemberRankUpdate(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
             byte newRank;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID)
-                || !Packet.TryReadByte(out newRank))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID)
+                || !pPacket.TryReadByte(out newRank))
             {
                 return;
             }

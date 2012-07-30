@@ -6,6 +6,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Game.Guilds.Academy;
+using Zepheus.InterLib.Encryption;
 
 namespace Zepheus.Zone.Game.Guilds
 {
@@ -19,14 +20,14 @@ namespace Zepheus.Zone.Game.Guilds
             get
             {
                 var data = _Password;
-               // InterCrypto.Decrypt(ref data, 0, data.Length);
-
+              // InterCrypto.DecryptData(ref data, 0, data.Length);
+         
                 return Encoding.UTF8.GetString(data);
             }
             set
             {
                 var data = Encoding.UTF8.GetBytes(value);
-              //  InterCrypto.Encrypt(ref data, 0, data.Length);
+               //  InterCrypto.EncryptData(ref data, 0, data.Length);
 
                 _Password = data;
             }
@@ -54,20 +55,20 @@ namespace Zepheus.Zone.Game.Guilds
         public Guild(MySqlDataReader reader, MySqlConnection con)
         {
             ID = reader.GetInt32("ID");
-            Name = reader.GetString("Name");
+            Name = reader.GetString("GuildName");
            // _Password = (byte[])reader.GetValue("Password");
             _Password = new byte[12];
-            AllowGuildWar = reader.GetBoolean("GuildWar");
-            Message = reader.GetString(4);
-            MessageCreateTime = reader.GetDateTime(5);
-            MessageCreaterID = reader.GetInt32(6);
-            CreateTime = reader.GetDateTime(7);
+            AllowGuildWar = reader.GetBoolean("AllowGuildWar");
+            Message = reader.GetString("GuildMessage");
+            MessageCreateTime = reader.GetDateTime(7);
+            MessageCreaterID = reader.GetInt32("CreaterID");
+            CreateTime = DateTime.Now;//read later
 
 
             Members = new List<GuildMember>();
             ThreadLocker = new object();
 
-            Load(con);
+            Load();
         }
         public void Dispose()
         {
@@ -88,10 +89,10 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
 
-        private void Load(MySqlConnection con)
+        private void Load()
         {
             //members
-            using (var cmd = con.CreateCommand())
+            using (var cmd = Program.CharDBManager.GetClient().GetConnection().CreateCommand())
             {
                 cmd.CommandText = "SELECT * FROM GuildMembers WHERE GuildID = @pGuildID";
 
@@ -110,7 +111,7 @@ namespace Zepheus.Zone.Game.Guilds
             }
 
             //academy
-            Academy = new GuildAcademy(this, con);
+            Academy = new GuildAcademy(this);
         }
 
 

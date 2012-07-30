@@ -58,7 +58,7 @@ namespace Zepheus.World.Data.Guilds
                 using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "dbo.GuildMember_Save";
+                    cmd.CommandText = "GuildMember_Save";
 
                     cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
                     cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Character.ID));

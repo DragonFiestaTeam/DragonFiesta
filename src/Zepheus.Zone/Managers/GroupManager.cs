@@ -49,10 +49,11 @@ namespace Zepheus.Zone
 				{
 					var client = ClientManager.Instance.GetClientByCharName(member.Name);
 					var chara = client.Character;
-
+                    
 					member.Character = chara;
 					chara.Group = group;
 					chara.GroupMember = member;
+                    chara.GroupMember.IsOnline = true;
 				}
 			}
 		}

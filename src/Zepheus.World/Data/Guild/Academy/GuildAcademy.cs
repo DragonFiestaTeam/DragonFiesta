@@ -100,7 +100,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                 using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "dbo.GuildAcademy_Save";
+                    cmd.CommandText = "GuildAcademy_Save";
 
 
                     cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
@@ -246,7 +246,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                     using (var cmd = con.CreateCommand())
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "dbo.GuildAcademyMember_Create";
+                        cmd.CommandText = "GuildAcademyMember_Create";
 
                         cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
                         cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Character.ID));
@@ -326,7 +326,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                     using (var cmd = con.CreateCommand())
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.CommandText = "dbo.GuildAcademyMember_Remove";
+                        cmd.CommandText = "GuildAcademyMember_Remove";
 
                         cmd.Parameters.Add(new MySqlParameter("@pGuildID", Guild.ID));
                         cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Member.Character.ID));

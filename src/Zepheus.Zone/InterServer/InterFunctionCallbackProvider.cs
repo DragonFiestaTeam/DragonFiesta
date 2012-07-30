@@ -61,6 +61,10 @@ namespace Zepheus.Zone.InterServer
 		}
 		internal void OnResult(long id, object result)
 		{
+            if (id == 0)
+            {
+                return;
+            }
 			results.Add(id, result);
 			waithandlers[id].ReleaseMutex();
 		}

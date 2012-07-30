@@ -5,6 +5,7 @@ using Zepheus.InterLib.Networking;
 using Zepheus.Zone.Game;
 using Zepheus.InterLib;
 using Zepheus.Zone.Managers;
+using Zepheus.Zone.InterServer;
 
 namespace Zepheus.Zone.Game.Guilds.Academy
 {
@@ -12,13 +13,13 @@ namespace Zepheus.Zone.Game.Guilds.Academy
     {
         #region Internal Client Handlers
         [InterPacketHandler(InterHeader.ZONE_AcademyMemberJoined)]
-        public static void On_WorldClient_AcademyMemberJoined(InterClient Client, InterPacket Packet)
+        public static void On_WorldClient_AcademyMemberJoined(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
             DateTime registerDate;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID)
-                || !Packet.TryReadDateTime(out registerDate))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID)
+                || !pPacket.TryReadDateTime(out registerDate))
             {
                 return;
             }
@@ -51,11 +52,11 @@ namespace Zepheus.Zone.Game.Guilds.Academy
         }
 
         [InterPacketHandler(InterHeader.ZONE_AcademyMemberLeft)]
-        public static void On_WorldClient_AcademyMemberLeft(InterClient Client, InterPacket Packet)
+        public static void On_WorldClient_AcademyMemberLeft(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -86,11 +87,11 @@ namespace Zepheus.Zone.Game.Guilds.Academy
         }
 
         [InterPacketHandler(InterHeader.ZONE_AcademyMemberOnline)]
-        public static void On_WorldClient_AcademyMemberOnline(InterClient Client, InterPacket Packet)
+        public static void On_WorldClient_AcademyMemberOnline(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -119,11 +120,11 @@ namespace Zepheus.Zone.Game.Guilds.Academy
         }
 
         [InterPacketHandler(InterHeader.ZONE_AcademyMemberOffline)]
-        public static void On_WorldClient_AcademyMemberOffline(InterClient Client, InterPacket Packet)
+        public static void On_WorldClient_AcademyMemberOffline(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID, characterID;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadInt(out characterID))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadInt(out characterID))
             {
                 return;
             }
@@ -152,14 +153,14 @@ namespace Zepheus.Zone.Game.Guilds.Academy
         }
 
         [InterPacketHandler(InterHeader.ZONE_AcademyBuffUpdate)]
-        public static void On_WorldClient_AcademyBuffUpdate(InterClient Client, InterPacket Packet)
+        public static void On_WorldClient_AcademyBuffUpdate(WorldConnector pConnector, InterPacket pPacket)
         {
             int guildID;
             DateTime updateTime;
             double keepTime;
-            if (!Packet.TryReadInt(out guildID)
-                || !Packet.TryReadDateTime(out updateTime)
-                || !Packet.TryReadDouble(out keepTime))
+            if (!pPacket.TryReadInt(out guildID)
+                || !pPacket.TryReadDateTime(out updateTime)
+                || !pPacket.TryReadDouble(out keepTime))
             {
                 //Client.Dispose();
                 return;

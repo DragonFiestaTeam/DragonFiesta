@@ -61,7 +61,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
             using (var cmd = con.CreateCommand())
             {
-                cmd.CommandText = "dbo.GuildAcademyMember_Save";
+                cmd.CommandText = "GuildAcademyMember_Save";
                 cmd.CommandType = CommandType.StoredProcedure;
 
 

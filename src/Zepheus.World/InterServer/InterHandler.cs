@@ -238,14 +238,15 @@ namespace Zepheus.World.InterServer
 				Log.WriteLine(LogLevel.Warn, "Uh oh, Zone {0} tried to transfer {1} to zone {1} D:", zc.ID, charname, zoneid);
 			}
 		}
-        public static void SendGetCharacterBroaucast(WorldCharacter pChar,FiestaLib.Networking.Packet Packet)
+        public static void SendGetCharacterBroaucast(WorldCharacter pChar,FiestaLib.Networking.Packet pPacket)
         {
             ZoneConnection conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
             using (var packet = new InterPacket(InterHeader.GetBroadcastList))
             {
+                int lol = pPacket.ToArray().Length;
                 packet.WriteString(pChar.Character.Name, 16);
-                packet.WriteInt(packet.ToArray().Length);
-                packet.WriteBytes(packet.ToArray());
+                packet.WriteInt(pPacket.ToArray().Length);
+                packet.WriteBytes(pPacket.ToArray());
                 conn.SendPacket(packet);
             }
         }

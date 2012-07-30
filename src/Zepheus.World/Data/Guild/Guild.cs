@@ -180,7 +180,7 @@ namespace Zepheus.World.Data.Guilds
                 using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "dbo.Guild_Save";
+                    cmd.CommandText = "Guild_Save";
 
                     cmd.Parameters.Add(new MySqlParameter("@pID", ID));
                     cmd.Parameters.Add(new MySqlParameter("@pName", Name));
@@ -327,10 +327,11 @@ namespace Zepheus.World.Data.Guilds
                 }
 
                 //add to db
+                int result;
                 using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandText = "dbo.GuildMember_Create";
+                    cmd.CommandText = "GuildMember_Create";
 
                     cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
                     cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Character.ID));
@@ -339,9 +340,10 @@ namespace Zepheus.World.Data.Guilds
 
 
 
-                    cmd.ExecuteNonQuery();
+                   result  = Convert.ToInt32(cmd.ExecuteScalar());
                 }
-
+                if (result == -1)
+                    return;
                 //create object
                 var newMember = new GuildMember(this, Character, Rank, 0);
 
@@ -423,7 +425,7 @@ namespace Zepheus.World.Data.Guilds
                 //remove from db
                 using (var cmd = con.CreateCommand())
                 {
-                    cmd.CommandText = "dbo.GuildMember_Remove";
+                    cmd.CommandText = "GuildMember_Remove";
 
                     cmd.Parameters.Add(new MySqlParameter("@pGuildID", ID));
                     cmd.Parameters.Add(new MySqlParameter("@pCharacterID", Member.Character.ID));

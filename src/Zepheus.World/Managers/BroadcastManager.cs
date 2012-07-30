@@ -16,9 +16,9 @@ namespace Zepheus.World.Managers
             Instance = new BroadcastManager();
             return true;
         }
-        public void BroadcastInRange(WorldCharacter pCahr, Packet pPacket, bool ToAll)
+        public void BroadcastInRange(WorldCharacter pChar, Packet pPacket, bool ToAll)
         {
-            // todo
+            pChar.BroucastPacket(pPacket);
         }
     }
 }

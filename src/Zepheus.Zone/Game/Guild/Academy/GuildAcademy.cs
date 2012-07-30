@@ -25,10 +25,9 @@ namespace Zepheus.Zone.Game.Guilds.Academy
 
 
 
-        public GuildAcademy(Guild Guild, MySqlConnection con)
+        public GuildAcademy(Guild Guild)
         {
             this.Guild = Guild;
-
 
             Members = new List<GuildAcademyMember>();
         }
@@ -42,9 +41,10 @@ namespace Zepheus.Zone.Game.Guilds.Academy
             Members.Clear();
             Members = null;
         }
-        private void Load(MySqlConnection con)
+        private void Load()
         {
             //load academy info
+            MySqlConnection con = Program.CharDBManager.GetClient().GetConnection();
             using (var cmd = con.CreateCommand())
             {
                 cmd.CommandText = "SELECT * FROM GuildAcademy WHERE GuildID = @pGuildID";
