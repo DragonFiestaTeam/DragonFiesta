@@ -247,27 +247,24 @@ namespace Zepheus.FiestaLib
 
     public enum SH29Type : byte
     {
-        SendRequesterResponse = 10,
-        SendGuildInvideRequest = 11,
-        GuildKickResponse = 15,
-        ChangeGuildMessageResponse = 17,
-        KickFromGuildForMember = 20,
-        RankChangeResponse = 23,
-        LeaveResponse = 29,
+        SendGuildList = 4,
+        CreateGuildResponse = 6,
+        GuildInviteError = 10,
+        GuildInviteRequest = 11,
+        UpdateGuildMessageResponse = 17,
+        UpdateGuildMemberRankResponse = 23,
+        GuildMemberList = 27,
+        LeaveGuildResponse = 29,
+        SendUpdateGuildDetails = 45,
+        GuildMemberJoined = 54,
+        GuildMemberLeft = 56,
+        UpdateGuildMemberRank = 57,
+        GuildMemberLoggedIn = 61,
+        GuildMemberLoggedOut = 62,
+        GuildChat = 116,
+        GuildNameResult = 119,
         ClearGuildDetailsMessage = 191,
         UnkMessageChange = 196,
-        GuildList = 27,
-        RemoveFromGuild = 29,
-        ChangeResponse = 39,
-        SendUpdateDetails = 45,
-        AddGuildMember = 54,
-        GuildMemberKick = 55,
-        RemoveGuildMember = 56,
-        ChangeRank = 57,
-        SendMemberGoOnline = 61,
-        SendMemberGoOffline = 62,
-        GuildChatMessage = 116,
-        GuildNameResult = 119,
 
     }
     public enum SH37Type : byte
@@ -291,29 +288,22 @@ namespace Zepheus.FiestaLib
     }
     public enum SH38Type : byte
     {
-        GuildAcademyDetails = 8,// Send When Join
-        GuildAcademyList = 14,
-        GuildAcademyRequest = 18,
-        GuildAcademyJoin = 19,
-        GuildAcademyChangeDetailsResponse = 37,
-        GuildAcademyChangeDetails = 38,
-        KickResponse = 23,
-        KickGuildAcademyMember = 24,
-        GuildAcademyLeaveResponse = 28,//6052 = failed becouase hour 6016 // Succfuell
-        BlockMessage = 35,
-        ChangeResponsePacket = 42,
-        ChangeRequest = 43,
-        JoinGuildFromAcademy = 46,
-        GuildAcademyDekanChange = 91,
-        GuildAcademyMemberLeave = 96,
-        GuildAcademyMemberLoggetOn = 97,
-        GuildAcademyMemberOffline = 98,
-        GuildAcademyMemberChangeMap = 99,
-        GuildAcademyMemberLevelUp = 102,
-        GuildAcademMemberChangeJob = 103,
-        GuildAcademyChatessage = 105,
-        ChatBlock = 106,
-        GuildAcademyReward = 115,
+        SendAcademyList = 12,
+        SendAcademyMemberList = 14,
+        AcademyResponse = 18,
+        AcademyMemberJoined = 19,
+        LeaveAcademyResponse = 28,
+
+
+        AcademyMemberLeft = 96,
+        AcademyMemberLoggedIn = 97,
+        AcademyMemberLoggedOut = 98,
+        AcademyMemberLevelUp = 102,
+
+        AcademyChat = 105,
+        AcademyChatBlocked = 106,
+
+
     }
     public enum SH42Type : byte
     {

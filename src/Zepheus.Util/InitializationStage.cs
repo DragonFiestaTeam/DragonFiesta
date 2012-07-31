@@ -9,6 +9,8 @@ namespace Zepheus.Util
 		SpecialDataProvider = 4,
 		Worker = 5,
 		Clients = 6,
-		Networking = 7
+        CharacterManager = 7,
+        GuildProvider = 8,
+		Networking = 9,
 	}
 }

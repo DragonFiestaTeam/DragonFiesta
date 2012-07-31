@@ -13,15 +13,17 @@ namespace Zepheus.World.Handlers
            if (!client.Character.IsIngame)
            {
                client.Character.IsIngame = true;
+            
                client.Character.OneIngameLoginLoad();
                MasterManager.Instance.SendMasterList(client);
                //SendMasterList(pClient);
            }
-           /*using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
+           Managers.CharacterManager.InvokdeIngame(client.Character);
+          /* using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
            {
-           if(client.Character.Academy != null)
+           if(client.Character.GuildAcademy != null)
            {
-               client.Character.Academy.Details.WriteMessageAsGuildAcadmyler(p1,client.Character.Academy);
+    
               
            }
            else

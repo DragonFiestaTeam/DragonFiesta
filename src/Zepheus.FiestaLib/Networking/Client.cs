@@ -190,7 +190,7 @@ namespace Zepheus.FiestaLib.Networking
 
         public void SendPacket(Packet pPacket)
         {
-           Send(pPacket.ToArray());
+           Send(pPacket.ToPacketArray());
         }
 
         private void BeginSend()

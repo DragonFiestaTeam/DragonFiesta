@@ -60,7 +60,7 @@ namespace Zepheus.Zone.Game.Guilds
             _Password = new byte[12];
             AllowGuildWar = reader.GetBoolean("AllowGuildWar");
             Message = reader.GetString("GuildMessage");
-            MessageCreateTime = reader.GetDateTime(7);
+            MessageCreateTime = reader.GetDateTime(8);
             MessageCreaterID = reader.GetInt32("CreaterID");
             CreateTime = DateTime.Now;//read later
 
@@ -70,6 +70,7 @@ namespace Zepheus.Zone.Game.Guilds
 
             Load();
         }
+       
         public void Dispose()
         {
             Name = null;

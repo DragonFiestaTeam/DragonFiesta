@@ -192,7 +192,7 @@ namespace Zepheus.World.Data.Guilds.Academy
         }
         private Packet GetMemberListPacket(int Start, int End)
         {
-            var packet = new Packet(SH38Type.GuildAcademyList);
+            var packet = new Packet(SH38Type.SendAcademyMemberList);
 
             packet.WriteUShort((ushort)Members.Count);
             packet.WriteUShort((ushort)(Members.Count - End));
@@ -280,7 +280,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                                 }
 
                                 member.BroadcastGuildName();
-                                using (var packet = new Packet(SH38Type.GuildAcademyJoin))
+                                using (var packet = new Packet(SH38Type.AcademyMemberJoined))
                                 {
                                     member.WriteInfo(packet);
 
@@ -350,14 +350,14 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
                 //send packets
-                using (var packet = new Packet(SH38Type.GuildAcademyLeaveResponse))
+                using (var packet = new Packet(SH38Type.LeaveAcademyResponse))
                 {
                     packet.WriteUShort((ushort)GuildAcademyResponse.LeaveSuccess);
 
                     
                     Member.Character.Client.SendPacket(packet);
                 }
-                using (var packet = new Packet(SH38Type.GuildAcademyMemberLeave))
+                using (var packet = new Packet(SH38Type.AcademyMemberLeft))
                 {
                     packet.WriteString(Member.Character.Character.Name, 16);
 

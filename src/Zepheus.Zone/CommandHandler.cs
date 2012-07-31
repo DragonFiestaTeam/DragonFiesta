@@ -455,7 +455,7 @@ namespace Zepheus.Zone
         private void Testg(ZoneCharacter character, params string[] param)
         {
             //05 58 00 04 0A 7A 0F 00 90 2B
-            using (var pack = new Packet(SH38Type.JoinGuildFromAcademy))
+            using (var pack = new Packet(SH38Type.AcademyMemberJoined))
             {
                 pack.WriteString("invider", 16);
                 pack.WriteString("Create", 16);

@@ -87,24 +87,20 @@ namespace Zepheus.World.Data.Guilds
             : this()
         {
             ID = reader.GetInt32("ID");
-
-            Name = reader.GetString("Name");
-           //_Password = 
-
-            AllowGuildWar = reader.GetBoolean("GuildWar");
-
+            Name = reader.GetString("GuildName");
+            // _Password = (byte[])reader.GetValue("Password");
+            _Password = new byte[12];
+            AllowGuildWar = reader.GetBoolean("AllowGuildWar");
+         
             Message = reader.GetString("GuildMessage");
-            MessageCreateTime = reader.GetDateTime("GuildMessageCreateDate");
-
+            MessageCreateTime = reader.GetDateTime(8);
+            CreateTime = DateTime.Now;//read later
 
             WorldCharacter creater;
             if (!CharacterManager.Instance.GetCharacterByID(reader.GetInt32("GuildMessageCreater"), out creater))
                 throw new InvalidOperationException("Can't find character which created guild message. Character ID: " + reader.GetInt32("GuildMessageCreater"));
 
             MessageCreater = creater;
-
-            CreateTime = reader.GetDateTime("GuildMessageCreateDate");
-
             
             Load();
         }
@@ -150,13 +146,14 @@ namespace Zepheus.World.Data.Guilds
            {
                         //get character
                         WorldCharacter character;
-                        if (!CharacterManager.Instance.GetCharacterByID((int)row["CharName"], out character))
+                        if (!CharacterManager.Instance.GetCharacterByID(Convert.ToInt32(row["CharID"]), out character))
                             continue;
 
                         var member = new GuildMember(this,
+
                                                      character,
-                                                     (GuildRank)row["Rank"],
-                                                     (ushort)row["Korp"]);
+                                                     (GuildRank)GetDataTypes.GetByte(row["Rank"]),
+                                                     GetDataTypes.GetUshort(row["Korp"]));
 
                         Members.Add(member);
                }
@@ -165,7 +162,6 @@ namespace Zepheus.World.Data.Guilds
             //academy
             Academy = new GuildAcademy(this);
         }
-
         public void Save(MySqlConnection con = null)
         {
             lock (ThreadLocker)
@@ -272,7 +268,14 @@ namespace Zepheus.World.Data.Guilds
             Packet.WriteInt(10);//unk
             Packet.WriteUShort(2);
             Packet.Fill(6, 0);//unk
-            Packet.WriteString(MessageCreater.Character.Name, 16);
+            if(MessageCreater.Character.Name == null)
+            {
+            Packet.WriteString("", 16);
+            }
+            else
+            {
+                Packet.WriteString(MessageCreater.Character.Name, 16);
+            }
             Packet.WriteString(Message, 512);//details message
         }
         public void SendMemberList(WorldClient Client)
@@ -293,7 +296,7 @@ namespace Zepheus.World.Data.Guilds
             var left = (Members.Count - End);
 
 
-            var packet = new Packet(SH29Type.GuildList);
+            var packet = new Packet(SH29Type.SendGuildList);
 
             packet.WriteUShort((ushort)Members.Count);
             packet.WriteUShort((ushort)left);
@@ -361,14 +364,14 @@ namespace Zepheus.World.Data.Guilds
                     newMember.BroadcastGuildName();
 
                     //broadcast that guild member joined
-                    using (var packet = new Packet(SH29Type.AddGuildMember))
+                    using (var packet = new Packet(SH29Type.GuildMemberJoined))
                     {
                         newMember.WriteInfo(packet);
 
 
                         Broadcast(packet, newMember);
                     }
-                    using (var packet = new Packet(SH29Type.SendMemberGoOnline))
+                    using (var packet = new Packet(SH29Type.GuildMemberLoggedIn))
                     {
                         packet.WriteString(newMember.Character.Character.Name, 16);
 
@@ -448,7 +451,7 @@ namespace Zepheus.World.Data.Guilds
                 //broadcast member left packet
                 if (BroadcastRemove)
                 {
-                    using (var packet = new Packet(SH29Type.RemoveGuildMember))
+                    using (var packet = new Packet(SH29Type.GuildMemberLeft))
                     {
                         packet.WriteString(Member.Character.Character.Name);
 
@@ -487,7 +490,7 @@ namespace Zepheus.World.Data.Guilds
 
 
             //broadcast to members
-            using (var packet = new Packet(SH29Type.ChangeRank))
+            using (var packet = new Packet(SH29Type.UpdateGuildMemberRank))
             {
                 packet.WriteString(Member.Character.Character.Name, 16);
                 packet.WriteByte((byte)NewRank);

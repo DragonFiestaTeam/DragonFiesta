@@ -243,10 +243,10 @@ namespace Zepheus.World.InterServer
             ZoneConnection conn = Program.GetZoneByMap(pChar.Character.PositionInfo.Map);
             using (var packet = new InterPacket(InterHeader.GetBroadcastList))
             {
-                int lol = pPacket.ToArray().Length;
+              
                 packet.WriteString(pChar.Character.Name, 16);
-                packet.WriteInt(pPacket.ToArray().Length);
-                packet.WriteBytes(pPacket.ToArray());
+                packet.WriteInt(pPacket.ToNormalArray().Length);
+                packet.WriteBytes(pPacket.ToNormalArray());
                 conn.SendPacket(packet);
             }
         }

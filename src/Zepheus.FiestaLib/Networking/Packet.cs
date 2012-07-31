@@ -387,7 +387,7 @@ namespace Zepheus.FiestaLib.Networking
 
 		#endregion
 
-		public byte[] ToArray()
+		public byte[] ToPacketArray()
 		{
 			//TODO: faster buffer copy
 			byte[] buffer;
@@ -406,7 +406,11 @@ namespace Zepheus.FiestaLib.Networking
 			}
 			return buffer;
 		}
+        public byte[] ToNormalArray()
+        {
+         return this.memoryStream.ToArray();
 
+        }
 
 		public string Dump()
 		{

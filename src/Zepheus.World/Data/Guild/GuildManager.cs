@@ -33,10 +33,36 @@ namespace Zepheus.World.Data.Guilds
             ThreadLocker = new object();
 
             LoadedGuilds = new List<Guild>();
-
-            CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
+            CharacterManager.CharacterLogin += CharacterManager.OneLoadGuildInCharacter;//were load Guild to char
+            CharacterManager.CharacterLogin += On_CharacterManager_CharacterLogin;
             CharacterManager.OnCharacterLogout += On_CharacterManager_CharacterLogout;
             return true;
+        }
+         private static void On_CharacterManager_GuildDetails(WorldCharacter Character)
+        {
+            if (Character.IsInGuild)
+            {
+                using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
+                {
+                    Character.Guild.WriteGuildInfo(p2);
+                    Character.Client.SendPacket(p2);
+                }
+            }
+            else
+            {
+            }
+             if(Character.IsInGuildAcademy)
+             {
+                 using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
+                 {
+                     Character.GuildAcademy.WriteInfo(p1);
+                     Character.Client.SendPacket(p1);
+                 }
+             }
+        }
+        public static void AddGuildToList(Guild pGuild)
+        {
+         LoadedGuilds.Add(pGuild);
         }
         private static void On_CharacterManager_CharacterLogin(WorldCharacter Character)
         {
@@ -63,7 +89,7 @@ namespace Zepheus.World.Data.Guilds
                 if (guild.GetMember(Character.Character.Name, out member))
                 {
                     //send guild member logged in to other guild members
-                    using (var packet = new Packet(SH29Type.SendMemberGoOnline))
+                    using (var packet = new Packet(SH29Type.GuildMemberLoggedIn))
                     {
                         packet.WriteString(Character.Character.Name, 16);
 
@@ -142,7 +168,7 @@ namespace Zepheus.World.Data.Guilds
                 && Character.Guild.GetMember(Character.Character.Name, out member))
             {
                 //send guild member logged out to other guild members
-                using (var packet = new Packet(SH29Type.SendMemberGoOffline))
+                using (var packet = new Packet(SH29Type.GuildMemberLoggedOut))
                 {
                     packet.WriteString(Character.Character.Name, 16);
 
@@ -254,7 +280,7 @@ namespace Zepheus.World.Data.Guilds
         #region Game Client Handlers
 
         
-        [PacketHandler(CH29Type.GuildListReqest)]
+        [PacketHandler(CH29Type.GetGuildList)]
         public static void On_GameClient_GetGuildList(WorldClient Client, Packet Packet)
         {
             if (Client.Character == null)
@@ -282,7 +308,7 @@ namespace Zepheus.World.Data.Guilds
                             cmd.CommandText = "SELECT COUNT(*) FROM Guilds";
 
 
-                            guildCount = (int)cmd.ExecuteScalar();
+                            guildCount = Convert.ToInt32(cmd.ExecuteScalar());
                         }
 
 
@@ -301,7 +327,7 @@ namespace Zepheus.World.Data.Guilds
                                 {
                                     if (listPacket == null)
                                     {
-                                        listPacket = new Packet(SH29Type.GuildList);
+                                        listPacket = new Packet(SH29Type.SendGuildList);
                                         listPacket.WriteUShort(3137);
                                         listPacket.WriteByte(1);
                                         listPacket.WriteUShort((ushort)guildCount);
@@ -480,7 +506,7 @@ namespace Zepheus.World.Data.Guilds
         }
         private static void SendGuildCreateResponse(WorldClient Client, string Name, string Password, bool AllowGuildWar, GuildCreateResponse Response)
         {
-            using (var packet = new Packet(SH29Type.SendRequesterResponse))
+            using (var packet = new Packet(SH29Type.CreateGuildResponse))
             {
             
                 packet.WriteUShort((ushort)Response);
@@ -520,7 +546,7 @@ namespace Zepheus.World.Data.Guilds
         }
 
 
-        [PacketHandler(CH29Type.GuildListReqest)]
+        [PacketHandler(CH29Type.GuildMemberListRequest)]
         public static void On_GameClient_GuildMemberListRequest(WorldClient Client, Packet Packet)
         {
             if (Client.Character == null)
@@ -535,7 +561,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.ChangeGuildDetails)]
+        [PacketHandler(CH29Type.UpdateGuildMessage)]
         public static void On_GameClient_UpdateGuildMessage(WorldClient Client, Packet Packet)
         {
             ushort length;
@@ -562,7 +588,7 @@ namespace Zepheus.World.Data.Guilds
 
                 Client.SendPacket(packet);
             }
-            using (var packet = new Packet(SH29Type.ChangeGuildMessageResponse))
+            using (var packet = new Packet(SH29Type.UpdateGuildMessageResponse))
             {
                 packet.WriteUShort(3137);
                 Client.SendPacket(packet);
@@ -582,7 +608,7 @@ namespace Zepheus.World.Data.Guilds
 
 
                 //broadcast packet to all guild members
-                using (var packet = new Packet(SH29Type.SendUpdateDetails))
+                using (var packet = new Packet(SH29Type.SendUpdateGuildDetails))
                 {
                     packet.Fill(4, 0x00);
                     packet.WriteInt(Client.Character.Guild.MessageCreateTime.Second);
@@ -617,7 +643,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.GuildLeaveByMember)]
+        [PacketHandler(CH29Type.LeaveGuild)]
         public static void On_GameClient_LeaveGuild(WorldClient Client, Packet pPacket)
         {
             if (Client.Character.Guild == null)
@@ -631,7 +657,7 @@ namespace Zepheus.World.Data.Guilds
             {
                 Client.Character.Guild.RemoveMember(member, null, true);
 
-                using (var packet = new Packet(SH29Type.LeaveResponse))
+                using (var packet = new Packet(SH29Type.LeaveGuildResponse))
                 {
                     packet.WriteShort(3137);
 
@@ -640,7 +666,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.GuildInvideRequest)]
+        [PacketHandler(CH29Type.GuildInviteRequest)]
         public static void On_GameClient_GuildInviteRequest(WorldClient Client, Packet Packet)
         {
             string targetName;
@@ -670,7 +696,7 @@ namespace Zepheus.World.Data.Guilds
 
 
             //send invite to target
-            using (var packet = new Packet(SH29Type.SendGuildInvideRequest))
+            using (var packet = new Packet(SH29Type.GuildInviteRequest))
             {
                 packet.WriteString(Client.Character.Guild.Name, 16);
                 packet.WriteString(Client.Character.Character.Name, 16);
@@ -682,7 +708,7 @@ namespace Zepheus.World.Data.Guilds
         }
         private static void SendGuildInviteError(Client Client, string TargetName, GuildInviteError Error)
         {
-            using (var packet = new Packet(SH29Type.SendGuildInvideRequest))
+            using (var packet = new Packet(SH29Type.GuildInviteError))
             {
                 packet.WriteString(TargetName, 16);
                 packet.WriteUShort((ushort)Error);
@@ -692,7 +718,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.GuildRquestAnswer)]
+        [PacketHandler(CH29Type.GuildInviteResponse)]
         public static void On_GameClient_GuildInviteResponse(WorldClient Client, Packet pPacket)
         {
             string guildName;
@@ -713,7 +739,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.GuildChatClientMessage)]
+        [PacketHandler(CH29Type.GuildChat)]
         public static void On_GameClient_GuildChat(WorldClient Client, Packet pPacket)
         {
             byte len;
@@ -730,7 +756,7 @@ namespace Zepheus.World.Data.Guilds
 
             if (Client.Character.Guild != null)
             {
-                using (var packet = new Packet(SH29Type.GuildChatMessage))
+                using (var packet = new Packet(SH29Type.GuildChat))
                 {
                     packet.WriteInt(Client.Character.Guild.ID);
                     packet.WriteString(Client.Character.Character.Name, 16);
@@ -744,7 +770,7 @@ namespace Zepheus.World.Data.Guilds
             }
         }
 
-        [PacketHandler(CH29Type.ChangeMemberRank)]
+        [PacketHandler(CH29Type.UpdateGuildMemberRank)]
         public static void On_GameClient_UpdateGuildMemberRank(WorldClient Client, Packet Packet)
         {
             string targetName;
@@ -774,7 +800,7 @@ namespace Zepheus.World.Data.Guilds
 
                         Client.Character.Guild.UpdateMemberRank(target, newRank);
 
-                        using (var packet = new Packet(SH29Type.RankChangeResponse))
+                        using (var packet = new Packet(SH29Type.UpdateGuildMemberRankResponse))
                         {
                             packet.WriteString(targetName, 16);
                             packet.WriteByte(newRankByte);

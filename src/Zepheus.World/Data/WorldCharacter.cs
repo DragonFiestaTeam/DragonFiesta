@@ -507,17 +507,20 @@ namespace Zepheus.World.Data
         }
        public void OneIngameLoginLoad()
         {
+        
+            this.UpdateFriendsStatus(true, this.Client);//Write Later As Event
+            this.WriteBlockList();
+            this.LoadMasterList();
+            this.SendReciveMasterCoper();
 
-            /* this.LoadBlockUserList();
-             this.UpdateFriendsStatus(true,this.Client);
-             this.WriteBlockList();
-             this.LoadMasterList();
-             this.SendReciveMasterCoper();
+            CharacterManager.invokeLoggetInEvent(this);
+            /* 
              LoadGuild();*/
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);
 
 
         }
+       
 		private void UpdateGroupStatus()
 		{
 			this.GroupMember.IsOnline = this.IsIngame;

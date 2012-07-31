@@ -357,7 +357,7 @@ namespace Zepheus.Database
         {
             this.IsBussy = true;
             Command.CommandText = query;
-            Int32 result = Int32.Parse(Command.ExecuteScalar().ToString());
+            Int32 result = Convert.ToInt32(Command.ExecuteScalar());
            // Command.CommandText = null;
             return result;
         }

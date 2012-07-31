@@ -36,7 +36,7 @@ namespace Zepheus.World.Data.Guilds.Academy
         {
             if (Character.IsInGuildAcademy)
             {
-                using (var packet = new Packet(SH38Type.GuildAcademyMemberLoggetOn))
+                using (var packet = new Packet(SH38Type.AcademyMemberLoggedIn))
                 {
                     packet.WriteString(Character.Character.Name, 16);
 
@@ -59,7 +59,7 @@ namespace Zepheus.World.Data.Guilds.Academy
         {
             if (Character.IsInGuildAcademy)
             {
-                using (var packet = new Packet(SH38Type.GuildAcademyMemberOffline))
+                using (var packet = new Packet(SH38Type.AcademyMemberLoggedOut))
                 {
                     packet.WriteString(Character.Character.Name, 16);
 
@@ -83,7 +83,7 @@ namespace Zepheus.World.Data.Guilds.Academy
             //fix later
             if (Character.IsInGuildAcademy)
             {
-                using (var packet = new Packet(SH38Type.GuildAcademyMemberLevelUp))
+                using (var packet = new Packet(SH38Type.AcademyMemberLevelUp))
                 {
                     packet.WriteString(Character.Character.Name, 16);
                     packet.WriteByte(Character.Character.CharLevel);
@@ -158,7 +158,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
         #region Game Client Handlers
 
-        [PacketHandler(CH38Type.GetGuildAcademyListRequest)]
+        [PacketHandler(CH38Type.GetAcademyList)]
         public static void On_GameClient_GetAcademyList(WorldClient Client, Packet pPacket)
         {
             if (Client.Character == null)
@@ -199,7 +199,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                             {
                                 if (listPacket == null)
                                 {
-                                    listPacket = new Packet(SH38Type.GuildAcademyList);
+                                    listPacket = new Packet(SH38Type.SendAcademyList);
                                     listPacket.WriteUShort(6312);
                                     listPacket.WriteByte(1);
                                     listPacket.WriteUShort((ushort)guildCount);
@@ -248,7 +248,7 @@ namespace Zepheus.World.Data.Guilds.Academy
             }
         }
 
-        [PacketHandler(CH38Type.GuildAcademyRequestList)]
+        [PacketHandler(CH38Type.GetAcademyMemberList)]
         public static void On_GameClient_GetAcademyMemberList(WorldClient Client, Packet Packet)
         {
             if (Client.Character == null)
@@ -263,7 +263,7 @@ namespace Zepheus.World.Data.Guilds.Academy
             }
         }
 
-        [PacketHandler(CH38Type.ChangeRequestAnswer)]
+        [PacketHandler(CH38Type.JoinAcademy)]
         public static void On_GameClient_JoinAcademy(WorldClient Client, Packet Packet)
         {
             string guildName;
@@ -283,7 +283,7 @@ namespace Zepheus.World.Data.Guilds.Academy
             guild.Academy.AddMember(Client.Character, GuildAcademyRank.Member);
         }
 
-        [PacketHandler(CH38Type.GuildAcademyLeave)]
+        [PacketHandler(CH38Type.LeaveAcademy)]
         public static void On_GameClient_LeaveAcademy(WorldClient Client, Packet Packet)
         {
             if (Client.Character == null)
@@ -300,7 +300,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
 
-        [PacketHandler(CH38Type.GuildAcademyChatMessage)]
+        [PacketHandler(CH38Type.AcademyChat)]
         public static void On_GameClient_AcademyChat(WorldClient Client, Packet Packet)
         {
             byte len;
@@ -318,7 +318,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                 if (Client.Character.IsInGuildAcademy
                     && Client.Character.GuildAcademyMember.IsChatBlocked)
                 {
-                    using (var packet = new Packet(SH38Type.BlockMessage))
+                    using (var packet = new Packet(SH38Type.AcademyChatBlocked))
                     {
                         packet.WriteUShort(6140);
 
@@ -330,7 +330,7 @@ namespace Zepheus.World.Data.Guilds.Academy
                 }
 
 
-                using (var packet = new Packet(SH38Type.GuildAcademyChatessage))
+                using (var packet = new Packet(SH38Type.AcademyChat))
                 {
                     packet.WriteInt(Client.Character.Guild.ID);
                     packet.WriteString(Client.Character.Character.Name, 16);

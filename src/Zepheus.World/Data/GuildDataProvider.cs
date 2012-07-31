@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text;
 using Zepheus.Database;
 using Zepheus.Util;
+using Zepheus.World.Data.Guilds;
+using MySql.Data.MySqlClient;
 
 namespace Zepheus.World.Data
 {
+    [ServerModule(InitializationStage.GuildProvider)]
     public class GuildDataProvider
     {
         public Dictionary<byte, uint> AcademyLevelUpPoints;
@@ -22,7 +25,28 @@ namespace Zepheus.World.Data
         }
         public GuildDataProvider()
         {
-            LoadAcademyLevelUpPonts();
+            //LoadAcademyLevelUpPonts();
+            LoadGuilds();
+        }
+        private void LoadGuilds()
+        {
+            MySqlCommand mysqlCmd = new MySqlCommand("SELECT * FROM Guilds", Program.DatabaseManager.GetClient().GetConnection());
+            int GuildCount = 0;
+            MySqlDataReader GuildReader = mysqlCmd.ExecuteReader();
+            {
+                for (int i = 0; i < GuildReader.FieldCount; i++)
+                {
+                    while (GuildReader.Read())
+                    {
+                        Guild g = new Guild(Program.DatabaseManager.GetClient().GetConnection(), GuildReader);
+                        GuildManager.AddGuildToList(g);
+                        GuildCount++;
+                    }
+                }
+            }
+            GuildReader.Close();
+            Log.WriteLine(LogLevel.Info, "Load {0} Guilds", GuildCount);
+
         }
         private void LoadAcademyLevelUpPonts()
         {

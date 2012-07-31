@@ -155,17 +155,16 @@ namespace Zepheus.FiestaLib
 
     public enum CH29Type : byte
     {
+        GetGuildList = 3,
         CreateGuild = 5,
-        GuildInvideRequest = 9,
-        KickGuildMember = 14,
-        GuildMemberRemoveRequest = 28,
-        GuildLeaveByMember = 29,
-        GuildRquestAnswer = 12,
-        ChangeGuildDetails = 16,
-        ChangeMemberRank = 22,
-        GuildChatClientMessage = 115,
+        GuildInviteRequest = 9,
+        GuildInviteResponse = 12,
+        UpdateGuildMessage = 16,
+        UpdateGuildMemberRank = 22,
+        LeaveGuild = 28,
+        GuildChat = 115,
         GuildNameRequest = 118,
-        GuildListReqest = 190,
+        GuildMemberListRequest = 190,
 
     }
 
@@ -185,17 +184,13 @@ namespace Zepheus.FiestaLib
 
     public enum CH38Type : byte
     {
-        GetGuildAcademyListRequest = 7,
-        GuildAcademyRequestList = 13,
-        GuildAcademyReuqest = 17,
-        KickMember = 22,
-        GuildAcademyLeave = 27,
-        JumpToMember = 31,
-        BlockAcademyChat = 33,
-        ChangeDetails = 36,
-        ChangeFromGuildAcademyToGuild = 41,
-        ChangeRequestAnswer = 44,
-        GuildAcademyChatMessage = 104,
+        GetAcademyMemberList = 7,
+        GetAcademyList = 11,
+        JoinAcademy = 17,
+        LeaveAcademy = 27,
+
+
+        AcademyChat = 104,
 
     }
     public enum CH42Type : byte
