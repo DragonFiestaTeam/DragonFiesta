@@ -280,6 +280,19 @@ namespace Zepheus.World.InterServer
                 }
             }
         }
+        [InterPacketHandler(InterHeader.CharacterLevelUP)]
+		public static void UpdateLevel(ZoneConnection pConnection, InterPacket pPacket)
+		{
+            byte level;
+            string Charname;
+            if (!pPacket.TryReadByte(out level) || !pPacket.TryReadString(out Charname, 16))
+                return;
+            WorldClient pClient = ClientManager.Instance.GetClientByCharname(Charname);
+            if(pClient == null)
+                return;
+            pClient.Character.Character.CharLevel = level;
+            Managers.CharacterManager.invokeLevelUp(pClient.Character);
+        }
 		[InterPacketHandler(InterHeader.FunctionCharIsOnline)]
 		public static void FunctionGetCharacterOnline(ZoneConnection pConnection, InterPacket pPacket)
 		{

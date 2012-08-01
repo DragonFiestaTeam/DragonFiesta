@@ -232,6 +232,7 @@ namespace Zepheus.Zone
 
         private void LevelUP(ZoneCharacter character, params string[] param)
         {
+        
             byte lvls = param.Length >= 2 ? byte.Parse(param[1]) : (byte)1;
             for (byte i = 0; i < lvls; i++)
             {

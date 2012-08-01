@@ -49,8 +49,10 @@ namespace Zepheus.World.Data
 
         public bool IsOnline
         {
-            get;
-            set;
+            get
+            {
+                return ClientManager.Instance.IsOnline(this.Character.Name);
+            }
         }
 
 		public WorldCharacter(Character ch,WorldClient client)
@@ -267,15 +269,10 @@ namespace Zepheus.World.Data
 			}
 			return false;
 		}
-       /* public void LevelUp(byte level)
+       public void LevelUp(byte level)
         {
-            this.Character.CharLevel = level;
-            MasterManager.Instance.ApprenticeLevelUP(this);
-            if (this.Academy != null)
-            {
-                this.Academy.ChangeMemberLevel(this.Character.Name, level);
-            }
-		}*/
+            CharacterManager.invokeLevelUp(this);
+		}
         public void SendReciveMasterCoper()
         {
             if(this.Character.ReviveCoper > 0)
@@ -512,8 +509,6 @@ namespace Zepheus.World.Data
             this.WriteBlockList();
             this.LoadMasterList();
             this.SendReciveMasterCoper();
-
-            CharacterManager.invokeLoggetInEvent(this);
             /* 
              LoadGuild();*/
              World.Handlers.Handler2.SendClientTime(this.Client, DateTime.Now);

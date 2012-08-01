@@ -69,7 +69,6 @@ namespace Zepheus.World.Data.Guilds
             : this()
         {
             this.ID = ID;
-
             this.Name = Name;
             _Password = Password;
 
@@ -296,7 +295,7 @@ namespace Zepheus.World.Data.Guilds
             var left = (Members.Count - End);
 
 
-            var packet = new Packet(SH29Type.SendGuildList);
+            var packet = new Packet(SH29Type.GuildMemberList);
 
             packet.WriteUShort((ushort)Members.Count);
             packet.WriteUShort((ushort)left);

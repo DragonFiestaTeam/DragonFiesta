@@ -77,7 +77,7 @@ namespace Zepheus.World.Data.Guilds.Academy
             {
 
                 WorldCharacter character;
-                if (!CharacterManager.Instance.GetCharacterByID((int)MemberRow["ID"], out character))
+                if (!CharacterManager.Instance.GetCharacterByID(Convert.ToInt32(MemberRow["ID"]), out character))
                     continue; // maybe deleted
 
                 var member = new GuildAcademyMember(this, character,MemberRow);

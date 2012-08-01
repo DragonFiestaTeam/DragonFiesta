@@ -38,28 +38,6 @@ namespace Zepheus.World.Data.Guilds
             CharacterManager.OnCharacterLogout += On_CharacterManager_CharacterLogout;
             return true;
         }
-         private static void On_CharacterManager_GuildDetails(WorldCharacter Character)
-        {
-            if (Character.IsInGuild)
-            {
-                using (var p2 = new Packet(SH4Type.CharacterGuildinfo))
-                {
-                    Character.Guild.WriteGuildInfo(p2);
-                    Character.Client.SendPacket(p2);
-                }
-            }
-            else
-            {
-            }
-             if(Character.IsInGuildAcademy)
-             {
-                 using (var p1 = new Packet(SH4Type.CharacterGuildacademyinfo))
-                 {
-                     Character.GuildAcademy.WriteInfo(p1);
-                     Character.Client.SendPacket(p1);
-                 }
-             }
-        }
         public static void AddGuildToList(Guild pGuild)
         {
          LoadedGuilds.Add(pGuild);
@@ -455,11 +433,8 @@ namespace Zepheus.World.Data.Guilds
 
                                 //create guild
                                 guild = new Guild(con, guildID, name, pwData, allowGuildWar, Client.Character, createTime);
-
-                                //insert guild master (character will get updated)
+                            //insert guild master (character will get updated)
                                 guild.AddMember(Client.Character, GuildRank.Master, con, false, false);
-
-                                
                                 //add to loaded guilds
                                 LoadedGuilds.Add(guild);
 

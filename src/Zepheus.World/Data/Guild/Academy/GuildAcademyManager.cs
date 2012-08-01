@@ -261,6 +261,10 @@ namespace Zepheus.World.Data.Guilds.Academy
             {
                 Client.Character.GuildAcademy.SendMemberList(Client);
             }
+            else if (Client.Character.IsInGuild)
+            {
+                Client.Character.Guild.Academy.SendMemberList(Client);
+            }
         }
 
         [PacketHandler(CH38Type.JoinAcademy)]
@@ -338,8 +342,8 @@ namespace Zepheus.World.Data.Guilds.Academy
                     packet.WriteString(msg, len);
 
 
-
                     Client.Character.Guild.Broadcast(packet);
+                   
                     Client.Character.GuildAcademy.Broadcast(packet);
                 }
             }

@@ -26,6 +26,10 @@ namespace Zepheus.World.Managers
           
             return true;
         }
+        public static void invokeLevelUp(WorldCharacter pChar)
+        {
+            OnCharacterLevelUp.Invoke(pChar);
+        }
         public static void invokeLoggetInEvent(WorldCharacter pChar)
         {
             OnCharacterLogin.Invoke(pChar);
@@ -57,17 +61,11 @@ namespace Zepheus.World.Managers
                 if (!Data.Guilds.GuildManager.GetGuildByID(GuildID, out g))
                     return;
                 pChar.Guild = g;
+                pChar.GuildAcademy = g.Academy;
                 pChar.IsInGuild = true;
+                Data.Guilds.GuildMember GuildMember = g.Members.Find(m => m.Character.Character.Name == pChar.Character.Name);
+                GuildMember.Character.Client = pChar.Client;
             }
-        }
-        public static bool GetLoggedInCharacter(int ID, out WorldCharacter pChar)
-        {
-            pChar = ClientManager.Instance.GetClientByCharID(ID).Character;
-            if (pChar != null)
-            {
-                return true;
-            }
-            return false;
         }
         public static bool GetLoggedInCharacter(string Name, out WorldCharacter pChar)
         {
