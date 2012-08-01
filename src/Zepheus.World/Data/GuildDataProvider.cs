@@ -25,7 +25,7 @@ namespace Zepheus.World.Data
         }
         public GuildDataProvider()
         {
-            //LoadAcademyLevelUpPonts();
+            LoadAcademyLevelUpPonts();
             LoadGuilds();
         }
         private void LoadGuilds()
@@ -55,16 +55,17 @@ namespace Zepheus.World.Data
 
             using (DatabaseClient dbClient = Program.DatabaseManager.GetClient())
             {
-               AcademyPoints = dbClient.ReadDataTable("SELECT * FROM AcademyLevelPoints");
+                AcademyPoints = dbClient.ReadDataTable("SELECT * FROM `" + Settings.Instance.zoneMysqlDatabase + "`.`AcademyLevelPoints`");
             }
 
             if (AcademyPoints!= null)
             {
                 foreach (DataRow row in AcademyPoints.Rows)
                 {
-                   AcademyLevelUpPoints.Add((byte)row["Level"],(uint)row["Points"]);
+                   AcademyLevelUpPoints.Add(Convert.ToByte(row["Level"]),Convert.ToUInt32(row["Points"]));
                 }
             }
+            Log.WriteLine(LogLevel.Info, "Load {0 } AcademyLevelUpPoints", this.AcademyLevelUpPoints.Count);
         }
     }
 }
