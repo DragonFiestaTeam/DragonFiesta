@@ -179,7 +179,7 @@ namespace Zepheus.World.Data.Guilds
 
                     cmd.Parameters.Add(new MySqlParameter("@pID", ID));
                     cmd.Parameters.Add(new MySqlParameter("@pName", Name));
-                    cmd.Parameters.Add(new MySqlParameter("@pPassword", _Password));
+                    cmd.Parameters.Add(new MySqlParameter("@pPPassword", _Password));
                     cmd.Parameters.Add(new MySqlParameter("@pAllowGuildWar", AllowGuildWar));
                     cmd.Parameters.Add(new MySqlParameter("@pMessage", Message));
                     cmd.Parameters.Add(new MySqlParameter("@pMessageCreateTime", MessageCreateTime));

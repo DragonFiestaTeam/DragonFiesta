@@ -293,7 +293,8 @@ namespace Zepheus.FiestaLib
         AcademyResponse = 18,
         AcademyMemberJoined = 19,
         LeaveAcademyResponse = 28,
-
+        SendChangeDetailsResponse = 37,
+        SendChangeDetails = 38,
 
         AcademyMemberLeft = 96,
         AcademyMemberLoggedIn = 97,

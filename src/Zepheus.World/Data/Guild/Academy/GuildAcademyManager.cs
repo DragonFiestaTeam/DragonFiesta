@@ -286,7 +286,47 @@ namespace Zepheus.World.Data.Guilds.Academy
 
             guild.Academy.AddMember(Client.Character, GuildAcademyRank.Member);
         }
+         [PacketHandler(CH38Type.UpdateDetails)]
+        public static void On_GameClient_UpdateDetails(WorldClient Client, Packet Packet)
+        {
+            ushort lenght;
+            string message;
+            if (!Packet.TryReadUShort(out lenght))
+                return;
 
+            if (!Packet.TryReadString(out message, lenght))
+                return;
+            using (var pack = new Packet(SH38Type.SendChangeDetailsResponse))
+            {
+                pack.WriteUShort(6016);//code for ok
+                Client.SendPacket(pack);
+            }
+            if(Client.Character.Guild != null)
+            {
+                Client.Character.Guild.Academy.Message = message;
+                Client.Character.Guild.Academy.Save();
+                using (var pack = new Packet(SH38Type.SendChangeDetails))
+                {
+                    pack.WriteUShort(lenght);
+                    pack.WriteString(message,message.Length);
+                    Client.Character.Guild.Broadcast(pack);
+                    Client.Character.Guild.Academy.Broadcast(pack);
+                }
+            }
+            else if (Client.Character.GuildAcademy != null)
+            {
+                Client.Character.GuildAcademy.Message = message;
+                Client.Character.GuildAcademy.Save();
+                using (var pack = new Packet(SH38Type.SendChangeDetails))
+                {
+                    pack.WriteUShort(lenght);
+                    pack.WriteString(message, message.Length);
+                    Client.Character.GuildAcademy.Broadcast(pack);
+                }
+            }
+
+        }
+        
         [PacketHandler(CH38Type.LeaveAcademy)]
         public static void On_GameClient_LeaveAcademy(WorldClient Client, Packet Packet)
         {

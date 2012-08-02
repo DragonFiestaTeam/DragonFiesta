@@ -593,9 +593,9 @@ namespace Zepheus.World.Data.Guilds
                     packet.WriteInt(Client.Character.Guild.MessageCreateTime.Month - 1);
                     packet.WriteInt(Client.Character.Guild.MessageCreateTime.Year - 1900);
                     packet.WriteInt(0);
-                    packet.WriteULong(0);
+                    packet.WriteLong(0);
                     packet.WriteString(Client.Character.Character.Name, 16);
-                    packet.WriteULong(length);
+                    packet.WriteUShort(length);
                     packet.WriteString(message, length);
 
 
