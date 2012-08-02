@@ -69,9 +69,11 @@ namespace Zepheus.World.Managers
         }
         public static bool GetLoggedInCharacter(string Name, out WorldCharacter pChar)
         {
-            pChar = ClientManager.Instance.GetClientByCharname(Name).Character;
-            if (pChar != null)
+           Networking.WorldClient pClient = ClientManager.Instance.GetClientByCharname(Name);
+           pChar = null;
+            if (pClient != null)
             {
+                pChar = pClient.Character;
                 return true;
             }
             return false;

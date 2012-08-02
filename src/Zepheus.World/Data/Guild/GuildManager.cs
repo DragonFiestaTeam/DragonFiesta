@@ -222,7 +222,7 @@ namespace Zepheus.World.Data.Guilds
                     {
                         using (var cmd = con.CreateCommand())
                         {
-                            cmd.CommandText = "SELECT * FROM Guilds WHERE Name = @pName";
+                            cmd.CommandText = "SELECT * FROM Guilds WHERE GuildName = @pName";
 
                             cmd.Parameters.Add(new MySqlParameter("@pName", Name));
 
@@ -421,12 +421,15 @@ namespace Zepheus.World.Data.Guilds
                         {
                             case -1:
                                 //guild name already exists (ToDo: get response code)
-                               // WorldManager.SendYellowNotice(Client, "Guild name already exists (tmp).");
+                              
+                                SendGuildCreateResponse(Client, name, password, allowGuildWar, GuildCreateResponse.AlredyExist);
                                 return;
 
                             case -2: //database error @ insert guild (ToDo: get response code)
+                                SendGuildCreateResponse(Client, name, password, allowGuildWar, GuildCreateResponse.Failed);
+                                return;
                             case -3: //database error @ insert guild academy (ToDo: get response code)
-                              // WorldManager.SendYellowNotice(Client, "Database error (tmp).");
+                                SendGuildCreateResponse(Client, name, password, allowGuildWar, GuildCreateResponse.Failed);
                                 return;
 
                             case 0:
@@ -448,9 +451,9 @@ namespace Zepheus.World.Data.Guilds
                 }
 
 
-
+                Client.Character.
                 //revoke money
-              //  Client.Character.SetMoney(Client.Character.Character.Money - Guild.Price, true);
+               Client.Character.ChangeMoney(Client.Character.Character.Money - Guild.Price);
 
                 //let character broadcast guild name packet
                 using (var packet = new Packet(SH29Type.GuildNameResult))
@@ -483,7 +486,7 @@ namespace Zepheus.World.Data.Guilds
         {
             using (var packet = new Packet(SH29Type.CreateGuildResponse))
             {
-            
+
                 packet.WriteUShort((ushort)Response);
                 packet.WriteInt((Response == GuildCreateResponse.Success ? 32 : 0));
 

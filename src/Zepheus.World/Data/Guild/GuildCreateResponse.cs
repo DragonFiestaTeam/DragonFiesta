@@ -6,5 +6,7 @@ namespace Zepheus.World.Data.Guilds
         LevelTooLow         = 3266,
         MoneyTooLow         = 3228,
         Success             = 3137,
+        AlredyExist         = 3225,
+        Failed              = 3227
     }
 }

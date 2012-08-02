@@ -13,6 +13,7 @@ using Zepheus.World.Data;
 using Zepheus.World.Managers;
 using Zepheus.World.Data.Guilds;
 using Zepheus.World.Data.Guilds.Academy;
+using Zepheus.InterLib.Networking;
 
 namespace Zepheus.World.Data
 {
@@ -515,7 +516,15 @@ namespace Zepheus.World.Data
 
 
         }
-       
+       public  void ChangeMoney(long NewMoney)
+       {
+           this.Character.Money = NewMoney;
+           using (InterPacket packet = new InterPacket(InterHeader.UpdateMoneyFromWorld))
+           {
+               packet.WriteInt(this.Character.ID);
+               packet.WriteLong(NewMoney);
+           }
+       }
 		private void UpdateGroupStatus()
 		{
 			this.GroupMember.IsOnline = this.IsIngame;

@@ -17,6 +17,7 @@
         CharacterLevelUP = 0x00102,
        
         UpdateMoney = 0x00103,//Zone -> World
+        UpdateMoneyFromWorld = 0x00103,//World -> Zone
 		Auth = 0x0010,
 		BanAccount = 0x0095,
 		Assign = 0x0100,

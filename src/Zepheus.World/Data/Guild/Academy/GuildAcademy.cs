@@ -255,7 +255,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
 
-                        switch ((int)cmd.ExecuteScalar())
+                        switch (Convert.ToInt32(cmd.ExecuteScalar()))
                         {
                             case 0:
                                 

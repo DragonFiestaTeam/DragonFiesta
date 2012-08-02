@@ -280,6 +280,7 @@ namespace Zepheus.World.InterServer
                 }
             }
         }
+        
         [InterPacketHandler(InterHeader.CharacterLevelUP)]
 		public static void UpdateLevel(ZoneConnection pConnection, InterPacket pPacket)
 		{

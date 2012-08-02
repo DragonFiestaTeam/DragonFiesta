@@ -278,6 +278,20 @@ namespace Zepheus.Zone.InterServer
 				Log.WriteLine(LogLevel.Info, "Added zone {0} to zonelist. {1}:{2}", zd.ID, zd.IP, zd.Port);
 			}
 		}
+        [InterPacketHandler(InterHeader.UpdateMoneyFromWorld)]
+        public static void ChangeMoney(WorldConnector pConnector, InterPacket pPacket)
+        {
+            int CharID;
+            long NewMoney;
+            if (!pPacket.TryReadInt(out CharID))
+                return;
+            if (!pPacket.TryReadLong(out NewMoney))
+                return;
+            ZoneClient pClient = ClientManager.Instance.GetClientByCharID(CharID);
+            if (pClient == null)
+                return;
+            pClient.Character.ChangeMoney(NewMoney);
+        }
 		[InterPacketHandler(InterHeader.NewPartyCreated)]
 		public static void NewGroupCreated(WorldConnector pConnector, InterPacket pPacket)
 		{
