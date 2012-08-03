@@ -1,4 +1,6 @@
 ﻿using System.Data;
+using Zepheus.Database.DataStore;
+
 namespace Zepheus.FiestaLib.Data
 {
     public sealed class MiniHouseInfo
@@ -16,12 +18,12 @@ namespace Zepheus.FiestaLib.Data
 
         public MiniHouseInfo(DataRow row)
         {
-            ID = (ushort)row["Handle"];
-            KeepTimeHour = (ushort)row["KeepTime_Hour"];
-            HPTick = (ushort)row["HPTick"];
-            SPTick = (ushort)row["SPTick"];
-            HPRecovery = (ushort)row["HPRecovery"];
-            SPRecovery = (ushort)row["SPRecovery"];
+            ID = GetDataTypes.GetUshort(row["Handle"]);
+            KeepTimeHour = GetDataTypes.GetUshort(row["KeepTime_Hour"]);
+            HPTick = GetDataTypes.GetUshort(row["HPTick"]);
+            SPTick = GetDataTypes.GetUshort(row["SPTick"]);
+            HPRecovery = GetDataTypes.GetUshort(row["HPRecovery"]);
+            SPRecovery =GetDataTypes.GetUshort(row["SPRecovery"]);
         }
     }
 }

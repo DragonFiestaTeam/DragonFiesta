@@ -188,8 +188,10 @@ namespace Zepheus.FiestaLib
         GetAcademyList = 11,
         JoinAcademy = 17,
         LeaveAcademy = 27,
+        JumpToMember = 31,
+        BlockAcademyChat = 33,
         UpdateDetails = 36,
-
+        ChangeRequestToGuild = 44,
         AcademyChat = 104,
 
     }

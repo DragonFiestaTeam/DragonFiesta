@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -14,8 +15,8 @@ namespace Zepheus.FiestaLib.Data
         public uint CoolTime { get; private set; }
         public uint CastTime { get; private set; }
         public ushort SkillAniTime { get; set; }
-        public ushort MinDamage { get; private set; }
-        public ushort MaxDamage { get; private set; }
+        public uint MinDamage { get; private set; }
+        public uint MaxDamage { get; private set; }
         public bool IsMagic { get; private set; }
         public byte DemandType { get; private set; }
         public byte MaxTargets { get; private set; }
@@ -25,30 +26,30 @@ namespace Zepheus.FiestaLib.Data
             ActiveSkillInfo inf = new ActiveSkillInfo
             {
                            
-                ID = (ushort)row["ID"],
+                ID = GetDataTypes.GetUshort(row["ID"]),
                 Name = (string)row["InxName"],
-                Step = (byte)row["Step"],
+                Step = GetDataTypes.GetByte(row["Step"]),
                 Required = (string)row["DemandSk"],
-                SP = (ushort)row["SP"],
-                HP = (ushort)row["HP"],
-                Range = (ushort)row["Range"],
-                CoolTime = (uint)row["DlyTime"],
-                CastTime = (uint)row["CastTime"],
-                DemandType = (byte)row["DemandType"],
-                MaxTargets = (byte)row["TargetNumber"],
+                SP = GetDataTypes.GetUshort(row["SP"]),
+                HP = GetDataTypes.GetUshort(row["HP"]),
+                Range = GetDataTypes.GetUshort(row["Range"]),
+                CoolTime = GetDataTypes.GetUint(row["DlyTime"]),
+                CastTime = GetDataTypes.GetUint(row["CastTime"]),
+                DemandType = GetDataTypes.GetByte(row["DemandType"]),
+                MaxTargets = GetDataTypes.GetByte(row["TargetNumber"]),
             };
 
-            ushort maxdamage = (ushort)row["MaxWC"];
+            uint maxdamage =  GetDataTypes.GetUint(row["MaxWC"]);
             if (maxdamage == 0)
             {
                 inf.IsMagic = true;
-                inf.MinDamage = (ushort)row["MinMA"];
-                inf.MaxDamage = (ushort)row["MaxMA"];
+                inf.MinDamage =  GetDataTypes.GetUshort(row["MinMA"]);
+                inf.MaxDamage =  GetDataTypes.GetUshort(row["MaxMA"]);
             }
             else
             {
                 inf.MaxDamage = maxdamage;
-                inf.MinDamage = (ushort)row["MinWC"];
+                inf.MinDamage =  GetDataTypes.GetUint(row["MinWC"]);
             }
             return inf;
         }
