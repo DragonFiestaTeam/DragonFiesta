@@ -46,9 +46,9 @@ namespace Zepheus.World.Data.Guilds.Academy
 
         private void Load(DataRow Row)
         {
-            RegisterDate = (DateTime)Row["RegisterDate"];
-            IsChatBlocked = (bool)Row["ChatBlock"];
-            Rank = (GuildAcademyRank)Row["Rank"];
+            RegisterDate = Convert.ToDateTime(Row["RegisterDate"]);
+            IsChatBlocked =Convert.ToBoolean(Row["ChatBlock"]);
+            Rank = (GuildAcademyRank)Convert.ToByte(Row["Rank"]);
         }
         public void Save(MySqlConnection con)
         {

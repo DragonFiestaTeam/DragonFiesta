@@ -13,6 +13,13 @@ namespace Zepheus.World.Handlers
     {
         public static void SendAcademyResponse(WorldClient pClient,string GuildName, GuildAcademyResponse Response)
         {
+
+            using (var packet = new Packet(SH38Type.AcademyResponse))
+            {
+                packet.WriteString(GuildName, 16);
+                packet.WriteUShort((ushort)Response);
+                pClient.SendPacket(packet);
+            }
         }
     }
         
