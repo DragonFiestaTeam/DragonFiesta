@@ -91,7 +91,7 @@ namespace Zepheus.World.Data.Guilds.Academy
 
 
         public void WriteInfo(Packet packet)
-        {
+        { 
             packet.WriteString(Character.Character.Name, 16);
             packet.Fill(65, 0x00);//unk
             packet.WriteBool(Character.IsIngame);

@@ -213,6 +213,7 @@ namespace Zepheus.FiestaLib.Networking
 
 		public void WriteString(string pValue, int pLen)
 		{
+            
 			byte[] buffer = Encoding.ASCII.GetBytes(pValue);
 			if (buffer.Length > pLen)
 			{
