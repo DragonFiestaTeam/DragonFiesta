@@ -17,13 +17,15 @@ namespace Zepheus.World.Managers
         public static event CharacterEvent OnCharacterLogin;
         public static event CharacterEvent OnCharacterLogout;
         public static event CharacterEvent OnCharacterLevelUp;
+        public static event CharacterEvent OnCharacterChangeMap;
+
         public static CharacterManager Instance { get; set; }
         [InitializerMethod]
         public static bool init()
         {
             Instance = new CharacterManager();
 
-          
+            OnCharacterChangeMap += OnetestmapChange;
             return true;
         }
         public static void invokeLevelUp(WorldCharacter pChar)
@@ -41,6 +43,16 @@ namespace Zepheus.World.Managers
         public static void InvokeLoggetOutInEvent(WorldCharacter pChar)
         {
          OnCharacterLogout.Invoke(pChar);
+        }
+        public static void InvokeChangeMapEvent(WorldCharacter pChar)
+        {
+            OnCharacterChangeMap.Invoke(pChar);
+        }
+            public static void OnetestmapChange(WorldCharacter pChar)
+        {
+            Console.WriteLine(pChar.Character.PositionInfo.Map);
+            Console.WriteLine(pChar.Character.PositionInfo.XPos);
+            Console.WriteLine(pChar.Character.PositionInfo.YPos);
         }
         public static void OneLoadGuildInCharacter(WorldCharacter pChar)
         {

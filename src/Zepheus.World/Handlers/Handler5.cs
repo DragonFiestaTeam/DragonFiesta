@@ -10,6 +10,22 @@ namespace Zepheus.World.Handlers
 {
     public sealed class Handler5
     {
+        [PacketHandler(CH5Type.ChangeCharacterName)]
+        public static void ChangeCharNameHandler(WorldClient client, Packet packet)
+        {
+            byte Character_slot;
+            string charname;
+            if (!packet.TryReadByte(out Character_slot) || !packet.TryReadString(out charname, 16))
+                return;
+            using (var pack = new Packet(SH5Type.SendCharacterChangeNewName))
+            {
+                pack.WriteByte(Character_slot);
+                pack.WriteString(charname,16);
+                pack.WriteUShort(208);//Responsecode?
+            }
+            //Todo ChangeinDatabase
+
+        }
         [PacketHandler(CH5Type.CreateCharacter)]
         public static void CreateCharHandler(WorldClient client, Packet packet)
         {

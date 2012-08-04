@@ -377,7 +377,11 @@ namespace Zepheus.World.Data.Guilds.Academy
               GuildAcademyMember pMember = client.Character.GuildAcademy.Members.Find(m => m.Character.Character.Name == pMemberName);
               if (pMember != null)
               {
-            //Todo ChangeMap
+                  int oldmap = client.Character.Character.PositionInfo.Map;
+                  client.Character.Character.PositionInfo.Map = pMember.Character.Character.PositionInfo.Map;
+                  client.Character.Character.PositionInfo.XPos = pMember.Character.Character.PositionInfo.XPos;
+                  client.Character.Character.PositionInfo.YPos = pMember.Character.Character.PositionInfo.YPos;
+                  client.Character.ChangeMap(oldmap);
               }
           }
          [PacketHandler(CH38Type.UpdateDetails)]

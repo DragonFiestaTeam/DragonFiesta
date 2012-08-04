@@ -78,7 +78,20 @@ namespace Zepheus.World.InterServer
         }
 
 
+        public static void SendChangeMap(WorldCharacter pChar,int OldMap)
+        {
 
+            Managers.CharacterManager.InvokeChangeMapEvent(pChar);
+            ZoneConnection conn =   Program.GetZoneByMap(OldMap);
+            using (var packet = new InterPacket(InterHeader.GetBroadcastList))
+            {
+
+                packet.WriteString(pChar.Character.Name, 16);
+                packet.WriteInt(pChar.Character.PositionInfo.XPos);
+                packet.WriteInt(pChar.Character.PositionInfo.YPos);
+                conn.SendPacket(packet);
+            }
+        }
 		[InterPacketHandler(InterHeader.BanAccount)]
 		public static void BanAccount(ZoneConnection zc, InterPacket packet)
 		{
@@ -121,9 +134,12 @@ namespace Zepheus.World.InterServer
             WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
             if(client == null)
                 return;
+            int oldmap = client.Character.Character.PositionInfo.Map;
             client.Character.Character.PositionInfo.Map = mapid;
             client.Character.Character.PositionInfo.XPos = x;
             client.Character.Character.PositionInfo.YPos = y;
+            Managers.CharacterManager.InvokeChangeMapEvent(client.Character);
+            client.Character.ChangeFrendMap(DataProvider.GetMapname(mapid));//setup later to event
             
 		}
 		[InterPacketHandler(InterHeader.Assigned)]
@@ -229,8 +245,7 @@ namespace Zepheus.World.InterServer
 				if (Program.Zones.TryGetValue(zoneid, out z))
 				{
 					z.SendTransferClientFromZone(accountid, username, charname,CharID, randid, admin, hostip);
-					WorldClient client = ClientManager.Instance.GetClientByCharname(charname);
-					client.Character.ChangeMap(DataProvider.GetMapname(mapid));
+
 				}
 			}
 			else

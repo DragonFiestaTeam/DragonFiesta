@@ -163,7 +163,7 @@ namespace Zepheus.World.Data
         {
             InterServer.InterHandler.SendGetCharacterBroaucast(this, pPacket);
         }
-		public void ChangeMap(string mapname)
+		public void ChangeFrendMap(string mapname)
 		{
       
 			foreach (var friend in friends)
@@ -177,6 +177,10 @@ namespace Zepheus.World.Data
 					client.SendPacket(packet);
 				}
 			}
+        }
+        public void ChangeMap(int oldmap)
+        {
+            InterServer.InterHandler.SendChangeMap(this, oldmap);
         }
         public void WriteBlockList()
         {

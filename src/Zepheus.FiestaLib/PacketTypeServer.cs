@@ -73,6 +73,7 @@ namespace Zepheus.FiestaLib
         CharCreationError = 4,
         CharCreationOK = 6,
         CharDeleteOK = 12,
+        SendCharacterChangeNewName = 16,
     }
 
     public enum SH6Type : byte

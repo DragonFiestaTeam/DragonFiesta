@@ -15,9 +15,9 @@
 		NewPartyCreated =0x0099,	// WORLD -> ZONE | DATA: GROUP ID
         PartyBrokeUp = 0x009A,      // WORLD -> ZONE | DATA: GROUP ID
         CharacterLevelUP = 0x00102,
-       
+        CharacterChangeMap = 0x00105, //World -> ZONE |
         UpdateMoney = 0x00103,//Zone -> World
-        UpdateMoneyFromWorld = 0x00103,//World -> Zone
+        UpdateMoneyFromWorld = 0x00104,//World -> Zone
 		Auth = 0x0010,
 		BanAccount = 0x0095,
 		Assign = 0x0100,

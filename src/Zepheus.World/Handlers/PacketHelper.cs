@@ -14,6 +14,7 @@ namespace Zepheus.World.Handlers
             
             packet.WriteInt(wchar.Character.ID); //charid
             packet.FillPadding(wchar.Character.Name, 0x10);
+            packet.WriteInt(0);//unk
             packet.WriteShort((short)wchar.Character.CharLevel); //level
             packet.WriteByte(wchar.Character.Slot);
             MapInfo mapinfo;

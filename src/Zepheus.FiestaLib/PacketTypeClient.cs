@@ -30,6 +30,7 @@ namespace Zepheus.FiestaLib
     public enum CH5Type : byte
     {
         CreateCharacter = 1,
+        ChangeCharacterName = 5,
         DeleteCharacter = 7,
     }
 
