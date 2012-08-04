@@ -194,7 +194,7 @@ namespace Zepheus.FiestaLib
         UpdateDetails = 36,
         ChangeRequestToGuild = 44,
         AcademyChat = 104,
-
+        GuildExtraRequest = 109,
     }
     public enum CH42Type : byte
     {

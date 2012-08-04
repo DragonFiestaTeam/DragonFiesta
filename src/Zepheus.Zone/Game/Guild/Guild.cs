@@ -14,7 +14,7 @@ namespace Zepheus.Zone.Game.Guilds
     {
         public int ID { get; private set; }
         public string Name { get; set; }
-
+        public long GuildMoney { get; set; }
         public string Password
         {
             get
@@ -63,7 +63,7 @@ namespace Zepheus.Zone.Game.Guilds
             MessageCreateTime = reader.GetDateTime(8);
             MessageCreaterID = reader.GetInt32("CreaterID");
             CreateTime = DateTime.Now;//read later
-
+            GuildMoney = reader.GetInt64("GuildMoney");
 
             Members = new List<GuildMember>();
             ThreadLocker = new object();

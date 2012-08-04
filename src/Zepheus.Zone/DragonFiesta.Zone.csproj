@@ -66,6 +66,7 @@
     <Compile Include="Game\UpgradeStats.cs" />
     <Compile Include="Handlers\Handler19.cs" />
     <Compile Include="Handlers\Handler37.cs" />
+    <Compile Include="Handlers\Handler38.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
     <Compile Include="Managers\ClientManager.cs" />
     <Compile Include="CommandHandler.cs" />

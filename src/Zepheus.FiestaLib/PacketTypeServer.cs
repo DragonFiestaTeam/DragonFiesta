@@ -306,7 +306,7 @@ namespace Zepheus.FiestaLib
 
         AcademyChat = 105,
         AcademyChatBlocked = 106,
-
+        GuildExtraResponse = 110,
 
     }
     public enum SH42Type : byte
