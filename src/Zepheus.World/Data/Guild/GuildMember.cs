@@ -110,7 +110,7 @@ namespace Zepheus.World.Data.Guilds
         {
             var packet = new Packet(SH29Type.GuildNameResult);
             packet.WriteInt(Guild.ID);
-            packet.WriteString(Character.Character.Name, 16);
+            packet.WriteString(Guild.Name, 16);
 
             BroadcastManager.Instance.BroadcastInRange(Character, packet, false);
         }

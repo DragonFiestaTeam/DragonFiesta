@@ -459,7 +459,7 @@ namespace Zepheus.World.Data.Guilds
                 using (var packet = new Packet(SH29Type.GuildNameResult))
                 {
                     packet.WriteInt(guild.ID);
-                    packet.WriteString(Client.Character.Character.Name, 16);
+                    packet.WriteString(guild.Name, 16);
 
 
                     BroadcastManager.Instance.BroadcastInRange(Client.Character, packet, true);

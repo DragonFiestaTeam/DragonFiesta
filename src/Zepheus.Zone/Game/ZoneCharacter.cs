@@ -124,6 +124,7 @@ namespace Zepheus.Zone.Game
         public GuildAcademy GuildAcademy { get; set; }
         public GuildAcademyMember GuildAcademyMember { get; set; }
         public GuildMember GuildMember { get; set; }
+        public bool IsInaAcademy { get; set; }
 		// End of local variables
 		#region Stats
 		public int Fame { get { return Character.Fame; } set { Character.Fame = value; } }
@@ -308,7 +309,7 @@ namespace Zepheus.Zone.Game
 		}
 		public void SendGetIngameChunk()
 		{
-
+            CharacterManager.InvokeCharacterLogin(this);
 			Handler4.SendCharacterInfo(this);
 			Handler4.SendCharacterLook(this);
 			Handler4.SendQuestListBusy(this);
@@ -325,6 +326,7 @@ namespace Zepheus.Zone.Game
 			Handler6.SendDetailedCharacterInfo(this);
             this.WritePremiumList(0);
             this.WriteRewardList(0);
+          
 		}
 		public void SwapEquips(Item sourceEquip, Item destEquip)
 		{
@@ -1034,9 +1036,9 @@ namespace Zepheus.Zone.Game
 			packet.WriteUShort(0);             // Mob ID (title = 10)
         
 			packet.Fill(55, 0);                // Buff Bits? Something like that
-            if (this.Character.GuildID > 0)
+            if (this.Character.GuildID > 1)
             {
-                packet.WriteInt(this.Character.GuildID);
+                packet.WriteInt(this.Guild.ID);
             }
             else if (this.Character.AcademyID > 0)
             {
@@ -1048,7 +1050,7 @@ namespace Zepheus.Zone.Game
             }
 			packet.WriteByte(0x02);            // UNK (0x02)
 
-			packet.WriteBool(this.IsInAcademy());            // In Guild Academy (0 - No, 1 - Yes)
+			packet.WriteBool(this.IsInaAcademy);            // In Guild Academy (0 - No, 1 - Yes)
 			packet.WriteBool(true);            // Pet AutoPickup   (0 - Off, 1 - On)
 			packet.WriteByte(this.Level);
 		}

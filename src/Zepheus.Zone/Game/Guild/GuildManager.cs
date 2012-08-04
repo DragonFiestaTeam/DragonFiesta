@@ -32,14 +32,42 @@ namespace Zepheus.Zone.Game.Guilds
 
 
             
-        Managers.CharacterManager.OnCharacterLogin += On_CharacterManager_CharacterLogin;
+        Managers.CharacterManager.OnCharacterLogin += LoadGuildID;
         return true;
         }
         private static void On_CharacterManager_CharacterLogin(ZoneCharacter Character)
         {
             SetGuildBuff(Character);
         }
+        public static void LoadGuildID(ZoneCharacter pChar)
+        {
+            Guild g;
+           using(Database.DatabaseClient dbclient = Program.CharDBManager.GetClient())
+           {
+               int AcademyID = dbclient.ReadInt32("SELECT GuildID FROM guildacademymembers WHERE CharID=" + pChar.ID + "");
+               int GuildID = dbclient.ReadInt32("SELECT GuildID FROM guildmembers WHERE CharID=" + pChar.ID + "");
+               if(GuildID > 0)
+               {
 
+                   if (!GuildManager.GetGuildByID(GuildID, out g))
+                       return;
+                   pChar.Guild = g;
+           
+                   pChar.GuildMember = g.Members.Find(m => m.CharacterID== pChar.Character.ID);
+                   pChar.Character.GuildID = g.ID;
+
+               }
+               else if(AcademyID > 0)
+               {
+                   if (!GuildManager.GetGuildByID(AcademyID, out g))
+                       return;
+                   pChar.GuildAcademy = g.Academy;
+                   pChar.GuildAcademyMember = g.Academy.Members.Find(m => m.Character.ID == pChar.Character.ID);
+                   pChar.Character.AcademyID = g.ID;
+                   pChar.IsInaAcademy = true;
+               }
+           }
+        }
 
         public static void RemoveGuildBuff(ZoneCharacter Character)
         {
@@ -90,7 +118,9 @@ namespace Zepheus.Zone.Game.Guilds
 
                                 //add to cache
                                 LoadedGuilds.Add(Guild);
+                                reader.Close();
                             }
+                           
                         }
                     }
                 }
