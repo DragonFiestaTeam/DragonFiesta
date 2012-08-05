@@ -34,26 +34,43 @@ namespace Zepheus.Zone.Handlers
             }
             if (!client.Character.IsInaAcademy)
             {
-                using (var pack = new Packet(SH38Type.GuildExtraResponse))
+                using (var pack = new Packet(SH38Type.GuildItemList))
                 {
                     pack.WriteUShort(6104);//Responsecode //
                     pack.WriteLong(client.Character.Guild.GuildMoney);//guildmoney
                     pack.WriteByte((byte)client.Character.Guild.GuildStore.GuildStorageItems.Count);//ItemCount
-                    foreach (var Item in client.Character.Guild.GuildStore.GuildStorageItems.Values)
+                    foreach (var pItem in client.Character.Guild.GuildStore.GuildStorageItems.Values)
                     {
-                      //states or info?
+                        if (pItem.ItemInfo.Slot == ItemSlot.None)
+
+                            pItem.WriteStats(pack);
+
+                        else
+
+                            pItem.WriteEquipStats(pack);
+
                     }
-                    //foreach Items format unk
                     client.SendPacket(pack);
                 }
             }
             else
             {
-                using (var pack = new Packet(SH38Type.GuildExtraResponse))
+                using (var pack = new Packet(SH38Type.GuildItemList))
                 {
                     pack.WriteUShort(6104);//Responsecode
                     pack.WriteLong(client.Character.GuildAcademy.Guild.GuildMoney);//guildmoney
-                    pack.WriteByte(0);//unk
+                    pack.WriteByte((byte)client.Character.GuildAcademy.Guild.GuildStore.GuildStorageItems.Count);//ItemCount
+                    foreach (var pItem in client.Character.GuildAcademy.Guild.GuildStore.GuildStorageItems.Values)
+                    {
+                        if (pItem.ItemInfo.Slot == ItemSlot.None)
+
+                            pItem.WriteStats(packet);
+
+                        else
+
+                            pItem.WriteEquipStats(packet);
+
+                    }
                     client.SendPacket(pack);
                 }
             }

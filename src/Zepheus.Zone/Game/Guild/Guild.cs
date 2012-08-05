@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Zepheus.Zone.Game;
 using Zepheus.Zone.Game.Guilds.Academy;
 using Zepheus.InterLib.Encryption;
+using Zepheus.FiestaLib.Networking;
 
 namespace Zepheus.Zone.Game.Guilds
 {
@@ -68,7 +69,7 @@ namespace Zepheus.Zone.Game.Guilds
 
             Members = new List<GuildMember>();
             ThreadLocker = new object();
-            GuildStore = new GuildStorage(this.ID);
+            GuildStore = new GuildStorage(this);
             Load();
         }
         public void GuildMoneySave()
@@ -140,7 +141,31 @@ namespace Zepheus.Zone.Game.Guilds
         }
 
 
+        public void Broadcast(Packet Packet, GuildMember Exclude = null)
+        {
+            lock (ThreadLocker)
+            {
+                foreach (var member in Members)
+                {
+                    if (Exclude != null
+                        && member == Exclude)
+                        continue;
 
+
+                    if (member.IsOnline)
+                    {
+                        try
+                        {
+                            member.Character.Client.SendPacket(Packet);
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
 
         public bool GetMember(int CharacterID, out GuildMember Member)
         {

@@ -4,15 +4,35 @@ using System.Collections.Generic;
 using System.Data;
 using Zepheus.Zone.Data;
 using System.Collections;
+using Zepheus.FiestaLib;
+using Zepheus.FiestaLib.Networking;
+using Zepheus.Zone.Game.Guilds;
+
 namespace Zepheus.Zone.Game
 {
     public sealed class GuildStorage
     {
         public Dictionary<byte,Item> GuildStorageItems { get; private set; }
-        public GuildStorage(int GuildID)
+        public Guild Guild { get; private set; }
+        public GuildStorage(Guild G)
         {
             GuildStorageItems = new Dictionary<byte, Item>();
-          LoadGuildStorageFromDatabase(GuildID);
+            Guild = G;
+            LoadGuildStorageFromDatabase(G.ID);
+        }
+        public void SendAddGuildStore(GuildStoreAddFlags Flags,string Charname,long Value,long NewGuildMoney = 0,ushort ItemID = 0xFFFF)
+        {
+            using (var packet = new Packet(SH38Type.AddToGuildStore))
+            {
+                packet.WriteByte(0);//unk
+                packet.WriteByte((byte)Flags);
+                packet.WriteString(Charname, 16);
+                packet.WriteUShort(ItemID);
+                packet.WriteByte(0);
+                packet.WriteLong(Value);
+                packet.WriteLong(NewGuildMoney);//new GuildMoney
+                Guild.Broadcast(packet);
+            }
         }
         private void LoadGuildStorageFromDatabase(int GuildID)
         {

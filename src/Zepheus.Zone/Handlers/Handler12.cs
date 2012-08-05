@@ -88,6 +88,10 @@ namespace Zepheus.Zone.Handlers
             long TakeMoney;
             if (!packet.TryReadLong(out TakeMoney))
                 return;
+            if (client.Character.Guild == null)
+                return;
+            client.Character.Guild.GuildMoney -= TakeMoney;
+
         }
         [PacketHandler(CH12Type.GiveGuildMoney)]
         public static void GiveGuildMoney(ZoneClient client, Packet packet)
@@ -95,7 +99,19 @@ namespace Zepheus.Zone.Handlers
             long GiveMoney;
             if (!packet.TryReadLong(out GiveMoney))
                 return;
-            
+            if (client.Character.Guild == null)
+                return;
+            if (client.Character.Character.Money < GiveMoney)
+            {
+                //todo response you have money to low
+                return;
+            }
+            client.Character.Character.Money -= GiveMoney;
+            client.Character.ChangeMoney(client.Character.Character.Money);
+
+            client.Character.Guild.GuildMoney += GiveMoney;
+            client.Character.Guild.GuildMoneySave();
+            client.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Gold, client.Character.Character.Name, GiveMoney,  client.Character.Guild.GuildMoney);
         }
         [PacketHandler(CH12Type.BuyItem)]
         public static void BuyItem(ZoneClient client, Packet packet)
