@@ -74,7 +74,29 @@ namespace Zepheus.Zone.Handlers
                 pClient.Character.UnequipItem(sourceEquip, destinationSlot);
             }
         }
-
+        public static void SendMoveIteminContaInComplet(ZoneClient pClient)
+        {
+          using(var packet = new Packet(SH12Type.MoveIteminContaInComplet))
+          {
+              packet.WriteUShort(577);
+              pClient.SendPacket(packet);
+          }
+        }
+        [PacketHandler(CH12Type.TakeGuildMoney)]
+        public static void TakeGuildMoney(ZoneClient client, Packet packet)
+        {
+            long TakeMoney;
+            if (!packet.TryReadLong(out TakeMoney))
+                return;
+        }
+        [PacketHandler(CH12Type.GiveGuildMoney)]
+        public static void GiveGuildMoney(ZoneClient client, Packet packet)
+        {
+            long GiveMoney;
+            if (!packet.TryReadLong(out GiveMoney))
+                return;
+            
+        }
         [PacketHandler(CH12Type.BuyItem)]
         public static void BuyItem(ZoneClient client, Packet packet)
         {

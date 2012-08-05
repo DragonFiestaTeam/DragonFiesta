@@ -15,6 +15,7 @@ namespace Zepheus.Zone.Game.Guilds
         public int ID { get; private set; }
         public string Name { get; set; }
         public long GuildMoney { get; set; }
+        public GuildStorage GuildStore { get; set; }
         public string Password
         {
             get
@@ -67,10 +68,33 @@ namespace Zepheus.Zone.Game.Guilds
 
             Members = new List<GuildMember>();
             ThreadLocker = new object();
-
+            GuildStore = new GuildStorage(this.ID);
             Load();
         }
-       
+        public void GuildMoneySave()
+        {
+        MySqlConnection con = Program.CharDBManager.GetClient().GetConnection();
+        lock (ThreadLocker)
+        {
+            var conCreated = (con == null);
+            if (conCreated)
+            {
+                con = Program.DatabaseManager.GetClient().GetConnection();
+            }
+            using (var cmd = con.CreateCommand())
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "GuildMoney_Save";
+                cmd.Parameters.Add(new MySqlParameter("@pGuildID", this.ID));
+                cmd.Parameters.Add(new MySqlParameter("@pGuildMoney", this.GuildMoney));
+                cmd.ExecuteNonQuery();
+            }
+            if (conCreated)
+            {
+                con.Dispose();
+            }
+        }
+        }
         public void Dispose()
         {
             Name = null;

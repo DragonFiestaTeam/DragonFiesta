@@ -11,5 +11,9 @@ namespace Zepheus.Zone.Data
             Vendor = 1,
             Teleporter = 2
         }
-
+    public enum ItemFlags : byte
+    {
+        Normal = 0,
+        GuildItem = 1,
+    }
 }

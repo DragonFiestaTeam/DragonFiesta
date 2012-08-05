@@ -104,6 +104,8 @@ namespace Zepheus.FiestaLib
         ItemEnhance = 23,
         GetPremiumItemList = 32,
         GetRewardItemList = 44,
+        TakeGuildMoney = 47,
+        GiveGuildMoney = 49,
     }
 
     public enum CH15Type : byte

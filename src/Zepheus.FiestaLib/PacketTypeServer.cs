@@ -156,6 +156,7 @@ namespace Zepheus.FiestaLib
         ModifyEquipSlot = 2,
         InventoryFull = 4,
         ObtainedItem = 10,
+        MoveIteminContaInComplet = 12,
         FailedEquip = 17,
         FailedUnequip = 19,
         ItemUseEffect = 22,

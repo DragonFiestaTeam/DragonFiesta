@@ -13,14 +13,21 @@ namespace Zepheus.Zone.Handlers
             if (client.Character.Guild == null && client.Character.GuildAcademy == null)
                 return;
             byte response;
+            ushort ResponseCode;
             if (!packet.TryReadByte(out response))
                 return;
             switch (response)
             {
                 case 0:
-                    Console.WriteLine("Gilden Lager");
+                    if (client.Character.Guild == null)
+                    {
+                        //todo Response for is not in Guild end academymember
+                        return;
+                    }
+                  ResponseCode = 6104;
                     break;
                 case 1:
+
                     break;
                 case 2:
                     break;
@@ -29,9 +36,14 @@ namespace Zepheus.Zone.Handlers
             {
                 using (var pack = new Packet(SH38Type.GuildExtraResponse))
                 {
-                    pack.WriteUShort(6104);//Responsecode
+                    pack.WriteUShort(6104);//Responsecode //
                     pack.WriteLong(client.Character.Guild.GuildMoney);//guildmoney
-                    pack.WriteByte(0);//unk
+                    pack.WriteByte((byte)client.Character.Guild.GuildStore.GuildStorageItems.Count);//ItemCount
+                    foreach (var Item in client.Character.Guild.GuildStore.GuildStorageItems.Values)
+                    {
+                      //states or info?
+                    }
+                    //foreach Items format unk
                     client.SendPacket(pack);
                 }
             }

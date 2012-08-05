@@ -57,6 +57,7 @@
     <Compile Include="Game\Guild\GuildManager.cs" />
     <Compile Include="Game\Guild\GuildMember.cs" />
     <Compile Include="Game\Guild\GuildRank.cs" />
+    <Compile Include="Game\Guild\GuildStorage.cs" />
     <Compile Include="Game\Inventory\PremiumInventory.cs" />
     <Compile Include="Game\Inventory\RewardInventory.cs" />
     <Compile Include="Game\RewardItem.cs" />

@@ -26,7 +26,7 @@ namespace Zepheus.Zone.Game
         public virtual ushort Ammount { get; set; }
         public virtual uint Owner { get; set; }
         public virtual ulong UniqueID { get; set; }
-
+        public ItemFlags Flags { get; set; }
         public Item(ulong UniqueID,uint pOwner, ushort pID, sbyte Slot,ushort Amount = 1)
         {
             ItemSlot type;
@@ -36,10 +36,24 @@ namespace Zepheus.Zone.Game
             }
       
             this.Slot = (sbyte)type;
-
+            this.Flags = ItemFlags.Normal;
             this.Owner = pOwner;
             this.ID = pID;
             this.Slot = Slot;
+
+        }
+        public Item(int GuildID,ushort pID, byte Slot, ushort Amount = 1)
+        {
+            ItemSlot type;
+            if (!DataProvider.GetItemType(pID, out type))
+            {
+                throw new InvalidOperationException("Invalid item ID.");
+            }
+
+            this.Slot = (sbyte)type;
+            this.Flags = ItemFlags.GuildItem;
+            this.ID = pID;
+            this.Slot = (sbyte)Slot;
 
         }
         public Item()
