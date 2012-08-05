@@ -36,19 +36,22 @@ namespace Zepheus.Zone.Handlers
             {
                 using (var pack = new Packet(SH38Type.GuildItemList))
                 {
+                
                     pack.WriteUShort(6104);//Responsecode //
                     pack.WriteLong(client.Character.Guild.GuildMoney);//guildmoney
                     pack.WriteByte((byte)client.Character.Guild.GuildStore.GuildStorageItems.Count);//ItemCount
                     foreach (var pItem in client.Character.Guild.GuildStore.GuildStorageItems.Values)
                     {
                         if (pItem.ItemInfo.Slot == ItemSlot.None)
-
-                            pItem.WriteStats(pack);
-
+                        {
+                            pItem.WriteInfo(pack);
+                            pack.WriteByte((byte)pItem.Ammount);//amount
+                        }
                         else
-
-                            pItem.WriteEquipStats(pack);
-
+                        {
+                            pItem.WriteInfo(pack);
+                        
+                        }
                     }
                     client.SendPacket(pack);
                 }
@@ -57,19 +60,22 @@ namespace Zepheus.Zone.Handlers
             {
                 using (var pack = new Packet(SH38Type.GuildItemList))
                 {
-                    pack.WriteUShort(6104);//Responsecode
-                    pack.WriteLong(client.Character.GuildAcademy.Guild.GuildMoney);//guildmoney
+
+                    pack.WriteUShort(6104);//Responsecode //
+                    pack.WriteLong(client.Character.Guild.GuildMoney);//guildmoney
                     pack.WriteByte((byte)client.Character.GuildAcademy.Guild.GuildStore.GuildStorageItems.Count);//ItemCount
                     foreach (var pItem in client.Character.GuildAcademy.Guild.GuildStore.GuildStorageItems.Values)
                     {
                         if (pItem.ItemInfo.Slot == ItemSlot.None)
-
-                            pItem.WriteStats(packet);
-
+                        {
+                            pItem.WriteInfo(pack);
+                            pack.WriteByte((byte)pItem.Ammount);//amount
+                        }
                         else
+                        {
+                            pItem.WriteInfo(pack);
 
-                            pItem.WriteEquipStats(packet);
-
+                        }
                     }
                     client.SendPacket(pack);
                 }

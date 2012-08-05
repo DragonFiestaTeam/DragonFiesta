@@ -54,7 +54,7 @@ namespace Zepheus.Zone.Game
             this.Flags = ItemFlags.GuildItem;
             this.ID = pID;
             this.Slot = (sbyte)Slot;
-
+            this.Ammount = Amount;
         }
         public Item()
         {
@@ -142,9 +142,14 @@ namespace Zepheus.Zone.Game
 
             Packet.WriteByte(length);
             Packet.WriteByte((byte)Slot);
-            Packet.WriteByte((byte)(IsEquipped ? 0x20 : 0x24));
-
-        
+            if (this.Flags == ItemFlags.Normal)
+            {
+                Packet.WriteByte((byte)(IsEquipped ? 0x20 : 0x24));
+            }
+            else if(this.Flags == ItemFlags.GuildItem)
+            {
+                Packet.WriteByte(0);// 1 not display 0 display in store
+            }
 
             if (WriteStats)
             {
@@ -154,6 +159,7 @@ namespace Zepheus.Zone.Game
                     WriteEquipStats(Packet);
             }
         }
+       
         public void WriteStats(Packet Packet)
         {
             Packet.WriteUShort(ItemInfo.ItemID);
