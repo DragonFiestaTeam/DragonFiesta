@@ -34,6 +34,40 @@ namespace Zepheus.Zone.Game
                 Guild.Broadcast(packet);
             }
         }
+        public void SendRemoveFromGuildStore(GuildStoreAddFlags Flags, string Charname, long Value, long NewGuildMoney = 0, ushort ItemID = 0xFFFF)
+        {
+            using (var packet = new Packet(SH38Type.RemoveFromGuildStore))
+            {
+                packet.WriteByte(0);//unk
+                packet.WriteByte((byte)Flags);
+                packet.WriteString(Charname, 16);
+                packet.WriteUShort(ItemID);
+                packet.WriteByte(0);
+                packet.WriteLong(Value);
+                packet.WriteLong(NewGuildMoney);//new GuildMoney
+                Guild.Broadcast(packet);
+            }
+        }
+        public void SaveStoreItem(int GuildID,ushort ItemID,byte pSlot)
+        {
+        }
+        public void RemoveStoreItem(int GuildID,ushort ItemID)
+        {
+        }
+        public bool GetfreeGuildStoreSlot(out sbyte pSlot)
+        {
+            pSlot = -1;
+            for (sbyte i = 0; i < 92; i++)
+            {
+                if (!this.GuildStorageItems.ContainsKey((byte)i))
+                {
+                    pSlot = i;
+                    return true;
+                }
+            }
+            return false;
+        }
+      
         private void LoadGuildStorageFromDatabase(int GuildID)
         {
             DataTable GuildItemData = null;

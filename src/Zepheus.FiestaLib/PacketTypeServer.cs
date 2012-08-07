@@ -308,8 +308,8 @@ namespace Zepheus.FiestaLib
         AcademyChat = 105,
         AcademyChatBlocked = 106,
         GuildItemList = 110,
+        RemoveFromGuildStore = 115,
         AddToGuildStore = 117,
-
     }
     public enum SH42Type : byte
     {

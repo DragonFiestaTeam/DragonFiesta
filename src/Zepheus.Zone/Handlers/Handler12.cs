@@ -13,15 +13,15 @@ namespace Zepheus.Zone.Handlers
         public static void GetPremiumItemList(ZoneClient pClient, Packet pPacket)
         {
             byte PageID;
-            if(!pPacket.TryReadByte(out PageID))
-            return;
+            if (!pPacket.TryReadByte(out PageID))
+                return;
 
             pClient.Character.WritePremiumList(PageID);
         }
         [PacketHandler(CH12Type.GetRewardItemList)]
         public static void GetRewardItemList(ZoneClient pClient, Packet pPacket)
         {
-           ushort PageID;
+            ushort PageID;
             if (!pPacket.TryReadUShort(out PageID))
                 return;
 
@@ -76,11 +76,11 @@ namespace Zepheus.Zone.Handlers
         }
         public static void SendMoveIteminContaInComplet(ZoneClient pClient)
         {
-          using(var packet = new Packet(SH12Type.MoveIteminContaInComplet))
-          {
-              packet.WriteUShort(577);
-              pClient.SendPacket(packet);
-          }
+            using (var packet = new Packet(SH12Type.MoveIteminContaInComplet))
+            {
+                packet.WriteUShort(577);
+                pClient.SendPacket(packet);
+            }
         }
         [PacketHandler(CH12Type.TakeGuildMoney)]
         public static void TakeGuildMoney(ZoneClient client, Packet packet)
@@ -91,7 +91,7 @@ namespace Zepheus.Zone.Handlers
             if (client.Character.Guild == null)
                 return;
             client.Character.Guild.GuildMoney -= TakeMoney;
-
+            client.Character.Guild.GuildStore.SendRemoveFromGuildStore(Data.GuildStoreAddFlags.Gold, client.Character.Character.Name, TakeMoney, client.Character.Guild.GuildMoney);
         }
         [PacketHandler(CH12Type.GiveGuildMoney)]
         public static void GiveGuildMoney(ZoneClient client, Packet packet)
@@ -111,7 +111,7 @@ namespace Zepheus.Zone.Handlers
 
             client.Character.Guild.GuildMoney += GiveMoney;
             client.Character.Guild.GuildMoneySave();
-            client.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Gold, client.Character.Character.Name, GiveMoney,  client.Character.Guild.GuildMoney);
+            client.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Gold, client.Character.Character.Name, GiveMoney, client.Character.Guild.GuildMoney);
         }
         [PacketHandler(CH12Type.BuyItem)]
         public static void BuyItem(ZoneClient client, Packet packet)
@@ -121,74 +121,74 @@ namespace Zepheus.Zone.Handlers
             int amount;
             if (packet.TryReadUShort(out buyItemID) && packet.TryReadInt(out amount))
             {
-               FiestaLib.Data.ItemInfo  buyItem;
-               Data.DataProvider.Instance.ItemsByID.TryGetValue(buyItemID, out buyItem);
-               if (amount < 255)
-               {
-                   if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
-                   {
-                       character.Inventory.Money -= amount * buyItem.BuyPrice;
-                       character.ChangeMoney(character.Inventory.Money);
-                   }
-               }
-               else
-               {
-                   while (amount > 0)
-                   {
-                       if (character.GiveItem(buyItemID, 255) != InventoryStatus.Full)
-                       {
-                           character.Inventory.Money -= amount * buyItem.BuyPrice;
-                           character.ChangeMoney(character.Inventory.Money);
-                           character.CalculateMasterCopper(buyItem.BuyPrice);
-                       }
-                       if (amount < 255)
-                       {
-                           if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
-                           {
-                               character.Inventory.Money -= amount * buyItem.BuyPrice;
-                               character.ChangeMoney(character.Inventory.Money);
-                               character.CalculateMasterCopper(buyItem.BuyPrice);
-                           }
-                           break;
-                       }
-                       amount -= 255;
-                   }
-               }
+                FiestaLib.Data.ItemInfo buyItem;
+                Data.DataProvider.Instance.ItemsByID.TryGetValue(buyItemID, out buyItem);
+                if (amount < 255)
+                {
+                    if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
+                    {
+                        character.Inventory.Money -= amount * buyItem.BuyPrice;
+                        character.ChangeMoney(character.Inventory.Money);
+                    }
+                }
+                else
+                {
+                    while (amount > 0)
+                    {
+                        if (character.GiveItem(buyItemID, 255) != InventoryStatus.Full)
+                        {
+                            character.Inventory.Money -= amount * buyItem.BuyPrice;
+                            character.ChangeMoney(character.Inventory.Money);
+                            character.CalculateMasterCopper(buyItem.BuyPrice);
+                        }
+                        if (amount < 255)
+                        {
+                            if (character.GiveItem(buyItemID, (byte)amount) != InventoryStatus.Full)
+                            {
+                                character.Inventory.Money -= amount * buyItem.BuyPrice;
+                                character.ChangeMoney(character.Inventory.Money);
+                                character.CalculateMasterCopper(buyItem.BuyPrice);
+                            }
+                            break;
+                        }
+                        amount -= 255;
+                    }
+                }
             }
         }
         [PacketHandler(CH12Type.SellItem)]
         public static void SellItem(ZoneClient client, Packet packet)
         {
-           byte slot;
-           int sellcount;
-           ZoneCharacter character = client.Character;
-           if (packet.TryReadByte(out slot) && packet.TryReadInt(out sellcount))
-           {
-               
-               Item item;
-               character.Inventory.InventoryItems.TryGetValue(slot,out item);
-               if (item != null)
-               {
-          
-                   long fullSellPrice = sellcount * item.ItemInfo.SellPrice;
-                   if (item.Ammount > 1)
-                   {
-                       item.Ammount-= (ushort)sellcount;
-                       byte Slot = (byte)item.Slot;
-                       Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
-                       character.Inventory.Money += fullSellPrice;
-                       character.ChangeMoney(character.Inventory.Money);
-                   }
-                   else
-                   {
-                       character.Inventory.Money += fullSellPrice;
-                       character.ChangeMoney(character.Inventory.Money);
-                       character.Inventory.InventoryItems.Remove(slot);
-                       ResetInventorySlot(character, slot);
-                   }
-                   System.Console.WriteLine(item.ItemInfo.Type);
-               }
-           }
+            byte slot;
+            int sellcount;
+            ZoneCharacter character = client.Character;
+            if (packet.TryReadByte(out slot) && packet.TryReadInt(out sellcount))
+            {
+
+                Item item;
+                character.Inventory.InventoryItems.TryGetValue(slot, out item);
+                if (item != null)
+                {
+
+                    long fullSellPrice = sellcount * item.ItemInfo.SellPrice;
+                    if (item.Ammount > 1)
+                    {
+                        item.Ammount -= (ushort)sellcount;
+                        byte Slot = (byte)item.Slot;
+                        Handler12.ModifyInventorySlot(character, 0x24, Slot, Slot, item);
+                        character.Inventory.Money += fullSellPrice;
+                        character.ChangeMoney(character.Inventory.Money);
+                    }
+                    else
+                    {
+                        character.Inventory.Money += fullSellPrice;
+                        character.ChangeMoney(character.Inventory.Money);
+                        character.Inventory.InventoryItems.Remove(slot);
+                        ResetInventorySlot(character, slot);
+                    }
+                    System.Console.WriteLine(item.ItemInfo.Type);
+                }
+            }
         }
         [PacketHandler(CH12Type.LootItem)]
         public static void LootHandler(ZoneClient client, Packet packet)
@@ -308,11 +308,11 @@ namespace Zepheus.Zone.Handlers
             {
                 if (toEquip == null)
                 {
-                  pClient.Character.EquipItem(fromItem);
+                    pClient.Character.EquipItem(fromItem);
                 }
                 else
                 {
-                    pClient.Character.SwapEquips(toEquip,fromItem);
+                    pClient.Character.SwapEquips(toEquip, fromItem);
                 }
             }
         }
@@ -338,41 +338,101 @@ namespace Zepheus.Zone.Handlers
             Item source;
             if (!pClient.Character.Inventory.InventoryItems.TryGetValue(oldslot, out source))
             {
-                Log.WriteLine(LogLevel.Warn, "Client tried to move empty slot.");
-                return;
-            }
+                if (pClient.Character.Guild != null)
+                {
+                    if (!pClient.Character.Guild.GuildStore.GuildStorageItems.TryGetValue(oldslot, out source))
+                        return;
+                }
+                else
+                {
+                    Log.WriteLine(LogLevel.Warn, "Client tried to move empty slot.");
+                    return;
 
+                }
+            }
+           /* if (newstate == 0x00 && pClient.Character.Guild != null)
+            {
+                pClient.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Equip, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
+                Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, destination);
+                Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
+
+            }*/
             if (newslot == 0xff || newstate == 0xff)
             {
                 pClient.Character.Inventory.InventoryItems.Remove(oldslot);
                 source.Delete(); //TODO: make a drop
                 Handler12.ModifyInventorySlot(pClient.Character, oldslot, oldstate, (byte)source.Slot, null);
             }
-
-            Item destination;
-            if (pClient.Character.Inventory.InventoryItems.TryGetValue(newslot, out destination))
+            else if(newstate == 0x00 && source.Flags == Data.ItemFlags.Normal && pClient.Character.Guild != null)
             {
-                //item swap
-                pClient.Character.Inventory.InventoryItems.Remove(oldslot);
-                pClient.Character.Inventory.InventoryItems.Remove(newslot);
-                source.Slot = (sbyte)newslot;
-                destination.Slot = (sbyte)oldslot;
-                pClient.Character.Inventory.InventoryItems.Add(newslot, source);
-                pClient.Character.Inventory.InventoryItems.Add(oldslot, destination);
-                source.Save();
-                destination.Save();
-               Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, destination);
-               Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
+                pClient.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Item, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
+                pClient.Character.Guild.GuildStore.SaveStoreItem(pClient.Character.Guild.ID, source.ItemInfo.ItemID, newslot);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot, null);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, oldstate, newstate, newslot, source);
+                return;
             }
-            else
+            else if(oldstate == 0x00 && newstate == 0x24 && pClient.Character.Guild != null)
             {
-                //item moved to empty slot
-                pClient.Character.Inventory.InventoryItems.Remove(oldslot);
-                pClient.Character.Inventory.InventoryItems.Add(newslot, source);
-                source.Slot = (sbyte)newslot;
-                source.Save();
-                Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, null);
-                Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
+                pClient.Character.Guild.GuildStore.SendRemoveFromGuildStore (Data.GuildStoreAddFlags.Item, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
+                pClient.Character.Guild.GuildStore.RemoveStoreItem(pClient.Character.Guild.ID, source.ItemInfo.ItemID);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot, null);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, oldstate, newstate, newslot, source);
+                //todo remove logic
+                return;
+            }
+            if (source.Flags == Data.ItemFlags.Normal)
+            {
+                Item destination;
+                if (pClient.Character.Inventory.InventoryItems.TryGetValue(newslot, out destination))
+                {
+                    //item swap
+                    pClient.Character.Inventory.InventoryItems.Remove(oldslot);
+                    pClient.Character.Inventory.InventoryItems.Remove(newslot);
+                    source.Slot = (sbyte)newslot;
+                    destination.Slot = (sbyte)oldslot;
+                    pClient.Character.Inventory.InventoryItems.Add(newslot, source);
+                    pClient.Character.Inventory.InventoryItems.Add(oldslot, destination);
+                    source.Save();
+                    destination.Save();
+                    Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, destination);
+                    Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
+                }
+                else
+                {
+                    //item moved to empty slot
+                    pClient.Character.Inventory.InventoryItems.Remove(oldslot);
+                    pClient.Character.Inventory.InventoryItems.Add(newslot, source);
+                    source.Slot = (sbyte)newslot;
+                    source.Save();
+                    Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, null);
+                    Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
+                }
+            }
+            else if (source.Flags == Data.ItemFlags.GuildItem)
+            {
+                Item destination;
+                if (pClient.Character.Guild.GuildStore.GuildStorageItems.TryGetValue(newslot, out destination))
+                {
+                    //item swap
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Remove(oldslot);
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Remove(newslot);
+                    source.Slot = (sbyte)newslot;
+                    destination.Slot = (sbyte)oldslot;
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Add(newslot, source);
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Add(oldslot, destination);
+                    Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot, destination);
+                    Handler12.ModifyInventorySlot(pClient.Character, oldstate, oldstate, newstate, newslot, source);
+                }
+                else
+                {
+                    //item moved to empty slot
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Remove(oldslot);
+                    pClient.Character.Guild.GuildStore.GuildStorageItems.Add(newslot, source);
+                    source.Slot = (sbyte)newslot;
+
+                    Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot,null);
+                    Handler12.ModifyInventorySlot(pClient.Character, newstate, oldstate, newstate, newslot, source);
+                }
             }
         }
         [PacketHandler(CH12Type.DropItem)]
@@ -503,9 +563,9 @@ namespace Zepheus.Zone.Handlers
                 }
                 else
                 {
-                    if(item.ItemInfo.Slot == ItemSlot.None)
+                    if (item.ItemInfo.Slot == ItemSlot.None)
                     {
-                    item.WriteStats(packet);
+                        item.WriteStats(packet);
                     }
                     else
                     {
@@ -519,7 +579,7 @@ namespace Zepheus.Zone.Handlers
         public static void ResetInventorySlot(ZoneCharacter character, byte slot)
         {
 
-            
+
             using (var packet = new Packet(SH12Type.ModifyItemSlot))
             {
                 packet.WriteByte(0);
