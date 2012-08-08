@@ -336,48 +336,63 @@ namespace Zepheus.Zone.Handlers
             }
 
             Item source;
-            if (!pClient.Character.Inventory.InventoryItems.TryGetValue(oldslot, out source))
+            if (!pClient.Character.Inventory.InventoryItems.TryGetValue(oldslot, out source) && newstate != 0x00 && oldstate != 0x00 || newstate == 0x00)
             {
                 if (pClient.Character.Guild != null)
                 {
-                    if (!pClient.Character.Guild.GuildStore.GuildStorageItems.TryGetValue(oldslot, out source))
-                        return;
+                   if(newstate == 0x00 && oldstate == 0x24)
+                    {
+                        source.Flags = Data.ItemFlags.GuildItem;
+                    }
+                   else if(newstate == 0x24 && oldstate == 0x00)
+                   {
+                       source.Flags = Data.ItemFlags.Normal;
+                   }
+                    else if (source == null || newstate != 0x24)
+                    {
+                        if (!pClient.Character.Guild.GuildStore.GuildStorageItems.TryGetValue(oldslot, out source))
+                        {
+                            return;
+                        }
+                    }
                 }
-                else
+                if (source == null)
                 {
                     Log.WriteLine(LogLevel.Warn, "Client tried to move empty slot.");
                     return;
-
                 }
             }
-           /* if (newstate == 0x00 && pClient.Character.Guild != null)
-            {
-                pClient.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Equip, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
-                Handler12.ModifyInventorySlot(pClient.Character, newslot, 0x24, oldslot, destination);
-                Handler12.ModifyInventorySlot(pClient.Character, oldslot, 0x24, newslot, source);
-
-            }*/
             if (newslot == 0xff || newstate == 0xff)
             {
                 pClient.Character.Inventory.InventoryItems.Remove(oldslot);
                 source.Delete(); //TODO: make a drop
                 Handler12.ModifyInventorySlot(pClient.Character, oldslot, oldstate, (byte)source.Slot, null);
             }
-            else if(newstate == 0x00 && source.Flags == Data.ItemFlags.Normal && pClient.Character.Guild != null)
+            else if(newstate == 0x00 && oldstate == 0x24 && pClient.Character.Guild != null)
             {
+
+                if (!pClient.Character.Guild.GuildStore.GetHasFreeGuildStoreSlot())
+                    //todo GuildStorefuell
+                    return;
+                pClient.Character.Inventory.RemoveInventory(source);
+                pClient.Character.Guild.GuildStore.GuildStorageItems.Add(newslot, source);
                 pClient.Character.Guild.GuildStore.SendAddGuildStore(Data.GuildStoreAddFlags.Item, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
                 pClient.Character.Guild.GuildStore.SaveStoreItem(pClient.Character.Guild.ID, source.ItemInfo.ItemID, newslot);
-                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot, null);
-                Handler12.ModifyInventorySlot(pClient.Character, oldstate, oldstate, newstate, newslot, source);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, oldslot, null);
+                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, oldslot, newslot, source);
                 return;
             }
             else if(oldstate == 0x00 && newstate == 0x24 && pClient.Character.Guild != null)
             {
+                if (!pClient.Character.Guild.GuildStore.GuildStorageItems.TryGetValue(oldslot, out source))
+                    return;
+                source.Slot = (sbyte)newslot;
+                pClient.Character.Guild.GuildStore.GuildStorageItems.Remove(oldslot);
+                pClient.Character.Inventory.AddToInventory(source);
                 pClient.Character.Guild.GuildStore.SendRemoveFromGuildStore (Data.GuildStoreAddFlags.Item, pClient.Character.Character.Name, source.Ammount, 0, source.ItemInfo.ItemID);
                 pClient.Character.Guild.GuildStore.RemoveStoreItem(pClient.Character.Guild.ID, source.ItemInfo.ItemID);
-                Handler12.ModifyInventorySlot(pClient.Character, oldstate, newstate, newslot, oldslot, null);
-                Handler12.ModifyInventorySlot(pClient.Character, oldstate, oldstate, newstate, newslot, source);
-                //todo remove logic
+                Handler12.ModifyInventorySlot(pClient.Character, newstate,oldstate, newslot, oldslot, null);
+                Handler12.ModifyInventorySlot(pClient.Character, newstate, newstate, newstate, newslot, source);
                 return;
             }
             if (source.Flags == Data.ItemFlags.Normal)

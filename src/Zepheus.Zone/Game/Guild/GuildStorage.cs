@@ -54,14 +54,12 @@ namespace Zepheus.Zone.Game
         public void RemoveStoreItem(int GuildID,ushort ItemID)
         {
         }
-        public bool GetfreeGuildStoreSlot(out sbyte pSlot)
+        public bool GetHasFreeGuildStoreSlot()
         {
-            pSlot = -1;
-            for (sbyte i = 0; i < 92; i++)
+            for (byte i = 0; i < 92; i++)
             {
-                if (!this.GuildStorageItems.ContainsKey((byte)i))
+                if (!this.GuildStorageItems.ContainsKey(i))
                 {
-                    pSlot = i;
                     return true;
                 }
             }
