@@ -195,6 +195,7 @@ namespace Zepheus.FiestaLib
         BlockAcademyChat = 33,
         UpdateDetails = 36,
         ChangeRequestToGuild = 44,
+        GetAcademyGoldRewardList = 49,
         AcademyChat = 104,
         GuildExtraRequest = 109,
     }

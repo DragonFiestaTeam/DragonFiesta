@@ -300,6 +300,7 @@ namespace Zepheus.FiestaLib
         SendChangeDetailsResponse = 37,
         SendChangeDetails = 38,
         SendJoinGuildFromAcademy = 46,
+        SendAcademyGoldRewardList = 50,
         AcademyMemberLeft = 96,
         AcademyMemberLoggedIn = 97,
         AcademyMemberLoggedOut = 98,
