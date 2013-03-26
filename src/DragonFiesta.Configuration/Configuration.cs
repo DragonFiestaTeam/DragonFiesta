@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Xml.Serialization;
 using DragonFiesta.Configuration.Sections;
-using DragonFiesta.Database;
 
 namespace DragonFiesta.Configuration
 {
@@ -10,12 +9,14 @@ namespace DragonFiesta.Configuration
         #region Ignore
         [XmlIgnore]
         public static Configuration Instance { get; set; }
-        [XmlIgnore]
-        public EntitySetting Entity { get; set; }
         #endregion
 
-        public DatabaseSettingsSection DatabaseSettings = new DatabaseSettingsSection(DatabaseOption.MSSQL, "localhost",
-                                                             "root", "root", "fiestare_login");
+        public DatabaseSettingsSection DatabaseSettings = new DatabaseSettingsSection(DatabaseOption.MySQL, "localhost",
+                                                             "root", "root", "fiestare_login",3306,10,12);
+
+        public DatabaseSettingsSection WorldAndGameSettings = new DatabaseSettingsSection(DatabaseOption.MySQL, "localhost",
+                                                             "root", "root", "fiestare_login", 3306, 10, 12, "fiestare_game", "fiestare_World");
+
         public ServerSettingsSection ServerSettings = new ServerSettingsSection("0.0.0.0", 9000, false);
         public QueueSettings QueueSettings = new QueueSettings();
 

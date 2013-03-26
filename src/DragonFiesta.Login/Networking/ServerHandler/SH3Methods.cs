@@ -3,7 +3,8 @@ using DragonFiesta.Login.Core;
 using DragonFiesta.Networking;
 using DragonFiesta.Networking.Handler.Server;
 using DragonFiesta.Util;
-using Zepheus.FiestaLib;
+using DragonFiesta.FiestaLib;
+using DragonFiesta.Login.DataTypes;
 
 namespace DragonFiesta.Login.Networking.ServerHandler
 {
@@ -46,6 +47,23 @@ namespace DragonFiesta.Login.Networking.ServerHandler
 				pClient.SendPacket(packet);
 			}
 		}
+
+
+        public static void SendWorldServerIP(ClientBase pClient, WorldServerInfo pInfo, string hash)
+        {
+        	using(var pack = new Packet(SH3Type._Header,SH3Type.WorldServerIP))
+			{
+                pack.WriteByte((byte)pInfo.Status);
+
+                pack.WriteString(pInfo.Ip, 16);
+
+                pack.WriteUShort(pInfo.Port);
+                pack.WriteString(hash, 32);
+                pack.Fill(32, 0);
+                pClient.SendPacket(pack);
+            }
+        }
+
 		public static void WorldList(LoginClient pClient)
 		{
 			WorldList(pClient, pClient.SentWorldListAlready);

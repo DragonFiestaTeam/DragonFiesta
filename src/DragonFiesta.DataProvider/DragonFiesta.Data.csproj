@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{42087DEF-F5C5-4F93-ACCB-F6537F8882C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DragonFiesta.Data</RootNamespace>
+    <AssemblyName>DragonFiesta.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CharacterPacketHelper.cs" />
+    <Compile Include="DataProvider\StatsCalculator.cs" />
+    <Compile Include="Event\Event.cs" />
+    <Compile Include="ObjectsDefines\Character\Acount.cs" />
+    <Compile Include="ObjectsDefines\Character\Character.cs" />
+    <Compile Include="ObjectsDefines\Character\CharacterClass.cs" />
+    <Compile Include="ObjectsDefines\Character\CharacterStatePoints.cs" />
+    <Compile Include="ObjectsDefines\Character\CharacterStats.cs" />
+    <Compile Include="ObjectsDefines\Character\LookInfo.cs" />
+    <Compile Include="ObjectsDefines\Character\PositionInfo.cs" />
+    <Compile Include="DataProvider\DataProvider.cs" />
+    <Compile Include="ObjectsDefines\StonePowerInfo.cs" />
+    <Compile Include="Objects\Entities\CharacterObject.cs" />
+    <Compile Include="Objects\Entities\MapObject.cs" />
+    <Compile Include="DataProvider\DataProviderStorage.cs" />
+    <Compile Include="DataProvider\DataProviderUtils.cs" />
+    <Compile Include="ObjectsDefines\MapData.cs" />
+    <Compile Include="Objects\Map.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Storage\MapStorage.cs" />
+    <Compile Include="Transfer\ClientTransfer.cs" />
+    <Compile Include="Transfer\ClientTransferManager.cs" />
+    <Compile Include="Transfer\TransferType.cs" />
+    <Compile Include="ZoneServer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DragonFiesta.Database\DragonFiesta.Database.csproj">
+      <Project>{87e6c728-a2e8-46ef-9334-39cfcb7a211f}</Project>
+      <Name>DragonFiesta.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.FiestaLib\DragonFiesta.FiestaLib.csproj">
+      <Project>{0f8f0f42-7562-4bf5-b2d6-8aa2ff13a97f}</Project>
+      <Name>DragonFiesta.FiestaLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.Interfacse\DragonFiesta.Interfaces.csproj">
+      <Project>{a67220f8-c48d-47ff-9e79-af3964351b48}</Project>
+      <Name>DragonFiesta.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.InterNetwork\DragonFiesta.InterNetwork.csproj">
+      <Project>{8b8e739f-c3f7-48d8-87e8-d51baac06feb}</Project>
+      <Name>DragonFiesta.InterNetwork</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.Networking\DragonFiesta.Networking.csproj">
+      <Project>{b14f59a7-9757-4b79-a539-1825c4c5abf1}</Project>
+      <Name>DragonFiesta.Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.Util\DragonFiesta.Util.csproj">
+      <Project>{463fa649-3e4c-42a0-af28-9132e1be07db}</Project>
+      <Name>DragonFiesta.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ObjectsDefines\Item\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

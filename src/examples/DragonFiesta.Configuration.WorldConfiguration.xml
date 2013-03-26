@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WorldConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <DatabaseSettings>
+    <DbOption>MySQL</DbOption>
+    <Host>localhost</Host>
+    <User>root</User>
+    <Password>root</Password>
+    <DbName>fiestare_login</DbName>
+    <DatabasePort>3306</DatabasePort>
+    <MinPoolSize>10</MinPoolSize>
+    <MaxPoolSize>12</MaxPoolSize>
+  </DatabaseSettings>
+  <WorldAndGameSettings>
+    <DbOption>MySQL</DbOption>
+    <Host>localhost</Host>
+    <User>root</User>
+    <Password>root</Password>
+    <DbName>fiestare_login</DbName>
+    <GameDB>fiestare_game</GameDB>
+    <WorldDb>fiestare_World</WorldDb>
+    <DatabasePort>3306</DatabasePort>
+    <MinPoolSize>10</MinPoolSize>
+    <MaxPoolSize>12</MaxPoolSize>
+  </WorldAndGameSettings>
+  <ServerSettings>
+    <ListenIP>0.0.0.0</ListenIP>
+    <Port>9020</Port>
+    <ExternalIP />
+    <AutoGetExternIP>false</AutoGetExternIP>
+  </ServerSettings>
+  <QueueSettings>
+    <MyQueue>
+      <Name>df_world</Name>
+      <Path>.\PRIVATE$\df_world</Path>
+    </MyQueue>
+<SubscribeTo>
+  <Queue>
+   <Name>Login</Name>
+   <Path>.\PRIVATE$\df_login</Path>
+  </Queue>
+ </SubscribeTo>
+  </QueueSettings>
+  <ZoneCount>3</ZoneCount>
+</WorldConfiguration>

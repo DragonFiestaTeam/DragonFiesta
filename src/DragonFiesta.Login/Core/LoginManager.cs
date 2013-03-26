@@ -5,7 +5,7 @@ using DragonFiesta.Login.Networking;
 using DragonFiesta.Login.Networking.ServerHandler;
 using DragonFiesta.Networking;
 using DragonFiesta.Util;
-using Zepheus.FiestaLib;
+using DragonFiesta.FiestaLib;
 
 namespace DragonFiesta.Login.Core
 {
@@ -29,16 +29,22 @@ namespace DragonFiesta.Login.Core
 			{
 
 				var client = pClient as LoginClient;
+                int AccountID;
+                byte Access_level;
 				if (client == null)
 				{
 					throw new UnexpectedTypeException(typeof (LoginClient), pClient.GetType());
 				}
-				switch (DatabaseManager.Auth(username, password))
+				switch (Account.Auth(username, password,out Access_level,out AccountID))
 				{
 					case AuthState.Ok:
 						// User is allowed to login.
 						SH3Methods.AllowFiles(client);
 						SH3Methods.WorldList(client);
+                        client.Authed = true;
+                        client.Username = username;
+                        client.Access_level = Access_level;
+                        client.AccountID = AccountID;
 						break;
 					case AuthState.DbError:
 						// Error in the Database, send error.
@@ -87,7 +93,7 @@ namespace DragonFiesta.Login.Core
 					Logs.Main.ErrorFormat("client tried to login while sending 2 diff versions..");
 					return;
 				}
-				bool allowed = DatabaseManager.VersionAllowed(pVersion.Year, pVersion.Version);
+				bool allowed = Account.VersionAllowed(pVersion.Year, pVersion.Version);
 				SH3Methods.VersionAllowed(pClient, allowed);
 			}
 			catch(Exception e)
@@ -100,7 +106,7 @@ namespace DragonFiesta.Login.Core
         {
             try
             {
-                bool allowed = DatabaseManager.CheckHashes(hash);
+                bool allowed = Account.CheckHashes(hash);
                 LoginClient client = sender as LoginClient;
                 if(client == null)
                     throw new UnexpectedTypeException(typeof (LoginClient), sender.GetType());

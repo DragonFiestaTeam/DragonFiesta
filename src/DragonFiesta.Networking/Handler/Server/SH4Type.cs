@@ -2,6 +2,8 @@ namespace DragonFiesta.Networking.Handler.Server
 {
 	public class SH4Type : PacketHeader
 	{
+        public new const byte _Header = 4;
+
 		public const byte Money = 51;
 		public const byte UpdateStats = 53;
 		public const byte ConnectError = 2;
@@ -11,15 +13,19 @@ namespace DragonFiesta.Networking.Handler.Server
 		public const byte CharacterInfo = 56;
 		public const byte CharacterLook = 57;
 		public const byte CharacterQuestBusy = 58;
+        public const byte CharacterQuestDone = 59;
 		public const byte CharacterActiveSkillList = 61;
 		public const byte CharacterPassiveSkillList = 62;
 		public const byte CharacterItemList = 71;
 		public const byte CharacterInfoEnd = 72;
+        public const byte CharacterTitles = 73;
 		public const byte CharacterTimedItemList = 74;
 		public const byte ReviveWindow = 77;
 		public const byte Revive = 79;
 		public const byte CharacterPoints = 91;
 		public const byte SetPointOnStat = 95;
 		public const byte CharacterAcademyInfo = 151;
+        public const byte unk2 = 215;
+        public const byte unk1 = 206;
 	}
 }

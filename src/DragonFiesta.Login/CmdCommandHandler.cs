@@ -32,7 +32,7 @@ namespace DragonFiesta.Login
                                 case "create":
                                     if (Cmd.Length == 5)
                                     {
-                                        Login.Database.DatabaseManager.CreateAccount(Cmd[2], Cmd[3]);
+                                        Login.Database.Account.CreateAccount(Cmd[2], Cmd[3]);
                                     }
                                     break;
                                 case "delete":

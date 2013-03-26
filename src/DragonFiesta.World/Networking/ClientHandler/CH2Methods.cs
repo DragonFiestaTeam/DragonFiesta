@@ -3,6 +3,7 @@ using DragonFiesta.Networking;
 using DragonFiesta.Networking.Handler.Client;
 using DragonFiesta.Util;
 
+
 namespace DragonFiesta.World.Networking.ClientHandler
 {
     [PacketHandlerClass(CH2Type._Header)]
@@ -17,6 +18,12 @@ namespace DragonFiesta.World.Networking.ClientHandler
 
             client.LastPong = DateTime.Now;
             // ToDo: Check for timeout 
+        }
+
+        [PacketHandler(CH2Type.Unk1)]
+        public static void Handunk1(WorldClient character, Packet packet)
+        {
+            ServerHandler.SH2Methods.Sendunk1(character);
         }
     }
 }

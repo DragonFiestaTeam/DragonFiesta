@@ -165,12 +165,15 @@
       <Project>{0b4b8b2f-6299-4e3f-bdaf-85dac52bbce6}</Project>
       <Name>DragonFiesta.Configuration</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zepheus.FiestaLib\Zepheus.FiestaLib.csproj">
-      <Project>{0F8F0F42-7562-4BF5-B2D6-8AA2FF13A97F}</Project>
-      <Name>Zepheus.FiestaLib</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\DragonFiesta.Database\DragonFiesta.Database.csproj">
+      <Project>{87e6c728-a2e8-46ef-9334-39cfcb7a211f}</Project>
+      <Name>DragonFiesta.Database</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
+    <ProjectReference Include="..\DragonFiesta.FiestaLib\DragonFiesta.FiestaLib.csproj">
+      <Project>{0f8f0f42-7562-4bf5-b2d6-8aa2ff13a97f}</Project>
+      <Name>DragonFiesta.FiestaLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.Util\DragonFiesta.Util.csproj">
       <Project>{463fa649-3e4c-42a0-af28-9132e1be07db}</Project>
       <Name>DragonFiesta.Util</Name>
     </ProjectReference>

@@ -135,16 +135,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DragonFiesta.Database\DragonFiesta.Database.csproj">
-      <Project>{381f5863-dcc6-407d-a372-5e9d11e7f317}</Project>
-      <Name>DragonFiesta.Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
-      <Project>{463fa649-3e4c-42a0-af28-9132e1be07db}</Project>
-      <Name>DragonFiesta.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

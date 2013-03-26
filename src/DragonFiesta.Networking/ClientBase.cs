@@ -20,6 +20,7 @@ namespace DragonFiesta.Networking
 		public bool Decrypt = true;
 
 		public event EventHandler<PacketReceivedEventArgs> PacketReceived;
+        public event EventHandler<EventArgs> OnDisconnect;
 
 		public bool IsDisposed { get { return (IsDisposedInt > 0); } }
 		private int IsDisposedInt;
@@ -44,9 +45,8 @@ namespace DragonFiesta.Networking
 			var addr = (IPEndPoint)Socket.RemoteEndPoint;
 			IP = addr.Address;
 			Port = (ushort)addr.Port;
-            
-			ReceiveBuffer = new byte[MaxReceiveBuffer];
 
+			ReceiveBuffer = new byte[MaxReceiveBuffer];
 			SendBuffer = new ConcurrentQueue<byte[]>();
 		}
 		public void Dispose()
@@ -69,7 +69,7 @@ namespace DragonFiesta.Networking
 		}
 		~ClientBase()
 		{
-			this.Dispose();
+            this.OnDisconnect(this, new EventArgs());
 		}
 
 		public virtual void Start()
@@ -93,7 +93,7 @@ namespace DragonFiesta.Networking
 			}
 			catch (Exception)
 			{
-				Dispose();
+                this.OnDisconnect(this, new EventArgs());
 			}
 		}
 		private void EndReceive(object sender, SocketAsyncEventArgs args)
@@ -108,7 +108,7 @@ namespace DragonFiesta.Networking
                 if (transfered < 1)
                 {
                     //socket error
-                    Dispose();
+                    this.OnDisconnect(this, new EventArgs());
                     return;
                 }
 
@@ -223,7 +223,7 @@ namespace DragonFiesta.Networking
             }
 			catch (Exception)
 			{
-				Dispose();
+                this.OnDisconnect(this, new EventArgs());
 			}
 			finally
 			{
@@ -257,7 +257,7 @@ namespace DragonFiesta.Networking
 			}
 			catch (Exception)
 			{
-				Dispose();
+                this.OnDisconnect(this, new EventArgs());
 			}
 		}
 		private void EndSend(object sender, SocketAsyncEventArgs args)
@@ -271,7 +271,7 @@ namespace DragonFiesta.Networking
 
 				if (transfered < 1)
 				{
-					Dispose();
+                    this.OnDisconnect(this, new EventArgs());
 					return;
 				}
 
@@ -286,7 +286,7 @@ namespace DragonFiesta.Networking
 			}
 			catch (Exception)
 			{
-				Dispose();
+                this.OnDisconnect(this, new EventArgs());
 			}
 			finally
 			{
@@ -322,7 +322,7 @@ namespace DragonFiesta.Networking
 			}
 			catch (Exception)
 			{
-				Dispose();
+                this.OnDisconnect(this, new EventArgs());
 			}
 		}
 		public void SendPacket(Packet pPacket)

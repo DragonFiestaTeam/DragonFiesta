@@ -5,6 +5,9 @@ using DragonFiesta.Login.Networking.ServerHandler;
 using DragonFiesta.Networking;
 using DragonFiesta.Networking.Handler.Client;
 using DragonFiesta.Util;
+using DragonFiesta.FiestaLib;
+using DragonFiesta.Messages.World;
+using DragonFiesta.InterNetwork;
 
 namespace DragonFiesta.Login.Networking.ClientHandler
 {
@@ -43,12 +46,7 @@ namespace DragonFiesta.Login.Networking.ClientHandler
 			}
 			SH3Methods.WorldList(client);
 		}
-		[PacketHandler(CH3Type.WorldClientKey)]
-		public static void WorldClientKey(ClientBase sender, Packet packet)
-		{
-            // TODO: EVEN USED WTF?
-			throw new NotImplementedException();
-		}
+
 		[PacketHandler(CH3Type.BackToCharSelect)]
 		public static void BackToCharList(ClientBase sender, Packet packet)
 		{
@@ -71,12 +69,42 @@ namespace DragonFiesta.Login.Networking.ClientHandler
             LoginManager.Instance.FileHashes(sender, hash);
         }
         [PacketHandler(CH3Type.WorldSelect)]
-        public static void WorldSelect(ClientBase pSender, Packet pPacket)
+        public static void WorldSelect(LoginClient pSender, Packet pPacket)
         {
             byte id;
             if(!pPacket.TryReadByte(out id))
                 return;
-            // TODO: What now?
+
+           WorldServerInfo server = WorldManager.Instance.Servers.Find(m => m.ID == id);
+           if (server != null)
+           {
+               switch (server.Status)
+               {
+                   case WorldStatus.Maintenance:
+                       SH3Methods.LoginError(pSender, ServerError.ServerMaintenance);
+                       break;
+                   case WorldStatus.Offline:
+                       SH3Methods.LoginError(pSender, ServerError.ServerMaintenance);
+                       break;
+                   default:
+
+                       break;
+               }
+
+           }
+           string hash = System.Guid.NewGuid().ToString().Replace("-", "");
+           SH3Methods.SendWorldServerIP(pSender, server, hash);
+           ClientFromLoginToWorld message = new ClientFromLoginToWorld()
+           {
+               Id = Guid.NewGuid(),
+               Access_level = pSender.Access_level,
+               AccountID = pSender.AccountID,
+               UserName = pSender.Username,
+               AuthHash = hash,
+                IP = pSender.IP.ToString(),
+           };
+           InternMessageManager.Instance.Send(message);
         }
+
 	}
 }

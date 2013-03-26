@@ -30,7 +30,29 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DragonFiesta.Data, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\run\DragonFiesta.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -54,13 +76,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="World\ClientFromLoginToWorld.cs" />
+    <Compile Include="World\ClientFromWorldToZone.cs" />
     <Compile Include="World\NewWorldServerStarted.cs" />
+    <Compile Include="World\ZonePing.cs" />
+    <Compile Include="Zone\CharacterReadyToLogin.cs" />
     <Compile Include="Zone\NewZoneServerStarted.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main\RegisterListener.cs" />
     <Compile Include="World\SetZoneServerId.cs" />
     <Compile Include="Login\UserSelectedServer.cs" />
     <Compile Include="Login\WorldServerSetId.cs" />
+    <Compile Include="Zone\RegisterMap.cs" />
+    <Compile Include="Zone\RegisterMapList.cs" />
+    <Compile Include="Zone\UnregisterMap.cs" />
+    <Compile Include="Zone\ZoneAttach.cs" />
+    <Compile Include="Zone\ZoneReady.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DragonFiesta.Interfacse\DragonFiesta.Interfaces.csproj">

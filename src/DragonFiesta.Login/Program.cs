@@ -8,6 +8,7 @@ using DragonFiesta.Login.Networking;
 using DragonFiesta.Networking;
 using DragonFiesta.Util;
 using DragonFiesta.Database;
+using System.Xml.Serialization;
 
 [assembly: log4net.Config.XmlConfigurator(Watch = true)]
 
@@ -15,7 +16,7 @@ namespace DragonFiesta.Login
 {
 	public class Program
 	{
-        
+
 		static void Main()
 		{
 			AppDomain.CurrentDomain.UnhandledException += UnhandledException;
@@ -42,7 +43,7 @@ namespace DragonFiesta.Login
                 InitializeExceptionManager();
 		        Random = new Random();
 		        InitializeConfig();
-                SetupEntity();
+                SetupDatabase();
                 InternMessageManager.Initialize();
                 InternMessageManager.StartListening();
 		        LoginManager.Initialize();
@@ -52,7 +53,7 @@ namespace DragonFiesta.Login
 		        InitializeExternalIp();
 		        ClientListener.Initialize();
 		        LoginClientManager.Initialize();
-		        Database.DatabaseManager.Initialize();
+                Console.WriteLine("loginserver sucess");
 		    }
 		    catch (Exception e)
 		    {
@@ -84,34 +85,16 @@ namespace DragonFiesta.Login
             //    Environment.Exit(-1);
             //}
 		}
-        private static void SetupEntity()
+        private static void SetupDatabase()
         {
             DatabaseSettingsSection db = LoginConfiguration.Instance.DatabaseSettings;
             if (db.DbOption == DatabaseOption.MySQL)//mysql
             {
-                LoginConfiguration.Instance.Entity = new EntitySetting()
-                {
-                    DatabaseName = db.DbName,
-                    Password = db.Password,
-                    Username = db.User,
-                    host = db.Host,
-                    Metadata = "res://*/",//lol? so its works.. NOTE: this means empty metadata btw.
-                                            // NOTE - metdata is always neccessary to define but MySQL does not need any.
-                    ProviderName = "MySql.Data.MySqlClientFactory",
-                    Option = 1,
-                };
+                DB.LoginDB = new DatabaseManager(db.Host,db.DatabasePort, db.User, db.Password, db.DbName, db.MinPoolSize, db.MaxPoolSize, 1,1); 
             }
             else if (db.DbOption == DatabaseOption.MSSQL)//mssql
             {
-                LoginConfiguration.Instance.Entity = new EntitySetting()
-                {
-                    DataCatalog = db.DbName,
-                    Username = db.User,
-                    Password = db.Password,
-                    DataSource = db.Host,
-                    ProviderName = "System.Data.SqlClient",
-                    Metadata = @"res://DragonFiesta.Database/EF_Models.Login.csdl|res://DragonFiesta.Database/EF_Models.Login.ssdl|res://DragonFiesta.Database/EF_Models.Login.msl",
-                };
+                DB.LoginDB = new DatabaseManager(db.User,db.DbName, db.User, db.Password, db.MinPoolSize, db.MaxPoolSize, 1,1); 
             }
         }
         private static void InitializeConfig()

@@ -6,7 +6,7 @@ using DragonFiesta.Login.DataTypes;
 using DragonFiesta.Messages;
 using DragonFiesta.Messages.World;
 using DragonFiesta.Util;
-using Zepheus.FiestaLib;
+using DragonFiesta.FiestaLib;
 
 namespace DragonFiesta.Login.Core
 {

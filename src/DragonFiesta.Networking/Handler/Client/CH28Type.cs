@@ -10,7 +10,7 @@ namespace DragonFiesta.Networking.Handler.Client
 		public  const byte GetShortCuts = 14;
 
 		public  const byte SaveQuickBar = 16;
-		public  const byte SaveQuickBarState = 4;
+		public  const byte SaveQuickBarState = 17;
 		public  const byte SaveGameSettings = 20;
 		public  const byte SaveClientSettings = 21;
 		public  const byte SaveShortcuts = 22;

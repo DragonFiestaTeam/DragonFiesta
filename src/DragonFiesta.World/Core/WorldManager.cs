@@ -7,6 +7,7 @@ using DragonFiesta.Messages;
 using DragonFiesta.Messages.Login;
 using DragonFiesta.Messages.World;
 using DragonFiesta.Util;
+using DragonFiesta.World.Networking;
 
 namespace DragonFiesta.World.Core
 {
@@ -56,12 +57,14 @@ namespace DragonFiesta.World.Core
 		public void RegisterToLoginServer()
 		{
 		    Thread.Sleep(1000);         // test, might be neccesarry for waiting to register listeners
-			var message = new NewWorldServerStarted();
-		    var id = Guid.NewGuid();
-			message.Id = id;
-			message.Ip = this.Ip;
-			message.Port = this.Port;
-		    message.Callback = SetId;
+            var message = new NewWorldServerStarted
+            {
+                Id = Guid.NewGuid(),
+                Ip = this.Ip,
+                Port = this.Port,
+                Callback = SetId,
+            };
+           
 		    InternMessageManager.Instance.Send(message);
 		}
 		public void SetId(IMessage pMessage)

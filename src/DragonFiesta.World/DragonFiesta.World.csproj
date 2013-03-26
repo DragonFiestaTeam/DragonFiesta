@@ -75,13 +75,12 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.5.0.0\lib\net40\EntityFramework.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NuGet">
+      <HintPath>..\.nuget\NuGet.exe</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -95,6 +94,7 @@
     <Reference Include="System.Data.Entity">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq">
       <Private>False</Private>
     </Reference>
@@ -112,9 +112,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BackgroundWorker.cs" />
+    <Compile Include="Core\EventManager.cs" />
+    <Compile Include="Core\ZoneManager.cs" />
+    <Compile Include="Database\CharacterDB.cs" />
+    <Compile Include="EventHandler\CharacterInfoEventHandler.cs" />
+    <Compile Include="EventHandler\Event\Event.cs" />
+    <Compile Include="Game\WorldCharacter.cs" />
+    <Compile Include="Core\MapManager.cs" />
+    <Compile Include="Networking\ClientHandler\CH28Methods.cs" />
     <Compile Include="Networking\ClientHandler\CH2Methods.cs" />
+    <Compile Include="Networking\ClientHandler\CH31Methods.cs" />
+    <Compile Include="Networking\ClientHandler\CH3Methods.cs" />
+    <Compile Include="Networking\ClientHandler\CH4Methods.cs" />
+    <Compile Include="Networking\ClientHandler\CH5Methods.cs" />
     <Compile Include="Networking\InterHandler.cs" />
+    <Compile Include="Networking\ServerHandler\SH28Methods.cs" />
     <Compile Include="Networking\ServerHandler\SH2Methods.cs" />
+    <Compile Include="Networking\ServerHandler\SH31Methods.cs" />
+    <Compile Include="Networking\ServerHandler\SH3Methods.cs" />
+    <Compile Include="Networking\ServerHandler\SH4Methods.cs" />
+    <Compile Include="Networking\ServerHandler\SH5Methods.cs" />
     <Compile Include="Networking\WorldClient.cs" />
     <Compile Include="Networking\WorldClientManager.cs" />
     <Compile Include="Program.cs" />
@@ -122,11 +140,13 @@
     <Compile Include="Core\WorldManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Database\" />
+    <Folder Include="DataTypes\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DragonFiesta.Configuration\DragonFiesta.Configuration.csproj">
@@ -134,8 +154,16 @@
       <Name>DragonFiesta.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\DragonFiesta.Database\DragonFiesta.Database.csproj">
-      <Project>{381f5863-dcc6-407d-a372-5e9d11e7f317}</Project>
+      <Project>{87e6c728-a2e8-46ef-9334-39cfcb7a211f}</Project>
       <Name>DragonFiesta.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.DataProvider\DragonFiesta.Data.csproj">
+      <Project>{42087def-f5c5-4f93-accb-f6537f8882c9}</Project>
+      <Name>DragonFiesta.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DragonFiesta.FiestaLib\DragonFiesta.FiestaLib.csproj">
+      <Project>{0f8f0f42-7562-4bf5-b2d6-8aa2ff13a97f}</Project>
+      <Name>DragonFiesta.FiestaLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\DragonFiesta.Interfacse\DragonFiesta.Interfaces.csproj">
       <Project>{a67220f8-c48d-47ff-9e79-af3964351b48}</Project>
@@ -153,12 +181,7 @@
       <Project>{b14f59a7-9757-4b79-a539-1825c4c5abf1}</Project>
       <Name>DragonFiesta.Networking</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Zepheus.FiestaLib\Zepheus.FiestaLib.csproj">
-      <Project>{0f8f0f42-7562-4bf5-b2d6-8aa2ff13a97f}</Project>
-      <Name>Zepheus.FiestaLib</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Zepheus.Util\DragonFiesta.Util.csproj">
+    <ProjectReference Include="..\DragonFiesta.Util\DragonFiesta.Util.csproj">
       <Project>{463fa649-3e4c-42a0-af28-9132e1be07db}</Project>
       <Name>DragonFiesta.Util</Name>
     </ProjectReference>

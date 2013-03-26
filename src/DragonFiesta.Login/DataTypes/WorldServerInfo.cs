@@ -1,4 +1,4 @@
-﻿using Zepheus.FiestaLib;
+﻿using DragonFiesta.FiestaLib;
 
 namespace DragonFiesta.Login.DataTypes
 {

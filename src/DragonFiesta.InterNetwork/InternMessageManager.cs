@@ -13,7 +13,7 @@ namespace DragonFiesta.InterNetwork
     {
         #region .ctor
 
-        private InternMessageManager()
+        public InternMessageManager()
         {
             _handlers = new Dictionary<Type, Action<IMessage>>();
             _callbacks = new Dictionary<Guid, IExpectAnAnswer>();
@@ -72,7 +72,14 @@ namespace DragonFiesta.InterNetwork
                 Action<IMessage>  del = (m) => p.First.Invoke(null, new object[] {m});
                 Type t = pair.Second.Type;
 
-                Instance._handlers.Add(t, del);
+                if (!Instance._handlers.ContainsKey(t))
+                {
+                    Instance._handlers.Add(t, del);
+                }
+                else
+                {
+                    Logs.Main.Warn("Dublicate Handler found Type : " + t + "");
+                }
             }
 
             Instance._handlers.Add(typeof(RegisterListener), RegisterListener);
@@ -90,9 +97,26 @@ namespace DragonFiesta.InterNetwork
             if(msg is IExpectAnAnswer)
             {
                 _callbacks.Add(msg.Id, msg as IExpectAnAnswer);
+             
             }
         }
 
+        public void SendSingel(IMessage msg,MessageQueueEx q)
+        {
+            Debug.WriteLine("Sending a message of type {0}", msg.GetType());
+            q.Send(msg);
+
+            if (msg is IExpectAnAnswer)
+            {
+                _callbacks.Add(msg.Id, msg as IExpectAnAnswer);
+
+            }
+        }
+
+        public MessageQueueEx GetQeueByName(string MyName)
+        {
+            return _listeningQueues.Find(m => m.Queue.Path == MyName);
+        }
         public static void StartListening()
         {
             Instance._myQueue.StartReceive();

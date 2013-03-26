@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using DragonFiesta.Util;
+using System.Threading;
 
 namespace DragonFiesta.Networking
 {
@@ -18,7 +19,6 @@ namespace DragonFiesta.Networking
 
 		public static ClientManager Instance { get; private set; }
 		public List<ClientBase> Clients { get; private set; }
-
 		#endregion
 		#region Methods
 		public static bool Initialize()
