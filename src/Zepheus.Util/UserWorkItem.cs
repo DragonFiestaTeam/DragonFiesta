@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
 	public class UserWorkItem
 	{

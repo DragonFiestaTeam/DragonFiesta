@@ -1,5 +1,4 @@
-﻿
-namespace Zepheus.FiestaLib
+﻿namespace Zepheus.FiestaLib
 {
 /* Error codes
 * 0x42 - Unkown Error

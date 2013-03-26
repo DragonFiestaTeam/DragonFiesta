@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
     public static class MathUtils
     {

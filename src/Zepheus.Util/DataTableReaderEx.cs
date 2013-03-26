@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
     /// <summary>
     /// Class to read a DataTable by ColumnName, as .NET one doesn't support this.

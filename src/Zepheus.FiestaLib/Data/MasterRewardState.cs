@@ -1,5 +1,4 @@
 ﻿using System;
-using Zepheus.Database.DataStore;
 using System.Collections.Generic;
 using System.Data;
 
@@ -22,12 +21,8 @@ namespace Zepheus.FiestaLib.Data
         }
         public MasterRewardState(DataRow row)
         {
-            this.Str = GetDataTypes.GetUshort(row["Str"]);
-            this.End = GetDataTypes.GetUshort(row["End"]);
-            this.Dex = GetDataTypes.GetUshort(row["Dex"]);
-            this.Int = GetDataTypes.GetUshort(row["Int"]);
-            this.Spr = GetDataTypes.GetUshort(row["Spr"]);
-            this.ItemID = GetDataTypes.GetUshort(row["ItemID"]);
+			// TODO: Load
+	        return;
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
 	public enum TransferType : byte
 	{

@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
 	public class InvalidPacketException : Exception
 	{

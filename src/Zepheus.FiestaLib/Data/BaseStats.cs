@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Xml.Serialization;
 using System.IO;
-
-using Zepheus.Util;
+using DragonFiesta.Util;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -53,7 +52,7 @@ namespace Zepheus.FiestaLib.Data
             }
             catch (Exception ex)
             {
-                Log.WriteLine(LogLevel.Exception, "Exception while loading stats from job {0}: {1}", pFile, ex.ToString());
+	            Logs.Main.Fatal(string.Format("Error loading stats from job {0}", pFile), ex);
                 return false;
             }
         }

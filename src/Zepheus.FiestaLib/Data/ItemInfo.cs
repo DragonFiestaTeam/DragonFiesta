@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -37,33 +36,8 @@ namespace Zepheus.FiestaLib.Data
 		/// <returns></returns>
 		public static ItemInfo Load(DataRow row)
 		{
-			ItemInfo itemInfo = new ItemInfo
-			{
-				ItemID = GetDataTypes.GetUshort(row["id"]),
-				Slot = (ItemSlot)GetDataTypes.GetByte(row["equip"]),
-				InxName = (string)row["inxname"],
-				MaxLot = GetDataTypes.GetInt(row["maxlot"]),
-				AttackSpeed = GetDataTypes.GetUshort(row["atkspeed"]),
-				Level = GetDataTypes.GetByte(row["demandlv"]),
-				Type = (ItemType)GetDataTypes.GetByte(row["type"]),
-				Class = (ItemClass)GetDataTypes.GetByte(row["class"]),
-				UpgradeLimit = (byte)GetDataTypes.GetByte(row["uplimit"]),
-				Jobs = UnpackWhoEquip(GetDataTypes.GetUint(row["whoequip"])),
-				TwoHand = GetDataTypes.GetBool(row["TwoHand"]),
-				MinMagic = GetDataTypes.GetUshort(row["minma"]),
-				MaxMagic = GetDataTypes.GetUshort(row["maxma"]),
-				MinMelee = GetDataTypes.GetUshort(row["minwc"]),
-				MaxMelee = GetDataTypes.GetUshort(row["maxwc"]),
-				WeaponDef = GetDataTypes.GetUshort(row["ac"]),
-				MagicDef = GetDataTypes.GetUshort(row["mr"]),
-				UpSucRation = GetDataTypes.GetUshort(row["UpSucRatio"]),
-				UpResource = GetDataTypes.GetUshort(row["UpResource"]),
-				SellPrice =  GetDataTypes.GetUint(row["SellPrice"]),
-				BuyPrice = GetDataTypes.GetUint(row["BuyPrice"]),
-              
-			};
-            itemInfo.Stats = new ItemStats();
-			return itemInfo;
+			// TODO: load
+			return null;
 		}
 
 	   // [Obsolete("Too slow / incorrect?")]

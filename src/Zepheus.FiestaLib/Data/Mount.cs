@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Zepheus.Database.DataStore;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -22,20 +18,8 @@ namespace Zepheus.FiestaLib.Data
         public bool permanent { get; set; }
         public static Mount LoadMount(DataRow Data)
         {
-            
-            Mount Mouninf = new Mount
-            {
-                MinLevel = GetDataTypes.GetByte(Data["Level"]),
-                ItemID = GetDataTypes.GetUshort(Data["ItemID"]),
-                TickSpeed = GetDataTypes.GetInt(Data["Tickspeed"]),
-                Handle = GetDataTypes.GetUshort(Data["Handle"]),
-                Food = GetDataTypes.GetUshort(Data["Food"]),
-                speed = GetDataTypes.GetUshort(Data["Speed"]),
-                CastTime = GetDataTypes.GetInt(Data["CastTime"]),
-                Cooldown = GetDataTypes.GetUshort(Data["Cooldown"]),
-                permanent = GetDataTypes.GetBool(Data["permanent"]),
-            };
-            return Mouninf;
+			// todo: load
+	        return null;
         }
     }
 }

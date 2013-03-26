@@ -1,9 +1,4 @@
-using System;
-using Zepheus.Database.DataStore;
 using System.Data;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Zepheus.FiestaLib.Data
 {
@@ -17,14 +12,8 @@ namespace Zepheus.FiestaLib.Data
 
         public static ItemStats LoadItemStatsFromDatabase(DataRow row)
         {
-            ItemStats Stats = new ItemStats
-            {
-                Dex = GetDataTypes.GetUshort(row["Dex"]),
-                End = GetDataTypes.GetUshort(row["con"]),
-                Int = GetDataTypes.GetUshort(row["Int"]),
-                Str = GetDataTypes.GetUshort(row["Str"]),
-            };
-            return Stats;
+			// ToDo Load
+	        return null;
         }
     }
 }

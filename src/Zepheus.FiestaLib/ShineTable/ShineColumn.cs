@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using Zepheus.Util;
+using DragonFiesta.Util;
 
 namespace Zepheus.FiestaLib.ShineTable
 {
@@ -56,8 +56,8 @@ namespace Zepheus.FiestaLib.ShineTable
                 case "<string>":
                 case "string": return typeof(String);
                 default:
-                        Log.WriteLine(LogLevel.Info, "Unknown column type found: {0} : {1}", typeName, ColumnName);
-                        break;
+		            Logs.Main.InfoFormat("Unkown column type found: {0} : {1}", typeName, ColumnName);
+                    break;
             }
             return typeof(string); // Just to be sure ?!?! D:
         }

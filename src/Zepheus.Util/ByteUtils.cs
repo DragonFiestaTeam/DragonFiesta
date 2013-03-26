@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Text;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
     public static class ByteUtils
     {
         public static byte[] HexToBytes(string pValue)
         {
             // FIRST. Use StringBuilder.
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
 
             // SECOND... USE STRINGBUILDER!... and LINQ.
             foreach (char c in pValue.Where(IsHexDigit).Select(Char.ToUpper))
@@ -23,11 +23,11 @@ namespace Zepheus.Util
             {
                 //throw new InvalidOperationException("There is an odd number of hexadecimal digits in this string.");
                 // I will just add a zero to the end, who cares (0 padding)
-                Log.WriteLine(LogLevel.Debug, "Hexstring had an odd number of hexadecimal digits.");
+	            Logs.Main.Debug("Hexstring had nan odd number of digits");
                 hexString += '0';
             }
 
-            byte[] bytes = new byte[hexString.Length / 2];
+            var bytes = new byte[hexString.Length / 2];
             // FOURTH. Use the for-loop like a pro :D
             for (int i = 0, j = 0; i < bytes.Length; i++, j += 2)
             {
@@ -37,14 +37,15 @@ namespace Zepheus.Util
             return bytes;
         }
 
-        /// <summary>
-        /// Creates a hex-string from byte array.
-        /// </summary>
-        /// <param name="bytes">Input bytes.</param>
-        /// <returns>String that represents the byte-array.</returns>
-        public static string BytesToHex(byte[] bytes, string header = "")
+	    /// <summary>
+	    /// Creates a hex-string from byte array.
+	    /// </summary>
+	    /// <param name="bytes">Input bytes.</param>
+	    /// <param name="header">header to add. empty by default</param>
+	    /// <returns>String that represents the byte-array.</returns>
+	    public static string BytesToHex(byte[] bytes, string header = "")
         {
-            StringBuilder builder = new StringBuilder(header);
+            var builder = new StringBuilder(header);
             foreach (byte c in bytes)
             {
                 builder.AppendFormat("{0:X2} ", c);

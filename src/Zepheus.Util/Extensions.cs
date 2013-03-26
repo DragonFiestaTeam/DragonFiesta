@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Zepheus.Util
+namespace DragonFiesta.Util
 {
     public static class Extensions
     {

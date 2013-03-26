@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using MySql.Data.Types;
 
 namespace Zepheus.FiestaLib
 {

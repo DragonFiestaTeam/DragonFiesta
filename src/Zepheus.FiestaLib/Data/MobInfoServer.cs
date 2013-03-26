@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Data;
-using Zepheus.Database.DataStore;
-
 namespace Zepheus.FiestaLib.Data
 {
     public sealed class MobInfoServer
@@ -56,57 +54,8 @@ namespace Zepheus.FiestaLib.Data
 
         public static MobInfoServer Load(DataRow row)
         {
-            MobInfoServer info = new MobInfoServer
-            {
-                ID = GetDataTypes.GetUint(row["ID"]),
-                InxName = (string)row["InxName"],
-                Visible = GetDataTypes.GetByte(row["Visible"]),
-                AC = GetDataTypes.GetUshort(row["AC"]),
-                TB = GetDataTypes.GetUshort(row["TB"]),
-                MR = GetDataTypes.GetUshort(row["MR"]),
-                MB = GetDataTypes.GetUshort(row["MB"]),
-                EnemyDetectType = GetDataTypes.GetUint(row["EnemyDetectType"]),
-                MobKillInx = GetDataTypes.GetUint(row["MobKillInx"]),
-                MonExp = GetDataTypes.GetUint(row["MonEXP"]),
-                ExpRange = GetDataTypes.GetUshort(row["EXPRange"]),
-                DetectCha = GetDataTypes.GetUshort(row["DetectCha"]),
-                ResetInterval =GetDataTypes.GetByte(row["ResetInterval"]),
-                CutInterval = GetDataTypes.GetUshort(row["CutInterval"]),
-                CutNonAT = GetDataTypes.GetUint(row["CutNonAT"]),
-                FollowCha = GetDataTypes.GetUint(row["FollowCha"]),
-                PceHPRcvDly = GetDataTypes.GetUshort(row["PceHPRcvDly"]),
-                PceHPRcv = GetDataTypes.GetUshort(row["PceHPRcv"]),
-                AtkHPRcvDly = GetDataTypes.GetUshort(row["AtkHPRcvDly"]),
-                AtkHPRcv = GetDataTypes.GetUshort(row["AtkHPRcv"]),
-                Str = GetDataTypes.GetUshort(row["Str"]),
-                Dex = GetDataTypes.GetUshort(row["Dex"]),
-                Con = GetDataTypes.GetUshort(row["Con"]),
-                Int = GetDataTypes.GetUshort(row["Int"]),
-                Men = GetDataTypes.GetUshort(row["Men"]),
-                MobRaceType = GetDataTypes.GetUint(row["MobRaceType"]),
-                Rank = GetDataTypes.GetByte(row["Rank"]),
-                FamilyArea = GetDataTypes.GetUint(row["FamilyArea"]),
-                FamilyRescArea = GetDataTypes.GetUint(row["FamilyRescArea"]),
-                FamilyRescCount = GetDataTypes.GetByte(row["FamilyRescCount"]),
-                BloodingResi = GetDataTypes.GetUshort(row["BloodingResi"]),
-                StunResi = GetDataTypes.GetUshort(row["StunResi"]),
-                MoveSpeedResi = GetDataTypes.GetUshort(row["MoveSpeedResi"]),
-                FearResi = GetDataTypes.GetUshort(row["FearResi"]),
-                ResIndex = (string)row["ResIndex"],
-                KQKillPoint = GetDataTypes.GetUshort(row["KQKillPoint"]),
-                Return2Regen = GetDataTypes.GetByte(row["Return2Regen"]),
-                IsRoaming = GetDataTypes.GetByte(row["IsRoaming"]),
-                RoamingNumber = GetDataTypes.GetByte(row["RoamingNumber"]),
-                RoamingDistance = GetDataTypes.GetUshort(row["RoamingDistance"]),
-                MaxSP = GetDataTypes.GetUshort(row["MaxSP"]),
-                BroadAtDead = GetDataTypes.GetByte(row["BroadAtDead"]),
-                TurnSpeed = GetDataTypes.GetUshort(row["TurnSpeed"]),
-                WalkChase = GetDataTypes.GetUshort(row["WalkChase"]),
-                AllCanLoot = GetDataTypes.GetByte(row["AllCanLoot"]),
-                DmgByHealMin =GetDataTypes.GetUshort(row["DmgByHealMin"]),
-                DmgByHealMax = GetDataTypes.GetUshort(row["DmgByHealMax"]),
-            };
-            return info;
+           // TODO: LOAD
+            return null;
         }
     }
 }

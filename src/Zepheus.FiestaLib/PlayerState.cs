@@ -1,5 +1,4 @@
-﻿
-namespace Zepheus.FiestaLib
+﻿namespace Zepheus.FiestaLib
 {
     public enum PlayerState : byte
     {
