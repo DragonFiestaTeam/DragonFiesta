@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DragonFiesta.Shared" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Run/DragonFiesta" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-pedantic" />
+					<Add option="-std=c++11" />
+					<Add option="-Wextra" />
+					<Add option="-Wall" />
+					<Add option="-pg" />
+					<Add option="-g" />
+					<Add option="-DBOOST_ALL_DYN_LINK" />
+					<Add directory="../DragonFiesta.Shared" />
+					<Add directory="include" />
+					<Add directory="Database" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg" />
+					<Add option="-rdynamic" />
+					<Add option="-DBOOST_ALL_DYN_LINK" />
+					<Add library="libboost_thread" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/DragonFiesta" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+					<Add directory="include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-std=c++11" />
+		</Compiler>
+		<Unit filename="Config/DatabaseConfig.cpp" />
+		<Unit filename="Config/DatabaseConfig.h" />
+		<Unit filename="Config/InterServerConfig.cpp" />
+		<Unit filename="Config/InterServerConfig.h" />
+		<Unit filename="Config/LogConfig.cpp" />
+		<Unit filename="Config/LogConfig.h" />
+		<Unit filename="Config/LoginServerConfig.cpp" />
+		<Unit filename="Config/LoginServerConfig.h" />
+		<Unit filename="Config/NetConfig.cpp" />
+		<Unit filename="Config/NetConfig.h" />
+		<Unit filename="Config/WorldServerConfig.cpp" />
+		<Unit filename="Config/WorldServerConfig.h" />
+		<Unit filename="Config/ZoneServerConfig.cpp" />
+		<Unit filename="Config/ZoneServerConfig.h" />
+		<Unit filename="Console/ConsoleCommand.h" />
+		<Unit filename="Console/ConsoleCommandHandler.cpp" />
+		<Unit filename="Console/ConsoleCommandHandler.h" />
+		<Unit filename="Console/ConsoleCommandStatus.h" />
+		<Unit filename="Console/ConsoleThread.cpp" />
+		<Unit filename="Console/ConsoleThread.h" />
+		<Unit filename="Cryptography/FiestaCryptoProvider.cpp" />
+		<Unit filename="Cryptography/FiestaCryptoProvider.h" />
+		<Unit filename="Database/DB.cpp" />
+		<Unit filename="Database/DB.h" />
+		<Unit filename="Database/Database.cpp" />
+		<Unit filename="Database/Database.h" />
+		<Unit filename="Database/DatabaseClient.cpp" />
+		<Unit filename="Database/DatabaseClient.hpp" />
+		<Unit filename="Database/DatabaseClientState.h" />
+		<Unit filename="Database/DatabaseExecption.h" />
+		<Unit filename="Database/DatabaseManager.cpp" />
+		<Unit filename="Database/DatabaseManager.hpp" />
+		<Unit filename="Database/DatabaseServer.cpp" />
+		<Unit filename="Database/DatabaseServer.h" />
+		<Unit filename="Database/Defines/LoginTableDefines.h" />
+		<Unit filename="Database/Defines/QueryDefines.h" />
+		<Unit filename="Database/Defines/WorldTableDefines.h" />
+		<Unit filename="Database/Defines/ZoneTableDefines.h" />
+		<Unit filename="Database/InputBinder.hpp" />
+		<Unit filename="Database/MySqlException.cpp" />
+		<Unit filename="Database/MySqlException.hpp" />
+		<Unit filename="Database/MySqlPreparedStatement.cpp" />
+		<Unit filename="Database/MySqlPreparedStatement.hpp" />
+		<Unit filename="Database/OutputBinder.cpp" />
+		<Unit filename="Database/OutputBinder.hpp" />
+		<Unit filename="Debugging/CrashHandler.cpp" />
+		<Unit filename="Debugging/CrashHandler.h" />
+		<Unit filename="Define.h" />
+		<Unit filename="Dynamic.h" />
+		<Unit filename="IO/ini_file.cpp" />
+		<Unit filename="IO/ini_file.hpp" />
+		<Unit filename="Log/Log.cpp" />
+		<Unit filename="Log/Log.h" />
+		<Unit filename="Networking/AsyncAcceptor.h" />
+		<Unit filename="Networking/ClientManager.h" />
+		<Unit filename="Networking/GameNetwork/FiestaClient.h" />
+		<Unit filename="Networking/GameNetwork/FiestaClientManager.h" />
+		<Unit filename="Networking/GameNetwork/FiestaSocket.cpp" />
+		<Unit filename="Networking/GameNetwork/FiestaSocket.h" />
+		<Unit filename="Networking/GameNetwork/Handler/Client/CH1Type.h" />
+		<Unit filename="Networking/GameNetwork/Handler/Client/CHTypes.h" />
+		<Unit filename="Networking/GameNetwork/Handler/FiestaHandler.cpp" />
+		<Unit filename="Networking/GameNetwork/Handler/FiestaHandler.h" />
+		<Unit filename="Networking/GameNetwork/Handler/FiestaHandlerStore.cpp" />
+		<Unit filename="Networking/GameNetwork/Handler/FiestaHandlerStore.h" />
+		<Unit filename="Networking/GameNetwork/Handler/Server/SHType1.h" />
+		<Unit filename="Networking/GameNetwork/Handler/Server/SHTypes.h" />
+		<Unit filename="Networking/InterNetwork/InterClient.cpp" />
+		<Unit filename="Networking/InterNetwork/InterClient.h" />
+		<Unit filename="Networking/InterNetwork/InterClientManager.cpp" />
+		<Unit filename="Networking/InterNetwork/InterClientManager.h" />
+		<Unit filename="Networking/InterNetwork/InterServer.h" />
+		<Unit filename="Networking/InterNetwork/InterSocket.cpp" />
+		<Unit filename="Networking/InterNetwork/InterSocket.h" />
+		<Unit filename="Networking/InterNetwork/InterSocketMgr.cpp" />
+		<Unit filename="Networking/InterNetwork/InterSocketMgr.h" />
+		<Unit filename="Networking/MessageBuffer.h" />
+		<Unit filename="Networking/Packet/FiestaClientPacket.h" />
+		<Unit filename="Networking/Packet/FiestaPacket.cpp" />
+		<Unit filename="Networking/Packet/FiestaPacket.h" />
+		<Unit filename="Networking/Packet/FiestaServerPacket.h" />
+		<Unit filename="Networking/Packet/InterPacket.cpp" />
+		<Unit filename="Networking/Packet/InterPacket.h" />
+		<Unit filename="Networking/Packet/PacketExecption.h" />
+		<Unit filename="Networking/Packet/PacketStream.cpp" />
+		<Unit filename="Networking/Packet/PacketStream.h" />
+		<Unit filename="Networking/Packet/ReadStream.h" />
+		<Unit filename="Networking/Packet/WriteStream.h" />
+		<Unit filename="Networking/Socket.h" />
+		<Unit filename="Networking/SocketMgr.h" />
+		<Unit filename="Networking/networkThread.h" />
+		<Unit filename="ShutdownCodes.h" />
+		<Unit filename="Task/Task.cpp" />
+		<Unit filename="Task/Task.h" />
+		<Unit filename="Task/TaskManager.cpp" />
+		<Unit filename="Task/TaskManager.h" />
+		<Unit filename="Task/Timer.h" />
+		<Unit filename="Task/TimerTask.cpp" />
+		<Unit filename="Task/TimerTask.h" />
+		<Unit filename="Util/Converter.h" />
+		<Unit filename="Util/DateTime.cpp" />
+		<Unit filename="Util/DateTime.h" />
+		<Unit filename="Util/PerformanceCounter.cpp" />
+		<Unit filename="Util/PerformanceCounter.hpp" />
+		<Unit filename="Util/SecureCollection.cpp" />
+		<Unit filename="Util/SecureCollection.hpp" />
+		<Unit filename="Util/SecureVectorCollection.hpp" />
+		<Unit filename="Util/SecureWriteCollection.cpp" />
+		<Unit filename="Util/SecureWriteCollection.hpp" />
+		<Unit filename="Util/SecureWriteVector.hpp" />
+		<Unit filename="Util/Singleton.h" />
+		<Unit filename="Util/StringExtentsion.cpp" />
+		<Unit filename="Util/StringExtentsion.h" />
+		<Unit filename="Util/SysInfo.cpp" />
+		<Unit filename="Util/SysInfo.hpp" />
+		<Unit filename="Util/mersenne.cpp" />
+		<Unit filename="Util/randomc.h" />
+		<Unit filename="Util/tuble.h" />
+		<Unit filename="game/CharacterBase.cpp" />
+		<Unit filename="game/CharacterBase.h" />
+		<Unit filename="game/Data/FaceInfo.h" />
+		<Unit filename="game/Data/GateInfo.h" />
+		<Unit filename="game/Data/HairColorInfo.h" />
+		<Unit filename="game/Data/HairInfo.h" />
+		<Unit filename="game/Data/ItemInfo.h" />
+		<Unit filename="game/Data/ItemUpgradeInfo.h" />
+		<Unit filename="game/Data/MapInfo.h" />
+		<Unit filename="game/Data/MobBuffInfo.h" />
+		<Unit filename="game/Data/MobInfo.h" />
+		<Unit filename="game/Data/MobInfoServer.h" />
+		<Unit filename="game/Data/MobSkillInfo.h" />
+		<Unit filename="game/Data/NPCInfo.h" />
+		<Unit filename="game/Data/QuestNpcInfo.h" />
+		<Unit filename="game/Data/SoulStoneInfo.h" />
+		<Unit filename="game/Data/SoulStoneVendorInfo.h" />
+		<Unit filename="game/Data/VendorInfo.h" />
+		<Unit filename="game/Data/VendorItem.h" />
+		<Unit filename="game/DataProviders/CharacterDataProvider.cpp" />
+		<Unit filename="game/DataProviders/CharacterDataProvider.h" />
+		<Unit filename="game/DataProviders/DataProviderBase.cpp" />
+		<Unit filename="game/DataProviders/DataProviderBase.h" />
+		<Unit filename="game/DataProviders/EntryDataProvider.cpp" />
+		<Unit filename="game/DataProviders/EntryDataProvider.h" />
+		<Unit filename="game/DataProviders/MapDataProvider.cpp" />
+		<Unit filename="game/DataProviders/MapDataProvider.h" />
+		<Unit filename="game/Enum/BodyShopGrade.h" />
+		<Unit filename="game/Enum/NpcFlags.h" />
+		<Unit filename="game/Position.h" />
+		<Extensions>
+			<code_completion>
+				<search_path add="../DragonFiesta.Shared" />
+			</code_completion>
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

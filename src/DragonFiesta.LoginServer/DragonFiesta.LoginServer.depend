@@ -1,0 +1,1049 @@
+# depslib dependency file v1.0
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/main.cpp
+	<iostream>
+	"Server.h"
+	"Util/SysInfo.hpp"
+	<pthread.h>
+	"Task/TaskManager.h"
+	"Database/DB.h"
+	"game/Data/MapInfo.h"
+	"Util/SecureCollection.hpp"
+	"boost/asio.hpp"
+
+1424456587 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Server.h
+	"Config/LoginServerConfig.h"
+	"Handler/LoginHandlerStore.h"
+	"boost/asio.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/Singleton.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/LoginServerConfig.h
+	"NetConfig.h"
+	"InterServerConfig.h"
+	"DatabaseConfig.h"
+	"LogConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Define.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/InterServerConfig.h
+	"Config/NetConfig.h"
+	"IO/ini_file.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/DatabaseConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/LogConfig.h
+	"../Log/Log.h"
+	"IO/ini_file.hpp"
+
+1418815947 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Log/FileLog.h
+	<iostream>
+	<fstream>
+	"Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Log/Log.h
+	"../Define.h"
+	"Config/LogConfig.h"
+	<string>
+	<ostream>
+	<fstream>
+	<iostream>
+	<memory>
+	<boost/log/expressions.hpp>
+	<boost/log/sources/severity_logger.hpp>
+	<boost/log/sources/record_ostream.hpp>
+	<boost/log/attributes/scoped_attribute.hpp>
+	<boost/log/sinks/text_ostream_backend.hpp>
+	<boost/log/sinks/sync_frontend.hpp>
+	<boost/log/expressions/keyword.hpp>
+	<boost/date_time/posix_time/posix_time.hpp>
+	<boost/phoenix/bind.hpp>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SysInfo.hpp
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/TaskManager.h
+	"Task.h"
+	"TimerTask.h"
+	<map>
+	<iostream>
+	<deque>
+	<memory>
+	<functional>
+	<chrono>
+	<thread>
+	<mutex>
+	<condition_variable>
+	<list>
+	"Util/Singleton.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+	"Timer.h"
+
+1418815999 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Thread/Mutex.h
+	<mutex>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DB.h
+	"DatabaseManager.hpp"
+	"Config/DatabaseConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseManager.hpp
+	"Task/Task.h"
+	"DatabaseClient.hpp"
+	"Database.h"
+	"DatabaseServer.h"
+	"Log/Log.h"
+	<map>
+	<mutex>
+	<list>
+	<memory>
+	<thread>
+	"Task/Timer.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClient.hpp
+	<cassert>
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<string>
+	<tuple>
+	<typeinfo>
+	<utility>
+	<vector>
+	"InputBinder.hpp"
+	"MySqlException.hpp"
+	"DatabaseClientState.h"
+	"MySqlPreparedStatement.hpp"
+	"OutputBinder.hpp"
+	"../Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/InputBinder.hpp
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<string>
+	<vector>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlException.hpp
+	<mysql/mysql.h>
+	<exception>
+	<string>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClientState.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlPreparedStatement.hpp
+	<cstddef>
+	<mysql/mysql.h>
+	<vector>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/OutputBinder.hpp
+	<cstdint>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<memory>
+	<string>
+	<tuple>
+	<type_traits>
+	<utility>
+	<vector>
+	"MySqlException.hpp"
+	"MySqlPreparedStatement.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/Database.h
+	"../Define.h"
+	<string>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseServer.h
+	<map>
+	"Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/Timer.h
+	<chrono>
+	"../Define.h"
+
+1424466693 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Server.cpp
+	"Server.h"
+	"Util/SecureVectorCollection.hpp"
+	"Util/SecureCollection.hpp"
+	"Networking/InterNetwork/InterSocketMgr.h"
+	"Event/ShutdownEvent.h"
+	"Database/DB.h"
+	"Debugging/CrashHandler.h"
+	"Log/Log.h"
+	"Task/TaskManager.h"
+	"TestTask.h"
+	"TestTask2.h"
+	"Database/Database.h"
+	"Database/DatabaseManager.hpp"
+	"Database/DatabaseServer.h"
+	"Util/SysInfo.hpp"
+	"ShutdownCodes.h"
+	<vector>
+	<map>
+	<mutex>
+	<list>
+	<tuple>
+	<thread>
+	<cstdlib>
+	<mutex>
+	"LoginConsole.h"
+	"Network/GameNetwork/LoginSocketMgr.h"
+	"Handler/LoginHandlerStore.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Debugging/CrashHandler.h
+	<execinfo.h>
+	<signal.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ucontext.h>
+	<unistd.h>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/include/TestTask.h
+	"Task/Task.h"
+	"Task/TimerTask.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/include/TestTask2.h
+	"Task/Task.h"
+
+1421357139 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/InterNetwork/InterSocketMgr.h
+	"Networking/SocketMgr.h"
+	"../Config/InterServerConfig.h"
+
+1424292284 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/SocketMgr.h
+	"AsyncAcceptor.h"
+	"Log/Log.h"
+	"networkThread.h"
+	<boost/asio/ip/tcp.hpp>
+	<memory>
+	<assert.h>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/AsyncAcceptor.h
+	"../Log/Log.h"
+	<boost/asio.hpp>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/networkThread.h
+	"../Log/Log.h"
+	"Task/Timer.h"
+	<atomic>
+	<chrono>
+	<memory>
+	<mutex>
+	<set>
+	<thread>
+	<assert.h>
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/src/TestTask.cpp
+	"TestTask.h"
+	"Task/TimerTask.h"
+	"Util/Math.h"
+
+1419034149 source:/home/gothic/gitclone/src/DragonFiesta.LoginServer/main.cpp
+	<iostream>
+	"Server.h"
+	"Util/SysInfo.hpp"
+	<pthread.h>
+	"Task/TaskManager.h"
+	"Database/DB.h"
+
+1418816041 /home/gothic/gitclone/src/DragonFiesta.LoginServer/Server.h
+	"Util/Singleton.h"
+	"Config/LoginServerConfig.h"
+
+1418853063 /home/gothic/gitclone/src/DragonFiesta.Shared/Util/Singleton.h
+
+1418853061 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/LoginServerConfig.h
+	"NetConfig.h"
+	"InterServerConfig.h"
+	"DatabaseConfig.h"
+	"LogConfig.h"
+
+1418853063 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1405757293 /home/gothic/gitclone/src/DragonFiesta.Shared/Define.h
+
+1418815932 /home/gothic/gitclone/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1418853062 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/InterServerConfig.h
+	"Config/NetConfig.h"
+	"IO/ini_file.hpp"
+
+1418853060 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/DatabaseConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1418853069 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/LogConfig.h
+	"Log/FileLog.h"
+	"Log/Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1418815947 /home/gothic/gitclone/src/DragonFiesta.Shared/Log/FileLog.h
+	<iostream>
+	<fstream>
+	"Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1418815951 /home/gothic/gitclone/src/DragonFiesta.Shared/Log/Log.h
+	"Define.h"
+	<iostream>
+	<mutex>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<boost/thread/mutex.hpp>
+	<boost/thread/thread.hpp>
+	<boost/thread/lockable_concepts.hpp>
+
+1418853063 /home/gothic/gitclone/src/DragonFiesta.Shared/Util/SysInfo.hpp
+
+1419163892 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/TaskManager.h
+	"Task.h"
+	"TimerTask.h"
+	<map>
+	<iostream>
+	<deque>
+	<memory>
+	<functional>
+	<chrono>
+	<thread>
+	<mutex>
+	<condition_variable>
+	<list>
+	"Util/Singleton.h"
+	"Thread/Mutex.h"
+
+1418815982 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1418815994 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+
+1418815999 /home/gothic/gitclone/src/DragonFiesta.Shared/Thread/Mutex.h
+	<mutex>
+
+1418922950 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/DB.h
+	"DatabaseManager.hpp"
+	"Config/DatabaseConfig.h"
+
+1418977522 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/DatabaseManager.hpp
+	"Task/Task.h"
+	"DatabaseClient.hpp"
+	"Database.h"
+	"DatabaseServer.h"
+	"Log/Log.h"
+	<map>
+	<mutex>
+	<list>
+	<memory>
+	<thread>
+	"Task/Timer.h"
+
+1419005075 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/DatabaseClient.hpp
+	<cassert>
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<string>
+	<tuple>
+	<typeinfo>
+	<utility>
+	<vector>
+	"InputBinder.hpp"
+	"MySqlException.hpp"
+	"DatabaseClientState.h"
+	"MySqlPreparedStatement.hpp"
+	"OutputBinder.hpp"
+	"../Define.h"
+
+1418853061 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/InputBinder.hpp
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<string>
+	<vector>
+
+1418980947 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/MySqlException.hpp
+	<mysql/mysql.h>
+	<exception>
+	<string>
+
+1418832604 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/DatabaseClientState.h
+
+1418980969 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/MySqlPreparedStatement.hpp
+	<cstddef>
+	<mysql/mysql.h>
+	<vector>
+
+1418853062 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/OutputBinder.hpp
+	<cstdint>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<memory>
+	<string>
+	<tuple>
+	<type_traits>
+	<utility>
+	<vector>
+	"MySqlException.hpp"
+	"MySqlPreparedStatement.hpp"
+
+1418853060 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/Database.h
+	"../Define.h"
+	<string>
+
+1418853060 /home/gothic/gitclone/src/DragonFiesta.Shared/Database/DatabaseServer.h
+	<map>
+	"Define.h"
+
+1418815990 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/Timer.h
+	<chrono>
+
+1419429077 source:/home/gothic/gitclone/src/DragonFiesta.LoginServer/Server.cpp
+	"Server.h"
+	"Debugging/CrashHandler.h"
+	"Log/Log.h"
+	"Task/TaskManager.h"
+	"TestTask.h"
+	"TestTask2.h"
+	"Database/Database.h"
+	"Database/DatabaseManager.hpp"
+	"Database/DatabaseServer.h"
+	"Util/SysInfo.hpp"
+	<vector>
+	<map>
+	<mutex>
+	<list>
+	<tuple>
+	<thread>
+	"Database/DB.h"
+	<mutex>
+	"InterNetwork/InterSocketMgr.h"
+
+1418815921 /home/gothic/gitclone/src/DragonFiesta.Shared/Debugging/CrashHandler.h
+	<execinfo.h>
+	<signal.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ucontext.h>
+	<unistd.h>
+
+1418816047 /home/gothic/gitclone/src/DragonFiesta.LoginServer/include/TestTask.h
+	"Task/Task.h"
+	"Task/TimerTask.h"
+
+1417968645 /home/gothic/gitclone/src/DragonFiesta.LoginServer/include/TestTask2.h
+	"Task/Task.h"
+
+1419031775 /home/gothic/gitclone/src/DragonFiesta.Shared/InterNetwork/InterSocketMgr.h
+	"Networking/SocketMgr.h"
+
+1419032848 /home/gothic/gitclone/src/DragonFiesta.Shared/Networking/SocketMgr.h
+	"AsyncAcceptor.h"
+	"Log/Log.h"
+	"networkThread.h"
+	<boost/asio/ip/tcp.hpp>
+	<memory>
+	<assert.h>
+
+1419377364 /home/gothic/gitclone/src/DragonFiesta.Shared/Networking/AsyncAcceptor.h
+	"../Log/Log.h"
+	<boost/asio.hpp>
+
+1419026947 /home/gothic/gitclone/src/DragonFiesta.Shared/Networking/networkThread.h
+	"../Log/Log.h"
+	"Task/Timer.h"
+	<atomic>
+	<chrono>
+	<memory>
+	<mutex>
+	<set>
+	<thread>
+	<assert.h>
+
+1418816036 source:/home/gothic/gitclone/src/DragonFiesta.LoginServer/src/TestTask.cpp
+	"TestTask.h"
+	"Task/TimerTask.h"
+	<iostream>
+
+1420118471 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/main.cpp
+	<iostream>
+	"Server.h"
+	"Util/SysInfo.hpp"
+	<pthread.h>
+	"Task/TaskManager.h"
+	"Database/DB.h"
+	"game/Data/MapInfo.h"
+
+1418816041 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/Server.h
+	"Util/Singleton.h"
+	"Config/LoginServerConfig.h"
+
+1418853063 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Util/Singleton.h
+
+1418853061 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/LoginServerConfig.h
+	"NetConfig.h"
+	"InterServerConfig.h"
+	"DatabaseConfig.h"
+	"LogConfig.h"
+
+1418853063 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1405757293 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Define.h
+
+1418815932 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1418853062 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/InterServerConfig.h
+	"Config/NetConfig.h"
+	"IO/ini_file.hpp"
+
+1418853060 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/DatabaseConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1418853069 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/LogConfig.h
+	"Log/FileLog.h"
+	"Log/Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1418815947 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Log/FileLog.h
+	<iostream>
+	<fstream>
+	"Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1418815951 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Log/Log.h
+	"Define.h"
+	<iostream>
+	<mutex>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<boost/thread/mutex.hpp>
+	<boost/thread/thread.hpp>
+	<boost/thread/lockable_concepts.hpp>
+
+1418853063 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Util/SysInfo.hpp
+
+1420099825 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/TaskManager.h
+	"Task.h"
+	"TimerTask.h"
+	<map>
+	<iostream>
+	<deque>
+	<memory>
+	<functional>
+	<chrono>
+	<thread>
+	<mutex>
+	<condition_variable>
+	<list>
+	"Util/Singleton.h"
+	"Thread/Mutex.h"
+
+1420102073 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1420102255 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+
+1418815999 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Thread/Mutex.h
+	<mutex>
+
+1418922950 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/DB.h
+	"DatabaseManager.hpp"
+	"Config/DatabaseConfig.h"
+
+1418977522 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseManager.hpp
+	"Task/Task.h"
+	"DatabaseClient.hpp"
+	"Database.h"
+	"DatabaseServer.h"
+	"Log/Log.h"
+	<map>
+	<mutex>
+	<list>
+	<memory>
+	<thread>
+	"Task/Timer.h"
+
+1419005075 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClient.hpp
+	<cassert>
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<string>
+	<tuple>
+	<typeinfo>
+	<utility>
+	<vector>
+	"InputBinder.hpp"
+	"MySqlException.hpp"
+	"DatabaseClientState.h"
+	"MySqlPreparedStatement.hpp"
+	"OutputBinder.hpp"
+	"../Define.h"
+
+1418853061 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/InputBinder.hpp
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<string>
+	<vector>
+
+1418980947 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlException.hpp
+	<mysql/mysql.h>
+	<exception>
+	<string>
+
+1418832604 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClientState.h
+
+1418980969 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlPreparedStatement.hpp
+	<cstddef>
+	<mysql/mysql.h>
+	<vector>
+
+1418853062 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/OutputBinder.hpp
+	<cstdint>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<memory>
+	<string>
+	<tuple>
+	<type_traits>
+	<utility>
+	<vector>
+	"MySqlException.hpp"
+	"MySqlPreparedStatement.hpp"
+
+1418853060 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/Database.h
+	"../Define.h"
+	<string>
+
+1418853060 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseServer.h
+	<map>
+	"Define.h"
+
+1418815990 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/Timer.h
+	<chrono>
+
+1420360650 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/Server.cpp
+	"Server.h"
+	"Debugging/CrashHandler.h"
+	"Log/Log.h"
+	"Task/TaskManager.h"
+	"TestTask.h"
+	"TestTask2.h"
+	"Database/Database.h"
+	"Database/DatabaseManager.hpp"
+	"Database/DatabaseServer.h"
+	"Util/SysInfo.hpp"
+	<vector>
+	<map>
+	<mutex>
+	<list>
+	<tuple>
+	<thread>
+	"Database/DB.h"
+	<mutex>
+	"InterNetwork/InterSocketMgr.h"
+
+1418815921 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Debugging/CrashHandler.h
+	<execinfo.h>
+	<signal.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ucontext.h>
+	<unistd.h>
+
+1420102303 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/include/TestTask.h
+	"Task/Task.h"
+	"Task/TimerTask.h"
+
+1417968645 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/include/TestTask2.h
+	"Task/Task.h"
+
+1419031775 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/InterNetwork/InterSocketMgr.h
+	"Networking/SocketMgr.h"
+
+1419032848 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Networking/SocketMgr.h
+	"AsyncAcceptor.h"
+	"Log/Log.h"
+	"networkThread.h"
+	<boost/asio/ip/tcp.hpp>
+	<memory>
+	<assert.h>
+
+1419377364 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Networking/AsyncAcceptor.h
+	"../Log/Log.h"
+	<boost/asio.hpp>
+
+1419026947 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Networking/networkThread.h
+	"../Log/Log.h"
+	"Task/Timer.h"
+	<atomic>
+	<chrono>
+	<memory>
+	<mutex>
+	<set>
+	<thread>
+	<assert.h>
+
+1420102332 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.LoginServer/src/TestTask.cpp
+	"TestTask.h"
+	"Task/TimerTask.h"
+	<iostream>
+
+1420123291 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/game/Data/MapInfo.h
+	"../Position.h"
+
+1420228898 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/game/Position.h
+	"../Define.h"
+	<math.h>
+	<memory>
+	<cstdlib>
+	"Util/randomc.h"
+
+1420122817 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Util/randomc.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Data/MapInfo.h
+	"../Position.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Position.h
+	"../Define.h"
+	<math.h>
+	<memory>
+	<cstdlib>
+	"Util/randomc.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/randomc.h
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Event/ShutdownEvent.cpp
+	"ShutdownEvent.h"
+	"Log/Log.h"
+	"Server.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Event/ShutdownEvent.h
+	"Task/TimerTask.h"
+	"Task/Task.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/ShutdownCodes.h
+
+1421432873 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/GameNetwork/FiestaSocketMgr.h
+	"Networking/SocketMgr.h"
+	"../Config/NetConfig.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/LoginServer.cpp
+	"LoginServer.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/LoginServer.h
+	"Networking/GameNetwork/FiestaServer.h"
+	"Util/Singleton.h"
+
+1424253503 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/FiestaServer.h
+	"FiestaSocket.h"
+
+1424865953 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/FiestaSocket.h
+	"Networking/Socket.h"
+	"FiestaClient.h"
+	"../Packet/FiestaClientPacket.h"
+	"../Packet/FiestaServerPacket.h"
+
+1424850354 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Socket.h
+	"MessageBuffer.h"
+	"../Log/Log.h"
+	<atomic>
+	<vector>
+	<mutex>
+	<queue>
+	<memory>
+	<functional>
+	<type_traits>
+	<boost/asio/ip/tcp.hpp>
+	<boost/asio/write.hpp>
+	<boost/asio/read.hpp>
+	<boost/lexical_cast.hpp>
+	<boost/format.hpp>
+
+1424853530 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/MessageBuffer.h
+	"Define.h"
+	<vector>
+	<cstring>
+
+1424292333 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/InterNetwork/InterSocketMgr.h
+	"Networking/SocketMgr.h"
+	"Config/InterServerConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/FiestaSocketMgr.h
+	"Networking/SocketMgr.h"
+	"Config/NetConfig.h"
+
+1421544933 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureWriteList.h
+	"../Define.h"
+	<vector>
+	<mutex>
+	<iostream>
+
+1421607442 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureWriteVector.h
+	"../Define.h"
+	<vector>
+	<mutex>
+	<iostream>
+
+1421608753 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureCollectionVector.h
+	<vector>
+	<mutex>
+	<iostream>
+	"../Define.h"
+
+1421669607 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureCollectionVector.hpp
+	"Util/SecureWriteVector.hpp"
+	<vector>
+	<mutex>
+	<iostream>
+	"../Define.h"
+	<algorithm>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/Math.h
+	<boost/random.hpp>
+	<boost/random/uniform_real_distribution.hpp>
+
+1424212924 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureWriteCollection.hpp
+	<mutex>
+	<map>
+	<utility>
+	<iostream>
+	<algorithm>
+
+1424192428 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureWriteVector.hpp
+	"../Define.h"
+	<vector>
+	<mutex>
+	<iostream>
+	<algorithm>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureVectorCollection.hpp
+	<vector>
+	<mutex>
+	<iostream>
+	"../Define.h"
+	<algorithm>
+	"Util/SecureWriteVector.hpp"
+
+1424212936 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureCollection.hpp
+	"SecureWriteCollection.hpp"
+	"../Define.h"
+
+1421852464 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/IOService_pool.h
+	<stdexcept>
+	<boost/thread/thread.hpp>
+	<boost/bind.hpp>
+	<boost/shared_ptr.hpp>
+	<boost/asio.hpp>
+
+1424192010 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/LoginConsole.cpp
+	"LoginConsole.h"
+	<iostream>
+	<string>
+	"Console/ConsoleCommandStatus.h"
+
+1424118875 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/LoginConsole.h
+	<memory>
+	<thread>
+	"Console/ConsoleCommandHandler.h"
+	"Util/Singleton.h"
+
+1424118616 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Console/ConsoleCommandHandler.h
+	"../Util/SecureCollection.hpp"
+	"ConsoleCommand.h"
+	"ConsoleCommandStatus.h"
+
+1424113123 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Console/ConsoleCommand.h
+	<vector>
+
+1424118351 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Console/ConsoleCommandStatus.h
+
+1424547798 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginClient.cpp
+	"LoginClient.h"
+
+1424208106 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginClientManager.cpp
+
+1424210404 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginServer.cpp
+	"LoginServer.h"
+
+1424250364 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginServer.h
+	"Networking/GameNetwork/FiestaServer.h"
+	"Util/Singleton.h"
+
+1425030953 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginSocket.cpp
+	"LoginSocket.h"
+
+1424537002 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginSocketMgr.cpp
+	"LoginSocket.h"
+	"LoginSocketMgr.h"
+	"Networking/SocketMgr.h"
+	"Networking/networkThread.h"
+	<boost/system/error_code.hpp>
+	"../../Server.h"
+	"LoginClient.h"
+
+1425031202 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginSocket.h
+	"Networking/GameNetwork/FiestaSocket.h"
+	"LoginClient.h"
+	<boost/asio/ip/tcp.hpp>
+
+1424292426 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginSocketMgr.h
+	"Networking/SocketMgr.h"
+	"Config/NetConfig.h"
+	"LoginSocket.h"
+
+1424866200 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/FiestaClient.h
+	"FiestaSocket.h"
+	"../Packet/FiestaServerPacket.h"
+
+1424538931 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/ClientBase.h
+	"Socket.h"
+	<memory>
+
+1425031399 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Network/GameNetwork/LoginClient.h
+	<memory>
+	"Networking/GameNetwork/FiestaClient.h"
+	"Network/GameNetwork/LoginSocket.h"
+
+1424456079 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/Client/LoginHandler.cpp
+	"LoginHandler.h"
+
+1424472449 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/Client/LoginHandler.h
+	"Networking/Handler/FiestaHandler.h"
+
+1424476646 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Handler/FiestaHandler.h
+	<functional>
+	<map>
+	"../../Define.h"
+	"../../Log/Log.h"
+	"../GameNetwork/FiestaClient.h"
+	"../Packet/FiestaPacket.h"
+
+1424533169 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/LoginHandlerStore.h
+	"Networking/GameNetwork/Handler/FiestaHandlerStore.h"
+	"Handler/Client/CH3Handler.h"
+
+1424474213 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Handler/FiestaHandlerStore.h
+	<map>
+	<functional>
+	"Define.h"
+	"FiestaHandler.h"
+	"../../Log/Log.h"
+	<memory>
+
+1424533264 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/LoginHandlerStore.cpp
+	"LoginHandlerStore.h"
+
+1424806580 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/FiestaPacket.h
+	"PacketStream.h"
+	"ReadStream.h"
+	"WriteStream.h"
+
+1424867233 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/PacketStream.h
+	"Define.h"
+	<exception>
+	<cassert>
+	<list>
+	<map>
+	<string>
+	<vector>
+	<cstring>
+	<time.h>
+	<cmath>
+	<type_traits>
+	<boost/asio/buffer.hpp>
+	"PacketExecption.h"
+
+1424511838 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/Client/CH3Handler.cpp
+	"CH3Handler.h"
+
+1424529910 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.LoginServer/Handler/Client/CH3Handler.h
+	"Networking/GameNetwork/Handler/FiestaHandler.h"
+
+1424519256 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/Handler/FiestaHandler.h
+	<functional>
+	<map>
+	"Define.h"
+	"Log/Log.h"
+	"Networking/GameNetwork/FiestaClient.h"
+	"Networking/Packet/FiestaPacket.h"
+	<unordered_map>
+
+1424513527 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/Handler/FiestaHandlerStore.h
+	<map>
+	<functional>
+	"Define.h"
+	"FiestaHandler.h"
+	"Log/Log.h"
+	<memory>
+
+1424807938 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/FiestaClientPacket.h
+	"FiestaPacket.h"
+
+1425049358 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/PacketExecption.h
+	<exception>
+
+1424804597 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/ReadStream.h
+	"PacketStream.h"
+	"PacketExecption.h"
+
+1424804611 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/WriteStream.h
+	"PacketStream.h"
+	"PacketExecption.h"
+
+1424867277 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/Packet/FiestaServerPacket.h
+	"FiestaPacket.h"
+	"WriteStream.h"
+

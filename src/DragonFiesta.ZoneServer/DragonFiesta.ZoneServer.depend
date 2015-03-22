@@ -1,0 +1,615 @@
+# depslib dependency file v1.0
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/main.cpp
+	<iostream>
+	"Server.h"
+	"Util/SysInfo.hpp"
+	<pthread.h>
+	"Task/TaskManager.h"
+	"Database/DB.h"
+	"game/Data/MapInfo.h"
+	"Util/SecureCollection.hpp"
+	"boost/asio.hpp"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MapObject.cpp
+	"MapObject.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.cpp
+	"KingdomMap.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/LocalMap.cpp
+	"LocalMap.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/map.cpp
+	"map.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/NormalMap.cpp
+	"NormalMap.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.cpp
+	"RemoteMap.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/map.h
+	"game/Enum/MapType.h"
+	"game/Data/MapInfo.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Enum/MapType.h
+	"Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Define.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/NormalMap.h
+	"map.h"
+	"LocalMap.h"
+	"Task/Task.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/SectorMap.cpp
+	"SectorMap.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.h
+	"Map/map.h"
+	"Config/NetConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/SectorMap.h
+	"map.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.h
+	"LocalMap.h"
+	"Task/TimerTask.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+	"Timer.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1424121416 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/LocalMap.h
+	"SectorMap.h"
+	"game/Enum/NpcFlags.h"
+	<list>
+	"game/Data/EntrySpawnInfo.h"
+	"Util/SecureWriteCollection.hpp"
+
+1419460215 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/MapObject.cpp
+	"MapObject.h"
+
+1406279114 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.cpp
+	"KingdomMap.h"
+
+1418853093 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.h
+	"LocalMap.h"
+	"Task/TimerTask.h"
+
+1418853092 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/LocalMap.h
+	"SectorMap.h"
+
+1418853096 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/SectorMap.h
+	"map.h"
+
+1418853093 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/map.h
+	"game/Enum/MapType.h"
+
+1418853093 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Enum/MapType.h
+	"Define.h"
+
+1405757293 /home/gothic/gitclone/src/DragonFiesta.Shared/Define.h
+
+1418815994 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+
+1418815982 /home/gothic/gitclone/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1406279121 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/LocalMap.cpp
+	"LocalMap.h"
+
+1406222298 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/map.cpp
+	"map.h"
+
+1406223565 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/NormalMap.cpp
+	"NormalMap.h"
+
+1418853092 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/NormalMap.h
+	"map.h"
+	"LocalMap.h"
+	"Task/Task.h"
+
+1406279135 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.cpp
+	"RemoteMap.h"
+
+1418853093 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.h
+	"Map/map.h"
+	"Config/NetConfig.h"
+
+1418853063 /home/gothic/gitclone/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1418815932 /home/gothic/gitclone/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1406279148 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Map/SectorMap.cpp
+	"SectorMap.h"
+
+1412182017 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/main.cpp
+	<iostream>
+
+1419460235 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/Mob.cpp
+	"Mob.h"
+
+1419460301 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/NPC.cpp
+	"NPC.h"
+
+1419463118 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/MapObject.h
+	"Define.h"
+
+1419462669 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/Mob.h
+	"NPC.h"
+
+1419460313 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/NPC.h
+	"MapObject.h"
+
+1419463148 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/GateNPC.cpp
+
+1419463018 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.cpp
+	"MobGroup.h"
+
+1419462943 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.h
+	"Mob.h"
+	"MapObject.h"
+	<list>
+	<memory>
+
+1419463900 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.cpp
+	"DropEntry.h"
+
+1419463820 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.h
+	"MapObject.h"
+
+1419464676 source:/home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.cpp
+	"ZoneCharacter.h"
+
+1419464661 /home/gothic/gitclone/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.h
+	"MapObject.h"
+	"game/CharacterBase.h"
+
+1419464540 /home/gothic/gitclone/src/DragonFiesta.Shared/game/CharacterBase.h
+
+1419463900 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.cpp
+	"DropEntry.h"
+
+1419467032 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.h
+	"MapObject.h"
+
+1419467009 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MapObject.h
+	"Define.h"
+	"Enum/EntryType.h"
+
+1405757293 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Define.h
+
+1419467009 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Enum/EntryType.h
+	"Define.h"
+
+1419463148 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/GateNPC.cpp
+
+1419460215 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MapObject.cpp
+	"MapObject.h"
+
+1419460235 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/Mob.cpp
+	"Mob.h"
+
+1419466881 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/Mob.h
+	"NPC.h"
+
+1419466952 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/NPC.h
+	"MapObject.h"
+
+1419460301 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/NPC.cpp
+	"NPC.h"
+
+1419464676 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.cpp
+	"ZoneCharacter.h"
+
+1419466986 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.h
+	"MapObject.h"
+	"game/CharacterBase.h"
+
+1419464540 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/game/CharacterBase.h
+
+1406279114 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.cpp
+	"KingdomMap.h"
+
+1420107048 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/KingdomMap.h
+	"LocalMap.h"
+	"Task/TimerTask.h"
+
+1420107096 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/LocalMap.h
+	"SectorMap.h"
+
+1418853096 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/SectorMap.h
+	"map.h"
+
+1420222219 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/map.h
+	"game/Enum/MapType.h"
+	"game/Data/MapInfo.h"
+
+1418853093 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Enum/MapType.h
+	"Define.h"
+
+1420102255 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/TimerTask.h
+	"Task.h"
+
+1420102073 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Task/Task.h
+	<functional>
+	<memory>
+	"Define.h"
+
+1406279121 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/LocalMap.cpp
+	"LocalMap.h"
+
+1406222298 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/map.cpp
+	"map.h"
+
+1406223565 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/NormalMap.cpp
+	"NormalMap.h"
+
+1420107537 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/NormalMap.h
+	"map.h"
+	"LocalMap.h"
+	"Task/Task.h"
+
+1406279135 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.cpp
+	"RemoteMap.h"
+
+1418853093 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/RemoteMap.h
+	"Map/map.h"
+	"Config/NetConfig.h"
+
+1418853063 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Config/NetConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1418815932 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/IO/ini_file.hpp
+	<boost/shared_ptr.hpp>
+	<exception>
+	<string>
+	<map>
+	<iostream>
+
+1406279148 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Map/SectorMap.cpp
+	"SectorMap.h"
+
+1412182017 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/main.cpp
+	<iostream>
+
+1419467001 source:/home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.cpp
+	"MobGroup.h"
+
+1419466918 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.h
+	"Mob.h"
+	"MapObject.h"
+	<list>
+	<memory>
+
+1420123291 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/game/Data/MapInfo.h
+	"../Position.h"
+
+1420228898 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/game/Position.h
+	"../Define.h"
+	<math.h>
+	<memory>
+	<cstdlib>
+	"Util/randomc.h"
+
+1420122817 /home/gothic/gitclone/df/dragonfiestaengine/src/DragonFiesta.Shared/Util/randomc.h
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.cpp
+	"DropEntry.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/DropEntry.h
+	"MapObject.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MapObject.h
+	"Define.h"
+	"Enum/EntryType.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Enum/EntryType.h
+	"Define.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/GateNPC.cpp
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/Mob.cpp
+	"Mob.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/Mob.h
+	"NPC.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/NPC.h
+	"MapObject.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.cpp
+	"MobGroup.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/MobGroup.h
+	"Mob.h"
+	"MapObject.h"
+	<list>
+	<memory>
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/NPC.cpp
+	"NPC.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.cpp
+	"ZoneCharacter.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Entities/ZoneCharacter.h
+	"MapObject.h"
+	"game/CharacterBase.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/CharacterBase.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Data/MapInfo.h
+	"../Position.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Position.h
+	"../Define.h"
+	<math.h>
+	<memory>
+	<cstdlib>
+	"Util/randomc.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/randomc.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/Timer.h
+	<chrono>
+	"../Define.h"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/Event/ShutdownEvent.cpp
+	"ShutdownEvent.h"
+	"Log/Log.h"
+	"Server.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/Event/ShutdownEvent.h
+	"Task/TimerTask.h"
+	"Task/Task.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Log/Log.h
+	"../Define.h"
+	"Config/LogConfig.h"
+	<string>
+	<ostream>
+	<fstream>
+	<iostream>
+	<memory>
+	<boost/log/expressions.hpp>
+	<boost/log/sources/severity_logger.hpp>
+	<boost/log/sources/record_ostream.hpp>
+	<boost/log/attributes/scoped_attribute.hpp>
+	<boost/log/sinks/text_ostream_backend.hpp>
+	<boost/log/sinks/sync_frontend.hpp>
+	<boost/log/expressions/keyword.hpp>
+	<boost/date_time/posix_time/posix_time.hpp>
+	<boost/phoenix/bind.hpp>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/Server.h
+	"boost/asio.hpp"
+	"Config/ZoneServerConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/ZoneServerConfig.h
+	"NetConfig.h"
+	"InterServerConfig.h"
+	"LogConfig.h"
+	"DatabaseConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/InterServerConfig.h
+	"Config/NetConfig.h"
+	"IO/ini_file.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/LogConfig.h
+	"../Log/Log.h"
+	"IO/ini_file.hpp"
+
+1421931884 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Log/FileLog.h
+	<iostream>
+	<fstream>
+	"Log.h"
+	"IO/ini_file.hpp"
+	"Util/Singleton.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/Singleton.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Config/DatabaseConfig.h
+	"Define.h"
+	"IO/ini_file.hpp"
+
+1424073815 source:/home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/Server.cpp
+	"Server.h"
+	"Config/ZoneServerConfig.h"
+	"Networking/InterNetwork/InterSocketMgr.h"
+	"Networking/GameNetwork/FiestaSocketMgr.h"
+	"Event/ShutdownEvent.h"
+	"Database/DB.h"
+	"Debugging/CrashHandler.h"
+	"Log/Log.h"
+	"Task/TaskManager.h"
+	"Database/Database.h"
+	"Database/DatabaseManager.hpp"
+	"Database/DatabaseServer.h"
+	"Util/SysInfo.hpp"
+	"ShutdownCodes.h"
+	<algorithm>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/InterNetwork/InterSocketMgr.h
+	"Networking/SocketMgr.h"
+	"Config/InterServerConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/SocketMgr.h
+	"AsyncAcceptor.h"
+	"Log/Log.h"
+	"networkThread.h"
+	<boost/asio/ip/tcp.hpp>
+	<memory>
+	<assert.h>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/AsyncAcceptor.h
+	"../Log/Log.h"
+	<boost/asio.hpp>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/networkThread.h
+	"../Log/Log.h"
+	"Task/Timer.h"
+	<atomic>
+	<chrono>
+	<memory>
+	<mutex>
+	<set>
+	<thread>
+	<assert.h>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Networking/GameNetwork/FiestaSocketMgr.h
+	"Networking/SocketMgr.h"
+	"Config/NetConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DB.h
+	"DatabaseManager.hpp"
+	"Config/DatabaseConfig.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseManager.hpp
+	"Task/Task.h"
+	"DatabaseClient.hpp"
+	"Database.h"
+	"DatabaseServer.h"
+	"Log/Log.h"
+	<map>
+	<mutex>
+	<list>
+	<memory>
+	<thread>
+	"Task/Timer.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClient.hpp
+	<cassert>
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<string>
+	<tuple>
+	<typeinfo>
+	<utility>
+	<vector>
+	"InputBinder.hpp"
+	"MySqlException.hpp"
+	"DatabaseClientState.h"
+	"MySqlPreparedStatement.hpp"
+	"OutputBinder.hpp"
+	"../Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/InputBinder.hpp
+	<cstdint>
+	<cstring>
+	<mysql/mysql.h>
+	<string>
+	<vector>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlException.hpp
+	<mysql/mysql.h>
+	<exception>
+	<string>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseClientState.h
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/MySqlPreparedStatement.hpp
+	<cstddef>
+	<mysql/mysql.h>
+	<vector>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/OutputBinder.hpp
+	<cstdint>
+	<mysql/mysql.h>
+	<boost/lexical_cast.hpp>
+	<memory>
+	<string>
+	<tuple>
+	<type_traits>
+	<utility>
+	<vector>
+	"MySqlException.hpp"
+	"MySqlPreparedStatement.hpp"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/Database.h
+	"../Define.h"
+	<string>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Database/DatabaseServer.h
+	<map>
+	"Define.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Debugging/CrashHandler.h
+	<execinfo.h>
+	<signal.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ucontext.h>
+	<unistd.h>
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Task/TaskManager.h
+	"Task.h"
+	"TimerTask.h"
+	<map>
+	<iostream>
+	<deque>
+	<memory>
+	<functional>
+	<chrono>
+	<thread>
+	<mutex>
+	<condition_variable>
+	<list>
+	"Util/Singleton.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SysInfo.hpp
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/ShutdownCodes.h
+
+1424212936 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureCollection.hpp
+	"SecureWriteCollection.hpp"
+	"../Define.h"
+
+1424212924 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/Util/SecureWriteCollection.hpp
+	<mutex>
+	<map>
+	<utility>
+	<iostream>
+	<algorithm>
+
+1424089987 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Enum/NpcFlags.h
+
+1424094920 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.ZoneServer/game/Data/EntrySpawnInfo.h
+	"game/Position.h"
+	"game/Data/NPCInfo.h"
+	"game/Enum/NpcFlags.h"
+
+1424073815 /home/gothic/gitclone/dragonfiestaengine/src/DragonFiesta.Shared/game/Data/NPCInfo.h
+	"../Enum/NpcFlags.h"
+

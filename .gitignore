@@ -1,0 +1,7 @@
+*.log
+*.o
+src/Run
+src/DragonFiesta.Shared/obj
+src/DragonFiesta.LoginServer/obj
+src/DragonFiesta.WorldServer/obj
+src/DragonFiesta.ZoneServer/obj

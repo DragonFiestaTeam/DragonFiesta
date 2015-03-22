@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="DragonFiesta.WorldServer" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../Run/WorldServer" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../Run" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-DBOOST_ALL_DYN_LINK" />
+					<Add directory="../DragonFiesta.Shared" />
+					<Add directory="../DragonFiesta.LoginServer" />
+				</Compiler>
+				<Linker>
+					<Add option="-pthread" />
+					<Add library="boost_system" />
+					<Add library="boost_log" />
+					<Add library="boost_log_setup" />
+					<Add library="boost_date_time" />
+					<Add library="boost_thread" />
+					<Add library="boost_wave" />
+					<Add library="boost_regex" />
+					<Add library="boost_program_options" />
+					<Add library="../Run/libDragonFiesta.a" />
+					<Add library="boost_filesystem" />
+					<Add library="mysqlclient" />
+					<Add library="libboost_log" />
+					<Add library="libboost_thread" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/DragonFiesta" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="Event/ShutdownEvent.cpp" />
+		<Unit filename="Event/ShutdownEvent.h" />
+		<Unit filename="Server.cpp" />
+		<Unit filename="Server.h" />
+		<Unit filename="game/Entities/WorldCharacter.cpp" />
+		<Unit filename="game/Entities/WorldCharacter.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
